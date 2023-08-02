@@ -1,7 +1,3 @@
-import datetime
-from typing import Dict, List, Optional
-
-import msgspec
 from msgspec import Struct, field
 
 
@@ -18,7 +14,7 @@ class PlayerManufactureFormulaInfo(Struct):
     itemId: str
     count: int
     weight: int
-    costs: List[str]
+    costs: list[str]
     costPoint: int
 
 
@@ -117,14 +113,14 @@ class ActivityZone(Struct):
     zoneReplicaId: str
     clearedStage: int
     totalStage: int
-    stageStatus: List[ActivityZoneStageStatus]
+    stageStatus: list[ActivityZoneStageStatus]
 
 
 class PlayerActivity(Struct):
     actId: str
     actReplicaId: str
     type_: str = field(name='type')
-    zones: List[ActivityZone]
+    zones: list[ActivityZone]
 
 
 class RewoardItem(Struct):
@@ -151,7 +147,7 @@ class RogueRecord(Struct):
 
 
 class PlayerRogue(Struct):
-    records: List[RogueRecord]
+    records: list[RogueRecord]
 
 
 class TowerReward(Struct):
@@ -170,7 +166,7 @@ class TowerRecord(Struct):
 
 
 class PlayerTower(Struct):
-    records: List[TowerRecord]
+    records: list[TowerRecord]
     reward: TowerReward
 
 
@@ -185,7 +181,7 @@ class CampaignRecord(Struct):
 
 
 class PlayerCampaign(Struct):
-    records: List[CampaignRecord]
+    records: list[CampaignRecord]
     reward: CampaignReward
 
 
@@ -198,7 +194,7 @@ class PlayerRecruit(Struct):
     startTs: int
     finishTs: int
     duration: int
-    selectTags: List[Optional[RecruitTag]]
+    selectTags: list[RecruitTag | None]
     state: int
 
 
@@ -220,7 +216,7 @@ class BuildingClue(Struct):
     received: int
     dailyReward: bool
     needReceive: int
-    board: List[str]
+    board: list[str]
     sharing: bool
     shareCompleteTime: int
 
@@ -248,7 +244,7 @@ class BuildingControl(Struct):
     slotId: str
     slotState: int
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
 
 
 class BuildingCorridor(Struct):
@@ -289,7 +285,7 @@ class BuildingTraining(Struct):
 class BuildingHire(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     state: int
     refreshCount: int
     completeWorkTime: int
@@ -299,7 +295,7 @@ class BuildingHire(Struct):
 class BuildingMeeting(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     clue: BuildingClue
     lastUpdateTime: int
     completeWorkTime: int
@@ -308,25 +304,25 @@ class BuildingMeeting(Struct):
 class BuildingDormitories(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     comfort: int
 
 
 class BuildingTradings(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     completeWorkTime: int
     lastUpdateTime: int
     strategy: str
-    stock: List[int]
+    stock: list[int]
     stockLimit: int
 
 
 class BuildingManufactures(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     completeWorkTime: int
     lastUpdateTime: int
     formulaId: str
@@ -340,22 +336,22 @@ class BuildingManufactures(Struct):
 class BuildingPower(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
 
 
 class PlayerBuilding(Struct):
-    tiredChars: List[str]
-    powers: List[BuildingPower]
-    manufactures: List[BuildingManufactures]
-    tradings: List[BuildingTradings]
-    dormitories: List[BuildingDormitories]
+    tiredChars: list[str]
+    powers: list[BuildingPower]
+    manufactures: list[BuildingManufactures]
+    tradings: list[BuildingTradings]
+    dormitories: list[BuildingDormitories]
     meeting: BuildingMeeting
     hire: BuildingHire
     training: BuildingTraining
     labor: BuildingLabor
     furniture: BuildingFurniture
-    elevators: List[BuildingElevator]
-    corridors: List[BuildingCorridor]
+    elevators: list[BuildingElevator]
+    corridors: list[BuildingCorridor]
     control: BuildingControl
 
 
@@ -381,8 +377,8 @@ class PlayerInfoChar(Struct):
     evolvePhase: int
     potentialRank: int
     mainSkillLvl: int
-    skills: Optional[List[PlayerInfoCharSkill]]
-    equip: Optional[List[PlayerInfoCharEquip]]
+    skills: list[PlayerInfoCharSkill] | None
+    equip: list[PlayerInfoCharEquip] | None
     favorPercent: int
     defaultSkillId: str
     gainTime: int
@@ -403,14 +399,14 @@ class PlayerAssistChar(Struct):
     skillId: str
     mainSkillLvl: int
     specializeLevel: int
-    equip: Optional[PlayerAssistCharEquip]
+    equip: PlayerAssistCharEquip | None
 
 
 class PlayerMedal(Struct):
     type_: str = field(name='type')
     template: str
-    templateMedalList: List[str]
-    customMedalLayout: List[str]
+    templateMedallist: list[str]
+    customMedalLayout: list[str]
     total: int
 
 
@@ -460,27 +456,27 @@ class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     showConfig: DisplayShowConfig
     status: PlayerStatus
     medal: PlayerMedal
-    assistChars: List[PlayerAssistChar]
-    chars: List[PlayerInfoChar]
-    skins: List[PlayerInfoSkin]
+    assistChars: list[PlayerAssistChar]
+    chars: list[PlayerInfoChar]
+    skins: list[PlayerInfoSkin]
     building: PlayerBuilding
-    recruit: List[PlayerRecruit]
+    recruit: list[PlayerRecruit]
     campaign: PlayerCampaign
     tower: PlayerTower
     rogue: PlayerRogue
     routine: PlayerRoutine
-    activity: List[PlayerActivity]
-    charInfoMap: Dict[str, PlayerCharInfo]
-    skinInfoMap: Dict[str, PlayerSkinInfo]
-    stageInfoMap: Dict[str, PlayerStageInfo]
-    activityInfoMap: Dict[str, PlayerActivityInfo]
-    zoneInfoMap: Dict[str, PlayerZoneInfo]
-    towerInfoMap: Dict[str, PlayerTowerInfo]
-    rogueInfoMap: Dict[str, PlayerRogueInfo]
-    campaignInfoMap: Dict[str, PlayerCampaignInfo]
-    medalInfoMap: Dict[str, PlayerMedalInfo]
-    campaignZoneInfoMap: Dict[str, PlayerCampaignZoneInfo]
-    equipmentInfoMap: Dict[str, PlayerEquipmentInfo]
-    manufactureFormulaInfoMap: Dict[str, PlayerManufactureFormulaInfo]
-    charAssets: List[PlayerCharAsset]
-    skinAssets: List[PlayerSkinAsset]
+    activity: list[PlayerActivity]
+    charInfoMap: dict[str, PlayerCharInfo]
+    skinInfoMap: dict[str, PlayerSkinInfo]
+    stageInfoMap: dict[str, PlayerStageInfo]
+    activityInfoMap: dict[str, PlayerActivityInfo]
+    zoneInfoMap: dict[str, PlayerZoneInfo]
+    towerInfoMap: dict[str, PlayerTowerInfo]
+    rogueInfoMap: dict[str, PlayerRogueInfo]
+    campaignInfoMap: dict[str, PlayerCampaignInfo]
+    medalInfoMap: dict[str, PlayerMedalInfo]
+    campaignZoneInfoMap: dict[str, PlayerCampaignZoneInfo]
+    equipmentInfoMap: dict[str, PlayerEquipmentInfo]
+    manufactureFormulaInfoMap: dict[str, PlayerManufactureFormulaInfo]
+    charAssets: list[PlayerCharAsset]
+    skinAssets: list[PlayerSkinAsset]

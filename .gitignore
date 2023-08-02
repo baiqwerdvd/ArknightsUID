@@ -90,6 +90,7 @@ fabric.properties
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
+__pypackages__/
 *.py[cod]
 *$py.class
 
@@ -671,3 +672,5 @@ result.txt
 
 ### Debug ###
 testnb2/
+.pdm-build/
+.pdm-python

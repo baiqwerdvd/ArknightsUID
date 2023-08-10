@@ -78,7 +78,7 @@ class UserMeInfo(Struct):
     birthday: str
 
 
-class ArknightsUserMeModel(Struct):
+class ArknightsUserMeModel(Struct, omit_defaults=True):
     user: UserMeInfo
     userRts: UserMeInfoRts
     userSanctionList: list[str]

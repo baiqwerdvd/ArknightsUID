@@ -1,6 +1,7 @@
 from copy import deepcopy
 from typing import Any, Literal
 
+import msgspec
 from aiohttp import ClientSession, ContentTypeError, TCPConnector
 from gsuid_core.logger import logger
 
@@ -20,7 +21,7 @@ class BaseArkApi:
             AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
     }
 
-    async def check_cred_valid(self, Cred: str) -> bool | str:
+    async def check_cred_valid(self, Cred: str) -> bool | ArknightsUserMeModel:
         header = deepcopy(self._HEADER)
         header['Cred'] = Cred
         raw_data = await self._ark_request(ARK_USER_ME, header=header)
@@ -28,7 +29,7 @@ class BaseArkApi:
         if isinstance(unpack_data, int):
             return False
         else:
-            return ArknightsUserMeModel(**unpack_data).user.id_
+            return msgspec.convert(unpack_data, type=ArknightsUserMeModel)
 
     def unpack(self, raw_data: dict | int) -> dict | int:
         if isinstance(raw_data, dict):

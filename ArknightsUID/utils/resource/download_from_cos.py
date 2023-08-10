@@ -32,14 +32,7 @@ async def download_all_file_from_cos():
         for res_type in ['resource']:
             logger.info('[cos]开始下载资源文件...')
             resource_type_list = [
-                'character',
-                'character_portrait',
-                'character_preview',
-                'consumable',
-                'element',
-                'light_cone',
-                'relic',
-                'skill',
+                'gamedata',
             ]
             for resource_type in resource_type_list:
                 file_dict = resource_map[res_type][resource_type]

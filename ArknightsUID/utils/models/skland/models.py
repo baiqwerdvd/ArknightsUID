@@ -1,5 +1,100 @@
 from msgspec import Struct, field
 
+################
+# ArknightsUserMeModel Start
+################
+
+class UserMeInfoApply(Struct):
+    nickname: str
+    profile: str
+
+
+class UserMeModerator(Struct):
+    isModerator: bool
+
+
+class UserGameStatusAp(Struct):
+    current: int
+    max_: int = field(name='max')
+    lastApAddTime: int
+    completeRecoveryTime: int
+
+
+class UserGameStatusSecretary(Struct):
+    charId: str
+    skinId: str
+
+
+class UserGameStatusAvatar(Struct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
+
+
+class UserGameStatus(Struct):
+    uid: str
+    name: str
+    level: int
+    avatar: UserGameStatusAvatar
+    registerTs: int
+    mainStageProgress: str
+    secretary: UserGameStatusSecretary
+    resume: str
+    subscriptionEnd: int
+    ap: UserGameStatusAp
+    storeTs: int
+    lastOnlineTs: int
+    charCnt: int
+    furnitureCnt: int
+    skinCnt: int
+
+
+class UserMeInfoRts(Struct):
+    liked: str
+    collect: str
+    comment: str
+    follow: str
+    fans: str
+    black: str
+    pub: str
+
+
+class UserMeInfo(Struct):
+    id_: str = field(name='id')
+    nickname: str
+    profile: str
+    avatarCode: int
+    avatar: str
+    backgroundCode: int
+    isCreator: bool
+    creatorIdentifiers: list[str]
+    status: int
+    operationStatus: int
+    identity: int
+    kind: int
+    latestIpLocation: str
+    moderatorStatus: int
+    moderatorChangeTime: int
+    gender: int
+    birthday: str
+
+
+class ArknightsUserMeModel(Struct):
+    user: UserMeInfo
+    userRts: UserMeInfoRts
+    userSanctionList: list[str]
+    gameStatus: UserGameStatus
+    moderator: UserMeModerator
+    userInfoApply: UserMeInfoApply
+
+################
+# ArknightsUserMeModel End
+################
+
+
+
+################
+# ArknightsPlayerInfoModel Start
+################
 
 class PlayerSkinAsset(Struct):
     pass
@@ -480,3 +575,8 @@ class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     manufactureFormulaInfoMap: dict[str, PlayerManufactureFormulaInfo]
     charAssets: list[PlayerCharAsset]
     skinAssets: list[PlayerSkinAsset]
+
+
+################
+# ArknightsPlayerInfoModel End
+################

@@ -11,11 +11,8 @@ async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
     _ck = cred.replace(' ', '').split('-')
     if len(_ck) != 2 or not _ck[0] or not _ck[0].isdigit() or not _ck[1]:
         return ERROR_HINT
-    print(_ck)
-    print(_ck[0], _ck[1])
 
     check_cred = await ark_skd_api.check_cred_valid(_ck[1])
-    print(check_cred)
     if isinstance(check_cred, bool):
         return 'Cred无效!'
     else:

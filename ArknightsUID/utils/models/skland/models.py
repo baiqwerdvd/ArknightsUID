@@ -403,6 +403,20 @@ class BuildingDormitories(Struct):
     comfort: int
 
 
+class BuildingStockDelivery(Struct):
+    id_: str = field(name='id')
+    count: int
+    type_: str = field(name='type')
+
+
+class BuildingStock(Struct):
+    instId: int
+    type_: str = field(name='type')
+    delivery: list[BuildingStockDelivery]
+    gain: BuildingStockDelivery
+    isViolated: bool
+
+
 class BuildingTradings(Struct):
     slotId: str
     level: int
@@ -410,7 +424,7 @@ class BuildingTradings(Struct):
     completeWorkTime: int
     lastUpdateTime: int
     strategy: str
-    stock: list[int]
+    stock: list[BuildingStock]
     stockLimit: int
 
 
@@ -500,8 +514,8 @@ class PlayerAssistChar(Struct):
 class PlayerMedal(Struct):
     type_: str = field(name='type')
     template: str
-    templateMedallist: list[str]
-    customMedalLayout: list[str]
+    templateMedalList: list[str]
+    customMedalLayout: list[str | None]
     total: int
 
 
@@ -546,6 +560,14 @@ class DisplayShowConfig(Struct):
     standingsSwitch: bool
 
 
+class PlayerActivityBannerList(Struct):
+    activityId: str
+    imgUrl: str
+    url: str
+    startTs: int
+    endTs: int
+
+
 class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     currentTs: int
     showConfig: DisplayShowConfig
@@ -575,6 +597,7 @@ class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     manufactureFormulaInfoMap: dict[str, PlayerManufactureFormulaInfo]
     charAssets: list[PlayerCharAsset]
     skinAssets: list[PlayerSkinAsset]
+    activityBannerList: dict[str, list[PlayerActivityBannerList]]
 
 
 ################

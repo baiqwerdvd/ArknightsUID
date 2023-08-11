@@ -6,8 +6,8 @@ from aiohttp import ClientSession, ContentTypeError, TCPConnector
 from gsuid_core.logger import logger
 
 from ...database.models import ArknightsUser
-from ...models.skland.models import ArknightsUserMeModel
-from .api import ARK_USER_ME
+from ...models.skland.models import ArknightsPlayerInfoModel, ArknightsUserMeModel
+from .api import ARK_PLAYER_INFO, ARK_USER_ME
 
 
 class BaseArkApi:
@@ -20,6 +20,23 @@ class BaseArkApi:
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
             AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
     }
+
+    async def get_game_player_info(self, uid: str) -> int | ArknightsPlayerInfoModel:
+        cred = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
+        if cred is None:
+            return -61
+        header = deepcopy(self._HEADER)
+        header['Cred'] = cred
+        raw_data = await self._ark_request(
+            url=ARK_PLAYER_INFO,
+            params={'uid': uid},
+            header=header,
+        )
+        unpack_data = self.unpack(raw_data)
+        if isinstance(unpack_data, int):
+            return unpack_data
+        else:
+            return msgspec.convert(unpack_data, type=ArknightsPlayerInfoModel)
 
     async def check_cred_valid(self, Cred: str) -> bool | ArknightsUserMeModel:
         header = deepcopy(self._HEADER)

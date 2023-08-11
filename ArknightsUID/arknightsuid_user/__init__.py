@@ -29,13 +29,13 @@ ark_skd_cred_add = SV('森空岛cred绑定')
     (f'{PREFIX}绑定uid', f'{PREFIX}切换uid', f'{PREFIX}删除uid', f'{PREFIX}解绑uid')
 )
 async def send_link_uid_msg(bot: Bot, ev: Event):
-    await bot.logger.info("开始执行[绑定/解绑用户信息]")
+    await bot.logger.info('开始执行[绑定/解绑用户信息]')
     qid = ev.user_id
-    await bot.logger.info(f"[绑定/解绑]UserID: {qid}")
+    await bot.logger.info(f'[绑定/解绑]UserID: {qid}')
 
     ark_uid = ev.text.strip()
     if ark_uid and not ark_uid.isdigit():
-        return await bot.send("你输入了错误的格式!")
+        return await bot.send('你输入了错误的格式!')
 
     if '绑定' in ev.command:
         data = await ArknightsBind.insert_uid(qid, ev.bot_id, ark_uid, ev.group_id)
@@ -67,7 +67,7 @@ async def send_link_uid_msg(bot: Bot, ev: Event):
         )
 
 
-@ark_skd_cred_add.on_prefix(("skd添加cred", "森空岛添加CRED"))
+@ark_skd_cred_add.on_prefix(('skd添加cred', '森空岛添加CRED'))
 async def send_ark_skd_add_cred_msg(bot: Bot, ev: Event):
     im = await deal_skd_cred(ev.bot_id, ev.text, ev.user_id)
     await bot.send(im)

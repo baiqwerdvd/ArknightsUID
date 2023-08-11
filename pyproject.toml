@@ -53,7 +53,7 @@ asyncio_mode = "auto"
 
 [tool.ruff]
 select = ["E", "W", "F", "UP", "C", "T", "PYI", "PT", "Q"]
-ignore = ["E402", "C901", "UP037", "Q000"]
+ignore = ["C901", "Q000"]
 
 line-length = 108
 target-version = "py311"

@@ -51,9 +51,9 @@ async def download_file(
         async with sess.get(url) as res:
             content = await res.read()
     except ClientConnectorError:
-        logger.warning(f"[cos]{name}下载失败")
+        logger.warning(f'[cos]{name}下载失败')
         return url, resource_type, name
     async with aiofiles.open(
-        PATHDICT[res_type] / resource_type / name, "wb"
+        PATHDICT[res_type] / resource_type / name, 'wb'
     ) as f:
         await f.write(content)

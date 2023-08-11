@@ -9,6 +9,7 @@ CU_BG_PATH = MAIN_PATH / 'bg'
 CONFIG_PATH = MAIN_PATH / 'config.json'
 PLAYER_PATH = MAIN_PATH / 'players'
 RESOURCE_PATH = MAIN_PATH / 'resource'
+GAMEDATA_PATH = RESOURCE_PATH / 'gamedata'
 
 def init_dir():
     for i in [
@@ -16,6 +17,7 @@ def init_dir():
         CU_BG_PATH,
         PLAYER_PATH,
         RESOURCE_PATH,
+        GAMEDATA_PATH
     ]:
         i.mkdir(parents=True, exist_ok=True)
 

@@ -13,7 +13,7 @@ from .constants import Excel
 sv_download_config = SV('下载资源', pm=2)
 
 
-@sv_download_config.on_fullmatch(('下载全部资源'))
+@sv_download_config.on_fullmatch(('下载全部资源'))  # noqa: UP034
 async def send_download_resource_msg(bot: Bot, ev: Event):
     await bot.send('正在开始下载~可能需要较久的时间!')
     im = await download_all_resource()
@@ -25,7 +25,9 @@ async def startup():
     await download_all_resource()
     logger.info('[资源文件下载] 检查完毕, 正在加载 gamedata')
 
-    for file_path in Path(get_res_path(['ArknightsUID', 'resource', 'gamedata'])).rglob('*.json'):
+    for file_path in Path(
+        get_res_path(['ArknightsUID', 'resource', 'gamedata'])
+    ).rglob('*.json'):
         CacheData.readFile(file_path)
 
     Excel.preload_table()

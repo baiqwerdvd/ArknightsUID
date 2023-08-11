@@ -33,7 +33,9 @@ class CacheData:
         return cls.set_cache(local_path, data_name)
 
     @classmethod
-    def set_cache(cls, local_path: Path | None, data_name: str, memory_data: dict | None = None) -> dict[Any, Any]:
+    def set_cache(
+        cls, local_path: Path | None, data_name: str, memory_data: dict | None = None
+    ) -> dict[Any, Any]:
         data = read_json(local_path) if local_path else memory_data
         if data is None:
             raise FileNotFoundError

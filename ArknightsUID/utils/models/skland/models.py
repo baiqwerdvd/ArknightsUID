@@ -456,12 +456,12 @@ class PlayerBuilding(Struct):
     dormitories: list[BuildingDormitories]
     meeting: BuildingMeeting
     hire: BuildingHire
-    training: BuildingTraining
     labor: BuildingLabor
     furniture: BuildingFurniture
     elevators: list[BuildingElevator]
     corridors: list[BuildingCorridor]
     control: BuildingControl
+    training: BuildingTraining | None = None
 
 
 class PlayerInfoSkin(Struct):

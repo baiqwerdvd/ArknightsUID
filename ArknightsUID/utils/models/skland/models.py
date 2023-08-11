@@ -34,7 +34,6 @@ class UserGameStatus(Struct):
     uid: str
     name: str
     level: int
-    avatar: UserGameStatusAvatar | None
     registerTs: int
     mainStageProgress: str
     secretary: UserGameStatusSecretary
@@ -46,6 +45,7 @@ class UserGameStatus(Struct):
     charCnt: int
     furnitureCnt: int
     skinCnt: int
+    avatar: UserGameStatusAvatar | None = None
 
 
 class UserMeInfoRts(Struct):

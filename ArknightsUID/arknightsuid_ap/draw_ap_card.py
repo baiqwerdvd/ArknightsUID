@@ -184,7 +184,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
     for i in range(len(recruit)):
         if finishTs < recruit[i].finishTs:
             finishTs = recruit[i].finishTs
-    if finishTs == -1:
+    if finishTs != -1:
         # 获取当前时间与 finishTs 的时间差，转换为几小时几分钟
         now = datetime.now()
         finishTs = datetime.fromtimestamp(finishTs)

@@ -282,7 +282,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
         img.paste(blue_bar_bg1_img, (-20, 910), blue_bar_bg1_img)
 
     # training char check
-    if player_info.building.training:
+    if player_info.building.training and player_info.building.training.remainSecs != -1:
         training_char = player_info.building.training.trainee.charId
         remain_secs = player_info.building.training.remainSecs
         # 将remainSecs(剩余秒数) ，转换为几小时几分钟

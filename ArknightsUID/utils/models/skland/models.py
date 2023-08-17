@@ -550,7 +550,6 @@ class PlayerStatus(Struct):
     uid: str
     name: str
     level: int
-    avatar: PlayerStatusAvatar
     registerTs: int
     mainStageProgress: str
     secretary: PlayerStatusSecretary
@@ -562,6 +561,7 @@ class PlayerStatus(Struct):
     charCnt: int
     furnitureCnt: int
     skinCnt: int
+    avatar: PlayerStatusAvatar | None = None
 
 
 class DisplayShowConfig(Struct):

@@ -184,12 +184,16 @@ async def draw_ap_img(uid: str) -> Image.Image:
     for i in range(len(recruit)):
         if finishTs < recruit[i].finishTs:
             finishTs = recruit[i].finishTs
-    # 获取当前时间与 finishTs 的时间差，转换为几小时几分钟
-    now = datetime.now()
-    finishTs = datetime.fromtimestamp(finishTs)
-    delta = finishTs - now
-    delta_hour = delta.seconds // 3600
-    delta_minute = (delta.seconds - delta_hour * 3600) // 60
+    if finishTs == -1:
+        # 获取当前时间与 finishTs 的时间差，转换为几小时几分钟
+        now = datetime.now()
+        finishTs = datetime.fromtimestamp(finishTs)
+        delta = finishTs - now
+        delta_hour = delta.seconds // 3600
+        delta_minute = (delta.seconds - delta_hour * 3600) // 60
+    else:
+        delta_hour = 0
+        delta_minute = 0
     blue_bar_bg1_draw = ImageDraw.Draw(blue_bar_bg1_img)
     blue_bar_bg1_draw.text(
         (170, 60),

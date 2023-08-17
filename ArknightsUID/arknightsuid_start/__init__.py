@@ -8,6 +8,7 @@ from ..arknightsuid_resource import startup
 
 async def all_start():
     try:
+        pass
         await startup()
     except Exception as e:
         logger.exception(e)

@@ -109,17 +109,17 @@ class PlayerManufactureFormulaInfo(Struct):
     itemId: str
     count: int
     weight: int
-    costs: list[str]
     costPoint: int
+    costs: list[str] | None = None
 
 
 class PlayerEquipmentInfo(Struct):
     id_: str = field(name='id')
     name: str
-    desc: str
     typeIcon: str
-    typeName1: str
     shiningColor: str
+    desc: str | None = None
+    typeName1: str | None = None
 
 
 class PlayerCampaignZoneInfo(Struct):
@@ -147,8 +147,8 @@ class PlayerTowerInfo(Struct):
     id_: str = field(name='id')
     name: str
     subName: str
-    hasHard: bool
-    stageNum: int
+    hasHard: bool | None = None
+    stageNum: int | None = None
 
 
 class PlayerZoneInfo(Struct):
@@ -174,17 +174,17 @@ class PlayerStageInfo(Struct):
 
 class PlayerSkinInfo(Struct):
     id_: str = field(name='id')
-    name: str
     brandId: str
-    brandName: str
-    brandCapitalName: str
-    illustId: str
-    dynIllustId: str
-    avatarId: str
-    portraitId: str
     sortId: int
     displayTagId: str
-    skinGroupId: str
+    name: str | None = None
+    brandName: str | None = None
+    brandCapitalName: str | None = None
+    illustId: str | None = None
+    dynIllustId: str | None = None
+    avatarId: str | None = None
+    portraitId: str | None = None
+    skinGroupId: str | None = None
 
 
 class PlayerCharInfo(Struct):
@@ -208,14 +208,14 @@ class ActivityZone(Struct):
     zoneReplicaId: str
     clearedStage: int
     totalStage: int
-    stageStatus: list[ActivityZoneStageStatus]
+    stageStatus: list[ActivityZoneStageStatus] | None = None
 
 
 class PlayerActivity(Struct):
     actId: str
     actReplicaId: str
-    type_: str = field(name='type')
     zones: list[ActivityZone]
+    type_: str | None = field(name='type', default=None)
 
 
 class RewoardItem(Struct):
@@ -235,10 +235,10 @@ class BankItem(Struct):
 
 class RogueRecord(Struct):
     rogueId: str
-    clearTime: int
     relicCnt: int
     bank: BankItem
-    mission: RewoardItem
+    mission: RewoardItem | None = None
+    clearTime: int | None = None
 
 
 class PlayerRogue(Struct):
@@ -254,10 +254,10 @@ class TowerReward(Struct):
 class TowerRecord(Struct):
     towerId: str
     best: int
-    hasHard: bool
-    stageNum: int
-    unlockHard: bool
-    hardBest: int
+    hasHard: bool | None = None
+    stageNum: int | None = None
+    unlockHard: bool | None = None
+    hardBest: int | None = None
 
 
 class PlayerTower(Struct):
@@ -288,9 +288,9 @@ class RecruitTag(Struct):
 class PlayerRecruit(Struct):
     startTs: int
     finishTs: int
-    duration: int
-    selectTags: list[RecruitTag | None]
     state: int
+    duration: int | None = None
+    selectTags: list[RecruitTag] | None = None
 
 
 class BuildingTrainingTrainee(Struct):
@@ -448,8 +448,18 @@ class BuildingPower(Struct):
     chars: list[BuildingChar]
 
 
+class BuildingTiredChar(Struct):
+    charId: str
+    ap: int
+    lastApAddTime: int
+    roomSlotId: str
+    index: int
+    bubble: BuildingCharBubble
+    workTime: int
+
+
 class PlayerBuilding(Struct):
-    tiredChars: list[str]
+    tiredChars: list[BuildingTiredChar]
     powers: list[BuildingPower]
     manufactures: list[BuildingManufactures]
     tradings: list[BuildingTradings]
@@ -572,7 +582,6 @@ class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     currentTs: int
     showConfig: DisplayShowConfig
     status: PlayerStatus
-    medal: PlayerMedal
     assistChars: list[PlayerAssistChar]
     chars: list[PlayerInfoChar]
     skins: list[PlayerInfoSkin]
@@ -587,17 +596,18 @@ class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     skinInfoMap: dict[str, PlayerSkinInfo]
     stageInfoMap: dict[str, PlayerStageInfo]
     activityInfoMap: dict[str, PlayerActivityInfo]
-    zoneInfoMap: dict[str, PlayerZoneInfo]
     towerInfoMap: dict[str, PlayerTowerInfo]
     rogueInfoMap: dict[str, PlayerRogueInfo]
     campaignInfoMap: dict[str, PlayerCampaignInfo]
-    medalInfoMap: dict[str, PlayerMedalInfo]
     campaignZoneInfoMap: dict[str, PlayerCampaignZoneInfo]
     equipmentInfoMap: dict[str, PlayerEquipmentInfo]
     manufactureFormulaInfoMap: dict[str, PlayerManufactureFormulaInfo]
     charAssets: list[PlayerCharAsset]
     skinAssets: list[PlayerSkinAsset]
     activityBannerList: dict[str, list[PlayerActivityBannerList]]
+    medal: PlayerMedal | None = None
+    zoneInfoMap: dict[str, PlayerZoneInfo] | None = None
+    medalInfoMap: dict[str, PlayerMedalInfo] | None = None
 
 
 ################

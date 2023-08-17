@@ -173,3 +173,6 @@ class CharacterTable(BaseModel):
 
     def __init__(self, data: dict) -> None:
         super().__init__(chars=data)
+
+    def __getitem__(self, key: str) -> CharacterData:
+        return self.chars[key]

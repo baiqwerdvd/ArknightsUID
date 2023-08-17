@@ -203,13 +203,22 @@ async def draw_ap_img(uid: str) -> Image.Image:
         anchor='lm',
     )
 
-    blue_bar_bg1_draw.text(
-        (540, 70),
-        '招募已全部完成' if recruit_task_finish_count == len(recruit) else f'{delta_hour}小时{delta_minute}分钟后全部完成',
-        font=sans_font_18,
-        fill=first_color,
-        anchor='rm',
-    )
+    if recruit_task_finish_count == len(recruit):
+        blue_bar_bg1_draw.text(
+            (540, 70),
+            '招募已全部完成',
+            font=sans_font_18,
+            fill=first_color,
+            anchor='rm',
+        )
+    else:
+        blue_bar_bg1_draw.text(
+            (540, 70),
+            f'{delta_hour}小时{delta_minute}分钟后全部完成',
+            font=sans_font_18,
+            fill=first_color,
+            anchor='rm',
+        )
 
     blue_bar_bg1_draw.text(
         xy=(777, 58),
@@ -282,11 +291,13 @@ async def draw_ap_img(uid: str) -> Image.Image:
         img.paste(blue_bar_bg1_img, (-20, 910), blue_bar_bg1_img)
 
     # training char check
-    if player_info.building.training and player_info.building.training.remainSecs != -1:
+    if player_info.building.training:
         training_char = player_info.building.training.trainee.charId
         remain_secs = player_info.building.training.remainSecs
-        # 将remainSecs(剩余秒数) ，转换为几小时几分钟
-        remain_time = await seconds2hours_zhcn(remain_secs)
+        remain_time = 0
+        if remain_secs != -1:
+            # 将remainSecs(剩余秒数) ，转换为几小时几分钟
+            remain_time = await seconds2hours_zhcn(remain_secs)
 
         char_cn_name = Excel.CHARATER_TABLE[training_char].name
         blue_bar_bg1_img = blue_bar_bg1.copy()
@@ -300,7 +311,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
         )
         blue_bar_bg1_draw.text(
             (540, 70),
-            f'{remain_time}后完成专精',
+            f'{remain_time}后完成专精' if remain_secs != -1 else '设备空闲中',
             font=sans_font_18,
             fill=first_color,
             anchor='rm',

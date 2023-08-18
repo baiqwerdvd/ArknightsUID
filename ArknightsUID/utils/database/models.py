@@ -19,7 +19,7 @@ class ArknightsPush(Push, table=True):
     uid: str | None = Field(default=None, title='明日方舟UID')
     skd_uid: str | None = Field(default=None, title='森空岛用户ID')
     ap_push: bool | None = Field(default=False, title='理智推送')
-    ap_value: int | None = Field(default=130, title='理智推送阈值')
+    ap_value: int | None = Field(default=110, title='理智推送阈值')
     ap_is_push: bool | None = Field(default=False, title='理智是否已经推送')
     training_push: bool | None = Field(default=False, title='训练室推送')
     training_value: int | None = Field(default=30, title='训练室推送阈值')

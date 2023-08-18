@@ -19,6 +19,13 @@ async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
         uid = check_cred.gameStatus.uid
     if uid not in uid_list:
         return '该uid并未绑定'
-    await ArknightsUser.insert_data(user_id, bot_id,
-                                    cred=cred, uid=uid, skd_uid=skd_uid)
+
+    # 检查是否已经绑定过 Cred, 如果有的话就 update
+    skd_data = await ArknightsUser.select_data_by_uid(uid)
+    if not skd_data:
+        await ArknightsUser.insert_data(user_id, bot_id,
+                                        cred=cred, uid=uid, skd_uid=skd_uid)
+    else:
+        await ArknightsUser.update_data(user_id, bot_id,
+                                        cred=cred, uid=uid, skd_uid=skd_uid)
     return '添加成功!'

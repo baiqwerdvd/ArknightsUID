@@ -1,10 +1,7 @@
 import asyncio
-import math
 from datetime import datetime, timedelta
-from io import BytesIO
 from pathlib import Path
 
-import aiohttp
 from gsuid_core.logger import logger
 from gsuid_core.utils.image.convert import convert_img
 from PIL import Image, ImageDraw
@@ -17,7 +14,7 @@ from ..utils.fonts.source_han_sans import (
     sans_font_26,
     sans_font_34,
 )
-from ..utils.models.skland.models import PlayerStatusAp
+from .utils import now_ap, seconds2hours_zhcn
 
 TEXT_PATH = Path(__file__).parent / 'texture2D'
 
@@ -37,24 +34,6 @@ based_h = 1750
 first_color = (29, 29, 29)
 white_color = (255, 255, 255)
 red_color = (235, 61, 75)
-
-
-def seconds2hours(seconds: int) -> str:
-    m, s = divmod(int(seconds), 60)
-    h, m = divmod(m, 60)
-    return '%02d:%02d:%02d' % (h, m, s)
-
-def now_ap(ap: PlayerStatusAp) -> int:
-    _ap =  ap.current + math.floor((datetime.now().timestamp() - ap.lastApAddTime) / 360)
-    return _ap if _ap <= ap.max else ap.max
-
-
-async def download_image(url: str) -> Image.Image:
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            img_data = await response.read()
-            img = Image.open(BytesIO(img_data))
-            return img
 
 
 async def get_ap_img(bot_id: str, user_id: str):
@@ -113,12 +92,6 @@ def get_error(img: Image.Image, uid: str, daily_data: int):
         anchor='mm',
     )
     return img
-
-
-async def seconds2hours_zhcn(seconds: int) -> str:
-    m, s = divmod(int(seconds), 60)
-    h, m = divmod(m, 60)
-    return '%02d小时%02d分钟' % (h, m)
 
 
 async def draw_ap_img(uid: str) -> Image.Image:
@@ -297,7 +270,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
         remain_time = 0
         if remain_secs != -1:
             # 将remainSecs(剩余秒数) ，转换为几小时几分钟
-            remain_time = await seconds2hours_zhcn(remain_secs)
+            remain_time = seconds2hours_zhcn(remain_secs)
 
         char_cn_name = Excel.CHARATER_TABLE[training_char].name
         blue_bar_bg1_img = blue_bar_bg1.copy()

@@ -42,16 +42,16 @@ async def send_link_uid_msg(bot: Bot, ev: Event):
             bot,
             data,
             {
-                0: f'绑定ARK_UID{ark_uid}成功！',
-                -1: f'ARK_UID{ark_uid}的位数不正确！',
-                -2: f'ARK_UID{ark_uid}已经绑定过了！',
+                0: f'绑定ARK_UID{ark_uid}成功!',
+                -1: f'ARK_UID{ark_uid}的位数不正确!',
+                -2: f'ARK_UID{ark_uid}已经绑定过了!',
                 -3: '你输入了错误的格式!',
             },
         )
     elif '切换' in ev.command:
         data = await ArknightsBind.switch_uid_by_game(qid, ev.bot_id, ark_uid)
         if isinstance(data, list):
-            return await bot.send(f'切换ARK_UID{ark_uid}成功！')
+            return await bot.send(f'切换ARK_UID{ark_uid}成功!')
         else:
             return await bot.send(f'尚未绑定该ARK_UID{ark_uid}')
     else:
@@ -60,8 +60,8 @@ async def send_link_uid_msg(bot: Bot, ev: Event):
             bot,
             data,
             {
-                0: f'删除ARK_UID{ark_uid}成功！',
-                -1: f'该ARK_UID{ark_uid}不在已绑定列表中！',
+                0: f'删除ARK_UID{ark_uid}成功!',
+                -1: f'该ARK_UID{ark_uid}不在已绑定列表中!',
             },
         )
 

@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import Any, Literal
+from typing import Any, ClassVar, Literal
 
 import msgspec
 from aiohttp import ClientSession, ContentTypeError, TCPConnector
@@ -12,7 +12,7 @@ from .api import ARK_PLAYER_INFO, ARK_USER_ME
 
 class BaseArkApi:
     ssl_verify = True
-    _HEADER = {
+    _HEADER: ClassVar[dict[str, str]] = {
         'Host': 'zonai.skland.com',
         'Origin': 'https://www.skland.com',
         'Referer': 'https://www.skland.com/',
@@ -95,9 +95,6 @@ class BaseArkApi:
             ) as resp:
                 try:
                     raw_data = await resp.json()
-                    with open('test.json', 'w', encoding='utf-8') as f:
-                        import json
-                        json.dump(raw_data, f, ensure_ascii=False, indent=4)
                 except ContentTypeError:
                     _raw_data = await resp.text()
                     raw_data = {'code': -999, 'data': _raw_data}

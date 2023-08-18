@@ -1,5 +1,4 @@
 import asyncio
-import os
 from pathlib import Path
 
 from aiohttp.client import ClientSession
@@ -9,7 +8,9 @@ from msgspec import json as msgjson
 from .download_url import download_file
 from .RESOURCE_PATH import RESOURCE_PATH
 
-with open(
+MAX_DOWNLOAD = 10
+
+with Path.open(
     Path(__file__).parent / 'resource_map.json', encoding='UTF-8'
 ) as f:
     resource_map = msgjson.decode(
@@ -48,12 +49,12 @@ async def download_all_file_from_cos():
                         continue
                     path = Path(RESOURCE_PATH / resource_type / name)
                     if path.exists():
-                        is_diff = size == os.stat(path).st_size
+                        is_diff = size == Path.stat(path).st_size
                     else:
                         is_diff = True
                     if (
                         not path.exists()
-                        or not os.stat(path).st_size
+                        or not Path.stat(path).st_size
                         or not is_diff
                     ):
                         logger.info(f'[cos]开始下载[{resource_type}]_[{name}]...')
@@ -67,10 +68,9 @@ async def download_all_file_from_cos():
                             )
                         )
                         # await download_file(url, FILE_TO_PATH[file], name)
-                        if len(TASKS) >= 10:
+                        if len(TASKS) >= MAX_DOWNLOAD:
                             await _download(TASKS)
-                else:
-                    await _download(TASKS)
+                await _download(TASKS)
                 if temp_num == 0:
                     im = f'[cos]数据库[{resource_type}]无需下载!'
                 else:
@@ -86,9 +86,8 @@ async def download_all_file_from_cos():
                     timeout=60,
                 )
             )
-            if len(TASKS) >= 10:
+            if len(TASKS) >= MAX_DOWNLOAD:
                 await _download(TASKS)
-        else:
-            await _download(TASKS)
+        await _download(TASKS)
         if count := len(failed_list):
-            logger.error(f'[cos]仍有{count}个文件未下载，请使用命令 `下载全部资源` 重新下载')
+            logger.error(f'[cos]仍有{count}个文件未下载, 请使用命令 `下载全部资源` 重新下载')

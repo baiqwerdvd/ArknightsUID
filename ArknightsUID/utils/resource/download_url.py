@@ -24,7 +24,7 @@ async def download(
       * url: `str`
             资源下载地址。
       * res_type: `str`
-            资源类型，`resource`或`wiki`。
+            资源类型, `resource`或`wiki`。
       * resource_type: `str`
             资源文件夹名
       * name: `str`

@@ -7,17 +7,17 @@ from ..utils.database.models import ArknightsPush, ArknightsUser
 from ..utils.models.skland.models import ArknightsPlayerInfoModel
 from .utils import now_ap
 
-MR_NOTICE = '\n可发送[arkmr]或者[ark每日]来查看更多信息！\n'
+MR_NOTICE = '\n可发送[arkmr]或者[ark每日]来查看更多信息!\n'
 
 NOTICE = {
-    'ap': f'你的理智快满啦！{MR_NOTICE}',
-    'training': f'你的专精即将可收取！{MR_NOTICE}',
+    'ap': f'你的理智快满啦!{MR_NOTICE}',
+    'training': f'你的专精即将可收取!{MR_NOTICE}',
 }
 
 
 async def get_notice_list() -> dict[str, dict[str, dict]]:
     msg_dict: dict[str, dict[str, dict]] = {}
-    for bot_id in gss.active_bot:
+    for _bot_id in gss.active_bot:
         user_list = await ArknightsUser.get_all_push_user_list()
         for user in user_list:
             if user.uid is not None:

@@ -158,7 +158,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
         if finishTs < recruit[i].finishTs:
             finishTs = recruit[i].finishTs
     if finishTs != -1:
-        # 获取当前时间与 finishTs 的时间差，转换为几小时几分钟
+        # 获取当前时间与 finishTs 的时间差, 转换为几小时几分钟
         now = datetime.now()
         finishTs = datetime.fromtimestamp(finishTs)
         delta = finishTs - now
@@ -209,7 +209,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
         grey_bar_bg1_img = grey_bar_bg1.copy()
         grey_bar_bg1_draw = ImageDraw.Draw(grey_bar_bg1_img)
         complete_work_time = player_info.building.hire.completeWorkTime
-        # 获取当前时间与 completeWorkTime 的时间差，转换为几小时几分钟
+        # 获取当前时间与 completeWorkTime 的时间差, 转换为几小时几分钟
         now = datetime.now()
         complete_work_time = datetime.fromtimestamp(complete_work_time)
         delta = complete_work_time - now
@@ -269,7 +269,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
         remain_secs = player_info.building.training.remainSecs
         remain_time = 0
         if remain_secs != -1:
-            # 将remainSecs(剩余秒数) ，转换为几小时几分钟
+            # 将remainSecs(剩余秒数) , 转换为几小时几分钟
             remain_time = seconds2hours_zhcn(remain_secs)
 
         char_cn_name = Excel.CHARATER_TABLE[training_char].name
@@ -338,7 +338,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
         anchor='lm',
     )
 
-    # 获取当前时间与下一周周一早上4点的时间差，转换为几天几小时
+    # 获取当前时间与下一周周一早上4点的时间差, 转换为几天几小时
     now = datetime.now()
     next_monday = now + timedelta(days=-now.weekday(), weeks=1)
     next_monday = next_monday.replace(hour=4, minute=0, second=0, microsecond=0)
@@ -364,7 +364,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
 
     # routine daily check
     routine_daily = player_info.routine.daily
-    # 获取当前时间与下一天早上4点的时间差，转换为几小时几分钟
+    # 获取当前时间与下一天早上4点的时间差, 转换为几小时几分钟
     now = datetime.now()
     next_day = now + timedelta(days=1)
     next_day = next_day.replace(hour=4, minute=0, second=0, microsecond=0)
@@ -401,7 +401,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
 
     # routine weekly check
     routine_weekly = player_info.routine.weekly
-    # 获取当前时间与下一周周一早上4点的时间差，转换为几天几小时
+    # 获取当前时间与下一周周一早上4点的时间差, 转换为几天几小时
     now = datetime.now()
     next_monday = now + timedelta(days=-now.weekday(), weeks=1)
     next_monday = next_monday.replace(hour=4, minute=0, second=0, microsecond=0)
@@ -440,7 +440,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
     tower_reward = player_info.tower.reward
     higher_item = tower_reward.higherItem
     term_ts = tower_reward.termTs
-    # 获取当前时间与 termTs 的时间差，转换为几天几小时
+    # 获取当前时间与 termTs 的时间差, 转换为几天几小时
     now = datetime.now()
     term_ts = datetime.fromtimestamp(term_ts)
     delta = term_ts - now

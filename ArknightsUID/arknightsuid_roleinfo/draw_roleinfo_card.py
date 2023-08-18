@@ -22,7 +22,7 @@ async def get_role_img(uid: str):
 
     player_save_path = get_res_path(['ArknightsUID', 'players'])
 
-    with open(player_save_path / f'{player_info.status.uid}.json', 'wb') as file:
+    with Path.open(player_save_path / f'{player_info.status.uid}.json', 'wb') as file:
         file.write(msgjson.format(msgjson.encode(player_info), indent=4))
 
     # 放 background

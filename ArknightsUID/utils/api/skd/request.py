@@ -25,6 +25,10 @@ class BaseArkApi:
         cred = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         if cred is None:
             return -61
+        is_vaild = await self.check_cred_valid(cred)
+        if isinstance(is_vaild, bool):
+            await ArknightsUser.delete_user_data_by_uid(uid)
+            return -61
         header = deepcopy(self._HEADER)
         header['Cred'] = cred
         raw_data = await self._ark_request(
@@ -79,6 +83,7 @@ class BaseArkApi:
             arkUser = await ArknightsUser.base_select_data(Cred=Cred)
             if arkUser is None:
                 return -61
+            print(Cred)
             header['Cred'] = Cred
 
         async with ClientSession(
@@ -94,6 +99,9 @@ class BaseArkApi:
             ) as resp:
                 try:
                     raw_data = await resp.json()
+                    with open('test.json', 'w', encoding='utf-8') as f:
+                        import json
+                        json.dump(raw_data, f, ensure_ascii=False, indent=4)
                 except ContentTypeError:
                     _raw_data = await resp.text()
                     raw_data = {'code': -999, 'data': _raw_data}

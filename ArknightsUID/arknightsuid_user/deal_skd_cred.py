@@ -1,23 +1,24 @@
 from ..utils.ark_api import ark_skd_api
-from ..utils.database.models import ArknightsUser
+from ..utils.database.models import ArknightsBind, ArknightsUser
 
-ERROR_HINT = '添加失败，格式为:明日方舟UID - Cred\n \
-            例如:1810461245 - VropL583Sb1hClS5buQ4nSASkDlL8tMT'
+ERROR_HINT = '添加失败，格式为: skd添加cred Cred 例如: skd添加cred VropL583Sb1hClS5buQ4nSASkDlL8tMT'
+UID_HINT = '添加失败, 请先绑定明日方舟UID'
 
 
 async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
-    if '-' not in cred:
-        return ERROR_HINT
-    _ck = cred.replace(' ', '').split('-')
-    if len(_ck) != 2 or not _ck[0] or not _ck[0].isdigit() or not _ck[1]:
-        return ERROR_HINT
+    uid_list = await ArknightsBind.get_uid_list_by_game(user_id, bot_id)
+    if uid_list is None:
+        return UID_HINT
 
-    check_cred = await ark_skd_api.check_cred_valid(_ck[1])
+    check_cred = await ark_skd_api.check_cred_valid(cred)
+
     if isinstance(check_cred, bool):
         return 'Cred无效!'
     else:
         skd_uid = check_cred.user.id_
-    uid, cred = _ck[0], _ck[1]
+        uid = check_cred.gameStatus.uid
+    if uid not in uid_list:
+        return '该uid并未绑定'
     await ArknightsUser.insert_data(user_id, bot_id,
                                     cred=cred, uid=uid, skd_uid=skd_uid)
     return '添加成功!'

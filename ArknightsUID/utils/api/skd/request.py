@@ -40,9 +40,6 @@ class BaseArkApi:
         if isinstance(unpack_data, int):
             return unpack_data
         else:
-            import json
-            with open('test.json', 'w', encoding='utf-8') as f:
-                json.dump(unpack_data, f, ensure_ascii=False, indent=4)
             return msgspec.convert(unpack_data, type=ArknightsPlayerInfoModel)
 
     async def check_cred_valid(self, Cred: str) -> bool | ArknightsUserMeModel:
@@ -83,7 +80,6 @@ class BaseArkApi:
             arkUser = await ArknightsUser.base_select_data(Cred=Cred)
             if arkUser is None:
                 return -61
-            print(Cred)
             header['Cred'] = Cred
 
         async with ClientSession(

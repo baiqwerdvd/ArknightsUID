@@ -1,5 +1,55 @@
 from msgspec import Struct, field
 
+
+################
+# ArknightsAttendanceCalendar Start
+################
+class ArknightsAttendanceAwardResource(Struct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
+    name: str
+    rarity: int
+
+
+class ArknightsAttendanceRecord(Struct):
+    ts: int
+    resourceId: str
+    type_: str = field(name='type')
+    count: int
+
+
+class ArknightsAttendanceCalendar(Struct):
+    resourceId: str
+    type_: str = field(name='type')
+    count: int
+    available: bool
+    done: bool
+
+
+class ArknightsAttendanceCalendarModel(Struct):
+    currentTs: int
+    calendar: list[ArknightsAttendanceCalendar]
+    records: list[ArknightsAttendanceRecord | None]
+    resourceInfoMap: dict[str, ArknightsAttendanceAwardResource]
+
+
+################
+# ArknightsAttendance Start
+################
+class ArknightsAttendanceAward(Struct):
+    resource: ArknightsAttendanceAwardResource
+    count: int
+    type_: str = field(name='type')
+
+class ArknightsAttendanceModel(Struct):
+    ts: str
+    awards: list[ArknightsAttendanceAward]
+################
+# ArknightsAttendance End
+################
+
+
+
 ################
 # ArknightsUserMeModel Start
 ################

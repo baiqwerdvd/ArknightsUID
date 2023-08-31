@@ -5,7 +5,7 @@
       {
         "name": "ark绑定uid",
         "desc": "绑定你的明日方舟UID",
-        "eg": "ark绑定uid123456",
+        "eg": "ark绑定uid 123456",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
@@ -13,7 +13,7 @@
       {
         "name": "ark删除uid",
         "desc": "删除你的明日方舟UID",
-        "eg": "ark删除uid123456",
+        "eg": "ark删除uid 123456",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
@@ -21,7 +21,7 @@
       {
         "name": "ark切换uid",
         "desc": "切换你的明日方舟UID",
-        "eg": "ark切换uid123456",
+        "eg": "ark切换uid 123456",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
@@ -42,7 +42,7 @@
       {
         "name": "arkuid",
         "desc": "角色信息一览,后可跟UID",
-        "eg": "arkuid100740568",
+        "eg": "arkuid 100740568",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
@@ -57,7 +57,7 @@
       },
       {
         "name": "ark签到",
-        "desc": "米游社签到",
+        "desc": "森空岛签到",
         "eg": "ark签到",
         "need_ck": true,
         "need_sk": false,

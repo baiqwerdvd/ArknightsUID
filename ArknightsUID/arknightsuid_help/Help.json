@@ -1,0 +1,89 @@
+{
+  "基础服务": {
+    "desc": "需要先绑定uid",
+    "data": [
+      {
+        "name": "ark绑定uid",
+        "desc": "绑定你的明日方舟UID",
+        "eg": "ark绑定uid123456",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "ark删除uid",
+        "desc": "删除你的明日方舟UID",
+        "eg": "ark删除uid123456",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "ark切换uid",
+        "desc": "切换你的明日方舟UID",
+        "eg": "ark切换uid123456",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "skd添加cred",
+        "desc": "绑定森空岛的鉴权凭证",
+        "eg": "skd添加cred XXXXX",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      }
+    ]
+  },
+  "查询服务": {
+    "desc": "查询一些基本信息",
+    "data": [
+      {
+        "name": "arkuid",
+        "desc": "角色信息一览,后可跟UID",
+        "eg": "arkuid100740568",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "arkmr",
+        "desc": "查询自己的体力派遣",
+        "eg": "ark每日",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "ark签到",
+        "desc": "米游社签到",
+        "eg": "ark签到",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      }
+    ]
+  },
+  "管理员服务": {
+    "desc": "一些仅供管理员调用的服务",
+    "data": [
+      {
+        "name": "ark下载全部资源",
+        "desc": "下载一些机器人必须的资源",
+        "eg": "ark下载全部资源",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "ark强制推送体力提醒",
+        "desc": "强制推送一次体力提醒",
+        "eg": "ark强制推送体力提醒",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      }
+    ]
+  }
+}

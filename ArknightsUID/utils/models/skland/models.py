@@ -12,7 +12,7 @@ class ArknightsAttendanceAwardResource(Struct):
 
 
 class ArknightsAttendanceRecord(Struct):
-    ts: int
+    ts: str
     resourceId: str
     type_: str = field(name='type')
     count: int
@@ -27,7 +27,7 @@ class ArknightsAttendanceCalendar(Struct):
 
 
 class ArknightsAttendanceCalendarModel(Struct):
-    currentTs: int
+    currentTs: str
     calendar: list[ArknightsAttendanceCalendar]
     records: list[ArknightsAttendanceRecord | None]
     resourceInfoMap: dict[str, ArknightsAttendanceAwardResource]

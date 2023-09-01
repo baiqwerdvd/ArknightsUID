@@ -10,7 +10,7 @@ dependencies = [
     "pydantic>=2.1.1",
     "fastapi>=0.100.1",
 ]
-requires-python = ">=3.11,<4.0"
+requires-python = ">=3.10,<4.0"
 readme = "README.md"
 license = {text = "GPL-3.0-or-later"}
 
@@ -56,4 +56,4 @@ select = ["E", "W", "F", "UP", "C", "T", "PYI", "PT", "Q"]
 ignore = ["C901", "Q000"]
 
 line-length = 108
-target-version = "py311"
+target-version = ["py38", "py39", "py310", "py311"]

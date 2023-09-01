@@ -85,6 +85,7 @@ class BaseArkApi:
                 'uid': uid,
                 'gameId': 1
             },
+            header=header,
         )
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
@@ -97,6 +98,7 @@ class BaseArkApi:
         if cred is None:
             return -61
         is_vaild = await self.check_cred_valid(cred)
+        print(f'is_vaild: {is_vaild}')
         if isinstance(is_vaild, bool):
             await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
@@ -109,7 +111,9 @@ class BaseArkApi:
                 'uid': uid,
                 'gameId': 1
             },
+            header=header,
         )
+        print(raw_data)
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return unpack_data
@@ -120,6 +124,10 @@ class BaseArkApi:
         header = deepcopy(self._HEADER)
         header['Cred'] = Cred
         raw_data = await self._ark_request(ARK_USER_ME, header=header)
+        if isinstance(raw_data, int):
+            return False
+        if 'code' in raw_data and raw_data['code'] == 10001:
+            return False
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return False
@@ -173,10 +181,11 @@ class BaseArkApi:
                 ) as resp:
                     try:
                         raw_data = await resp.json()
+                        print(raw_data)
                     except ContentTypeError:
                         _raw_data = await resp.text()
                         raw_data = {'retcode': -999, 'data': _raw_data}
-                    logger.debug(raw_data)
+                    logger.info(raw_data)
 
                     # 判断status
                     if 'status' in raw_data and 'msg' in raw_data:

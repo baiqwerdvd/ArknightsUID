@@ -41,7 +41,6 @@ async def sign_in(ark_uid: str) -> str:
             done = calendar.done
             if done is True:
                 count += 1
-        # signed_count = sign_info
         sign_missed = day_of_month - count + special_count
         return f'今日已签到!本月漏签次数:{sign_missed}'
 
@@ -71,7 +70,6 @@ async def sign_in(ark_uid: str) -> str:
         done = calendar.done
         if done is True:
             count += 1
-    # signed_count = sign_info
     sign_missed = day_of_month - count + special_count
     im = f'ark签到成功!\n{get_im}\n本月漏签次数:{sign_missed}'
     logger.info(f'[ARK签到] {ark_uid} 签到完成, 结果: ark签到成功, 漏签次数: {sign_missed}')

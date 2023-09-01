@@ -98,7 +98,6 @@ class BaseArkApi:
         if cred is None:
             return -61
         is_vaild = await self.check_cred_valid(cred)
-        print(f'is_vaild: {is_vaild}')
         if isinstance(is_vaild, bool):
             await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
@@ -113,7 +112,6 @@ class BaseArkApi:
             },
             header=header,
         )
-        print(raw_data)
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return unpack_data
@@ -181,7 +179,6 @@ class BaseArkApi:
                 ) as resp:
                     try:
                         raw_data = await resp.json()
-                        print(raw_data)
                     except ContentTypeError:
                         _raw_data = await resp.text()
                         raw_data = {'retcode': -999, 'data': _raw_data}

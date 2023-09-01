@@ -31,7 +31,7 @@ async def get_core_help() -> bytes | str:
         f'版本号:{Arknights_Client_version}',
         help_data,
         Image.open(TEXT_PATH / 'bg.jpg'),
-        Image.open(TEXT_PATH / 'ICON.png'),
+        Image.open(TEXT_PATH / 'icon.png'),
         Image.open(TEXT_PATH / 'badge.png'),
         Image.open(TEXT_PATH / 'banner.png'),
         Image.open(TEXT_PATH / 'button.png'),

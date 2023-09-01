@@ -41,7 +41,7 @@
     "data": [
       {
         "name": "arkuid",
-        "desc": "角色信息一览,后可跟UID",
+        "desc": "角色信息一览,后可跟UID(WIP)",
         "eg": "arkuid 100740568",
         "need_ck": true,
         "need_sk": false,

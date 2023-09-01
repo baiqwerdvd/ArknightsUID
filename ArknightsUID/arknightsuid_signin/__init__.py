@@ -23,7 +23,7 @@ sv_sign_config = SV('森空岛管理', pm=2)
 
 # 每日零点半执行森空岛签到
 @scheduler.scheduled_job('cron', hour=SIGN_TIME[0], minute=SIGN_TIME[1])
-async def sr_sign_at_night():
+async def ark_sign_at_night():
     if arkconfig.get_config('SchedSignin').data:
         await send_daily_sign()
 

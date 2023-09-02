@@ -501,17 +501,17 @@ class BuildingTiredChar(Struct):
 
 
 class PlayerBuilding(Struct):
-    tiredChars: list[BuildingTiredChar]
-    powers: list[BuildingPower]
-    manufactures: list[BuildingManufactures]
-    tradings: list[BuildingTradings]
-    dormitories: list[BuildingDormitories]
-    meeting: BuildingMeeting
-    hire: BuildingHire
+    tiredChars: list[BuildingTiredChar] | None
+    powers: list[BuildingPower] | None
+    manufactures: list[BuildingManufactures] | None
+    tradings: list[BuildingTradings] | None
+    dormitories: list[BuildingDormitories] | None
+    meeting: BuildingMeeting | None
+    hire: BuildingHire | None
     labor: BuildingLabor
     furniture: BuildingFurniture
     elevators: list[BuildingElevator]
-    corridors: list[BuildingCorridor]
+    corridors: list[BuildingCorridor] | None
     control: BuildingControl
     training: BuildingTraining | None = None
 

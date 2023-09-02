@@ -204,64 +204,75 @@ async def draw_ap_img(uid: str) -> Image.Image:
     img.paste(blue_bar_bg1_img, (-20, 800), blue_bar_bg1_img)
 
     # recruit refresh check
-    recruit_refresh = player_info.building.hire.refreshCount
-    if recruit_refresh == 0:
+    if player_info.building.hire:
+        if player_info.building.hire.refreshCount == 0:
+            grey_bar_bg1_img = grey_bar_bg1.copy()
+            grey_bar_bg1_draw = ImageDraw.Draw(grey_bar_bg1_img)
+            complete_work_time = player_info.building.hire.completeWorkTime
+            # 获取当前时间与 completeWorkTime 的时间差, 转换为几小时几分钟
+            now = datetime.now()
+            complete_work_time = datetime.fromtimestamp(complete_work_time)
+            delta = complete_work_time - now
+            delta_hour = delta.seconds // 3600
+            delta_minute = (delta.seconds - delta_hour * 3600) // 60
+            grey_bar_bg1_draw.text(
+                (170, 60),
+                '公开刷新',
+                font=sans_font_34,
+                fill=first_color,
+                anchor='lm',
+            )
+            grey_bar_bg1_draw.text(
+                (540, 70),
+                f'{delta_hour}小时{delta_minute}分钟后获取刷新次数',
+                font=sans_font_18,
+                fill=first_color,
+                anchor='rm',
+            )
+            grey_bar_bg1_draw.text(
+                xy=(777, 58),
+                text='联络中',
+                font=sans_font_34,
+                fill=white_color,
+                anchor='rm',
+            )
+            img.paste(grey_bar_bg1_img, (-20, 910), grey_bar_bg1_img)
+        else:
+            blue_bar_bg1_img = blue_bar_bg1.copy()
+            blue_bar_bg1_draw = ImageDraw.Draw(blue_bar_bg1_img)
+            blue_bar_bg1_draw.text(
+                (170, 60),
+                '公开招募刷新',
+                font=sans_font_34,
+                fill=first_color,
+                anchor='lm',
+            )
+            blue_bar_bg1_draw.text(
+                (540, 70),
+                '可进行公开招募刷新',
+                font=sans_font_18,
+                fill=first_color,
+                anchor='rm',
+            )
+            blue_bar_bg1_draw.text(
+                xy=(777, 58),
+                text='可刷新',
+                font=sans_font_34,
+                fill=white_color,
+                anchor='rm',
+            )
+            img.paste(blue_bar_bg1_img, (-20, 910), blue_bar_bg1_img)
+    else:
         grey_bar_bg1_img = grey_bar_bg1.copy()
         grey_bar_bg1_draw = ImageDraw.Draw(grey_bar_bg1_img)
-        complete_work_time = player_info.building.hire.completeWorkTime
-        # 获取当前时间与 completeWorkTime 的时间差, 转换为几小时几分钟
-        now = datetime.now()
-        complete_work_time = datetime.fromtimestamp(complete_work_time)
-        delta = complete_work_time - now
-        delta_hour = delta.seconds // 3600
-        delta_minute = (delta.seconds - delta_hour * 3600) // 60
         grey_bar_bg1_draw.text(
             (170, 60),
-            '公开刷新',
+            '暂无数据',
             font=sans_font_34,
             fill=first_color,
             anchor='lm',
-        )
-        grey_bar_bg1_draw.text(
-            (540, 70),
-            f'{delta_hour}小时{delta_minute}分钟后获取刷新次数',
-            font=sans_font_18,
-            fill=first_color,
-            anchor='rm',
-        )
-        grey_bar_bg1_draw.text(
-            xy=(777, 58),
-            text='联络中',
-            font=sans_font_34,
-            fill=white_color,
-            anchor='rm',
         )
         img.paste(grey_bar_bg1_img, (-20, 910), grey_bar_bg1_img)
-    else:
-        blue_bar_bg1_img = blue_bar_bg1.copy()
-        blue_bar_bg1_draw = ImageDraw.Draw(blue_bar_bg1_img)
-        blue_bar_bg1_draw.text(
-            (170, 60),
-            '公开招募刷新',
-            font=sans_font_34,
-            fill=first_color,
-            anchor='lm',
-        )
-        blue_bar_bg1_draw.text(
-            (540, 70),
-            '可进行公开招募刷新',
-            font=sans_font_18,
-            fill=first_color,
-            anchor='rm',
-        )
-        blue_bar_bg1_draw.text(
-            xy=(777, 58),
-            text='可刷新',
-            font=sans_font_34,
-            fill=white_color,
-            anchor='rm',
-        )
-        img.paste(blue_bar_bg1_img, (-20, 910), blue_bar_bg1_img)
 
     # training char check
     if player_info.building.training:

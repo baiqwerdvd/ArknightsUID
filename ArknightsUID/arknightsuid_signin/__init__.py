@@ -15,7 +15,6 @@ from ..utils.database.models import ArknightsBind
 from .sign import daily_sign, sign_in
 
 SIGN_TIME = arkconfig.get_config('SignTime').data
-UID_HINT = '添加失败, 请先绑定明日方舟UID'
 
 sv_sign = SV('森空岛签到')
 sv_sign_config = SV('森空岛管理', pm=2)

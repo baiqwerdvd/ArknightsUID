@@ -13,7 +13,7 @@ from ...models.skland.models import (
     ArknightsPlayerInfoModel,
     ArknightsUserMeModel,
 )
-from .api import ARK_PLAYER_INFO, ARK_SKD_SIGN, ARK_USER_ME
+from .api import ARK_GEN_CRED_BY_CODE, ARK_PLAYER_INFO, ARK_SKD_SIGN, ARK_USER_ME
 
 proxy_url = core_plugins_config.get_config('proxy').data
 ssl_verify = core_plugins_config.get_config('MhySSLVerify').data
@@ -23,11 +23,11 @@ class BaseArkApi:
     proxy_url: str | None = proxy_url if proxy_url else None
     _HEADER: ClassVar[dict[str, str]] = {
         'Host': 'zonai.skland.com',
+        'Platform': '1',
         'Origin': 'https://www.skland.com',
         'Referer': 'https://www.skland.com/',
-        'content-type': 'application/json; charset=UTF-8',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
-            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+        'content-type': 'application/json',
+        'user-agent': 'Skland/1.0.1 (com.hypergryph.skland; build:100001014; Android 33; ) Okhttp/4.11.0',
     }
 
     async def _pass(self, gt: str, ch: str) -> tuple[str | None, str | None]:
@@ -50,7 +50,7 @@ class BaseArkApi:
     async def get_game_player_info(self, uid: str) -> int | ArknightsPlayerInfoModel:
         cred: str | None  = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         if cred is None:
-            return -61
+            return -60
         is_vaild = await self.check_cred_valid(cred)
         if isinstance(is_vaild, bool):
             await ArknightsUser.delete_user_data_by_uid(uid)
@@ -62,6 +62,8 @@ class BaseArkApi:
             params={'uid': uid},
             header=header,
         )
+        if isinstance(raw_data, int):
+            return raw_data
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return unpack_data
@@ -71,7 +73,7 @@ class BaseArkApi:
     async def skd_sign(self, uid: str) -> int | ArknightsAttendanceModel:
         cred: str | None = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         if cred is None:
-            return -61
+            return -60
         is_vaild = await self.check_cred_valid(cred)
         if isinstance(is_vaild, bool):
             await ArknightsUser.delete_user_data_by_uid(uid)
@@ -87,6 +89,8 @@ class BaseArkApi:
             },
             header=header,
         )
+        if isinstance(raw_data, int):
+            return raw_data
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return unpack_data
@@ -96,7 +100,7 @@ class BaseArkApi:
     async def get_sign_info(self, uid: str) -> int | ArknightsAttendanceCalendarModel:
         cred: str | None = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         if cred is None:
-            return -61
+            return -60
         is_vaild = await self.check_cred_valid(cred)
         if isinstance(is_vaild, bool):
             await ArknightsUser.delete_user_data_by_uid(uid)
@@ -112,6 +116,8 @@ class BaseArkApi:
             },
             header=header,
         )
+        if isinstance(raw_data, int):
+            return raw_data
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return unpack_data
@@ -125,18 +131,28 @@ class BaseArkApi:
         if isinstance(raw_data, int):
             return False
         if 'code' in raw_data and raw_data['code'] == 10001:
+            logger.info(f'cred is invalid {raw_data}')
             return False
         unpack_data = self.unpack(raw_data)
-        if isinstance(unpack_data, int):
+        return msgspec.convert(unpack_data, type=ArknightsUserMeModel)
+
+    async def check_code_valid(self, code: str) -> bool | str:
+        data = {
+            'kind': 1,
+            'code': code
+        }
+        raw_data = await self._ark_request(
+            ARK_GEN_CRED_BY_CODE,
+            data=data
+        )
+        if isinstance(raw_data, int):
             return False
         else:
-            return msgspec.convert(unpack_data, type=ArknightsUserMeModel)
+            cred = raw_data['cred']
+            return cred
 
-    def unpack(self, raw_data: dict | int) -> dict | int:
-        if isinstance(raw_data, dict):
-            return raw_data['data']
-        else:
-            return raw_data
+    def unpack(self, raw_data: dict) -> dict:
+        return raw_data['data']
 
     async def _ark_request(
         self,
@@ -152,55 +168,46 @@ class BaseArkApi:
         ) as client:
             raw_data = {}
             if 'Cred' not in header:
-                target_user_id = (
-                    data['friendUserId']
-                    if data and 'friendUserId' in data
-                    else None
-                )
-                Cred: str | None = await ArknightsUser.get_random_cookie(
-                target_user_id if target_user_id else '18888888'
-                )
-                if Cred is None:
-                    return -61
-                arkUser = await ArknightsUser.base_select_data(Cred=Cred)
-                if arkUser is None:
-                    return -61
-                header['Cred'] = Cred
+                return 10001
 
-            for _ in range(3):
-                async with client.request(
-                    method,
-                    url=url,
-                    headers=header,
-                    params=params,
-                    json=data,
-                    proxy=self.proxy_url if use_proxy else None,
-                    timeout=300,
-                ) as resp:
-                    try:
-                        raw_data = await resp.json()
-                    except ContentTypeError:
-                        _raw_data = await resp.text()
-                        raw_data = {'retcode': -999, 'data': _raw_data}
+            async with client.request(
+                method,
+                url=url,
+                headers=header,
+                params=params,
+                json=data,
+                proxy=self.proxy_url if use_proxy else None,
+                timeout=300,
+            ) as resp:
+                try:
+                    raw_data = await resp.json()
+                except ContentTypeError:
+                    _raw_data = await resp.text()
+                    raw_data = {'code': -999, 'data': _raw_data}
+                logger.info(raw_data)
+
+                # 判断code
+                if 'code' in raw_data and raw_data['code'] != 0:
                     logger.info(raw_data)
+                    return raw_data
 
-                    # 判断status
-                    if 'status' in raw_data and 'msg' in raw_data:
-                        retcode = 1
-                    else:
-                        retcode = 0
+                # 判断status
+                if 'status' in raw_data and 'msg' in raw_data:
+                    retcode = 1
+                else:
+                    retcode = 0
 
-                    if retcode == 1 and data:
-                        vl, ch = await self._pass(
-                            gt=raw_data['data']['captcha']['gt'],
-                            ch=raw_data['data']['captcha']['challenge']
-                        )
-                        data['captcha'] = {}
-                        data['captcha']['geetest_challenge'] = ch
-                        data['captcha']['geetest_validate'] = vl
-                        data['captcha']['geetest_seccode'] = f'{vl}|jordan'
-                    elif retcode != 0:
-                        return retcode
-                    else:
-                        return raw_data
-            return -999
+                if retcode == 1 and data:
+                    vl, ch = await self._pass(
+                        gt=raw_data['data']['captcha']['gt'],
+                        ch=raw_data['data']['captcha']['challenge']
+                    )
+                    data['captcha'] = {}
+                    data['captcha']['geetest_challenge'] = ch
+                    data['captcha']['geetest_validate'] = vl
+                    data['captcha']['geetest_seccode'] = f'{vl}|jordan'
+                elif retcode != 0:
+                    return retcode
+                else:
+                    return raw_data
+            return 10001

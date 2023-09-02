@@ -146,14 +146,6 @@ class ArknightsUserMeModel(Struct, omit_defaults=True):
 # ArknightsPlayerInfoModel Start
 ################
 
-class PlayerSkinAsset(Struct):
-    pass
-
-
-class PlayerCharAsset(Struct):
-    pass
-
-
 class PlayerManufactureFormulaInfo(Struct):
     id_: str = field(name='id')
     itemId: str
@@ -652,8 +644,8 @@ class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     campaignZoneInfoMap: dict[str, PlayerCampaignZoneInfo]
     equipmentInfoMap: dict[str, PlayerEquipmentInfo]
     manufactureFormulaInfoMap: dict[str, PlayerManufactureFormulaInfo]
-    charAssets: list[PlayerCharAsset]
-    skinAssets: list[PlayerSkinAsset]
+    charAssets: list[str | None]
+    skinAssets: list[str | None]
     activityBannerList: dict[str, list[PlayerActivityBannerList]]
     medal: PlayerMedal | None = None
     zoneInfoMap: dict[str, PlayerZoneInfo] | None = None

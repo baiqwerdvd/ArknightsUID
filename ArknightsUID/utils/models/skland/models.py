@@ -410,13 +410,13 @@ class BuildingLabor(Struct):
 class BuildingTraining(Struct):
     slotId: str
     level: int
-    trainee: BuildingTrainingTrainee
     remainPoint: float
     speed: float
     lastUpdateTime: int
     remainSecs: int
     slotState: int
-    trainer: BuildingTrainingTrainer | None = None
+    trainee: BuildingTrainingTrainee | None 
+    trainer: BuildingTrainingTrainer | None
 
 
 class BuildingHire(Struct):

@@ -1,4 +1,8 @@
 from copy import deepcopy
+import hashlib
+import json
+import time
+import hmac
 from typing import Any, ClassVar, Literal
 
 import msgspec
@@ -154,6 +158,39 @@ class BaseArkApi:
     def unpack(self, raw_data: dict) -> dict:
         return raw_data['data']
 
+    async def refresh_token(self, uid: str) -> int | str:
+        pass
+
+    async def set_sign(
+        self,
+        url: str,
+        headers: dict[str, Any],
+        data: dict[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
+    ) -> dict:
+        path = url.split("://")[1].split("/")[1]
+        timestamp = str(int(time.time()))
+        str1=json.dumps(
+        {
+                "platform":headers.get(['platform'],""),
+                'timestamp': timestamp,
+                'dId': headers.get(["dId"],""),
+                "vName":headers.get(["vName"],"")
+            }
+            ,separators=(',', ':')
+        )
+        s2=""
+        if params:
+            s2+="&".join(["=".join(x) for x in params])
+        if data:
+            s2+=json.dumps(data,separators=(',', ':'))
+        str2=path+s2+headers["timestamp"]+str1
+        token: str | None  = await ArknightsUser.get_token_by_cred(headers['Cred'])
+        sign=hashlib.md5(hmac.new(token.encode(),str2.encode(), hashlib.sha256).hexdigest().encode()).hexdigest()
+        headers["sign"]=sign
+        headers["timestamp"]=timestamp
+        return headers
+
     async def _ark_request(
         self,
         url: str,
@@ -190,6 +227,11 @@ class BaseArkApi:
                 if 'code' in raw_data and raw_data['code'] != 0:
                     logger.info(raw_data)
                     return raw_data
+                elif 'code' in raw_data and raw_data['code'] == 10000:
+                    #token失效
+                    logger.info(raw_data)
+                    await self.refresh_token(header['Cred'])
+
 
                 # 判断status
                 if 'status' in raw_data and 'msg' in raw_data:

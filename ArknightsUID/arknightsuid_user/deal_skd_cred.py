@@ -19,7 +19,7 @@ async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
     token = await ark_skd_api.refresh_token(match.group())
     print(token)
 
-    check_cred = await ark_skd_api.check_cred_valid(match.group(), token)
+    check_cred = await ark_skd_api.check_cred_valid(cred=match.group(), token=token)
 
     if isinstance(check_cred, bool):
         return 'Cred无效!'

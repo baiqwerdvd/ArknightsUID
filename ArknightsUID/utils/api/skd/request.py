@@ -24,6 +24,18 @@ proxy_url = core_plugins_config.get_config('proxy').data
 ssl_verify = core_plugins_config.get_config('MhySSLVerify').data
 
 
+_HEADER: dict[str, str] = {
+        'Host': 'zonai.skland.com',
+        'platform': '1',
+        'Origin': 'https://www.skland.com',
+        'Referer': 'https://www.skland.com/',
+        'Content-Type': 'application/json',
+        'User-Agent': 'Skland/1.1.0 (com.hypergryph.skland; build:100100047; Android 33; ) Okhttp/4.11.0',
+        'vName': '1.1.0',
+        'vCode': '100100047',
+    }
+
+
 class TokenExpiredError(Exception):
     pass
 
@@ -34,16 +46,6 @@ class TokenRefreshFailed(Exception):
 
 class BaseArkApi:
     proxy_url: str | None = proxy_url if proxy_url else None
-    _HEADER: ClassVar[dict[str, str]] = {
-        'Host': 'zonai.skland.com',
-        'platform': '1',
-        'Origin': 'https://www.skland.com',
-        'Referer': 'https://www.skland.com/',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Skland/1.1.0 (com.hypergryph.skland; build:100100047; Android 33; ) Okhttp/4.11.0',
-        'vName': '1.1.0',
-        'vCode': '100100047',
-    }
 
     async def _pass(self, gt: str, ch: str) -> tuple[str | None, str | None]:
         _pass_api = core_plugins_config.get_config('_pass_API').data
@@ -70,7 +72,7 @@ class BaseArkApi:
         if isinstance(is_vaild, bool):
             await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
-        header = deepcopy(self._HEADER)
+        header = deepcopy(_HEADER)
         header['cred'] = cred
         header = await self.set_sign(ARK_PLAYER_INFO, header=header)
         raw_data = await self.ark_request(
@@ -94,7 +96,7 @@ class BaseArkApi:
         if isinstance(is_vaild, bool):
             await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
-        header = deepcopy(self._HEADER)
+        header = deepcopy(_HEADER)
         header['cred'] = cred
         header = await self.set_sign(ARK_SKD_SIGN, header=header)
         raw_data = await self.ark_request(
@@ -122,7 +124,7 @@ class BaseArkApi:
         if isinstance(is_vaild, bool):
             await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
-        header = deepcopy(self._HEADER)
+        header = deepcopy(_HEADER)
         header['cred'] = cred
         header = await self.set_sign(ARK_SKD_SIGN, header=header)
         raw_data = await self.ark_request(
@@ -142,8 +144,14 @@ class BaseArkApi:
         else:
             return msgspec.convert(unpack_data, ArknightsAttendanceCalendarModel)
 
-    async def check_cred_valid(self, cred: str, token: str | None = None) -> bool | ArknightsUserMeModel:
-        header = deepcopy(self._HEADER)
+    async def check_cred_valid(
+        self, cred: str | None = None, token: str | None = None, uid: str | None = None
+    ) -> bool | ArknightsUserMeModel:
+        if uid is not None:
+            cred = cred if cred else await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
+        header = deepcopy(_HEADER)
+        if cred is None:
+            return False
         header['cred'] = cred
         header = await self.set_sign(ARK_USER_ME, header=header, token=token)
         raw_data = await self.ark_request(ARK_USER_ME, header=header)
@@ -174,7 +182,7 @@ class BaseArkApi:
         return raw_data['data']
 
     async def refresh_token(self, cred: str, uid: str | None = None) -> str:
-        header = deepcopy(self._HEADER)
+        header = deepcopy(_HEADER)
         header['cred'] = cred
         header['sign_enable'] = 'false'
         raw_data = await self.ark_request(url=ARK_REFRESH_TOKEN, header=header)
@@ -215,6 +223,7 @@ class BaseArkApi:
         print(f'{path} {s2} {timestamp} {str1}')
         str2 = path + s2 + timestamp + str1
         token_ = await ArknightsUser.get_token_by_cred(header['cred'])
+        print(f'cred {header["cred"]} token {token} token_ {token_}')
         token = token if token else token_
         if token is None:
             raise Exception("token is None")

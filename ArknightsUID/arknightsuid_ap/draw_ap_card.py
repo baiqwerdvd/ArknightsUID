@@ -45,7 +45,7 @@ async def get_ap_img(bot_id: str, user_id: str):
         if uid_list is None:
             return '请先绑定一个可用CRED & UID再来查询哦~'
         for uid in uid_list:
-            status = await ark_skd_api.check_cred_valid(uid)
+            status = await ark_skd_api.check_cred_valid(uid=uid)
             if status is not bool:
                 useable_uid_list.append(uid)
         logger.info(f'[每日信息]可用UID: {useable_uid_list}')

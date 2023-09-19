@@ -3,7 +3,8 @@ import hashlib
 import json
 import time
 import hmac
-from typing import Any, ClassVar, Literal
+from typing import Any, ClassVar, Literal, cast
+from urllib.parse import urlparse
 
 import msgspec
 from aiohttp import ClientSession, ContentTypeError, TCPConnector
@@ -17,21 +18,31 @@ from ...models.skland.models import (
     ArknightsPlayerInfoModel,
     ArknightsUserMeModel,
 )
-from .api import ARK_GEN_CRED_BY_CODE, ARK_PLAYER_INFO, ARK_SKD_SIGN, ARK_USER_ME
+from .api import ARK_PLAYER_INFO, ARK_REFRESH_TOKEN, ARK_SKD_SIGN, ARK_USER_ME
 
 proxy_url = core_plugins_config.get_config('proxy').data
 ssl_verify = core_plugins_config.get_config('MhySSLVerify').data
+
+
+class TokenExpiredError(Exception):
+    pass
+
+
+class TokenRefreshFailed(Exception):
+    pass
 
 
 class BaseArkApi:
     proxy_url: str | None = proxy_url if proxy_url else None
     _HEADER: ClassVar[dict[str, str]] = {
         'Host': 'zonai.skland.com',
-        'Platform': '1',
+        'platform': '1',
         'Origin': 'https://www.skland.com',
         'Referer': 'https://www.skland.com/',
-        'content-type': 'application/json',
-        'user-agent': 'Skland/1.0.1 (com.hypergryph.skland; build:100001014; Android 33; ) Okhttp/4.11.0',
+        'Content-Type': 'application/json',
+        'User-Agent': 'Skland/1.1.0 (com.hypergryph.skland; build:100100047; Android 33; ) Okhttp/4.11.0',
+        'vName': '1.1.0',
+        'vCode': '100100047',
     }
 
     async def _pass(self, gt: str, ch: str) -> tuple[str | None, str | None]:
@@ -60,8 +71,9 @@ class BaseArkApi:
             await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
         header = deepcopy(self._HEADER)
-        header['Cred'] = cred
-        raw_data = await self._ark_request(
+        header['cred'] = cred
+        header = await self.set_sign(ARK_PLAYER_INFO, header=header)
+        raw_data = await self.ark_request(
             url=ARK_PLAYER_INFO,
             params={'uid': uid},
             header=header,
@@ -83,8 +95,9 @@ class BaseArkApi:
             await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
         header = deepcopy(self._HEADER)
-        header['Cred'] = cred
-        raw_data = await self._ark_request(
+        header['cred'] = cred
+        header = await self.set_sign(ARK_SKD_SIGN, header=header)
+        raw_data = await self.ark_request(
             url=ARK_SKD_SIGN,
             method='POST',
             data={
@@ -110,8 +123,9 @@ class BaseArkApi:
             await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
         header = deepcopy(self._HEADER)
-        header['Cred'] = cred
-        raw_data = await self._ark_request(
+        header['cred'] = cred
+        header = await self.set_sign(ARK_SKD_SIGN, header=header)
+        raw_data = await self.ark_request(
             url=ARK_SKD_SIGN,
             method='GET',
             params={
@@ -128,10 +142,11 @@ class BaseArkApi:
         else:
             return msgspec.convert(unpack_data, ArknightsAttendanceCalendarModel)
 
-    async def check_cred_valid(self, Cred: str) -> bool | ArknightsUserMeModel:
+    async def check_cred_valid(self, cred: str, token: str | None = None) -> bool | ArknightsUserMeModel:
         header = deepcopy(self._HEADER)
-        header['Cred'] = Cred
-        raw_data = await self._ark_request(ARK_USER_ME, header=header)
+        header['cred'] = cred
+        header = await self.set_sign(ARK_USER_ME, header=header, token=token)
+        raw_data = await self.ark_request(ARK_USER_ME, header=header)
         if isinstance(raw_data, int):
             return False
         if 'code' in raw_data and raw_data['code'] == 10001:
@@ -140,56 +155,105 @@ class BaseArkApi:
         unpack_data = self.unpack(raw_data)
         return msgspec.convert(unpack_data, type=ArknightsUserMeModel)
 
-    async def check_code_valid(self, code: str) -> bool | str:
-        data = {
-            'kind': 1,
-            'code': code
-        }
-        raw_data = await self._ark_request(
-            ARK_GEN_CRED_BY_CODE,
-            data=data
-        )
-        if isinstance(raw_data, int):
-            return False
-        else:
-            cred = raw_data['cred']
-            return cred
+    # async def check_code_valid(self, code: str) -> bool | str:
+    #     data = {
+    #         'kind': 1,
+    #         'code': code
+    #     }
+    #     raw_data = await self.ark_request(
+    #         ARK_GEN_CRED_BY_CODE,
+    #         data=data
+    #     )
+    #     if isinstance(raw_data, int):
+    #         return False
+    #     else:
+    #         cred = raw_data['cred']
+    #         return cred
 
     def unpack(self, raw_data: dict) -> dict:
         return raw_data['data']
 
-    async def refresh_token(self, uid: str) -> int | str:
-        pass
+    async def refresh_token(self, cred: str, uid: str | None = None) -> str:
+        header = deepcopy(self._HEADER)
+        header['cred'] = cred
+        header['sign_enable'] = 'false'
+        raw_data = await self.ark_request(url=ARK_REFRESH_TOKEN, header=header)
+        if isinstance(raw_data, int):
+            raise TokenRefreshFailed
+        else:
+            token = cast(str, self.unpack(raw_data)['token'])
+            uid = await ArknightsUser.get_uid_by_cred(cred)
+            if uid is not None:
+                await ArknightsUser.update_user_attr_by_uid(uid=uid, attr='token', value=token)
+            return token
 
     async def set_sign(
         self,
         url: str,
-        headers: dict[str, Any],
+        header: dict[str, Any],
         data: dict[str, Any] | None = None,
         params: dict[str, Any] | None = None,
+        token: str | None = None,
     ) -> dict:
-        path = url.split("://")[1].split("/")[1]
+        parsed_url = urlparse(url)
+        path = parsed_url.path
         timestamp = str(int(time.time()))
         str1=json.dumps(
         {
-                "platform":headers.get(['platform'],""),
+                "platform": header.get('platform', ''),
                 'timestamp': timestamp,
-                'dId': headers.get(["dId"],""),
-                "vName":headers.get(["vName"],"")
-            }
-            ,separators=(',', ':')
+                'dId': header.get('dId', ''),
+                "vName": header.get('vName', '')
+            },separators=(',', ':')
         )
         s2=""
         if params:
-            s2+="&".join(["=".join(x) for x in params])
+            print(f'params {params}')
+            s2 += "&".join([str(x) + "=" + str(params[x]) for x in params])
         if data:
-            s2+=json.dumps(data,separators=(',', ':'))
-        str2=path+s2+headers["timestamp"]+str1
-        token: str | None  = await ArknightsUser.get_token_by_cred(headers['Cred'])
-        sign=hashlib.md5(hmac.new(token.encode(),str2.encode(), hashlib.sha256).hexdigest().encode()).hexdigest()
-        headers["sign"]=sign
-        headers["timestamp"]=timestamp
-        return headers
+            s2 += json.dumps(data,separators=(',', ':'))
+        print(f'{path} {s2} {timestamp} {str1}')
+        str2 = path + s2 + timestamp + str1
+        token_ = await ArknightsUser.get_token_by_cred(header['cred'])
+        token = token if token else token_
+        if token is None:
+            raise Exception("token is None")
+        sign = hashlib.md5(hmac.new(token.encode(),str2.encode(), hashlib.sha256).hexdigest().encode()).hexdigest()
+        header["sign"] = sign
+        header["timestamp"] = timestamp
+        print(header)
+        return header
+    
+    async def ark_request(
+        self,
+        url: str,
+        method: Literal['GET', 'POST'] = 'GET',
+        header: dict[str, Any] = _HEADER,
+        params: dict[str, Any] | None = None,
+        data: dict[str, Any] | None = None,
+        use_proxy: bool | None = False,
+    ) -> dict | int:
+        try:
+            raw_data = await self._ark_request(
+                url=url,
+                method=method,
+                header=header,
+                params=params,
+                data=data,
+                use_proxy=use_proxy,
+            )
+        except TokenExpiredError:
+            await self.refresh_token(header['cred'])
+            header = await self.set_sign(url, header, data, params)
+            raw_data = await self._ark_request(
+                url=url,
+                method=method,
+                header=header,
+                params=params,
+                data=data,
+                use_proxy=use_proxy,
+            )
+        return raw_data
 
     async def _ark_request(
         self,
@@ -204,11 +268,11 @@ class BaseArkApi:
             connector=TCPConnector(verify_ssl=ssl_verify)
         ) as client:
             raw_data = {}
-            if 'Cred' not in header:
+            if 'cred' not in header:
                 return 10001
-
+            
             async with client.request(
-                method,
+                method=method,
                 url=url,
                 headers=header,
                 params=params,
@@ -224,32 +288,29 @@ class BaseArkApi:
                 logger.info(raw_data)
 
                 # 判断code
-                if 'code' in raw_data and raw_data['code'] != 0:
-                    logger.info(raw_data)
-                    return raw_data
-                elif 'code' in raw_data and raw_data['code'] == 10000:
+                if 'code' in raw_data and raw_data['code'] == 10000:
                     #token失效
                     logger.info(raw_data)
-                    await self.refresh_token(header['Cred'])
+                    raise TokenExpiredError
 
-
+                return raw_data
                 # 判断status
-                if 'status' in raw_data and 'msg' in raw_data:
-                    retcode = 1
-                else:
-                    retcode = 0
+                # if 'status' in raw_data and 'msg' in raw_data:
+                #     retcode = 1
+                # else:
+                #     retcode = 0
 
-                if retcode == 1 and data:
-                    vl, ch = await self._pass(
-                        gt=raw_data['data']['captcha']['gt'],
-                        ch=raw_data['data']['captcha']['challenge']
-                    )
-                    data['captcha'] = {}
-                    data['captcha']['geetest_challenge'] = ch
-                    data['captcha']['geetest_validate'] = vl
-                    data['captcha']['geetest_seccode'] = f'{vl}|jordan'
-                elif retcode != 0:
-                    return retcode
-                else:
-                    return raw_data
-            return 10001
+                # if retcode == 1 and data:
+                #     vl, ch = await self._pass(
+                #         gt=raw_data['data']['captcha']['gt'],
+                #         ch=raw_data['data']['captcha']['challenge']
+                #     )
+                #     data['captcha'] = {}
+                #     data['captcha']['geetest_challenge'] = ch
+                #     data['captcha']['geetest_validate'] = vl
+                #     data['captcha']['geetest_seccode'] = f'{vl}|jordan'
+                # elif retcode != 0:
+                #     return retcode
+                # else:
+                #     return raw_data
+            # return 10001

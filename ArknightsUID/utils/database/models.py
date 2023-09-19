@@ -1,6 +1,6 @@
 from typing import Literal
 
-from gsuid_core.utils.database.base_models import Bind, Push, T_BaseIDModel, T_User, User, with_session
+from gsuid_core.utils.database.base_models import Bind, Push, T_BaseIDModel, T_User, User, with_session, BaseModel
 from gsuid_core.webconsole.mount_app import GsAdminModel, PageSchema, site
 from sqlmodel import Field
 from sqlalchemy.future import select
@@ -15,20 +15,17 @@ class ArknightsUser(User, table=True):
     uid: str | None = Field(default=None, title='明日方舟UID')
     skd_uid: str | None = Field(default=None, title='SKD用户ID')
     cred: str | None = Field(default=None, title='SKD凭证')
-    toekn: str | None = Field(default=None, title='SKD Token')
+    token: str | None = Field(default=None, title='SKD Token')
 
     @classmethod
     @with_session
     async def select_data_by_cred(
-        cls: type[T_User],
+        cls,
         session: AsyncSession,
         cred: str
-    ) -> T_User | None:
-        result = await session.execute(
-            select(cls).where(
-                'cred' == cred,
-            )
-        )
+    ) -> BaseModel | None:
+        sql= select(cls).where(cls.cred == cred)
+        result = await session.execute(sql)
         data = result.scalars().all()
         return data[0] if data else None
 
@@ -36,6 +33,25 @@ class ArknightsUser(User, table=True):
     async def get_token_by_cred(cls, cred: str) -> str | None:
         result =  await cls.select_data_by_cred(cred)
         return getattr(result, 'token') if result else None
+
+    @classmethod
+    async def get_uid_by_cred(cls, cred: str) -> str | None:
+        result =  await cls.select_data_by_cred(cred)
+        return getattr(result, 'uid') if result else None
+
+    @classmethod
+    async def update_user_attr_by_uid(
+        cls,
+        uid: str,
+        attr: str,
+        value: str,
+    ) -> bool:
+        retcode = -1
+        if await cls.data_exist(uid=uid):
+            retcode = await cls.update_data_by_uid(
+                uid, cls.bot_id, None, **{attr: value}
+            )
+        return not bool(retcode)
 
 
 class ArknightsPush(Push, table=True):

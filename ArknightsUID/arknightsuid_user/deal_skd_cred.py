@@ -17,7 +17,6 @@ async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
 
     # refresh token
     token = await ark_skd_api.refresh_token(match.group())
-    print(token)
 
     check_cred = await ark_skd_api.check_cred_valid(cred=match.group(), token=token)
 

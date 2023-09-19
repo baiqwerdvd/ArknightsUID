@@ -294,7 +294,7 @@ class BaseArkApi:
                 except ContentTypeError:
                     _raw_data = await resp.text()
                     raw_data = {'code': -999, 'data': _raw_data}
-                logger.info(raw_data)
+                logger.debug(raw_data)
 
                 # 判断code
                 if 'code' in raw_data and raw_data['code'] == 10000:

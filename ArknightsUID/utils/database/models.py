@@ -13,6 +13,7 @@ class ArknightsUser(User, table=True):
     uid: str | None = Field(default=None, title='明日方舟UID')
     skd_uid: str | None = Field(default=None, title='SKD用户ID')
     cred: str | None = Field(default=None, title='SKD凭证')
+    token: str | None = Field(default=None, title='SKD令牌')
 
 
 class ArknightsPush(Push, table=True):

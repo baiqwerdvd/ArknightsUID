@@ -1,3 +1,4 @@
+from typing import Any
 from pydantic import BaseModel, Field
 
 
@@ -2307,7 +2308,7 @@ class ActivityTable(BaseModel):
     activity: ActivityTableActivityDetailTable
     activityItems: dict[str, list[str]]
     syncPoints: dict[str, list[int]]
-    dynActs: dict[str, dict[str, str | int | list[str | int] | dict[str, int] | ItemBundle]]
+    dynActs: Any
     stageRewardsData: dict[str, ActivityStageRewardData]
     actThemes: list[ActivityThemeData]
     actFunData: AprilFoolTable
@@ -2320,3 +2321,14 @@ class ActivityTable(BaseModel):
 
     class Config:
         extra = 'allow'
+
+
+if __name__ == '__main__':
+    import json
+
+    path = "C:/Users/Administrator/Desktop/gsuid_core/data/ArknightsUID/resource/gamedata/activity_table.json"
+
+    with open(path, encoding='utf-8') as f:
+        data = json.load(f)
+    
+    print(ActivityTable(**data))

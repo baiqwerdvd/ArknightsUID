@@ -33,6 +33,9 @@ _HEADER: dict[str, str] = {
         'User-Agent': 'Skland/1.1.0 (com.hypergryph.skland; build:100100047; Android 33; ) Okhttp/4.11.0',
         'vName': '1.1.0',
         'vCode': '100100047',
+        'nId': '1',
+        'os': '33',
+        'manufacturer': 'Xiaomi'
     }
 
 
@@ -99,13 +102,16 @@ class BaseArkApi:
         header = deepcopy(_HEADER)
         header['cred'] = cred
         header = await self.set_sign(ARK_SKD_SIGN, header=header)
+        data = {
+                'uid': uid,
+                'gameId': 1
+            }
+        header['Content-Type'] = 'application/json'
+        header['Content-Length'] = str(len(json.dumps(data)))
         raw_data = await self.ark_request(
             url=ARK_SKD_SIGN,
             method='POST',
-            data={
-                'uid': uid,
-                'gameId': 1
-            },
+            data=data,
             header=header,
         )
         if isinstance(raw_data, int):
@@ -294,12 +300,12 @@ class BaseArkApi:
                 except ContentTypeError:
                     _raw_data = await resp.text()
                     raw_data = {'code': -999, 'data': _raw_data}
-                logger.debug(raw_data)
+                logger.info(raw_data)
 
                 # 判断code
                 if 'code' in raw_data and raw_data['code'] == 10000:
                     #token失效
-                    logger.info(raw_data)
+                    logger.info(f'{url} {raw_data}')
                     raise TokenExpiredError
 
                 return raw_data

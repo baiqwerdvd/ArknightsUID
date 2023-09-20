@@ -211,32 +211,34 @@ class BaseArkApi:
     ) -> dict:
         parsed_url = urlparse(url)
         path = parsed_url.path
-        timestamp = str(int(time.time()))
+        timestamp = str(int(time.time()) - 1)
         str1=json.dumps(
         {
-                "platform": header.get('platform', ''),
+                'platform': header.get('platform', ''),
                 'timestamp': timestamp,
                 'dId': header.get('dId', ''),
-                "vName": header.get('vName', '')
+                'vName': header.get('vName', '')
             },separators=(',', ':')
         )
-        s2=""
+        s2=''
         if params:
-            print(f'params {params}')
-            s2 += "&".join([str(x) + "=" + str(params[x]) for x in params])
+            logger.debug(f'params {params}')
+            s2 += '&'.join([str(x) + '=' + str(params[x]) for x in params])
         if data:
             s2 += json.dumps(data,separators=(',', ':'))
-        print(f'{path} {s2} {timestamp} {str1}')
+        logger.debug(f'{path} {s2} {timestamp} {str1}')
         str2 = path + s2 + timestamp + str1
         token_ = await ArknightsUser.get_token_by_cred(header['cred'])
-        print(f'cred {header["cred"]} token {token} token_ {token_}')
+        logger.debug(f'cred {header["cred"]} token {token} token_ {token_}')
         token = token if token else token_
         if token is None:
             raise Exception("token is None")
-        sign = hashlib.md5(hmac.new(token.encode(),str2.encode(), hashlib.sha256).hexdigest().encode()).hexdigest()
+        encode_token = token.encode('utf-8')
+        hex_s = hmac.new(encode_token, str2.encode('utf-8'), hashlib.sha256).hexdigest()
+        sign = hashlib.md5(hex_s.encode('utf-8')).hexdigest()
         header["sign"] = sign
         header["timestamp"] = timestamp
-        print(header)
+        logger.debug(header)
         return header
     
     async def ark_request(

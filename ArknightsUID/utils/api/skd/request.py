@@ -106,7 +106,11 @@ class BaseArkApi:
             'uid': uid,
             'gameId': 1
         }
-        header = await self.set_sign(ARK_SKD_SIGN, header=header, data=data)
+        header = await self.set_sign(
+            ARK_SKD_SIGN,
+            header=header,
+            data=data
+        )
         header['Content-Type'] = 'application/json'
         header['Content-Length'] = str(len(json.dumps(data)))
         raw_data = await self.ark_request(
@@ -133,7 +137,14 @@ class BaseArkApi:
             return -61
         header = deepcopy(_HEADER)
         header['cred'] = cred
-        header = await self.set_sign(ARK_SKD_SIGN, header=header)
+        header = await self.set_sign(
+            ARK_SKD_SIGN,
+            header=header,
+            params={
+                'uid': uid,
+                'gameId': 1
+            },
+        )
         raw_data = await self.ark_request(
             url=ARK_SKD_SIGN,
             method='GET',
@@ -212,7 +223,7 @@ class BaseArkApi:
     ) -> dict:
         parsed_url = urlparse(url)
         path = parsed_url.path
-        timestamp = str(int(time.time()) - 1)
+        timestamp = str(int(time.time()) - 2)
         dId = hashlib.sha256(header["cred"].encode('utf-8')).hexdigest()[0:16]
         str1=json.dumps(
         {
@@ -220,7 +231,7 @@ class BaseArkApi:
                 'timestamp': timestamp,
                 'dId': dId,
                 'vName': header.get('vName', '')
-            },separators=(',', ':')
+            }, separators=(',', ':')
         )
         s2 = ''
         if params:
@@ -254,6 +265,7 @@ class BaseArkApi:
         data: dict[str, Any] | None = None,
         use_proxy: bool | None = False,
     ) -> dict | int:
+        logger.debug(f'{url} {method} {header} {params} {data} {use_proxy}')
         try:
             raw_data = await self._ark_request(
                 url=url,

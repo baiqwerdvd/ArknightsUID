@@ -35,7 +35,8 @@ _HEADER: dict[str, str] = {
         'vCode': '100100047',
         'nId': '1',
         'os': '33',
-        'manufacturer': 'Xiaomi'
+        'manufacturer': 'Xiaomi',
+        'Connection': 'close'
     }
 
 
@@ -101,11 +102,11 @@ class BaseArkApi:
             return -61
         header = deepcopy(_HEADER)
         header['cred'] = cred
-        header = await self.set_sign(ARK_SKD_SIGN, header=header)
         data = {
-                'uid': uid,
-                'gameId': 1
-            }
+            'uid': uid,
+            'gameId': 1
+        }
+        header = await self.set_sign(ARK_SKD_SIGN, header=header, data=data)
         header['Content-Type'] = 'application/json'
         header['Content-Length'] = str(len(json.dumps(data)))
         raw_data = await self.ark_request(
@@ -212,20 +213,22 @@ class BaseArkApi:
         parsed_url = urlparse(url)
         path = parsed_url.path
         timestamp = str(int(time.time()) - 1)
+        dId = hashlib.sha256(header["cred"].encode('utf-8')).hexdigest()[0:16]
         str1=json.dumps(
         {
                 'platform': header.get('platform', ''),
                 'timestamp': timestamp,
-                'dId': header.get('dId', ''),
+                'dId': dId,
                 'vName': header.get('vName', '')
             },separators=(',', ':')
         )
-        s2=''
+        s2 = ''
         if params:
             logger.debug(f'params {params}')
             s2 += '&'.join([str(x) + '=' + str(params[x]) for x in params])
         if data:
-            s2 += json.dumps(data,separators=(',', ':'))
+            logger.debug(f'data {data}')
+            s2 += json.dumps(data, separators=(',', ':'))
         logger.debug(f'{path} {s2} {timestamp} {str1}')
         str2 = path + s2 + timestamp + str1
         token_ = await ArknightsUser.get_token_by_cred(header['cred'])
@@ -235,9 +238,10 @@ class BaseArkApi:
             raise Exception("token is None")
         encode_token = token.encode('utf-8')
         hex_s = hmac.new(encode_token, str2.encode('utf-8'), hashlib.sha256).hexdigest()
-        sign = hashlib.md5(hex_s.encode('utf-8')).hexdigest()
+        sign = hashlib.md5(hex_s.encode('utf-8')).hexdigest().encode('utf-8').decode('utf-8')
         header["sign"] = sign
         header["timestamp"] = timestamp
+        header["dId"] = dId
         logger.debug(header)
         return header
     

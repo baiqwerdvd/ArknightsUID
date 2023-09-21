@@ -227,7 +227,7 @@ class BaseArkApi:
         dId = hashlib.sha256(header["cred"].encode('utf-8')).hexdigest()[0:16]
         str1=json.dumps(
         {
-                'platform': header.get('platform', ''),
+                'platform': header.get('platform', '1'),
                 'timestamp': timestamp,
                 'dId': dId,
                 'vName': header.get('vName', '')
@@ -239,7 +239,7 @@ class BaseArkApi:
             s2 += '&'.join([str(x) + '=' + str(params[x]) for x in params])
         if data:
             logger.debug(f'data {data}')
-            s2 += json.dumps(data, separators=(',', ':'))
+            s2 += json.dumps(data)
         logger.debug(f'{path} {s2} {timestamp} {str1}')
         str2 = path + s2 + timestamp + str1
         token_ = await ArknightsUser.get_token_by_cred(header['cred'])

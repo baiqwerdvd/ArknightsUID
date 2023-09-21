@@ -181,23 +181,12 @@ class BaseArkApi:
         unpack_data = self.unpack(raw_data)
         return msgspec.convert(unpack_data, type=ArknightsUserMeModel)
 
-    # async def check_code_valid(self, code: str) -> bool | str:
-    #     data = {
-    #         'kind': 1,
-    #         'code': code
-    #     }
-    #     raw_data = await self.ark_request(
-    #         ARK_GEN_CRED_BY_CODE,
-    #         data=data
-    #     )
-    #     if isinstance(raw_data, int):
-    #         return False
-    #     else:
-    #         cred = raw_data['cred']
-    #         return cred
-
     def unpack(self, raw_data: dict) -> dict:
-        return raw_data['data']
+        try:
+            data = raw_data['data']
+            return data
+        except KeyError:
+            return raw_data
 
     async def refresh_token(self, cred: str, uid: str | None = None) -> str:
         header = deepcopy(_HEADER)
@@ -321,12 +310,18 @@ class BaseArkApi:
                 logger.info(raw_data)
 
                 # 判断code
-                if 'code' in raw_data and raw_data['code'] == 10000:
-                    #token失效
+                if raw_data['code'] == 0:
+                    return raw_data
+                
+                if raw_data['code'] == 10000:
+                    # token失效
                     logger.info(f'{url} {raw_data}')
                     raise TokenExpiredError
 
-                return raw_data
+                if raw_data['code'] == 10001:
+                    # 重复签到
+                    return raw_data['code']
+
                 # 判断status
                 # if 'status' in raw_data and 'msg' in raw_data:
                 #     retcode = 1

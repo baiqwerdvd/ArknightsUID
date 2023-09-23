@@ -1,80 +1,82 @@
-from pydantic import BaseModel
+from typing import Dict, List, Union
+from ..common import BaseStruct
 
 
-class CharacterDataUnlockCondition(BaseModel):
+class CharacterDataUnlockCondition(BaseStruct):
     phase: int
     level: int
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: float | None = None
-    valueStr: str | None = None
+    value: Union[float, None] = None
+    valueStr: Union[str, None] = None
 
 
-class TalentData(BaseModel):
+class TalentData(BaseStruct):
     unlockCondition: CharacterDataUnlockCondition
     requiredPotentialRank: int
-    prefabKey: str | None
-    name: str | None
-    description: str | None
-    rangeId: str | None
-    blackboard: list[Blackboard]
+    prefabKey: Union[str, None]
+    name: Union[str, None]
+    description: Union[str, None]
+    rangeId: Union[str, None]
+    blackboard: List[Blackboard]
 
 
 class EquipTalentData(TalentData):
     displayRangeId: bool
     upgradeDescription: str
     talentIndex: int
+    tokenKey: Union[str, None] = None
 
 
-class CharacterDataEquipTalentDataBundle(BaseModel):
-    candidates: list[EquipTalentData] | None
+class CharacterDataEquipTalentDataBundle(BaseStruct):
+    candidates: Union[List[EquipTalentData], None]
 
 
-class CharacterDataTraitData(BaseModel):
+class CharacterDataTraitData(BaseStruct):
     unlockCondition: CharacterDataUnlockCondition
     requiredPotentialRank: int
-    blackboard: list[Blackboard]
-    overrideDescripton: str | None
-    prefabKey: str | None
-    rangeId: str | None
+    blackboard: List[Blackboard]
+    overrideDescripton: Union[str, None]
+    prefabKey: Union[str, None]
+    rangeId: Union[str, None]
 
 
-class CharacterDataEquipTraitData(BaseModel):
-    additionalDescription: str | None
+class CharacterDataEquipTraitData(BaseStruct):
+    additionalDescription: Union[str, None]
+    unlockCondition: CharacterDataUnlockCondition
+    requiredPotentialRank: int
+    blackboard: List[Blackboard]
+    overrideDescripton: Union[str, None]
+    prefabKey: Union[str, None]
+    rangeId: Union[str, None]
 
 
-class CharacterDataEquipTraitDataBundle(BaseModel):
-    candidates: list[CharacterDataEquipTraitData] | None
+class CharacterDataEquipTraitDataBundle(BaseStruct):
+    candidates: Union[List[CharacterDataEquipTraitData], None]
 
 
-class BattleUniEquipData(BaseModel):
-    resKey: str | None
+class BattleUniEquipData(BaseStruct):
+    resKey: Union[str, None]
     target: str
     isToken: bool
     addOrOverrideTalentDataBundle: CharacterDataEquipTalentDataBundle
     overrideTraitDataBundle: CharacterDataEquipTraitDataBundle
 
 
-class BattleEquipPerLevelPack(BaseModel):
+class BattleEquipPerLevelPack(BaseStruct):
     equipLevel: int
-    parts: list[BattleUniEquipData]
-    attributeBlackboard: list[Blackboard]
-    tokenAttributeBlackboard: dict[str, list[Blackboard]]
+    parts: List[BattleUniEquipData]
+    attributeBlackboard: List[Blackboard]
+    tokenAttributeBlackboard: Dict[str, List[Blackboard]]
 
 
-class BattleEquipData(BaseModel):
-    phases: list[BattleEquipPerLevelPack]
+class BattleEquipData(BaseStruct):
+    phases: List[BattleEquipPerLevelPack]
 
 
-class BattleEquipTable(BaseModel):
+class BattleEquipTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    equips: dict[str, BattleEquipData]
-
-    class Config:
-        extra = 'allow'
-
-    def __init__(self, data: dict) -> None:
-        super().__init__(equips=data)
+    equips: Dict[str, BattleEquipData]

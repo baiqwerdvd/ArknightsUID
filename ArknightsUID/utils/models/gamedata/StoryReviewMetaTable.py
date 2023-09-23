@@ -1,18 +1,20 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class MiniActTrialDataRuleData(BaseModel):
+class MiniActTrialDataRuleData(BaseStruct):
     ruleType: str
     ruleText: str
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class MiniActTrialDataMiniActTrialRewardData(BaseModel):
+class MiniActTrialDataMiniActTrialRewardData(BaseStruct):
     trialRewardId: str
     orderId: int
     actId: str
@@ -20,55 +22,55 @@ class MiniActTrialDataMiniActTrialRewardData(BaseModel):
     item: ItemBundle
 
 
-class MiniActTrialDataMiniActTrialSingleData(BaseModel):
+class MiniActTrialDataMiniActTrialSingleData(BaseStruct):
     actId: str
     rewardStartTime: int
     themeColor: str
-    rewardList: list[MiniActTrialDataMiniActTrialRewardData]
+    rewardList: List[MiniActTrialDataMiniActTrialRewardData]
 
 
-class MiniActTrialData(BaseModel):
+class MiniActTrialData(BaseStruct):
     preShowDays: int
-    ruleDataList: list[MiniActTrialDataRuleData]
-    miniActTrialDataMap: dict[str, MiniActTrialDataMiniActTrialSingleData]
+    ruleDataList: List[MiniActTrialDataRuleData]
+    miniActTrialDataMap: Dict[str, MiniActTrialDataMiniActTrialSingleData]
 
 
-class ActArchiveResDataPicArchiveResItemData(BaseModel):
-    id_: str = Field(alias='id')
+class ActArchiveResDataPicArchiveResItemData(BaseStruct):
+    id_: str = field(name='id')
     desc: str
     assetPath: str
-    type_: str = Field(alias='type')
-    subType: str | None
+    type_: str = field(name='type')
+    subType: Union[str, None]
     picDescription: str
-    kvId: str | None
+    kvId: Union[str, None]
 
 
-class ActArchiveResDataAudioArchiveResItemData(BaseModel):
-    id_: str = Field(alias='id')
+class ActArchiveResDataAudioArchiveResItemData(BaseStruct):
+    id_: str = field(name='id')
     desc: str
     name: str
 
 
-class ActArchiveResDataAvgArchiveResItemData(BaseModel):
-    id_: str = Field(alias='id')
+class ActArchiveResDataAvgArchiveResItemData(BaseStruct):
+    id_: str = field(name='id')
     desc: str
-    breifPath: str | None
+    breifPath: Union[str, None]
     contentPath: str
     imagePath: str
-    rawBrief: str | None
-    titleIconPath: str | None
+    rawBrief: Union[str, None]
+    titleIconPath: Union[str, None]
 
 
-class ActArchiveResDataStoryArchiveResItemData(BaseModel):
-    id_: str = Field(alias='id')
+class ActArchiveResDataStoryArchiveResItemData(BaseStruct):
+    id_: str = field(name='id')
     desc: str
-    date: str | None
+    date: Union[str, None]
     pic: str
     text: str
-    titlePic: str | None
+    titlePic: Union[str, None]
 
 
-class ActArchiveResDataNewsFormatData(BaseModel):
+class ActArchiveResDataNewsFormatData(BaseStruct):
     typeId: str
     typeName: str
     typeLogo: str
@@ -76,13 +78,13 @@ class ActArchiveResDataNewsFormatData(BaseModel):
     typeMainSealing: str
 
 
-class ActArchiveResDataActivityNewsLine(BaseModel):
+class ActArchiveResDataActivityNewsLine(BaseStruct):
     lineType: int
     content: str
 
 
-class ActArchiveResDataNewsArchiveResItemData(BaseModel):
-    id_: str = Field(alias='id')
+class ActArchiveResDataNewsArchiveResItemData(BaseStruct):
+    id_: str = field(name='id')
     desc: str
     newsType: str
     newsFormat: ActArchiveResDataNewsFormatData
@@ -91,10 +93,10 @@ class ActArchiveResDataNewsArchiveResItemData(BaseModel):
     paramP0: int
     paramK: int
     paramR: float
-    newsLines: list[ActArchiveResDataActivityNewsLine]
+    newsLines: List[ActArchiveResDataActivityNewsLine]
 
 
-class ActArchiveResDataLandmarkArchiveResItemData(BaseModel):
+class ActArchiveResDataLandmarkArchiveResItemData(BaseStruct):
     landmarkId: str
     landmarkName: str
     landmarkPic: str
@@ -102,111 +104,111 @@ class ActArchiveResDataLandmarkArchiveResItemData(BaseModel):
     landmarkEngName: str
 
 
-class ActArchiveResDataLogArchiveResItemData(BaseModel):
+class ActArchiveResDataLogArchiveResItemData(BaseStruct):
     logId: str
     logDesc: str
 
 
-class ActArchiveResData(BaseModel):
-    pics: dict[str, ActArchiveResDataPicArchiveResItemData]
-    audios: dict[str, ActArchiveResDataAudioArchiveResItemData]
-    avgs: dict[str, ActArchiveResDataAvgArchiveResItemData]
-    stories: dict[str, ActArchiveResDataStoryArchiveResItemData]
-    news: dict[str, ActArchiveResDataNewsArchiveResItemData]
-    landmarks: dict[str, ActArchiveResDataLandmarkArchiveResItemData]
-    logs: dict[str, ActArchiveResDataLogArchiveResItemData]
+class ActArchiveResData(BaseStruct):
+    pics: Dict[str, ActArchiveResDataPicArchiveResItemData]
+    audios: Dict[str, ActArchiveResDataAudioArchiveResItemData]
+    avgs: Dict[str, ActArchiveResDataAvgArchiveResItemData]
+    stories: Dict[str, ActArchiveResDataStoryArchiveResItemData]
+    news: Dict[str, ActArchiveResDataNewsArchiveResItemData]
+    landmarks: Dict[str, ActArchiveResDataLandmarkArchiveResItemData]
+    logs: Dict[str, ActArchiveResDataLogArchiveResItemData]
 
 
-class ActArchiveTimelineItemData(BaseModel):
+class ActArchiveTimelineItemData(BaseStruct):
     timelineId: str
     timelineSortId: int
     timelineTitle: str
     timelineDes: str
-    picIdList: list[str] | None = None
-    audioIdList: list[str] | None = None
-    avgIdList: list[str] | None = None
-    storyIdList: list[str] | None = None
-    newsIdList: list[str] | None = None
+    picIdList: Union[List[str], None] = None
+    audioIdList: Union[List[str], None] = None
+    avgIdList: Union[List[str], None] = None
+    storyIdList: Union[List[str], None] = None
+    newsIdList: Union[List[str], None] = None
 
 
-class ActArchiveTimelineData(BaseModel):
-    timelineList: list[ActArchiveTimelineItemData]
+class ActArchiveTimelineData(BaseStruct):
+    timelineList: List[ActArchiveTimelineItemData]
 
 
-class ActArchiveMusicItemData(BaseModel):
+class ActArchiveMusicItemData(BaseStruct):
     musicId: str
     musicSortId: int
 
 
-class ActArchiveMusicData(BaseModel):
-    musics: dict[str, ActArchiveMusicItemData]
+class ActArchiveMusicData(BaseStruct):
+    musics: Dict[str, ActArchiveMusicItemData]
 
 
-class ActArchivePicItemData(BaseModel):
+class ActArchivePicItemData(BaseStruct):
     picId: str
     picSortId: int
 
 
-class ActArchivePicData(BaseModel):
-    pics: dict[str, ActArchivePicItemData]
+class ActArchivePicData(BaseStruct):
+    pics: Dict[str, ActArchivePicItemData]
 
 
-class ActArchiveStoryItemData(BaseModel):
+class ActArchiveStoryItemData(BaseStruct):
     storyId: str
     storySortId: int
 
 
-class ActArchiveStoryData(BaseModel):
-    stories: dict[str, ActArchiveStoryItemData]
+class ActArchiveStoryData(BaseStruct):
+    stories: Dict[str, ActArchiveStoryItemData]
 
 
-class ActArchiveAvgItemData(BaseModel):
+class ActArchiveAvgItemData(BaseStruct):
     avgId: str
     avgSortId: int
 
 
-class ActArchiveAvgData(BaseModel):
-    avgs: dict[str, ActArchiveAvgItemData]
+class ActArchiveAvgData(BaseStruct):
+    avgs: Dict[str, ActArchiveAvgItemData]
 
 
-class ActArchiveNewsItemData(BaseModel):
+class ActArchiveNewsItemData(BaseStruct):
     newsId: str
     newsSortId: int
 
 
-class ActArchiveNewsData(BaseModel):
-    news: dict[str, ActArchiveNewsItemData]
+class ActArchiveNewsData(BaseStruct):
+    news: Dict[str, ActArchiveNewsItemData]
 
 
-class ActArchiveLandmarkItemData(BaseModel):
+class ActArchiveLandmarkItemData(BaseStruct):
     landmarkId: str
     landmarkSortId: int
 
 
-class ActArchiveChapterLogData(BaseModel):
+class ActArchiveChapterLogData(BaseStruct):
     chapterName: str
     displayId: str
     unlockDes: str
-    logs: list[str]
+    logs: List[str]
     chapterIcon: str
 
 
-class ActArchiveComponentData(BaseModel):
-    timeline: ActArchiveTimelineData | None = None
-    music: ActArchiveMusicData | None = None
+class ActArchiveComponentData(BaseStruct):
     pic: ActArchivePicData
-    story: ActArchiveStoryData | None = None
-    avg: ActArchiveAvgData | None = None
-    news: ActArchiveNewsData | None = None
-    landmark: dict[str, ActArchiveLandmarkItemData] | None = None
-    log: dict[str, ActArchiveChapterLogData] | None = None
+    timeline: Union[ActArchiveTimelineData, None] = None
+    music: Union[ActArchiveMusicData, None] = None
+    story: Union[ActArchiveStoryData, None] = None
+    avg: Union[ActArchiveAvgData, None] = None
+    news: Union[ActArchiveNewsData, None] = None
+    landmark: Union[Dict[str, ActArchiveLandmarkItemData], None] = None
+    log: Union[Dict[str, ActArchiveChapterLogData], None] = None
 
 
-class ActArchiveComponentTable(BaseModel):
-    components: dict[str, ActArchiveComponentData]
+class ActArchiveComponentTable(BaseStruct):
+    components: Dict[str, ActArchiveComponentData]
 
 
-class StoryReviewMetaTable(BaseModel):
+class StoryReviewMetaTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
     miniActTrialData: MiniActTrialData

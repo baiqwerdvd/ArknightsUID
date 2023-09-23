@@ -1,25 +1,27 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class GachaDataLinkageTenGachaTkt(BaseModel):
+class GachaDataLinkageTenGachaTkt(BaseStruct):
     itemId: str
     endTime: int
     gachaPoolId: str
 
 
-class GachaDataLimitTenGachaTkt(BaseModel):
+class GachaDataLimitTenGachaTkt(BaseStruct):
     itemId: str
     endTime: int
 
 
-class GachaDataFreeLimitGachaData(BaseModel):
+class GachaDataFreeLimitGachaData(BaseStruct):
     poolId: str
     openTime: int
     endTime: int
     freeCount: int
 
 
-class GachaDataCarouselData(BaseModel):
+class GachaDataCarouselData(BaseStruct):
     poolId: str
     index: int
     startTime: int
@@ -27,127 +29,124 @@ class GachaDataCarouselData(BaseModel):
     spriteId: str
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class GachaDataRecruitRange(BaseModel):
+class GachaDataRecruitRange(BaseStruct):
     rarityStart: int
     rarityEnd: int
 
 
-class PotentialMaterialConverterConfig(BaseModel):
-    items: dict[str, ItemBundle]
+class PotentialMaterialConverterConfig(BaseStruct):
+    items: Dict[str, ItemBundle]
 
 
-class RecruitPoolRecruitTime(BaseModel):
+class RecruitPoolRecruitTime(BaseStruct):
     timeLength: int
     recruitPrice: int
-    accumRate: float | None = None
+    accumRate: Union[float, None] = None
 
 
-class RecruitConstantsData(BaseModel):
-    rarityWeights: None = None
-    tagPriceList: dict[str, int]
-    recruitTimeFactorList: None = None
+class RecruitConstantsData(BaseStruct):
+    tagPriceList: Dict[str, int]
     maxRecruitTime: int
+    rarityWeights: None = None
+    recruitTimeFactorList: None = None
 
 
-class RecruitPool(BaseModel):
-    recruitTimeTable: list[RecruitPoolRecruitTime]
-    recruitCharacterList: None = None
+class RecruitPool(BaseStruct):
+    recruitTimeTable: List[RecruitPoolRecruitTime]
     recruitConstants: RecruitConstantsData
+    recruitCharacterList: None = None
     maskTypeWeightTable: None = None
 
 
-class NewbeeGachaPoolClientData(BaseModel):
+class NewbeeGachaPoolClientData(BaseStruct):
     gachaPoolId: str
     gachaIndex: int
     gachaPoolName: str
     gachaPoolDetail: str
     gachaPrice: int
     gachaTimes: int
-    gachaOffset: str | None = None
-    firstOpenDay: int | None = None
-    reOpenDay: int | None = None
+    gachaOffset: Union[str, None] = None
+    firstOpenDay: Union[int, None] = None
+    reOpenDay: Union[int, None] = None
     gachaPoolItems: None = None
-    signUpEarliestTime: int | None = None
+    signUpEarliestTime: Union[int, None] = None
 
 
-class GachaPoolClientData(BaseModel):
-    CDPrimColor: str | None
-    CDSecColor: str | None
-    dynMeta: dict[str, object] | None = None
+class GachaPoolClientData(BaseStruct):
+    CDPrimColor: Union[str, None]
+    CDSecColor: Union[str, None]
     endTime: int
     gachaIndex: int
-    gachaPoolDetail: str | None
+    gachaPoolDetail: Union[str, None]
     gachaPoolId: str
     gachaPoolName: str
     gachaPoolSummary: str
     gachaRuleType: str
     guarantee5Avail: int
     guarantee5Count: int
-    linkageParam: dict[str, object] | None = None
-    linkageRuleId: str | None = None
-    LMTGSID: str | None
+    LMTGSID: Union[str, None]
     openTime: int
+    dynMeta: Union[Dict[str, object], None, None] = None
+    linkageParam: Union[Dict[str, object], None, None] = None
+    linkageRuleId: Union[str, None] = None
 
 
-class GachaTag(BaseModel):
+class GachaTag(BaseStruct):
     tagId: int
     tagName: str
     tagGroup: int
 
 
-class SpecialRecruitPoolSpecialRecruitCostData(BaseModel):
+class SpecialRecruitPoolSpecialRecruitCostData(BaseStruct):
     itemCosts: ItemBundle
     recruitPrice: int
     timeLength: int
 
 
-class SpecialRecruitPool(BaseModel):
+class SpecialRecruitPool(BaseStruct):
     endDateTime: int
     order: int
     recruitId: str
-    recruitTimeTable: list[SpecialRecruitPoolSpecialRecruitCostData]
+    recruitTimeTable: List[SpecialRecruitPoolSpecialRecruitCostData]
     startDateTime: int
     tagId: int
     tagName: str
-    CDPrimColor: str | None
-    CDSecColor: str | None
-    LMTGSID: str | None
+    CDPrimColor: Union[str, None]
+    CDSecColor: Union[str, None]
+    LMTGSID: Union[str, None]
     gachaRuleType: str
 
 
-class GachaDataFesGachaPoolRelateItem(BaseModel):
+class GachaDataFesGachaPoolRelateItem(BaseStruct):
     rarityRank5ItemId: str
     rarityRank6ItemId: str
 
 
-class GachaTable(BaseModel):
+class GachaTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    gachaTags: list[GachaTag]
-    carousel: list[GachaDataCarouselData]
+    gachaTags: List[GachaTag]
+    carousel: List[GachaDataCarouselData]
     classicPotentialMaterialConverter: PotentialMaterialConverterConfig
-    dicRecruit6StarHint: dict[str, str] | None
-    fesGachaPoolRelateItem: dict[str, GachaDataFesGachaPoolRelateItem] | None
-    freeGacha: list[GachaDataFreeLimitGachaData]
-    gachaPoolClient: list[GachaPoolClientData]
-    gachaTagMaxValid: int | None = None
-    limitTenGachaItem: list[GachaDataLimitTenGachaTkt]
-    linkageTenGachaItem: list[GachaDataLinkageTenGachaTkt]
-    newbeeGachaPoolClient: list[NewbeeGachaPoolClientData]
+    dicRecruit6StarHint: Union[Dict[str, str], None]
+    fesGachaPoolRelateItem: Union[Dict[str, GachaDataFesGachaPoolRelateItem], None]
+    freeGacha: List[GachaDataFreeLimitGachaData]
+    gachaPoolClient: List[GachaPoolClientData]
+    limitTenGachaItem: List[GachaDataLimitTenGachaTkt]
+    linkageTenGachaItem: List[GachaDataLinkageTenGachaTkt]
+    newbeeGachaPoolClient: List[NewbeeGachaPoolClientData]
     potentialMaterialConverter: PotentialMaterialConverterConfig
     recruitDetail: str
     recruitPool: RecruitPool
-    recruitRarityTable: dict[str, GachaDataRecruitRange]
-    specialRecruitPool: list[SpecialRecruitPool]
-    specialTagRarityTable: dict[str, list[int]]
-    potentialMats: dict | None = None
-    classicPotentialMats: dict | None = None
-
-    class Config:
-        extra = 'allow'
+    recruitRarityTable: Dict[str, GachaDataRecruitRange]
+    specialRecruitPool: List[SpecialRecruitPool]
+    specialTagRarityTable: Dict[str, List[int]]
+    gachaTagMaxValid: Union[int, None] = None
+    potentialMats: Union[Dict, None] = None
+    classicPotentialMats: Union[Dict, None] = None

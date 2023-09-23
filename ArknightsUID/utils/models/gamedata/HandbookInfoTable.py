@@ -1,25 +1,27 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class HandbookUnlockParam(BaseModel):
+class HandbookUnlockParam(BaseStruct):
     unlockType: int
     unlockParam1: str
-    unlockParam2: str | None
-    unlockParam3: str | None
+    unlockParam2: Union[str, None]
+    unlockParam3: Union[str, None]
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class HandbookStageTimeData(BaseModel):
+class HandbookStageTimeData(BaseStruct):
     timestamp: int
-    charSet: list[str]
+    charSet: List[str]
 
 
-class HandbookStoryStageData(BaseModel):
+class HandbookStoryStageData(BaseStruct):
     charId: str
     code: str
     description: str
@@ -27,23 +29,23 @@ class HandbookStoryStageData(BaseModel):
     loadingPicId: str
     name: str
     picId: str
-    rewardItem: list[ItemBundle]
+    rewardItem: List[ItemBundle]
     stageGetTime: int
     stageId: str
     stageNameForShow: str
-    unlockParam: list[HandbookUnlockParam]
+    unlockParam: List[HandbookUnlockParam]
     zoneId: str
     zoneNameForShow: str
 
 
-class HandbookDisplayCondition(BaseModel):
+class HandbookDisplayCondition(BaseStruct):
     charId: str
     conditionCharId: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class HandbookTeamMission(BaseModel):
-    id_: str = Field(alias='id')
+class HandbookTeamMission(BaseStruct):
+    id_: str = field(name='id')
     sort: int
     powerId: str
     powerName: str
@@ -51,19 +53,19 @@ class HandbookTeamMission(BaseModel):
     favorPoint: int
 
 
-class NPCUnlock(BaseModel):
+class NPCUnlock(BaseStruct):
     unLockType: int
     unLockParam: str
-    unLockString: str | None = None
+    unLockString: Union[str, None] = None
 
 
-class NPCData(BaseModel):
+class NPCData(BaseStruct):
     appellation: str
     cv: str
-    designerList: list[str] | None
+    designerList: Union[List[str], None]
     displayNumber: str
-    groupId: str | None
-    illustList: list[str]
+    groupId: Union[str, None]
+    illustList: List[str]
     name: str
     nationId: str
     npcId: str
@@ -71,11 +73,11 @@ class NPCData(BaseModel):
     profession: str
     resType: str
     teamId: None
-    unlockDict: dict[str, NPCUnlock]
+    unlockDict: Dict[str, NPCUnlock]
     minPowerId: str
 
 
-class HandbookAvgData(BaseModel):
+class HandbookAvgData(BaseStruct):
     storyId: str
     storySetId: str
     storySort: int
@@ -85,47 +87,44 @@ class HandbookAvgData(BaseModel):
     storyTxt: str
 
 
-class HandbookAvgGroupData(BaseModel):
+class HandbookAvgGroupData(BaseStruct):
     storySetId: str
     storySetName: str
     sortId: int
     storyGetTime: int
-    rewardItem: list[ItemBundle]
-    unlockParam: list[HandbookUnlockParam]
-    avgList: list[HandbookAvgData]
+    rewardItem: List[ItemBundle]
+    unlockParam: List[HandbookUnlockParam]
+    avgList: List[HandbookAvgData]
     charId: str
 
 
-class HandbookStoryData(BaseModel):
+class HandbookStoryData(BaseStruct):
     storyText: str
     unLockType: int
     unLockParam: str
     unLockString: str
 
 
-class HandBookStoryViewData(BaseModel):
-    stories: list[HandbookStoryData]
+class HandBookStoryViewData(BaseStruct):
+    stories: List[HandbookStoryData]
     storyTitle: str
     unLockorNot: bool
 
 
-class HandbookInfoData(BaseModel):
+class HandbookInfoData(BaseStruct):
     charID: str
     infoName: str
-    storyTextAudio: list[HandBookStoryViewData]
-    handbookAvgList: list[HandbookAvgGroupData]
-    isLimited: bool | None = None
+    storyTextAudio: List[HandBookStoryViewData]
+    handbookAvgList: List[HandbookAvgGroupData]
+    isLimited: Union[bool, None] = None
 
 
-class HandbookInfoTable(BaseModel):
+class HandbookInfoTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    handbookDict: dict[str, HandbookInfoData]
-    npcDict: dict[str, NPCData]
-    teamMissionList: dict[str, HandbookTeamMission]
-    handbookDisplayConditionList: dict[str, HandbookDisplayCondition]
-    handbookStageData: dict[str, HandbookStoryStageData]
-    handbookStageTime: list[HandbookStageTimeData]
-
-    class Config:
-        extra = 'allow'
+    handbookDict: Dict[str, HandbookInfoData]
+    npcDict: Dict[str, NPCData]
+    teamMissionList: Dict[str, HandbookTeamMission]
+    handbookDisplayConditionList: Dict[str, HandbookDisplayCondition]
+    handbookStageData: Dict[str, HandbookStoryStageData]
+    handbookStageTime: List[HandbookStageTimeData]

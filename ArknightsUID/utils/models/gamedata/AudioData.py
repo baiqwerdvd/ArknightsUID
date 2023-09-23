@@ -1,19 +1,18 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class Bank(BaseModel):
+class BGMBank(BaseStruct):
     name: str
-
-
-class BGMBank(Bank):
-    intro: str | None
-    loop: str | None
+    intro: Union[str, None]
+    loop: Union[str, None]
     volume: float
     crossfade: float
     delay: float
 
 
-class SoundFXBankSoundFX(BaseModel):
+class SoundFXBankSoundFX(BaseStruct):
     asset: str
     weight: float
     important: bool
@@ -26,30 +25,32 @@ class SoundFXBankSoundFX(BaseModel):
     ignoreTimeScale: bool
 
 
-class SoundFXBank(Bank):
-    sounds: list[SoundFXBankSoundFX] | None
+class SoundFXBank(BaseStruct):
+    name: str
+    sounds: Union[List[SoundFXBankSoundFX], None]
     maxSoundAllowed: int
     popOldest: bool
-    customMixerGroup: str | None
+    customMixerGroup: Union[str, None]
     loop: bool
 
 
-class SoundFXCtrlBank(Bank):
+class SoundFXCtrlBank(BaseStruct):
+    name: str
     targetBank: str
     ctrlStop: bool
     ctrlStopFadetime: float
+
+
+class SnapshotBank(BaseStruct):
     name: str
-
-
-class SnapshotBank(Bank):
     targetSnapshot: str
     hookSoundFxBank: str
     delay: float
     duration: float
-    targetFxBank: Bank | None = None
+    targetFxBank: Union[str, None] = None
 
 
-class BattleVoiceOption(BaseModel):
+class BattleVoiceOption(BaseStruct):
     voiceType: int
     priority: int
     overlapIfSamePriority: bool
@@ -57,30 +58,27 @@ class BattleVoiceOption(BaseModel):
     delay: float
 
 
-class MusicData(BaseModel):
-    id_: str = Field(alias='id')
+class MusicData(BaseStruct):
+    id_: str = field(name='id')
     name: str
     bank: str
 
 
-class BattleVoiceData(BaseModel):
+class BattleVoiceData(BaseStruct):
     crossfade: float
     minTimeDeltaForEnemyEncounter: float
     minSpCostForImportantPassiveSkill: int
-    voiceTypeOptions: list[BattleVoiceOption]
+    voiceTypeOptions: List[BattleVoiceOption]
 
 
-class AudioData(BaseModel):
+class AudioData(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    bgmBanks: list[BGMBank]
-    soundFXBanks: list[SoundFXBank]
-    soundFXCtrlBanks: list[SoundFXCtrlBank]
-    snapshotBanks: list[SnapshotBank]
+    bgmBanks: List[BGMBank]
+    soundFXBanks: List[SoundFXBank]
+    soundFXCtrlBanks: List[SoundFXCtrlBank]
+    snapshotBanks: List[SnapshotBank]
     battleVoice: BattleVoiceData
-    musics: list[MusicData]
-    soundFxVoiceLang: dict[str, dict[str, dict[str, str]]]
-    bankAlias: dict[str, str]
-
-    class Config:
-        extra = 'allow'
+    musics: List[MusicData]
+    soundFxVoiceLang: Dict[str, Dict[str, Dict[str, str]]]
+    bankAlias: Dict[str, str]

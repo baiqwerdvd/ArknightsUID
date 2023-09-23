@@ -1,40 +1,43 @@
-from pydantic import BaseModel, Field
+from typing import List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class RuneDataSelector(BaseModel):
-    professionMask: int | str
+class RuneDataSelector(BaseStruct):
+    professionMask: Union[int, str]
     buildableMask: int
-    charIdFilter: list[str] | None
-    enemyIdFilter: list[str] | None
-    enemyIdExcludeFilter: list[str] | None
-    skillIdFilter: list[str] | None
-    tileKeyFilter: list[str] | None
-    groupTagFilter: list[str] | None
-    filterTagFilter: list[str] | None
+    charIdFilter: Union[List[str], None]
+    enemyIdFilter: Union[List[str], None]
+    enemyIdExcludeFilter: Union[List[str], None]
+    skillIdFilter: Union[List[str], None]
+    tileKeyFilter: Union[List[str], None]
+    groupTagFilter: Union[List[str], None]
+    filterTagFilter: Union[List[str], None]
+    subProfessionExcludeFilter: Union[List[str], None]
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: float | None = None
-    valueStr: str | None = None
+    value: Union[float, None] = None
+    valueStr: Union[str, None] = None
 
 
-class RuneData(BaseModel):
+class RuneData(BaseStruct):
     key: str
     selector: RuneDataSelector
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
 
 
-class RuneTablePackedRuneData(BaseModel):
-    id_: str = Field(alias='id')
+class RuneTablePackedRuneData(BaseStruct):
+    id_: str = field(name='id')
     points: float
-    mutexGroupKey: str | None
+    mutexGroupKey: Union[str, None]
     description: str
-    runes: list[RuneData]
+    runes: List[RuneData]
 
 
-class CharmItemData(BaseModel):
-    id_: str = Field(alias='id')
+class CharmItemData(BaseStruct):
+    id_: str = field(name='id')
     sort: int
     name: str
     icon: str
@@ -44,18 +47,15 @@ class CharmItemData(BaseModel):
     rarity: int
     desc: str
     price: int
-    specialObtainApproach: str | None
+    specialObtainApproach: Union[str, None]
     charmType: str
     obtainInRandom: bool
-    dropStages: list[str]
+    dropStages: List[str]
     runeData: RuneTablePackedRuneData
     charmEffect: str
 
 
-class CharmTable(BaseModel):
+class CharmTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    class Config:
-        extra = 'allow'
-
-    charmList: list[CharmItemData]
+    charmList: List[CharmItemData]

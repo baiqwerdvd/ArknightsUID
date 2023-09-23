@@ -1,26 +1,27 @@
-from pydantic import BaseModel
+from typing import List, Union
+from ..common import BaseStruct
 
 
-class HandBookInfoTextViewDataInfoTextAudio(BaseModel):
+class HandBookInfoTextViewDataInfoTextAudio(BaseStruct):
     infoText: str
     audioName: str
 
 
-class StoryTextAudioInfoListItem(BaseModel):
-    storyText: str | None
-    storyTitle: str | None
+class StoryTextAudioInfoListItem(BaseStruct):
+    storyText: Union[str, None]
+    storyTitle: Union[str, None]
 
 
-class StoryTextAudioItem(BaseModel):
-    stories: list[StoryTextAudioInfoListItem]
+class StoryTextAudioItem(BaseStruct):
+    stories: List[StoryTextAudioInfoListItem]
     unLockorNot: bool
     unLockType: int
     unLockParam: str
     unLockString: str
 
 
-class HandBookInfoTextViewData(BaseModel):
-    infoList: list[HandBookInfoTextViewDataInfoTextAudio]
+class HandBookInfoTextViewData(BaseStruct):
+    infoList: List[HandBookInfoTextViewDataInfoTextAudio]
     unLockorNot: bool
     unLockType: int
     unLockParam: str
@@ -29,15 +30,15 @@ class HandBookInfoTextViewData(BaseModel):
     unLockString: str
 
 
-class CharHandbook(BaseModel):
+class CharHandbook(BaseStruct):
     charID: str
     drawName: str
     infoName: str
-    infoTextAudio: list[HandBookInfoTextViewData]
-    storyTextAudio: list[StoryTextAudioItem]
+    infoTextAudio: List[HandBookInfoTextViewData]
+    storyTextAudio: List[StoryTextAudioItem]
 
 
-class HandbookTable(BaseModel):
+class HandbookTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
     char_102_texas: CharHandbook

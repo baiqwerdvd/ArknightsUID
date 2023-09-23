@@ -1,29 +1,29 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
+from msgspec import json as msgjson
 
 
-class GridPosition(BaseModel):
+class GridPosition(BaseStruct):
     row: int
     col: int
 
 
-class ObscuredRect(BaseModel):
+class ObscuredRect(BaseStruct):
     m_xMin: float
     m_yMin: float
     m_width: float
     m_height: float
 
 
-class Stage(BaseModel):
-    id_: str = Field(alias='id')
+class Stage(BaseStruct):
+    id_: str = field(name='id')
     direction: int
-    grids: list[GridPosition]
-    boundingBoxes: list[ObscuredRect] | None = None
+    grids: List[GridPosition]
+    boundingBoxes: Union[List[ObscuredRect], None] = None
 
 
-class RangeTable(BaseModel):
+class RangeTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    range: dict[str, Stage]
-
-    def __init__(self, **data):
-        super().__init__(range=data)
+    range: Dict[str, Stage]

@@ -1,34 +1,36 @@
-from pydantic import BaseModel, Field
+from typing import Dict, Union, List
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ZoneData(BaseModel):
+class ZoneData(BaseStruct):
     zoneID: str
     zoneIndex: int
     type: str
-    zoneNameFirst: str | None
-    zoneNameSecond: str | None
-    zoneNameTitleCurrent: str | None
-    zoneNameTitleUnCurrent: str | None
-    zoneNameTitleEx: str | None
-    zoneNameThird: str | None
-    lockedText: str | None
+    zoneNameFirst: Union[str, None]
+    zoneNameSecond: Union[str, None]
+    zoneNameTitleCurrent: Union[str, None]
+    zoneNameTitleUnCurrent: Union[str, None]
+    zoneNameTitleEx: Union[str, None]
+    zoneNameThird: Union[str, None]
+    lockedText: Union[str, None]
     canPreview: bool
 
 
-class WeeklyZoneData(BaseModel):
-    daysOfWeek: list[int]
-    type_: str = Field(..., alias='type')
+class WeeklyZoneData(BaseStruct):
+    daysOfWeek: List[int]
+    type_: str = field(name='type')
 
 
-class ZoneValidInfo(BaseModel):
+class ZoneValidInfo(BaseStruct):
     startTs: int
     endTs: int
 
 
-class MainlineZoneData(BaseModel):
+class MainlineZoneData(BaseStruct):
     zoneId: str
     chapterId: str
-    preposedZoneId: str | None
+    preposedZoneId: Union[str, None]
     zoneIndex: int
     startStageId: str
     endStageId: str
@@ -39,70 +41,70 @@ class MainlineZoneData(BaseModel):
     buttonStyle: str
     spoilAlert: bool
     zoneOpenTime: int
-    diffGroup: list[int]
+    diffGroup: List[int]
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class RecordRewardInfo(BaseModel):
+class RecordRewardInfo(BaseStruct):
     bindStageId: str
     stageDiff1: int
     stageDiff: int
-    picRes: str | None
-    textPath: str | None
-    textDesc: str | None
-    recordReward: list[ItemBundle] | None
+    picRes: Union[str, None]
+    textPath: Union[str, None]
+    textDesc: Union[str, None]
+    recordReward: Union[List[ItemBundle], None]
 
 
-class ZoneRecordData(BaseModel):
+class ZoneRecordData(BaseStruct):
     recordId: str
     zoneId: str
     recordTitleName: str
-    preRecordId: str | None
-    nodeTitle1: str | None
-    nodeTitle2: str | None
-    rewards: list[RecordRewardInfo]
+    preRecordId: Union[str, None]
+    nodeTitle1: Union[str, None]
+    nodeTitle2: Union[str, None]
+    rewards: List[RecordRewardInfo]
 
 
-class ZoneRecordUnlockData(BaseModel):
+class ZoneRecordUnlockData(BaseStruct):
     noteId: str
     zoneId: str
     initialName: str
-    finalName: str | None
-    accordingExposeId: str | None
+    finalName: Union[str, None]
+    accordingExposeId: Union[str, None]
     initialDes: str
-    finalDes: str | None
-    remindDes: str | None
+    finalDes: Union[str, None]
+    remindDes: Union[str, None]
 
 
-class ZoneRecordGroupData(BaseModel):
+class ZoneRecordGroupData(BaseStruct):
     zoneId: str
-    records: list[ZoneRecordData]
+    records: List[ZoneRecordData]
     unlockData: ZoneRecordUnlockData
 
 
-class ZoneRecordMissionData(BaseModel):
+class ZoneRecordMissionData(BaseStruct):
     missionId: str
     recordStageId: str
     templateDesc: str
     desc: str
 
 
-class ZoneMetaData(BaseModel):
-    ZoneRecordMissionData: dict[str, ZoneRecordMissionData]
+class ZoneMetaData(BaseStruct):
+    ZoneRecordMissionData: Dict[str, ZoneRecordMissionData]
 
 
-class ZoneTable(BaseModel):
+class ZoneTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    zones: dict[str, ZoneData]
-    weeklyAdditionInfo: dict[str, WeeklyZoneData]
-    zoneValidInfo: dict[str, ZoneValidInfo]
-    mainlineAdditionInfo: dict[str, MainlineZoneData]
-    zoneRecordGroupedData: dict[str, ZoneRecordGroupData]
-    zoneRecordRewardData: dict[str, list[str]]
+    zones: Dict[str, ZoneData]
+    weeklyAdditionInfo: Dict[str, WeeklyZoneData]
+    zoneValidInfo: Dict[str, ZoneValidInfo]
+    mainlineAdditionInfo: Dict[str, MainlineZoneData]
+    zoneRecordGroupedData: Dict[str, ZoneRecordGroupData]
+    zoneRecordRewardData: Dict[str, List[str]]
     zoneMetaData: ZoneMetaData

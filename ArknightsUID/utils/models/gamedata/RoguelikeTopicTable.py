@@ -1,23 +1,25 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class RoguelikeTopicBasicDataHomeEntryDisplayData(BaseModel):
+class RoguelikeTopicBasicDataHomeEntryDisplayData(BaseStruct):
     topicId: str
     displayId: str
     startTs: int
     endTs: int
 
 
-class RoguelikeTopicConfig(BaseModel):
-    loadCharCardPlugin: bool | None = None
+class RoguelikeTopicConfig(BaseStruct):
     webBusType: str
     monthChatTrigType: int
     loadRewardHpDecoPlugin: bool
     loadRewardExtraInfoPlugin: bool
+    loadCharCardPlugin: Union[bool, None] = None
 
 
-class RoguelikeTopicBasicData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeTopicBasicData(BaseStruct):
+    id_: str = field(name='id')
     name: str
     startTime: int
     disappearTimeOnMainScreen: int
@@ -26,21 +28,21 @@ class RoguelikeTopicBasicData(BaseModel):
     medalGroupId: str
     fullStoredTime: int
     lineText: str
-    homeEntryDisplayData: list[RoguelikeTopicBasicDataHomeEntryDisplayData]
-    moduleTypes: list[str]
+    homeEntryDisplayData: List[RoguelikeTopicBasicDataHomeEntryDisplayData]
+    moduleTypes: List[str]
     config: RoguelikeTopicConfig
 
 
-class RoguelikeTopicConstPredefinedChar(BaseModel):
+class RoguelikeTopicConstPredefinedChar(BaseStruct):
     charId: str
     canBeFree: bool
-    uniEquipId: str | None
+    uniEquipId: Union[str, None]
     recruitType: str
 
 
-class RoguelikeTopicConst(BaseModel):
+class RoguelikeTopicConst(BaseStruct):
     milestoneTokenRatio: int
-    outerBuffTokenRatio: int | float
+    outerBuffTokenRatio: Union[int, float]
     relicTokenRatio: int
     rogueSystemUnlockStage: str
     ordiModeReOpenCoolDown: int
@@ -49,22 +51,22 @@ class RoguelikeTopicConst(BaseModel):
     monthlyTaskManualRefreshLimit: int
     monthlyTeamUncompletedTime: int
     bpPurchaseSystemUnlockTime: int
-    predefinedChars: dict[str, RoguelikeTopicConstPredefinedChar]
+    predefinedChars: Dict[str, RoguelikeTopicConstPredefinedChar]
 
 
-class RoguelikeTopicUpdate(BaseModel):
+class RoguelikeTopicUpdate(BaseStruct):
     updateId: str
     topicUpdateTime: int
     topicEndTime: int
 
 
-class RoguelikeTopicEnroll(BaseModel):
+class RoguelikeTopicEnroll(BaseStruct):
     enrollId: str
     enrollTime: int
 
 
-class RoguelikeTopicBP(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeTopicBP(BaseStruct):
+    id_: str = field(name='id')
     level: int
     tokenNum: int
     nextTokenNum: int
@@ -75,7 +77,7 @@ class RoguelikeTopicBP(BaseModel):
     isGrandPrize: bool
 
 
-class RoguelikeTopicMilestoneUpdateData(BaseModel):
+class RoguelikeTopicMilestoneUpdateData(BaseStruct):
     updateTime: int
     endTime: int
     maxBpLevel: int
@@ -83,7 +85,13 @@ class RoguelikeTopicMilestoneUpdateData(BaseModel):
     maxDisplayBpCount: int
 
 
-class RoguelikeTopicBPGrandPrize(BaseModel):
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
+    count: int
+    type_: str = field(name='type')
+
+
+class RoguelikeTopicBPGrandPrize(BaseStruct):
     grandPrizeDisplayId: str
     sortId: int
     displayUnlockYear: int
@@ -93,74 +101,69 @@ class RoguelikeTopicBPGrandPrize(BaseModel):
     displayName: str
     displayDiscription: str
     bpLevelId: str
-    accordingCharId: str | None = None
-    accordingSkinId: str | None = None
-    detailAnnounceTime: str | None = None
-    picIdAftrerUnlock: str | None = None
+    itemBundle: Union[ItemBundle, None] = None
+    accordingCharId: Union[str, None] = None
+    accordingSkinId: Union[str, None] = None
+    detailAnnounceTime: Union[str, None] = None
+    picIdAftrerUnlock: Union[str, None] = None
 
 
-class RoguelikeTopicMonthMission(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeTopicMonthMission(BaseStruct):
+    id_: str = field(name='id')
     taskName: str
     taskClass: str
     innerClassWeight: int
     template: str
-    paramList: list[str]
+    paramList: List[str]
     desc: str
     tokenRewardNum: int
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
-    count: int
-    type_: str = Field(alias='type')
-
-
-class RoguelikeTopicMonthSquad(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeTopicMonthSquad(BaseStruct):
+    id_: str = field(name='id')
     teamName: str
-    teamSubName: str | None
-    teamFlavorDesc: str | None
+    teamSubName: Union[str, None]
+    teamFlavorDesc: Union[str, None]
     teamDes: str
     teamColor: str
     teamMonth: str
     teamYear: str
-    teamIndex: str | None
-    teamChars: list[str]
-    zoneId: str | None
+    teamIndex: Union[str, None]
+    teamChars: List[str]
+    zoneId: Union[str, None]
     chatId: str
     tokenRewardNum: int
-    items: list[ItemBundle]
+    items: List[ItemBundle]
     startTime: int
     endTime: int
-    taskDes: str | None
+    taskDes: Union[str, None]
 
 
-class RoguelikeTopicChallenge(BaseModel):
+class RoguelikeTopicChallenge(BaseStruct):
     challengeId: str
     sortId: int
     challengeName: str
     challengeGroup: int
     challengeGroupSortId: int
-    challengeGroupName: str | None
-    challengeUnlockDesc: str | None
-    challengeUnlockToastDesc: str | None
+    challengeGroupName: Union[str, None]
+    challengeUnlockDesc: Union[str, None]
+    challengeUnlockToastDesc: Union[str, None]
     challengeDes: str
-    challengeConditionDes: list[str]
+    challengeConditionDes: List[str]
     taskDes: str
     completionClass: str
-    completionParams: list[str]
-    rewards: list[ItemBundle]
+    completionParams: List[str]
+    rewards: List[ItemBundle]
 
 
-class RoguelikeTopicDifficulty(BaseModel):
+class RoguelikeTopicDifficulty(BaseStruct):
     modeDifficulty: str
     grade: int
     name: str
-    subName: str | None
-    enrollId: str | None
+    subName: Union[str, None]
+    enrollId: Union[str, None]
     haveInitialRelicIcon: bool
-    scoreFactor: int | float
+    scoreFactor: Union[int, float]
     canUnlockItem: bool
     doMonthTask: bool
     ruleDesc: str
@@ -169,84 +172,84 @@ class RoguelikeTopicDifficulty(BaseModel):
     failForceDesc: str
     sortId: int
     equivalentGrade: int
-    color: str | None
+    color: Union[str, None]
     bpValue: int
     bossValue: int
-    addDesc: str | None
+    addDesc: Union[str, None]
     isHard: bool
-    unlockText: str | None
-    displayIconId: str | None
+    unlockText: Union[str, None]
+    displayIconId: Union[str, None]
 
 
-class RoguelikeTopicBankReward(BaseModel):
+class RoguelikeTopicBankReward(BaseStruct):
     rewardId: str
     unlockGoldCnt: int
     rewardType: str
     desc: str
 
 
-class ActArchiveRelicItemData(BaseModel):
+class ActArchiveRelicItemData(BaseStruct):
     relicId: str
     relicSortId: int
     relicGroupId: int
     orderId: str
     isSpRelic: bool
-    enrollId: str | None
+    enrollId: Union[str, None]
 
 
-class ActArchiveRelicData(BaseModel):
-    relic: dict[str, ActArchiveRelicItemData]
+class ActArchiveRelicData(BaseStruct):
+    relic: Dict[str, ActArchiveRelicItemData]
 
 
-class ActArchiveCapsuleItemData(BaseModel):
+class ActArchiveCapsuleItemData(BaseStruct):
     capsuleId: str
     capsuleSortId: int
     englishName: str
-    enrollId: str | None
+    enrollId: Union[str, None]
 
 
-class ActArchiveCapsuleData(BaseModel):
-    capsule: dict[str, ActArchiveCapsuleItemData]
+class ActArchiveCapsuleData(BaseStruct):
+    capsule: Dict[str, ActArchiveCapsuleItemData]
 
 
-class ActArchiveTrapItemData(BaseModel):
+class ActArchiveTrapItemData(BaseStruct):
     trapId: str
     trapSortId: int
     orderId: str
-    enrollId: str | None
+    enrollId: Union[str, None]
 
 
-class ActArchiveTrapData(BaseModel):
-    trap: dict[str, ActArchiveTrapItemData]
+class ActArchiveTrapData(BaseStruct):
+    trap: Dict[str, ActArchiveTrapItemData]
 
 
-class ActArchiveChatItemData(BaseModel):
+class ActArchiveChatItemData(BaseStruct):
     chatFloor: int
-    chatDesc: str | None
+    chatDesc: Union[str, None]
     chatStoryId: str
 
 
-class ActArchiveChatGroupData(BaseModel):
+class ActArchiveChatGroupData(BaseStruct):
     sortId: int
     numChat: int
-    clientChatItemData: list[ActArchiveChatItemData]
+    clientChatItemData: List[ActArchiveChatItemData]
 
 
-class ActArchiveChatData(BaseModel):
-    chat: dict[str, ActArchiveChatGroupData]
+class ActArchiveChatData(BaseStruct):
+    chat: Dict[str, ActArchiveChatGroupData]
 
 
-class ActArchiveEndbookItemData(BaseModel):
+class ActArchiveEndbookItemData(BaseStruct):
     endBookId: str
     sortId: int
-    enrollId: str | None = None
-    isLast: bool | None = None
     endbookName: str
     unlockDesc: str
     textId: str
+    enrollId: Union[str, None] = None
+    isLast: Union[bool, None] = None
 
 
-class ActArchiveEndbookGroupData(BaseModel):
+class ActArchiveEndbookGroupData(BaseStruct):
     endId: str
     endingId: str
     sortId: int
@@ -256,14 +259,14 @@ class ActArchiveEndbookGroupData(BaseModel):
     cardId: str
     hasAvg: bool
     avgId: str
-    clientEndbookItemDatas: list[ActArchiveEndbookItemData]
+    clientEndbookItemDatas: List[ActArchiveEndbookItemData]
 
 
-class ActArchiveEndbookData(BaseModel):
-    endbook: dict[str, ActArchiveEndbookGroupData]
+class ActArchiveEndbookData(BaseStruct):
+    endbook: Dict[str, ActArchiveEndbookGroupData]
 
 
-class ActArchiveBuffItemData(BaseModel):
+class ActArchiveBuffItemData(BaseStruct):
     buffId: str
     buffGroupIndex: int
     innerSortId: int
@@ -274,59 +277,59 @@ class ActArchiveBuffItemData(BaseModel):
     color: str
 
 
-class ActArchiveBuffData(BaseModel):
-    buff: dict[str, ActArchiveBuffItemData]
+class ActArchiveBuffData(BaseStruct):
+    buff: Dict[str, ActArchiveBuffItemData]
 
 
-class ActArchiveTotemItemData(BaseModel):
-    id_: str = Field(alias='id')
-    type_: int = Field(alias='type')
-    enrollConditionId: str | None
+class ActArchiveTotemItemData(BaseStruct):
+    id_: str = field(name='id')
+    type_: int = field(name='type')
+    enrollConditionId: Union[str, None]
     sortId: int
 
 
-class ActArchiveTotemData(BaseModel):
-    totem: dict[str, ActArchiveTotemItemData]
+class ActArchiveTotemData(BaseStruct):
+    totem: Dict[str, ActArchiveTotemItemData]
 
 
-class ActArchiveChaosItemData(BaseModel):
-    id_: str = Field(alias='id')
+class ActArchiveChaosItemData(BaseStruct):
+    id_: str = field(name='id')
     isHidden: bool
-    enrollId: str | None
+    enrollId: Union[str, None]
     sortId: int
 
 
-class ActArchiveChaosData(BaseModel):
-    chaos: dict[str, ActArchiveChaosItemData]
+class ActArchiveChaosData(BaseStruct):
+    chaos: Dict[str, ActArchiveChaosItemData]
 
 
-class RoguelikeArchiveComponentData(BaseModel):
+class RoguelikeArchiveComponentData(BaseStruct):
     relic: ActArchiveRelicData
-    capsule: ActArchiveCapsuleData | None
+    capsule: Union[ActArchiveCapsuleData, None]
     trap: ActArchiveTrapData
     chat: ActArchiveChatData
     endbook: ActArchiveEndbookData
     buff: ActArchiveBuffData
-    totem: ActArchiveTotemData | None
-    chaos: ActArchiveChaosData | None
+    totem: Union[ActArchiveTotemData, None]
+    chaos: Union[ActArchiveChaosData, None]
 
 
-class RoguelikeArchiveUnlockCondDesc(BaseModel):
+class RoguelikeArchiveUnlockCondDesc(BaseStruct):
     archiveType: str
     description: str
 
 
-class RoguelikeArchiveEnroll(BaseModel):
+class RoguelikeArchiveEnroll(BaseStruct):
     archiveType: str
-    enrollId: str | None
+    enrollId: Union[str, None]
 
 
-class RoguelikeArchiveUnlockCondData(BaseModel):
-    unlockCondDesc: dict[str, RoguelikeArchiveUnlockCondDesc]
-    enroll: dict[str, RoguelikeArchiveEnroll]
+class RoguelikeArchiveUnlockCondData(BaseStruct):
+    unlockCondDesc: Dict[str, RoguelikeArchiveUnlockCondDesc]
+    enroll: Dict[str, RoguelikeArchiveEnroll]
 
 
-class RoguelikeTopicDetailConstPlayerLevelData(BaseModel):
+class RoguelikeTopicDetailConstPlayerLevelData(BaseStruct):
     exp: int
     populationUp: int
     squadCapacityUp: int
@@ -334,16 +337,16 @@ class RoguelikeTopicDetailConstPlayerLevelData(BaseModel):
     maxHpUp: int
 
 
-class RoguelikeTopicDetailConstCharUpgradeData(BaseModel):
+class RoguelikeTopicDetailConstCharUpgradeData(BaseStruct):
     evolvePhase: int
     skillLevel: int
     skillSpecializeLevel: int
 
 
-class RoguelikeTopicDetailConst(BaseModel):
-    playerLevelTable: dict[str, RoguelikeTopicDetailConstPlayerLevelData]
-    charUpgradeTable: dict[str, RoguelikeTopicDetailConstCharUpgradeData]
-    difficultyUpgradeRelicDescTable: dict[str, str]
+class RoguelikeTopicDetailConst(BaseStruct):
+    playerLevelTable: Dict[str, RoguelikeTopicDetailConstPlayerLevelData]
+    charUpgradeTable: Dict[str, RoguelikeTopicDetailConstCharUpgradeData]
+    difficultyUpgradeRelicDescTable: Dict[str, str]
     tokenBpId: str
     tokenOuterBuffId: str
     previewedRewardsAccordingUpdateId: str
@@ -352,11 +355,11 @@ class RoguelikeTopicDetailConst(BaseModel):
     bpSystemName: str
     autoSetKV: str
     bpPurchaseActiveEnroll: str
-    defaultSacrificeDesc: str | None
-    defaultExpeditionSelectDesc: str | None
-    gotCharBuffToast: str | None
-    gotSquadBuffToast: str | None
-    loseCharBuffToast: str | None
+    defaultSacrificeDesc: Union[str, None]
+    defaultExpeditionSelectDesc: Union[str, None]
+    gotCharBuffToast: Union[str, None]
+    gotSquadBuffToast: Union[str, None]
+    loseCharBuffToast: Union[str, None]
     monthTeamSystemName: str
     battlePassUpdateName: str
     monthCharCardTagName: str
@@ -373,12 +376,12 @@ class RoguelikeTopicDetailConst(BaseModel):
     showBlurBack: bool
 
 
-class RoguelikeGameInitData(BaseModel):
+class RoguelikeGameInitData(BaseStruct):
     modeId: str
     modeGrade: int
-    predefinedId: str | None
-    initialBandRelic: list[str]
-    initialRecruitGroup: list[str] | None
+    predefinedId: Union[str, None]
+    initialBandRelic: List[str]
+    initialRecruitGroup: Union[List[str], None]
     initialHp: int
     initialPopulation: int
     initialGold: int
@@ -388,30 +391,30 @@ class RoguelikeGameInitData(BaseModel):
     initialKey: int
 
 
-class RoguelikeGameStageData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameStageData(BaseStruct):
+    id_: str = field(name='id')
     linkedStageId: str
     levelId: str
     code: str
     name: str
     loadingPicId: str
     description: str
-    eliteDesc: str | None
+    eliteDesc: Union[str, None]
     isBoss: int
     isElite: int
     difficulty: str
-    capsulePool: str | None
-    capsuleProb: int | float
-    vutresProb: list[float]
-    boxProb: list[float]
-    specialNodeId: str | None = None
+    capsulePool: Union[str, None]
+    capsuleProb: Union[int, float]
+    vutresProb: List[float]
+    boxProb: List[float]
+    specialNodeId: Union[str, None] = None
 
 
-class RoguelikeGameZoneData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameZoneData(BaseStruct):
+    id_: str = field(name='id')
     name: str
-    clockPerformance: str | None
-    displayTime: str | None
+    clockPerformance: Union[str, None]
+    displayTime: Union[str, None]
     description: str
     endingDescription: str
     backgroundId: str
@@ -419,155 +422,155 @@ class RoguelikeGameZoneData(BaseModel):
     isHiddenZone: bool
 
 
-class RoguelikeZoneVariationData(BaseModel):
+class RoguelikeZoneVariationData(BaseStruct):
     pass
 
 
-class RoguelikeGameTrapData(BaseModel):
+class RoguelikeGameTrapData(BaseStruct):
     itemId: str
     trapId: str
     trapDesc: str
 
 
-class RoguelikeGameRecruitTicketData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameRecruitTicketData(BaseStruct):
+    id_: str = field(name='id')
     profession: int
     rarity: int
-    professionList: list[str]
-    rarityList: list[int]
+    professionList: List[str]
+    rarityList: List[int]
     extraEliteNum: int
-    extraFreeRarity: list[int]
-    extraCharIds: list[str]
+    extraFreeRarity: List[int]
+    extraCharIds: List[str]
 
 
-class RoguelikeGameUpgradeTicketData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameUpgradeTicketData(BaseStruct):
+    id_: str = field(name='id')
     profession: int
     rarity: int
-    professionList: list[str]
-    rarityList: list[int]
+    professionList: List[str]
+    rarityList: List[int]
 
 
-class RoguelikeGameCustomTicketData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameCustomTicketData(BaseStruct):
+    id_: str = field(name='id')
     subType: str
     discardText: str
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: int | float | None = None
-    valueStr: str | None = None
+    value: Union[Union[int, float], None] = None
+    valueStr: Union[str, None] = None
 
 
-class RoguelikeBuff(BaseModel):
+class RoguelikeBuff(BaseStruct):
     key: str
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
 
 
-class RoguelikeGameRelicData(BaseModel):
-    id_: str = Field(alias='id')
-    buffs: list[RoguelikeBuff]
+class RoguelikeGameRelicData(BaseStruct):
+    id_: str = field(name='id')
+    buffs: List[RoguelikeBuff]
 
 
-class RoguelikeGameRelicCheckParam(BaseModel):
+class RoguelikeGameRelicCheckParam(BaseStruct):
     valueProfessionMask: int
-    valueStrs: list[str] | None
+    valueStrs: Union[List[str], None]
     valueInt: int
 
 
-class RoguelikeGameRelicParamData(BaseModel):
-    id_: str = Field(alias='id')
-    checkCharBoxTypes: list[str]
-    checkCharBoxParams: list[RoguelikeGameRelicCheckParam]
+class RoguelikeGameRelicParamData(BaseStruct):
+    id_: str = field(name='id')
+    checkCharBoxTypes: List[str]
+    checkCharBoxParams: List[RoguelikeGameRelicCheckParam]
 
 
-class RoguelikeGameRecruitGrpData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameRecruitGrpData(BaseStruct):
+    id_: str = field(name='id')
     iconId: str
     name: str
     desc: str
-    unlockDesc: str | None
+    unlockDesc: Union[str, None]
 
 
-class RoguelikeChoiceDisplayData(BaseModel):
-    type_: str = Field(alias='type')
-    costHintType: int | None = None
-    effectHintType: int | None = None
-    funcIconId: str | None
-    itemId: str | None
-    difficultyUpgradeRelicGroupId: str | None = None
-    taskId: str | None
+class RoguelikeChoiceDisplayData(BaseStruct):
+    type_: str = field(name='type')
+    funcIconId: Union[str, None]
+    itemId: Union[str, None]
+    taskId: Union[str, None]
+    costHintType: Union[int, None] = None
+    effectHintType: Union[int, None] = None
+    difficultyUpgradeRelicGroupId: Union[str, None] = None
 
 
-class RoguelikeGameChoiceData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameChoiceData(BaseStruct):
+    id_: str = field(name='id')
     title: str
-    description: str | None
-    lockedCoverDesc: str | None
-    type_: str = Field(alias='type')
+    description: Union[str, None]
+    lockedCoverDesc: Union[str, None]
+    type_: str = field(name='type')
     leftDecoType: str
-    nextSceneId: str | None
-    icon: str | None
+    nextSceneId: Union[str, None]
+    icon: Union[str, None]
     displayData: RoguelikeChoiceDisplayData
     forceShowWhenOnlyLeave: bool
 
 
-class RoguelikeGameChoiceSceneData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameChoiceSceneData(BaseStruct):
+    id_: str = field(name='id')
     title: str
     description: str
-    background: str | None
-    titleIcon: str | None
+    background: Union[str, None]
+    titleIcon: Union[str, None]
     subTypeId: int
     useHiddenMusic: bool
 
 
-class RoguelikeGameNodeTypeData(BaseModel):
+class RoguelikeGameNodeTypeData(BaseStruct):
     name: str
     description: str
 
 
-class RoguelikeGameNodeSubTypeData(BaseModel):
+class RoguelikeGameNodeSubTypeData(BaseStruct):
     eventType: str
     subTypeId: int
     iconId: str
-    name: str | None
+    name: Union[str, None]
     description: str
 
 
-class RoguelikeGameVariationData(BaseModel):
-    id_: str = Field(alias='id')
-    type_: str = Field(alias='type')
+class RoguelikeGameVariationData(BaseStruct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     outerName: str
     innerName: str
     functionDesc: str
     desc: str
-    iconId: str | None
-    sound: str | None
+    iconId: Union[str, None]
+    sound: Union[str, None]
 
 
-class RoguelikeGameCharBuffData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameCharBuffData(BaseStruct):
+    id_: str = field(name='id')
     iconId: str
     outerName: str
     innerName: str
     functionDesc: str
     desc: str
-    buffs: list[RoguelikeBuff]
+    buffs: List[RoguelikeBuff]
 
 
-class RoguelikeGameSquadBuffData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameSquadBuffData(BaseStruct):
+    id_: str = field(name='id')
     iconId: str
     outerName: str
     innerName: str
     functionDesc: str
     desc: str
-    buffs: list[RoguelikeBuff]
+    buffs: List[RoguelikeBuff]
 
 
-class RoguelikeTaskData(BaseModel):
+class RoguelikeTaskData(BaseStruct):
     taskId: str
     taskName: str
     taskDesc: str
@@ -575,7 +578,7 @@ class RoguelikeTaskData(BaseModel):
     taskRarity: str
 
 
-class RoguelikeGameConst(BaseModel):
+class RoguelikeGameConst(BaseStruct):
     initSceneName: str
     failSceneName: str
     hpItemId: str
@@ -583,99 +586,100 @@ class RoguelikeGameConst(BaseModel):
     populationItemId: str
     squadCapacityItemId: str
     expItemId: str
+    initialBandShowGradeFlag: bool
     bankMaxGold: int
-    bankCostId: str | None
+    bankCostId: Union[str, None]
     bankDrawCount: int
     bankDrawLimit: int
-    mimicEnemyIds: list[str]
-    bossIds: list[str]
+    mimicEnemyIds: List[str]
+    bossIds: List[str]
     goldChestTrapId: str
-    normBoxTrapId: str | None
-    rareBoxTrapId: str | None
-    badBoxTrapId: str | None
-    maxHpItemId: str | None
-    shieldItemId: str | None
-    keyItemId: str | None
+    normBoxTrapId: Union[str, None]
+    rareBoxTrapId: Union[str, None]
+    badBoxTrapId: Union[str, None]
+    maxHpItemId: Union[str, None]
+    shieldItemId: Union[str, None]
+    keyItemId: Union[str, None]
     chestKeyCnt: int
-    chestKeyItemId: str | None
-    keyColorId: str | None
-    onceNodeTypeList: list[str]
+    chestKeyItemId: Union[str, None]
+    keyColorId: Union[str, None]
+    onceNodeTypeList: List[str]
     gpScoreRatio: int
-    overflowUsageSquadBuff: str | None
-    specialTrapId: str | None
-    trapRewardRelicId: str | None
-    unlockRouteItemId: str | None
-    hideBattleNodeName: str | None
-    hideBattleNodeDescription: str | None
-    hideNonBattleNodeName: str | None
-    hideNonBattleNodeDescription: str | None
-    charSelectExpeditionConflictToast: str | None
-    itemDropTagDict: dict[str, str]
-    expeditionReturnDescCureUpgrade: str | None
-    expeditionReturnDescUpgrade: str | None
-    expeditionReturnDescCure: str | None
-    expeditionReturnDesc: str | None
-    expeditionReturnDescItem: str | None
-    expeditionReturnRewardBlackList: list[str]
+    overflowUsageSquadBuff: Union[str, None]
+    specialTrapId: Union[str, None]
+    trapRewardRelicId: Union[str, None]
+    unlockRouteItemId: Union[str, None]
+    hideBattleNodeName: Union[str, None]
+    hideBattleNodeDescription: Union[str, None]
+    hideNonBattleNodeName: Union[str, None]
+    hideNonBattleNodeDescription: Union[str, None]
+    charSelectExpeditionConflictToast: Union[str, None]
+    itemDropTagDict: Dict[str, str]
+    expeditionReturnDescCureUpgrade: Union[str, None]
+    expeditionReturnDescUpgrade: Union[str, None]
+    expeditionReturnDescCure: Union[str, None]
+    expeditionReturnDesc: Union[str, None]
+    expeditionReturnDescItem: Union[str, None]
+    expeditionReturnRewardBlackList: List[str]
     gainBuffDiffGrade: int
-    dsPredictTips: str | None
-    dsBuffActiveTips: str | None
-    totemDesc: str | None
-    relicDesc: str | None
-    buffDesc: str | None
-    portalZones: list[str]
+    dsPredictTips: Union[str, None]
+    dsBuffActiveTips: Union[str, None]
+    totemDesc: Union[str, None]
+    relicDesc: Union[str, None]
+    buffDesc: Union[str, None]
+    portalZones: List[str]
 
 
-class RoguelikeTopicCapsule(BaseModel):
+class RoguelikeTopicCapsule(BaseStruct):
     itemId: str
     maskType: str
     innerColor: str
 
 
-class RoguelikeGameEndingDataLevelIcon(BaseModel):
+class RoguelikeGameEndingDataLevelIcon(BaseStruct):
     level: int
     iconId: str
 
 
-class RoguelikeGameEndingData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameEndingData(BaseStruct):
+    id_: str = field(name='id')
     familyId: int
     name: str
     desc: str
     bgId: str
-    icons: list[RoguelikeGameEndingDataLevelIcon]
+    icons: List[RoguelikeGameEndingDataLevelIcon]
     priority: int
-    changeEndingDesc: str | None
-    bossIconId: str | None
+    changeEndingDesc: Union[str, None]
+    bossIconId: Union[str, None]
 
 
-class RoguelikeBattleSummeryDescriptionData(BaseModel):
-    randomDescriptionList: list[str]
+class RoguelikeBattleSummeryDescriptionData(BaseStruct):
+    randomDescriptionList: List[str]
 
 
-class TipData(BaseModel):
+class TipData(BaseStruct):
     tip: str
-    weight: int | float
+    weight: Union[int, float]
     category: str
 
 
-class RoguelikeGameItemData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeGameItemData(BaseStruct):
+    id_: str = field(name='id')
     name: str
-    description: str | None
+    description: Union[str, None]
     usage: str
     obtainApproach: str
     iconId: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     subType: str
     rarity: str
     value: int
     sortId: int
     canSacrifice: bool
-    unlockCondDesc: str | None
+    unlockCondDesc: Union[str, None]
 
 
-class RoguelikeBandRefData(BaseModel):
+class RoguelikeBandRefData(BaseStruct):
     itemId: str
     iconId: str
     description: str
@@ -683,17 +687,17 @@ class RoguelikeBandRefData(BaseModel):
     normalBandId: str
 
 
-class RoguelikeEndingDetailText(BaseModel):
+class RoguelikeEndingDetailText(BaseStruct):
     textId: str
     text: str
     eventType: str
     showType: int
-    choiceSceneId: str | None
-    paramList: list[str]
-    otherPara1: str | None
+    choiceSceneId: Union[str, None]
+    paramList: List[str]
+    otherPara1: Union[str, None]
 
 
-class RoguelikeGameTreasureData(BaseModel):
+class RoguelikeGameTreasureData(BaseStruct):
     treasureId: str
     groupId: str
     subIndex: int
@@ -701,93 +705,93 @@ class RoguelikeGameTreasureData(BaseModel):
     usage: str
 
 
-class RoguelikeDifficultyUpgradeRelicData(BaseModel):
+class RoguelikeDifficultyUpgradeRelicData(BaseStruct):
     relicId: str
     equivalentGrade: int
 
 
-class RoguelikeDifficultyUpgradeRelicGroupData(BaseModel):
-    relicData: list[RoguelikeDifficultyUpgradeRelicData]
+class RoguelikeDifficultyUpgradeRelicGroupData(BaseStruct):
+    relicData: List[RoguelikeDifficultyUpgradeRelicData]
 
 
-class RoguelikeTopicDetail(BaseModel):
-    updates: list[RoguelikeTopicUpdate]
-    enrolls: dict[str, RoguelikeTopicEnroll]
-    milestones: list[RoguelikeTopicBP]
-    milestoneUpdates: list[RoguelikeTopicMilestoneUpdateData]
-    grandPrizes: list[RoguelikeTopicBPGrandPrize]
-    monthMission: list[RoguelikeTopicMonthMission]
-    monthSquad: dict[str, RoguelikeTopicMonthSquad]
-    challenges: dict[str, RoguelikeTopicChallenge]
-    difficulties: list[RoguelikeTopicDifficulty]
-    bankRewards: list[RoguelikeTopicBankReward]
+class RoguelikeTopicDetail(BaseStruct):
+    updates: List[RoguelikeTopicUpdate]
+    enrolls: Dict[str, RoguelikeTopicEnroll]
+    milestones: List[RoguelikeTopicBP]
+    milestoneUpdates: List[RoguelikeTopicMilestoneUpdateData]
+    grandPrizes: List[RoguelikeTopicBPGrandPrize]
+    monthMission: List[RoguelikeTopicMonthMission]
+    monthSquad: Dict[str, RoguelikeTopicMonthSquad]
+    challenges: Dict[str, RoguelikeTopicChallenge]
+    difficulties: List[RoguelikeTopicDifficulty]
+    bankRewards: List[RoguelikeTopicBankReward]
     archiveComp: RoguelikeArchiveComponentData
     archiveUnlockCond: RoguelikeArchiveUnlockCondData
     detailConst: RoguelikeTopicDetailConst
-    init: list[RoguelikeGameInitData]
-    stages: dict[str, RoguelikeGameStageData]
-    zones: dict[str, RoguelikeGameZoneData]
-    variation: dict[str, RoguelikeZoneVariationData]
-    traps: dict[str, RoguelikeGameTrapData]
-    recruitTickets: dict[str, RoguelikeGameRecruitTicketData]
-    upgradeTickets: dict[str, RoguelikeGameUpgradeTicketData]
-    customTickets: dict[str, RoguelikeGameCustomTicketData]
-    relics: dict[str, RoguelikeGameRelicData]
-    relicParams: dict[str, RoguelikeGameRelicParamData]
-    recruitGrps: dict[str, RoguelikeGameRecruitGrpData]
-    choices: dict[str, RoguelikeGameChoiceData]
-    choiceScenes: dict[str, RoguelikeGameChoiceSceneData]
-    nodeTypeData: dict[str, RoguelikeGameNodeTypeData]
-    subTypeData: list[RoguelikeGameNodeSubTypeData]
-    variationData: dict[str, RoguelikeGameVariationData]
-    charBuffData: dict[str, RoguelikeGameCharBuffData]
-    squadBuffData: dict[str, RoguelikeGameSquadBuffData]
-    taskData: dict[str, RoguelikeTaskData]
+    init: List[RoguelikeGameInitData]
+    stages: Dict[str, RoguelikeGameStageData]
+    zones: Dict[str, RoguelikeGameZoneData]
+    variation: Dict[str, RoguelikeZoneVariationData]
+    traps: Dict[str, RoguelikeGameTrapData]
+    recruitTickets: Dict[str, RoguelikeGameRecruitTicketData]
+    upgradeTickets: Dict[str, RoguelikeGameUpgradeTicketData]
+    customTickets: Dict[str, RoguelikeGameCustomTicketData]
+    relics: Dict[str, RoguelikeGameRelicData]
+    relicParams: Dict[str, RoguelikeGameRelicParamData]
+    recruitGrps: Dict[str, RoguelikeGameRecruitGrpData]
+    choices: Dict[str, RoguelikeGameChoiceData]
+    choiceScenes: Dict[str, RoguelikeGameChoiceSceneData]
+    nodeTypeData: Dict[str, RoguelikeGameNodeTypeData]
+    subTypeData: List[RoguelikeGameNodeSubTypeData]
+    variationData: Dict[str, RoguelikeGameVariationData]
+    charBuffData: Dict[str, RoguelikeGameCharBuffData]
+    squadBuffData: Dict[str, RoguelikeGameSquadBuffData]
+    taskData: Dict[str, RoguelikeTaskData]
     gameConst: RoguelikeGameConst
-    shopDialogs: dict[str, list[str]]
-    capsuleDict: dict[str, RoguelikeTopicCapsule] | None
-    endings: dict[str, RoguelikeGameEndingData]
-    battleSummeryDescriptions: dict[str, RoguelikeBattleSummeryDescriptionData]
-    battleLoadingTips: list[TipData]
-    items: dict[str, RoguelikeGameItemData]
-    bandRef: dict[str, RoguelikeBandRefData]
-    endingDetailList: list[RoguelikeEndingDetailText]
-    treasures: dict[str, list[RoguelikeGameTreasureData]]
-    difficultyUpgradeRelicGroups: dict[str, RoguelikeDifficultyUpgradeRelicGroupData]
+    shopDialogs: Dict[str, List[str]]
+    capsuleDict: Union[Dict[str, RoguelikeTopicCapsule], None]
+    endings: Dict[str, RoguelikeGameEndingData]
+    battleSummeryDescriptions: Dict[str, RoguelikeBattleSummeryDescriptionData]
+    battleLoadingTips: List[TipData]
+    items: Dict[str, RoguelikeGameItemData]
+    bandRef: Dict[str, RoguelikeBandRefData]
+    endingDetailList: List[RoguelikeEndingDetailText]
+    treasures: Dict[str, List[RoguelikeGameTreasureData]]
+    difficultyUpgradeRelicGroups: Dict[str, RoguelikeDifficultyUpgradeRelicGroupData]
 
 
-class RoguelikeModuleBaseData(BaseModel):
+class RoguelikeModuleBaseData(BaseStruct):
     moduleType: str
 
 
-class RoguelikeSanRangeData(BaseModel):
+class RoguelikeSanRangeData(BaseStruct):
     sanMax: int
     diceGroupId: str
     description: str
     sanDungeonEffect: str
     sanEffectRank: str
-    sanEndingDesc: str | None
+    sanEndingDesc: Union[str, None]
 
 
-class RoguelikeSanCheckConsts(BaseModel):
+class RoguelikeSanCheckConsts(BaseStruct):
     sanDecreaseToast: str
 
 
 class RoguelikeSanCheckModuleData(RoguelikeModuleBaseData):
-    sanRanges: list[RoguelikeSanRangeData]
+    sanRanges: List[RoguelikeSanRangeData]
     moduleConsts: RoguelikeSanCheckConsts
 
 
-class RoguelikeDiceData(BaseModel):
+class RoguelikeDiceData(BaseStruct):
     diceId: str
     description: str
     isUpgradeDice: int
-    upgradeDiceId: str | None
+    upgradeDiceId: Union[str, None]
     diceFaceCount: int
     battleDiceId: str
 
 
-class RoguelikeDiceRuleData(BaseModel):
+class RoguelikeDiceRuleData(BaseStruct):
     dicePointMax: int
     diceResultClass: str
     diceGroupId: str
@@ -800,31 +804,31 @@ class RoguelikeDiceRuleData(BaseModel):
     sound: str
 
 
-class RoguelikeDiceRuleGroupData(BaseModel):
+class RoguelikeDiceRuleGroupData(BaseStruct):
     ruleGroupId: str
     minGoodNum: int
 
 
-class RoguelikeDicePredefineData(BaseModel):
+class RoguelikeDicePredefineData(BaseStruct):
     modeId: str
     modeGrade: int
-    predefinedId: str | None
+    predefinedId: Union[str, None]
     initialDiceCount: int
 
 
 class RoguelikeDiceModuleData(RoguelikeModuleBaseData):
-    dice: dict[str, RoguelikeDiceData]
-    diceEvents: dict[str, RoguelikeDiceRuleData]
-    diceChoices: dict[str, str]
-    diceRuleGroups: dict[str, RoguelikeDiceRuleGroupData]
-    dicePredefines: list[RoguelikeDicePredefineData]
+    dice: Dict[str, RoguelikeDiceData]
+    diceEvents: Dict[str, RoguelikeDiceRuleData]
+    diceChoices: Dict[str, str]
+    diceRuleGroups: Dict[str, RoguelikeDiceRuleGroupData]
+    dicePredefines: List[RoguelikeDicePredefineData]
 
 
-class RoguelikeChaosData(BaseModel):
+class RoguelikeChaosData(BaseStruct):
     chaosId: str
     level: int
-    nextChaosId: str | None
-    prevChaosId: str | None
+    nextChaosId: Union[str, None]
+    prevChaosId: Union[str, None]
     iconId: str
     name: str
     functionDesc: str
@@ -833,17 +837,17 @@ class RoguelikeChaosData(BaseModel):
     sortId: int
 
 
-class RoguelikeChaosRangeData(BaseModel):
+class RoguelikeChaosRangeData(BaseStruct):
     chaosMax: int
     chaosDungeonEffect: str
 
 
-class RoguelikeChaosPredefineLevelInfo(BaseModel):
+class RoguelikeChaosPredefineLevelInfo(BaseStruct):
     chaosLevelBeginNum: int
     chaosLevelEndNum: int
 
 
-class RoguelikeChaosModuleConsts(BaseModel):
+class RoguelikeChaosModuleConsts(BaseStruct):
     maxChaosLevel: int
     maxChaosSlot: int
     chaosNotMaxDescription: str
@@ -852,18 +856,18 @@ class RoguelikeChaosModuleConsts(BaseModel):
 
 
 class RoguelikeChaosModuleData(RoguelikeModuleBaseData):
-    chaosDatas: dict[str, RoguelikeChaosData]
-    chaosRanges: list[RoguelikeChaosRangeData]
-    levelInfoDict: dict[str, dict[str, RoguelikeChaosPredefineLevelInfo]]
+    chaosDatas: Dict[str, RoguelikeChaosData]
+    chaosRanges: List[RoguelikeChaosRangeData]
+    levelInfoDict: Dict[str, Dict[str, RoguelikeChaosPredefineLevelInfo]]
     moduleConsts: RoguelikeChaosModuleConsts
 
 
-class RoguelikeTotemLinkedNodeTypeData(BaseModel):
-    effectiveNodeTypes: list[str]
-    blurNodeTypes: list[str]
+class RoguelikeTotemLinkedNodeTypeData(BaseStruct):
+    effectiveNodeTypes: List[str]
+    blurNodeTypes: List[str]
 
 
-class RoguelikeTotemBuffData(BaseModel):
+class RoguelikeTotemBuffData(BaseStruct):
     totemId: str
     color: str
     pos: str
@@ -883,7 +887,7 @@ class RoguelikeTotemBuffData(BaseModel):
     portalLinkedNodeTypeData: RoguelikeTotemLinkedNodeTypeData
 
 
-class RoguelikeTotemSubBuffData(BaseModel):
+class RoguelikeTotemSubBuffData(BaseStruct):
     subBuffId: str
     name: str
     desc: str
@@ -891,21 +895,21 @@ class RoguelikeTotemSubBuffData(BaseModel):
     info: str
 
 
-class RoguelikeTotemModuleConsts(BaseModel):
+class RoguelikeTotemModuleConsts(BaseStruct):
     totemPredictDescription: str
-    colorCombineDesc: dict[str, str]
+    colorCombineDesc: Dict[str, str]
     bossCombineDesc: str
     battleNoPredictDescription: str
     shopNoGoodsDescription: str
 
 
 class RoguelikeTotemBuffModuleData(RoguelikeModuleBaseData):
-    totemBuffDatas: dict[str, RoguelikeTotemBuffData]
-    subBuffs: dict[str, RoguelikeTotemSubBuffData]
+    totemBuffDatas: Dict[str, RoguelikeTotemBuffData]
+    subBuffs: Dict[str, RoguelikeTotemSubBuffData]
     moduleConsts: RoguelikeTotemModuleConsts
 
 
-class RoguelikeVisionData(BaseModel):
+class RoguelikeVisionData(BaseStruct):
     sightNum: int
     level: int
     canForesee: bool
@@ -917,12 +921,12 @@ class RoguelikeVisionData(BaseModel):
     icon: str
 
 
-class RoguelikeVisionModuleDataVisionChoiceConfig(BaseModel):
+class RoguelikeVisionModuleDataVisionChoiceConfig(BaseStruct):
     value: int
-    type_: int = Field(alias='type')
+    type_: int = field(name='type')
 
 
-class RoguelikeVisionModuleConsts(BaseModel):
+class RoguelikeVisionModuleConsts(BaseStruct):
     maxVision: int
     totemBottomDescription: str
     chestBottomDescription: str
@@ -930,21 +934,21 @@ class RoguelikeVisionModuleConsts(BaseModel):
 
 
 class RoguelikeVisionModuleData(RoguelikeModuleBaseData):
-    visionDatas: dict[str, RoguelikeVisionData]
-    visionChoices: dict[str, RoguelikeVisionModuleDataVisionChoiceConfig]
+    visionDatas: Dict[str, RoguelikeVisionData]
+    visionChoices: Dict[str, RoguelikeVisionModuleDataVisionChoiceConfig]
     moduleConsts: RoguelikeVisionModuleConsts
 
 
-class RoguelikeModule(BaseModel):
-    moduleTypes: list[str]
-    sanCheck: RoguelikeSanCheckModuleData | None
-    dice: RoguelikeDiceModuleData | None
-    chaos: RoguelikeChaosModuleData | None
-    totemBuff: RoguelikeTotemBuffModuleData | None
-    vision: RoguelikeVisionModuleData | None
+class RoguelikeModule(BaseStruct):
+    moduleTypes: List[str]
+    sanCheck: Union[RoguelikeSanCheckModuleData, None]
+    dice: Union[RoguelikeDiceModuleData, None]
+    chaos: Union[RoguelikeChaosModuleData, None]
+    totemBuff: Union[RoguelikeTotemBuffModuleData, None]
+    vision: Union[RoguelikeVisionModuleData, None]
 
 
-class RoguelikeTopicDisplayItem(BaseModel):
+class RoguelikeTopicDisplayItem(BaseStruct):
     displayType: str
     displayNum: int
     displayForm: str
@@ -952,26 +956,26 @@ class RoguelikeTopicDisplayItem(BaseModel):
     sortId: int
 
 
-class RoguelikeTopicDev(BaseModel):
+class RoguelikeTopicDev(BaseStruct):
     buffId: str
     sortId: int
     nodeType: str
-    nextNodeId: list[str]
-    frontNodeId: list[str]
+    nextNodeId: List[str]
+    frontNodeId: List[str]
     tokenCost: int
     buffName: str
     buffIconId: str
     buffTypeName: str
-    buffDisplayInfo: list[RoguelikeTopicDisplayItem]
+    buffDisplayInfo: List[RoguelikeTopicDisplayItem]
 
 
-class RoguelikeTopicDevToken(BaseModel):
+class RoguelikeTopicDevToken(BaseStruct):
     sortId: int
     displayForm: str
     tokenDesc: str
 
 
-class RL01EndingText(BaseModel):
+class RL01EndingText(BaseStruct):
     summaryVariation: str
     summaryDefeatBoss: str
     summaryAccidentMeet: str
@@ -1005,17 +1009,17 @@ class RL01EndingText(BaseModel):
     summaryFailEnd: str
 
 
-class RL01CustomizeData(BaseModel):
-    developments: dict[str, RoguelikeTopicDev]
-    developmentTokens: dict[str, RoguelikeTopicDevToken]
+class RL01CustomizeData(BaseStruct):
+    developments: Dict[str, RoguelikeTopicDev]
+    developmentTokens: Dict[str, RoguelikeTopicDevToken]
     endingText: RL01EndingText
 
 
-class RL02Development(BaseModel):
+class RL02Development(BaseStruct):
     buffId: str
     nodeType: str
-    frontNodeId: list[str]
-    nextNodeId: list[str]
+    frontNodeId: List[str]
+    nextNodeId: List[str]
     positionP: int
     positionR: int
     tokenCost: int
@@ -1023,29 +1027,29 @@ class RL02Development(BaseModel):
     buffIconId: str
     effectType: str
     rawDesc: str
-    buffDisplayInfo: list[RoguelikeTopicDisplayItem]
-    enrollId: str | None
+    buffDisplayInfo: List[RoguelikeTopicDisplayItem]
+    enrollId: Union[str, None]
 
 
-class RL02DevRawTextBuffGroup(BaseModel):
-    nodeIdList: list[str]
+class RL02DevRawTextBuffGroup(BaseStruct):
+    nodeIdList: List[str]
     useLevelMark: bool
     groupIconId: str
     useUpBreak: bool
     sortId: int
 
 
-class RL02DevelopmentLine(BaseModel):
+class RL02DevelopmentLine(BaseStruct):
     fromNode: str
     toNode: str
     fromNodeP: int
     fromNodeR: int
     toNodeP: int
     toNodeR: int
-    enrollId: str | None
+    enrollId: Union[str, None]
 
 
-class RL02EndingText(BaseModel):
+class RL02EndingText(BaseStruct):
     summaryMutation: str
     summaryDice: str
     summaryDiceResultGood: str
@@ -1071,50 +1075,50 @@ class RL02EndingText(BaseModel):
     summaryPracticeLowDesc: str
 
 
-class RL02CustomizeData(BaseModel):
-    developments: dict[str, RL02Development]
-    developmentTokens: dict[str, RoguelikeTopicDevToken]
-    developmentRawTextGroup: list[RL02DevRawTextBuffGroup]
-    developmentLines: list[RL02DevelopmentLine]
+class RL02CustomizeData(BaseStruct):
+    developments: Dict[str, RL02Development]
+    developmentTokens: Dict[str, RoguelikeTopicDevToken]
+    developmentRawTextGroup: List[RL02DevRawTextBuffGroup]
+    developmentLines: List[RL02DevelopmentLine]
     endingText: RL02EndingText
 
 
-class RL03Development(BaseModel):
+class RL03Development(BaseStruct):
     buffId: str
     nodeType: str
-    frontNodeId: list[str]
-    nextNodeId: list[str]
+    frontNodeId: List[str]
+    nextNodeId: List[str]
     positionRow: int
     positionOrder: int
     tokenCost: int
     buffName: str
     buffIconId: str
     effectType: str
-    rawDesc: list[str]
-    buffDisplayInfo: list[RoguelikeTopicDisplayItem]
+    rawDesc: List[str]
+    buffDisplayInfo: List[RoguelikeTopicDisplayItem]
     groupId: str
-    enrollId: str | None
+    enrollId: Union[str, None]
 
 
-class RL03DevRawTextBuffGroup(BaseModel):
-    nodeIdList: list[str]
+class RL03DevRawTextBuffGroup(BaseStruct):
+    nodeIdList: List[str]
     useLevelMark: bool
     groupIconId: str
     sortId: int
 
 
-class RL03DevDifficultyNodePairInfo(BaseModel):
+class RL03DevDifficultyNodePairInfo(BaseStruct):
     frontNode: str
     nextNode: str
 
 
-class RL03DevDifficultyNodeInfo(BaseModel):
+class RL03DevDifficultyNodeInfo(BaseStruct):
     buffId: str
-    nodeMap: list[RL03DevDifficultyNodePairInfo]
+    nodeMap: List[RL03DevDifficultyNodePairInfo]
     enableGrade: int
 
 
-class RL03EndingText(BaseModel):
+class RL03EndingText(BaseStruct):
     summaryGetTotem: str
     summaryDemoPointUp: str
     summaryDemoPointDown: str
@@ -1160,38 +1164,35 @@ class RL03EndingText(BaseModel):
     summaryFailEnd: str
 
 
-class RL03DifficultyExt(BaseModel):
+class RL03DifficultyExt(BaseStruct):
     modeDifficulty: str
     grade: int
-    totemProb: int | float
+    totemProb: Union[int, float]
     relicDevLevel: str
-    buffs: list[str] | None
-    buffDesc: list[str]
+    buffs: Union[List[str], None]
+    buffDesc: List[str]
 
 
-class RL03CustomizeData(BaseModel):
-    developments: dict[str, RL03Development]
-    developmentsTokens: dict[str, RoguelikeTopicDevToken]
-    developmentRawTextGroup: list[RL03DevRawTextBuffGroup]
-    developmentsDifficultyNodeInfos: dict[str, RL03DevDifficultyNodeInfo]
+class RL03CustomizeData(BaseStruct):
+    developments: Dict[str, RL03Development]
+    developmentsTokens: Dict[str, RoguelikeTopicDevToken]
+    developmentRawTextGroup: List[RL03DevRawTextBuffGroup]
+    developmentsDifficultyNodeInfos: Dict[str, RL03DevDifficultyNodeInfo]
     endingText: RL03EndingText
-    difficulties: list[RL03DifficultyExt]
+    difficulties: List[RL03DifficultyExt]
 
 
-class RoguelikeTopicCustomizeData(BaseModel):
+class RoguelikeTopicCustomizeData(BaseStruct):
     rogue_1: RL01CustomizeData
     rogue_2: RL02CustomizeData
-    rogue_3: RL03CustomizeData | None = None
+    rogue_3: RL03CustomizeData
 
 
-class RoguelikeTopicTable(BaseModel):
+class RoguelikeTopicTable(BaseStruct):
     __version__ = '23-04-23-15-07-53-24a81c'
 
-    topics: dict[str, RoguelikeTopicBasicData]
+    topics: Dict[str, RoguelikeTopicBasicData]
     constant: RoguelikeTopicConst
-    details: dict[str, RoguelikeTopicDetail]
-    modules: dict[str, RoguelikeModule]
+    details: Dict[str, RoguelikeTopicDetail]
+    modules: Dict[str, RoguelikeModule]
     customizeData: RoguelikeTopicCustomizeData
-
-    class Config:
-        extra = 'allow'

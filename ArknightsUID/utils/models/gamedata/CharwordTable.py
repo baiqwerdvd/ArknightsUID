@@ -1,12 +1,14 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class CharWordUnlockParam(BaseModel):
-    valueStr: str | None
+class CharWordUnlockParam(BaseStruct):
+    valueStr: Union[str, None]
     valueInt: int
 
 
-class CharWordData(BaseModel):
+class CharWordData(BaseStruct):
     charWordId: str
     wordKey: str
     charId: str
@@ -16,53 +18,51 @@ class CharWordData(BaseModel):
     voiceIndex: int
     voiceType: str
     unlockType: str
-    unlockParam: list[CharWordUnlockParam]
-    lockDescription: str | None
+    unlockParam: List[CharWordUnlockParam]
+    lockDescription: Union[str, None]
     placeType: str
     voiceAsset: str
 
 
-class VoiceLangInfoData(BaseModel):
+class VoiceLangInfoData(BaseStruct):
     wordkey: str
     voiceLangType: str
-    cvName: list[str]
+    cvName: List[str]
+    voicePath: Union[str, None] = None
 
 
-class VoiceLangData(BaseModel):
-    wordkeys: list[str]
+class VoiceLangData(BaseStruct):
+    wordkeys: List[str]
     charId: str
-    dict_: dict[str, VoiceLangInfoData] = Field(alias='dict')
+    dict_: Dict[str, VoiceLangInfoData] = field(name='dict')
 
 
-class VoiceLangTypeData(BaseModel):
+class VoiceLangTypeData(BaseStruct):
     name: str
     groupType: str
 
 
-class VoiceLangGroupData(BaseModel):
+class VoiceLangGroupData(BaseStruct):
     name: str
-    members: list[str]
+    members: List[str]
 
 
-class NewVoiceTimeData(BaseModel):
+class NewVoiceTimeData(BaseStruct):
     timestamp: int
-    charSet: list[str]
+    charSet: List[str]
 
 
-class CharwordTable(BaseModel):
+class CharwordTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    charWords: dict[str, CharWordData]
-    voiceLangDict: dict[str, VoiceLangData]
+    charWords: Dict[str, CharWordData]
+    voiceLangDict: Dict[str, VoiceLangData]
     defaultLangType: str
-    newTagList: list[str]
-    voiceLangTypeDict: dict[str, VoiceLangTypeData]
-    voiceLangGroupTypeDict: dict[str, VoiceLangGroupData]
-    charDefaultTypeDict: dict[str, str]
-    startTimeWithTypeDict: dict[str, list[NewVoiceTimeData]]
-    displayGroupTypeList: list[str]
-    displayTypeList: list[str]
+    newTagList: List[str]
+    voiceLangTypeDict: Dict[str, VoiceLangTypeData]
+    voiceLangGroupTypeDict: Dict[str, VoiceLangGroupData]
+    charDefaultTypeDict: Dict[str, str]
+    startTimeWithTypeDict: Dict[str, List[NewVoiceTimeData]]
+    displayGroupTypeList: List[str]
+    displayTypeList: List[str]
     playVoiceRange: str
-
-    class Config:
-        extra = 'allow'

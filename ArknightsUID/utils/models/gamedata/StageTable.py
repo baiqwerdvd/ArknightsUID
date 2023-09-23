@@ -1,80 +1,82 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class StageDataConditionDesc(BaseModel):
+class StageDataConditionDesc(BaseStruct):
     stageId: str
     completeState: int
 
 
-class StageDataDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class StageDataDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class StageDataDisplayDetailRewards(BaseModel):
+class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class StageDataStageDropInfo(BaseModel):
+class StageDataStageDropInfo(BaseStruct):
     firstPassRewards: None
     firstCompleteRewards: None
     passRewards: None
     completeRewards: None
-    displayRewards: list[StageDataDisplayRewards]
-    displayDetailRewards: list[StageDataDisplayDetailRewards]
+    displayRewards: List[StageDataDisplayRewards]
+    displayDetailRewards: List[StageDataDisplayDetailRewards]
 
 
-class ExtraCondition(BaseModel):
+class ExtraCondition(BaseStruct):
     index: int
     template: str
-    unlockParam: list[str]
+    unlockParam: List[str]
 
 
-class ProgressInfo(BaseModel):
+class ProgressInfo(BaseStruct):
     progressType: str
-    descList: dict[str, str] | None
+    descList: Union[Dict[str, str], None]
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class ExtraInfo(BaseModel):
+class ExtraInfo(BaseStruct):
     stageId: str
-    rewards: list[ItemBundle]
+    rewards: List[ItemBundle]
     progressInfo: ProgressInfo
 
 
-class StageData(BaseModel):
+class StageData(BaseStruct):
     stageType: str
     difficulty: str
     performanceStageFlag: str
     diffGroup: str
-    unlockCondition: list[StageDataConditionDesc]
+    unlockCondition: List[StageDataConditionDesc]
     stageId: str
-    levelId: str | None
+    levelId: Union[str, None]
     zoneId: str
     code: str
-    name: str | None
-    description: str | None
-    hardStagedId: str | None
-    dangerLevel: str | None
-    dangerPoint: int | float
+    name: Union[str, None]
+    description: Union[str, None]
+    hardStagedId: Union[str, None]
+    dangerLevel: Union[str, None]
+    dangerPoint: Union[int, float]
     loadingPicId: str
     canPractice: bool
     canBattleReplay: bool
     apCost: int
     apFailReturn: int
-    etItemId: str | None
+    etItemId: Union[str, None]
     etCost: int
     etFailReturn: int
-    etButtonStyle: str | None
+    etButtonStyle: Union[str, None]
     apProtectTimes: int
     diamondOnceDrop: int
     practiceTicketCost: int
@@ -86,7 +88,7 @@ class StageData(BaseModel):
     passFavor: int
     completeFavor: int
     slProgress: int
-    displayMainItem: str | None
+    displayMainItem: Union[str, None]
     hilightMark: bool
     bossMark: bool
     isPredefined: bool
@@ -95,65 +97,65 @@ class StageData(BaseModel):
     isStoryOnly: bool
     appearanceStyle: int
     stageDropInfo: StageDataStageDropInfo
-    canUseCharm: bool | None = None
-    canUseTech: bool | None = None
-    canUseTrapTool: bool | None = None
-    canUseBattlePerformance: bool | None = None
-    startButtonOverrideId: str | None
+    startButtonOverrideId: Union[str, None]
     isStagePatch: bool
-    mainStageId: str | None
-    extraCondition: list[ExtraCondition] | None = None
-    extraInfo: list[ExtraInfo] | None = None
+    mainStageId: Union[str, None]
+    canUseCharm: Union[bool, None] = None
+    canUseTech: Union[bool, None] = None
+    canUseTrapTool: Union[bool, None] = None
+    canUseBattlePerformance: Union[bool, None] = None
+    extraCondition: Union[List[ExtraCondition], None] = None
+    extraInfo: Union[List[ExtraInfo], None] = None
 
 
-class RuneStageGroupDataRuneStageInst(BaseModel):
+class RuneStageGroupDataRuneStageInst(BaseStruct):
     stageId: str
-    activePackedRuneIds: list[str]
+    activePackedRuneIds: List[str]
 
 
-class RuneStageGroupData(BaseModel):
+class RuneStageGroupData(BaseStruct):
     groupId: str
-    activeRuneStages: list[RuneStageGroupDataRuneStageInst]
+    activeRuneStages: List[RuneStageGroupDataRuneStageInst]
     startTs: int
     endTs: int
 
 
-class MapThemeData(BaseModel):
+class MapThemeData(BaseStruct):
     themeId: str
     unitColor: str
-    buildableColor: str | None
-    themeType: str | None
-    trapTintColor: str | None
+    buildableColor: Union[str, None]
+    themeType: Union[str, None]
+    trapTintColor: Union[str, None]
 
 
-class TileAppendInfo(BaseModel):
+class TileAppendInfo(BaseStruct):
     tileKey: str
     name: str
     description: str
     isFunctional: bool
 
 
-class WeeklyForceOpenTable(BaseModel):
-    id_: str = Field(alias='id')
+class WeeklyForceOpenTable(BaseStruct):
+    id_: str = field(name='id')
     startTime: int
     endTime: int
-    forceOpenList: list[str]
+    forceOpenList: List[str]
 
 
-class TimelyDropTimeInfo(BaseModel):
+class TimelyDropTimeInfo(BaseStruct):
     startTs: int
     endTs: int
-    stagePic: str | None
-    dropPicId: str | None
+    stagePic: Union[str, None]
+    dropPicId: Union[str, None]
     stageUnlock: str
-    entranceDownPicId: str | None
-    entranceUpPicId: str | None
+    entranceDownPicId: Union[str, None]
+    entranceUpPicId: Union[str, None]
     timelyGroupId: str
-    weeklyPicId: str | None
-    apSupplyOutOfDateDict: dict[str, int]
+    weeklyPicId: Union[str, None]
+    apSupplyOutOfDateDict: Dict[str, int]
 
 
-class OverrideDropInfo(BaseModel):
+class OverrideDropInfo(BaseStruct):
     itemId: str
     startTs: int
     endTs: int
@@ -166,19 +168,19 @@ class OverrideDropInfo(BaseModel):
     desc3: str
     dropTag: str
     dropTypeDesc: str
-    dropInfo: dict[str, StageDataStageDropInfo]
+    dropInfo: Dict[str, StageDataStageDropInfo]
 
 
-class TimelyDropInfo(BaseModel):
-    dropInfo: dict[str, StageDataStageDropInfo]
+class TimelyDropInfo(BaseStruct):
+    dropInfo: Dict[str, StageDataStageDropInfo]
 
 
-class StageValidInfo(BaseModel):
+class StageValidInfo(BaseStruct):
     startTs: int
     endTs: int
 
 
-class StageFogInfo(BaseModel):
+class StageFogInfo(BaseStruct):
     lockId: str
     fogType: str
     stageId: str
@@ -188,70 +190,71 @@ class StageFogInfo(BaseModel):
     unlockItemType: str
     unlockItemNum: int
     preposedStageId: str
-    preposedLockId: str | None
+    preposedLockId: Union[str, None]
 
 
-class StageStartCondRequireChar(BaseModel):
+class StageStartCondRequireChar(BaseStruct):
     charId: str
     evolvePhase: int
 
 
-class StageStartCond(BaseModel):
-    requireChars: list[StageStartCondRequireChar]
-    excludeAssists: list[str]
+class StageStartCond(BaseStruct):
+    requireChars: List[StageStartCondRequireChar]
+    excludeAssists: List[str]
     isNotPass: bool
 
 
-class StageDiffGroupTable(BaseModel):
+class StageDiffGroupTable(BaseStruct):
     normalId: str
-    toughId: str | None
+    toughId: Union[str, None]
     easyId: str
 
 
-class StoryStageShowGroup(BaseModel):
+class StoryStageShowGroup(BaseStruct):
     displayRecordId: str
     stageId: str
-    accordingStageId: str | None
+    accordingStageId: Union[str, None]
     diffGroup: int
 
 
-class SpecialBattleFinishStageData(BaseModel):
+class SpecialBattleFinishStageData(BaseStruct):
     stageId: str
     skipAccomplishPerform: bool
 
 
-class RecordRewardServerData(BaseModel):
+class RecordRewardServerData(BaseStruct):
     stageId: str
-    rewards: list[ItemBundle]
+    rewards: List[ItemBundle]
 
 
-class ApProtectZoneInfoTimeRange(BaseModel):
+class ApProtectZoneInfoTimeRange(BaseStruct):
     startTs: int
     endTs: int
 
 
-class ApProtectZoneInfo(BaseModel):
+class ApProtectZoneInfo(BaseStruct):
     zoneId: str
-    timeRanges: list[ApProtectZoneInfoTimeRange]
+    timeRanges: List[ApProtectZoneInfoTimeRange]
 
 
-class StageTable(BaseModel):
+class StageTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    stages: dict[str, StageData]
-    runeStageGroups: dict[str, RuneStageGroupData]
-    mapThemes: dict[str, MapThemeData]
-    tileInfo: dict[str, TileAppendInfo]
-    forceOpenTable: dict[str, WeeklyForceOpenTable]
-    timelyStageDropInfo: dict[str, TimelyDropTimeInfo]
-    overrideDropInfo: dict[str, OverrideDropInfo]
-    timelyTable: dict[str, TimelyDropInfo]
-    stageValidInfo: dict[str, StageValidInfo]
-    stageFogInfo: dict[str, StageFogInfo]
-    stageStartConds: dict[str, StageStartCond]
-    diffGroupTable: dict[str, StageDiffGroupTable]
-    storyStageShowGroup: dict[str, dict[str, StoryStageShowGroup]]
-    specialBattleFinishStageData: dict[str, SpecialBattleFinishStageData]
-    recordRewardData: dict[str, RecordRewardServerData] | None
-    apProtectZoneInfo: dict[str, ApProtectZoneInfo]
-    spNormalStageIdFor4StarList: list[str]
+    stages: Dict[str, StageData]
+    runeStageGroups: Dict[str, RuneStageGroupData]
+    mapThemes: Dict[str, MapThemeData]
+    tileInfo: Dict[str, TileAppendInfo]
+    forceOpenTable: Dict[str, WeeklyForceOpenTable]
+    timelyStageDropInfo: Dict[str, TimelyDropTimeInfo]
+    overrideDropInfo: Dict[str, OverrideDropInfo]
+    timelyTable: Dict[str, TimelyDropInfo]
+    stageValidInfo: Dict[str, StageValidInfo]
+    stageFogInfo: Dict[str, StageFogInfo]
+    stageStartConds: Dict[str, StageStartCond]
+    diffGroupTable: Dict[str, StageDiffGroupTable]
+    storyStageShowGroup: Dict[str, Dict[str, StoryStageShowGroup]]
+    specialBattleFinishStageData: Dict[str, SpecialBattleFinishStageData]
+    recordRewardData: Union[Dict[str, RecordRewardServerData], None]
+    apProtectZoneInfo: Dict[str, ApProtectZoneInfo]
+    actCustomStageDatas: Dict[str, Dict[str, str]]
+    spNormalStageIdFor4StarList: List[str]

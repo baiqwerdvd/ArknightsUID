@@ -1,51 +1,50 @@
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
+from msgspec import json as msgjson
 
-from pydantic import BaseModel, Field
 
-
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class SpData(BaseModel):
+class SpData(BaseStruct):
     spType: int
-    levelUpCost: list[ItemBundle] | None
+    levelUpCost: Union[List[ItemBundle], None]
     maxChargeTime: int
     spCost: int
     initSp: int
-    increment: int | float
+    increment: Union[int, float]
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: int | float | None = None
-    valueStr: str | None = None
+    value: Union[Union[int, float], None] = None
+    valueStr: Union[str, None] = None
 
 
-class SkillDataBundleLevelData(BaseModel):
+class SkillDataBundleLevelData(BaseStruct):
     name: str
-    rangeId: str | None
-    description: str | None
+    rangeId: Union[str, None]
+    description: Union[str, None]
     skillType: int
     durationType: int
     spData: SpData
-    prefabId: str | None
-    duration: int | float
-    blackboard: list[Blackboard]
+    prefabId: Union[str, None]
+    duration: Union[int, float]
+    blackboard: List[Blackboard]
 
 
-class SkillDataBundle(BaseModel):
+class SkillDataBundle(BaseStruct):
     skillId: str
-    iconId: str | None
+    iconId: Union[str, None]
     hidden: bool
-    levels: list[SkillDataBundleLevelData]
+    levels: List[SkillDataBundleLevelData]
 
 
-class SkillTable(BaseModel):
+class SkillTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    skills: dict[str, SkillDataBundle]
-
-    def __init__(self, data: dict) -> None:
-        super().__init__(skills=data)
+    skills: Dict[str, SkillDataBundle]

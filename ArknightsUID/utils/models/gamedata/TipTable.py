@@ -1,21 +1,22 @@
-from pydantic import BaseModel
+from typing import List
+from ..common import BaseStruct
 
 
-class TipData(BaseModel):
+class TipData(BaseStruct):
     tip: str
     weight: float
     category: str
 
 
-class WorldViewTip(BaseModel):
+class WorldViewTip(BaseStruct):
     title: str
     description: str
     backgroundPicId: str
     weight: float
 
 
-class TipTable(BaseModel):
+class TipTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    tips: list[TipData]
-    worldViewTips: list[WorldViewTip]
+    tips: List[TipData]
+    worldViewTips: List[WorldViewTip]

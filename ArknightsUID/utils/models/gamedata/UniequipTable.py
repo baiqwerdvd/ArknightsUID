@@ -1,66 +1,68 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class UniEquipData(BaseModel):
+class UniEquipData(BaseStruct):
     uniEquipId: str
     uniEquipName: str
     uniEquipIcon: str
     uniEquipDesc: str
     typeIcon: str
     typeName1: str
-    typeName2: str | None
+    typeName2: Union[str, None]
     equipShiningColor: str
     showEvolvePhase: int
     unlockEvolvePhase: int
     charId: str
-    tmplId: str | None
+    tmplId: Union[str, None]
     showLevel: int
     unlockLevel: int
     unlockFavorPoint: int
-    missionList: list[str]
-    itemCost: dict[str, list[ItemBundle]] | None
-    type_: str = Field(..., alias='type')
+    missionList: List[str]
+    itemCost: Union[Dict[str, List[ItemBundle]], None]
+    type_: str = field(name='type')
     uniEquipGetTime: int
     charEquipOrder: int
 
 
-class UniEquipMissionData(BaseModel):
+class UniEquipMissionData(BaseStruct):
     template: str
     desc: str
-    paramList: list[str]
+    paramList: List[str]
     uniEquipMissionId: str
     uniEquipMissionSort: int
     uniEquipId: str
-    jumpStageId: str | None
+    jumpStageId: Union[str, None]
 
 
-class SubProfessionData(BaseModel):
+class SubProfessionData(BaseStruct):
     subProfessionId: str
     subProfessionName: str
     subProfessionCatagory: int
 
 
-class UniEquipTrack(BaseModel):
+class UniEquipTrack(BaseStruct):
     charId: str
     equipId: str
 
 
-class UniEquipTimeInfo(BaseModel):
+class UniEquipTimeInfo(BaseStruct):
     timeStamp: int
-    trackList: list[UniEquipTrack]
+    trackList: List[UniEquipTrack]
 
 
-class UniEquipTable(BaseModel):
+class UniEquipTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    equipDict: dict[str, UniEquipData]
-    missionList: dict[str, UniEquipMissionData]
-    subProfDict: dict[str, SubProfessionData]
-    charEquip: dict[str, list[str]]
-    equipTrackDict: list[UniEquipTimeInfo]
+    equipDict: Dict[str, UniEquipData]
+    missionList: Dict[str, UniEquipMissionData]
+    subProfDict: Dict[str, SubProfessionData]
+    charEquip: Dict[str, List[str]]
+    equipTrackDict: List[UniEquipTimeInfo]

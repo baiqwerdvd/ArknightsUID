@@ -1,8 +1,10 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class SandboxMapConstTable(BaseModel):
-    directionNames: list[str]
+class SandboxMapConstTable(BaseStruct):
+    directionNames: List[str]
     homeNodeStageId: str
     homeRushStageCode: str
     homeRushStageName: str
@@ -11,11 +13,11 @@ class SandboxMapConstTable(BaseModel):
     homeBuildModeBGM: str
 
 
-class SandboxBaseConstTable(BaseModel):
+class SandboxBaseConstTable(BaseStruct):
     cookRegularCostItemId: str
     cookRegularCostItemIdCnt: int
-    squadTabNameList: list[str]
-    charRarityColorList: list[str]
+    squadTabNameList: List[str]
+    charRarityColorList: List[str]
     sumFoodLimitedCount: int
     sumBuildingLimitedCount: int
     sumTacticalLimitedCount: int
@@ -44,69 +46,69 @@ class SandboxBaseConstTable(BaseModel):
     settleSucDesc: str
 
 
-class TipData(BaseModel):
+class TipData(BaseStruct):
     tip: str
-    weight: int | float
+    weight: Union[int, float]
     category: str
 
 
-class SandboxFoodProduceData(BaseModel):
+class SandboxFoodProduceData(BaseStruct):
     itemId: str
-    mainMaterialItems: list[str]
+    mainMaterialItems: List[str]
     buffId: str
     unlockDesc: str
 
 
-class SandboxFoodmatBuffData(BaseModel):
+class SandboxFoodmatBuffData(BaseStruct):
     itemId: str
-    buffId: str | None
-    buffDesc: str | None
+    buffId: Union[str, None]
+    buffDesc: Union[str, None]
     matType: str
     sortId: int
 
 
-class SandboxFoodStaminaData(BaseModel):
+class SandboxFoodStaminaData(BaseStruct):
     itemId: str
     potCnt: int
     foodStaminaCnt: int
 
 
-class SandboxBuildProduceData(BaseModel):
+class SandboxBuildProduceData(BaseStruct):
     itemProduceId: str
     itemId: str
     itemTypeText: str
-    materialItems: dict[str, int]
+    materialItems: Dict[str, int]
 
 
-class SandboxBuildGoldRatioData(BaseModel):
+class SandboxBuildGoldRatioData(BaseStruct):
     itemId: str
     ratio: int
     effectDesc: str
 
 
-class SandboxBuildingItemData(BaseModel):
+class SandboxBuildingItemData(BaseStruct):
     itemId: str
     itemSubType: str
     itemRarity: int
 
 
-class SandboxBuildProduceUnlockData(BaseModel):
+class SandboxBuildProduceUnlockData(BaseStruct):
     itemId: str
     buildingEffectDesc: str
     buildingItemDesc: str
     buildingUnlockDesc: str
 
 
-class SandboxCraftItemData(BaseModel):
+class SandboxCraftItemData(BaseStruct):
     itemId: str
     sortId: int
     getFrom: str
-    npcId: str | None
+    npcId: Union[str, None]
     notObtainedDesc: str
     itemType: str
 
 
-class SandboxItemTrapData(BaseModel):
+class SandboxItemTrapData(BaseStruct):
     itemId: str
     trapId: str
     trapPhase: int
@@ -115,87 +117,87 @@ class SandboxItemTrapData(BaseModel):
     skillLevel: int
 
 
-class SandboxDevelopmentData(BaseModel):
+class SandboxDevelopmentData(BaseStruct):
     buffId: str
     positionX: int
     positionY: int
-    frontNodeId: str | None
-    nextNodeIds: list[str] | None
+    frontNodeId: Union[str, None]
+    nextNodeIds: Union[List[str], None]
     buffLimitedId: str
     tokenCost: int
     canBuffResearch: bool
-    buffResearchDesc: str | None
+    buffResearchDesc: Union[str, None]
     buffName: str
     buffIconId: str
     nodeTitle: str
     buffEffectDesc: str
 
 
-class SandboxDevelopmentLimitData(BaseModel):
+class SandboxDevelopmentLimitData(BaseStruct):
     buffLimitedId: str
     positionX: int
     buffCostLimitedCount: int
 
 
-class SandboxItemToastData(BaseModel):
+class SandboxItemToastData(BaseStruct):
     itemType: str
     toastDesc: str
     color: str
 
 
-class SandboxDevelopmentLineSegmentData(BaseModel):
+class SandboxDevelopmentLineSegmentData(BaseStruct):
     fromNodeId: str
-    passingNodeIds: list[str]
+    passingNodeIds: List[str]
     fromAxisPosX: int
     fromAxisPosY: int
     toAxisPosX: int
     toAxisPosY: int
 
 
-class SandboxRewardItemConfigData(BaseModel):
+class SandboxRewardItemConfigData(BaseStruct):
     rewardItem: str
     rewardType: str
 
 
-class SandboxRewardData(BaseModel):
-    rewardList: list[SandboxRewardItemConfigData]
+class SandboxRewardData(BaseStruct):
+    rewardList: List[SandboxRewardItemConfigData]
 
 
-class SandboxRewardCommonConfig(BaseModel):
-    dropType: int | None = None
+class SandboxRewardCommonConfig(BaseStruct):
     rewardItemId: str
     rewardItemType: str
     count: int
+    dropType: Union[int, None] = None
 
 
 class SandboxTrapRewardConfigData(SandboxRewardCommonConfig):
     dropType: int
 
 
-class SandboxRewardConfigGroupData(BaseModel):
-    stagePreviewRewardDict: dict[str, SandboxRewardData]
-    stageDefaultPreviewRewardDict: dict[str, SandboxRewardData]
-    rushPreviewRewardDict: dict[str, SandboxRewardData]
-    stageRewardDict: dict[str, SandboxRewardData]
-    rushRewardDict: dict[str, SandboxRewardData]
-    trapRewardDict: dict[str, SandboxRewardCommonConfig]
-    enemyRewardDict: dict[str, SandboxRewardCommonConfig]
-    keyWordData: dict[str, str]
+class SandboxRewardConfigGroupData(BaseStruct):
+    stagePreviewRewardDict: Dict[str, SandboxRewardData]
+    stageDefaultPreviewRewardDict: Dict[str, SandboxRewardData]
+    rushPreviewRewardDict: Dict[str, SandboxRewardData]
+    stageRewardDict: Dict[str, SandboxRewardData]
+    rushRewardDict: Dict[str, SandboxRewardData]
+    trapRewardDict: Dict[str, SandboxRewardCommonConfig]
+    enemyRewardDict: Dict[str, SandboxRewardCommonConfig]
+    keyWordData: Dict[str, str]
 
 
-class SandboxStaminaData(BaseModel):
+class SandboxStaminaData(BaseStruct):
     levelUpperLimit: int
     staminaUpperLimit: int
 
 
-class SandboxNodeTypeData(BaseModel):
+class SandboxNodeTypeData(BaseStruct):
     nodeType: str
     name: str
     subName: str
     iconId: str
 
 
-class SandboxNodeUpgradeData(BaseModel):
+class SandboxNodeUpgradeData(BaseStruct):
     nodeUpdradeId: str
     name: str
     description: str
@@ -206,7 +208,7 @@ class SandboxNodeUpgradeData(BaseModel):
     itemRarity: int
 
 
-class SandboxWeatherData(BaseModel):
+class SandboxWeatherData(BaseStruct):
     weatherId: str
     weatherType: str
     weatherLevel: int
@@ -218,7 +220,7 @@ class SandboxWeatherData(BaseModel):
     buffId: str
 
 
-class SandboxStageData(BaseModel):
+class SandboxStageData(BaseStruct):
     stageId: str
     levelId: str
     code: str
@@ -229,157 +231,158 @@ class SandboxStageData(BaseModel):
     powerCost: int
 
 
-class SandboxEventData(BaseModel):
+class SandboxEventData(BaseStruct):
     eventSceneId: str
     hasThumbtack: bool
 
 
-class SandboxEventSceneData(BaseModel):
+class SandboxEventSceneData(BaseStruct):
     choiceSceneId: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     title: str
     description: str
-    choices: list[str]
+    choices: List[str]
 
 
-class SandboxEventChoiceData(BaseModel):
+class SandboxEventChoiceData(BaseStruct):
     choiceId: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     costAction: int
     finishScene: bool
     title: str
     description: str
 
 
-class SandboxEventTypeData(BaseModel):
+class SandboxEventTypeData(BaseStruct):
     eventType: str
     iconId: str
 
 
-class SandboxMissionData(BaseModel):
+class SandboxMissionData(BaseStruct):
     missionId: str
     desc: str
-    effectDesc: str | None
+    effectDesc: Union[str, None]
     costAction: int
     charCnt: int
-    professionIds: list[str]
+    professionIds: List[str]
     profession: int
     costStamina: int
 
 
-class SandboxUnitData(BaseModel):
-    id_: str = Field(alias='id')
+class SandboxUnitData(BaseStruct):
+    id_: str = field(name='id')
     name: str
 
 
-class SandboxDailyDescTemplateData(BaseModel):
-    type_: str = Field(alias='type')
-    templateDesc: list[str]
+class SandboxDailyDescTemplateData(BaseStruct):
+    type_: str = field(name='type')
+    templateDesc: List[str]
 
 
-class RushEnemyConfig(BaseModel):
+class RushEnemyConfig(BaseStruct):
     enemyKey: str
     branchId: str
     count: int
-    interval: int | float
+    interval: Union[int, float]
 
 
-class RushEnemyGroupConfig(BaseModel):
+class RushEnemyGroupConfig(BaseStruct):
     enemyGroupKey: str
     weight: int
-    enemy: list[RushEnemyConfig]
-    dynamicEnemy: list[str]
+    enemy: List[RushEnemyConfig]
+    dynamicEnemy: List[str]
 
 
-class RushEnemyGroupRushEnemyDBRef(BaseModel):
-    id_: str = Field(alias='id')
+class RushEnemyGroupRushEnemyDBRef(BaseStruct):
+    id_: str = field(name='id')
     level: int
 
 
-class RushEnemyGroup(BaseModel):
-    rushEnemyGroupConfigs: dict[str, list[RushEnemyGroupConfig]]
-    rushEnemyDbRef: list[RushEnemyGroupRushEnemyDBRef]
+class RushEnemyGroup(BaseStruct):
+    rushEnemyGroupConfigs: Dict[str, List[RushEnemyGroupConfig]]
+    rushEnemyDbRef: List[RushEnemyGroupRushEnemyDBRef]
 
 
-class RuneDataSelector(BaseModel):
+class RuneDataSelector(BaseStruct):
     professionMask: int
     buildableMask: int
-    charIdFilter: list[str] | None
-    enemyIdFilter: list[str] | None
-    enemyIdExcludeFilter: list[str] | None
-    skillIdFilter: list[str] | None
-    tileKeyFilter: list[str] | None
-    groupTagFilter: list[str] | None
-    filterTagFilter: list[str] | None
+    charIdFilter: Union[List[str], None]
+    enemyIdFilter: Union[List[str], None]
+    enemyIdExcludeFilter: Union[List[str], None]
+    skillIdFilter: Union[List[str], None]
+    tileKeyFilter: Union[List[str], None]
+    groupTagFilter: Union[List[str], None]
+    filterTagFilter: Union[List[str], None]
+    subProfessionExcludeFilter: Union[List[str], None]
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: int | float | None = None
-    valueStr: str | None = None
+    value: Union[Union[int, float], None] = None
+    valueStr: Union[str, None] = None
 
 
-class RuneData(BaseModel):
+class RuneData(BaseStruct):
     key: str
     selector: RuneDataSelector
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
 
 
-class RuneTablePackedRuneData(BaseModel):
-    id_: str = Field(alias='id')
-    points: int | float
-    mutexGroupKey: str | None
+class RuneTablePackedRuneData(BaseStruct):
+    id_: str = field(name='id')
+    points: Union[int, float]
+    mutexGroupKey: Union[str, None]
     description: str
-    runes: list[RuneData]
+    runes: List[RuneData]
 
 
-class LegacyInLevelRuneData(BaseModel):
+class LegacyInLevelRuneData(BaseStruct):
     difficultyMask: int
     key: str
     professionMask: int
     buildableMask: int
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
 
 
-class SandboxActTable(BaseModel):
+class SandboxActTable(BaseStruct):
     mapConstTable: SandboxMapConstTable
     baseConstTable: SandboxBaseConstTable
-    battleLoadingTips: list[TipData]
-    foodProduceDatas: dict[str, SandboxFoodProduceData]
-    foodmatDatas: dict[str, SandboxFoodmatBuffData]
-    foodmatBuffDatas: dict[str, SandboxFoodmatBuffData]
-    foodStaminaDatas: dict[str, SandboxFoodStaminaData]
-    buildProduceDatas: dict[str, SandboxBuildProduceData]
-    buildGoldRatioDatas: list[SandboxBuildGoldRatioData]
-    buildingItemDatas: dict[str, SandboxBuildingItemData]
-    buildProduceUnlockDatas: dict[str, SandboxBuildProduceUnlockData]
-    craftItemDatas: dict[str, SandboxCraftItemData]
-    itemTrapDatas: dict[str, SandboxItemTrapData]
-    trapDeployLimitDatas: dict[str, int]
-    developmentDatas: dict[str, SandboxDevelopmentData]
-    developmentLimitDatas: dict[str, SandboxDevelopmentLimitData]
-    itemToastDatas: dict[str, SandboxItemToastData]
-    developmentLineSegmentDatas: list[SandboxDevelopmentLineSegmentData]
+    battleLoadingTips: List[TipData]
+    foodProduceDatas: Dict[str, SandboxFoodProduceData]
+    foodmatDatas: Dict[str, SandboxFoodmatBuffData]
+    foodmatBuffDatas: Dict[str, SandboxFoodmatBuffData]
+    foodStaminaDatas: Dict[str, SandboxFoodStaminaData]
+    buildProduceDatas: Dict[str, SandboxBuildProduceData]
+    buildGoldRatioDatas: List[SandboxBuildGoldRatioData]
+    buildingItemDatas: Dict[str, SandboxBuildingItemData]
+    buildProduceUnlockDatas: Dict[str, SandboxBuildProduceUnlockData]
+    craftItemDatas: Dict[str, SandboxCraftItemData]
+    itemTrapDatas: Dict[str, SandboxItemTrapData]
+    trapDeployLimitDatas: Dict[str, int]
+    developmentDatas: Dict[str, SandboxDevelopmentData]
+    developmentLimitDatas: Dict[str, SandboxDevelopmentLimitData]
+    itemToastDatas: Dict[str, SandboxItemToastData]
+    developmentLineSegmentDatas: List[SandboxDevelopmentLineSegmentData]
     rewardConfigDatas: SandboxRewardConfigGroupData
-    charStaminaMapping: dict[str, dict[str, list[SandboxStaminaData]]]
-    nodeTypeDatas: dict[str, SandboxNodeTypeData]
-    nodeUpgradeDatas: dict[str, SandboxNodeUpgradeData]
-    weatherDatas: dict[str, SandboxWeatherData]
-    stageDatas: dict[str, SandboxStageData]
-    eventDatas: dict[str, SandboxEventData]
-    eventSceneDatas: dict[str, SandboxEventSceneData]
-    eventChoiceDatas: dict[str, SandboxEventChoiceData]
-    eventTypeDatas: dict[str, SandboxEventTypeData]
-    missionDatas: dict[str, SandboxMissionData]
-    unitData: dict[str, SandboxUnitData]
-    dailyDescTemplateDatas: dict[str, SandboxDailyDescTemplateData]
-    rushAvgDict: dict[str, str]
+    charStaminaMapping: Dict[str, Dict[str, List[SandboxStaminaData]]]
+    nodeTypeDatas: Dict[str, SandboxNodeTypeData]
+    nodeUpgradeDatas: Dict[str, SandboxNodeUpgradeData]
+    weatherDatas: Dict[str, SandboxWeatherData]
+    stageDatas: Dict[str, SandboxStageData]
+    eventDatas: Dict[str, SandboxEventData]
+    eventSceneDatas: Dict[str, SandboxEventSceneData]
+    eventChoiceDatas: Dict[str, SandboxEventChoiceData]
+    eventTypeDatas: Dict[str, SandboxEventTypeData]
+    missionDatas: Dict[str, SandboxMissionData]
+    unitData: Dict[str, SandboxUnitData]
+    dailyDescTemplateDatas: Dict[str, SandboxDailyDescTemplateData]
+    rushAvgDict: Dict[str, str]
     rushEnemyGroup: RushEnemyGroup
-    runeDatas: dict[str, RuneTablePackedRuneData]
-    itemRuneList: dict[str, list[LegacyInLevelRuneData]]
+    runeDatas: Dict[str, RuneTablePackedRuneData]
+    itemRuneList: Dict[str, List[LegacyInLevelRuneData]]
 
 
-class SandboxItemData(BaseModel):
+class SandboxItemData(BaseStruct):
     itemId: str
     itemType: str
     itemName: str
@@ -387,13 +390,13 @@ class SandboxItemData(BaseModel):
     itemDesc: str
     itemRarity: int
     sortId: int
-    recommendTypeList: list[str] | None
+    recommendTypeList: Union[List[str], None]
     recommendPriority: int
     obtainApproach: str
 
 
-class SandboxTable(BaseModel):
+class SandboxTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    sandboxActTables: dict[str, SandboxActTable]
-    itemDatas: dict[str, SandboxItemData]
+    sandboxActTables: Dict[str, SandboxActTable]
+    itemDatas: Dict[str, SandboxItemData]

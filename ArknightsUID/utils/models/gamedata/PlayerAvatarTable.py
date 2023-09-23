@@ -1,13 +1,14 @@
-from pydantic import BaseModel
+from typing import Dict, List
+from ..common import BaseStruct
 
 
-class PlayerAvatarGroupData(BaseModel):
+class PlayerAvatarGroupData(BaseStruct):
     avatarType: str
     typeName: str
-    avatarIdList: list[str]
+    avatarIdList: List[str]
 
 
-class PlayerAvatarPerData(BaseModel):
+class PlayerAvatarPerData(BaseStruct):
     avatarId: str
     avatarType: str
     avatarIdSort: int
@@ -18,9 +19,9 @@ class PlayerAvatarPerData(BaseModel):
     obtainApproach: str
 
 
-class PlayerAvatarTable(BaseModel):
+class PlayerAvatarTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    avatarList: list[PlayerAvatarPerData]
-    avatarTypeData: dict[str, PlayerAvatarGroupData]
+    avatarList: List[PlayerAvatarPerData]
+    avatarTypeData: Dict[str, PlayerAvatarGroupData]
     defaultAvatarId: str

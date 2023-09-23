@@ -1,29 +1,31 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class CampaignDataBreakRewardLadder(BaseModel):
+class CampaignDataBreakRewardLadder(BaseStruct):
     killCnt: int
     breakFeeAdd: int
-    rewards: list[ItemBundle]
+    rewards: List[ItemBundle]
 
 
-class WeightItemBundle(BaseModel):
-    id_: str = Field(alias='id')
-    type_: str = Field(alias='type')
+class WeightItemBundle(BaseStruct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     dropType: str
     count: int
     weight: int
 
 
-class StageDataDisplayRewards_(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class StageDataDisplayRewards_(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
@@ -33,18 +35,18 @@ class StageDataDisplayDetailRewards_(StageDataDisplayRewards_):
     CannotGetPercent: float
 
 
-class CampaignDataCampaignDropInfo(BaseModel):
-    firstPassRewards: list[ItemBundle] | None
-    passRewards: list[list[WeightItemBundle]] | None
-    displayDetailRewards: list[StageDataDisplayDetailRewards_] | None
+class CampaignDataCampaignDropInfo(BaseStruct):
+    firstPassRewards: Union[List[ItemBundle], None]
+    passRewards: Union[List[List[WeightItemBundle]], None]
+    displayDetailRewards: Union[List[StageDataDisplayDetailRewards_], None]
 
 
-class CampaignDataDropLadder(BaseModel):
+class CampaignDataDropLadder(BaseStruct):
     killCnt: int
     dropInfo: CampaignDataCampaignDropInfo
 
 
-class CampaignDataGainLadder(BaseModel):
+class CampaignDataGainLadder(BaseStruct):
     killCnt: int
     apFailReturn: int
     favor: int
@@ -53,62 +55,62 @@ class CampaignDataGainLadder(BaseModel):
     displayDiamondShdNum: int
 
 
-class StageDataDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class StageDataDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class StageDataDisplayDetailRewards(BaseModel):
+class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class CampaignDataDropGainInfo(BaseModel):
-    dropLadders: list[CampaignDataDropLadder]
-    gainLadders: list[CampaignDataGainLadder]
-    displayRewards: list[StageDataDisplayRewards]
-    displayDetailRewards: list[StageDataDisplayDetailRewards]
+class CampaignDataDropGainInfo(BaseStruct):
+    dropLadders: List[CampaignDataDropLadder]
+    gainLadders: List[CampaignDataGainLadder]
+    displayRewards: List[StageDataDisplayRewards]
+    displayDetailRewards: List[StageDataDisplayDetailRewards]
 
 
-class CampaignData(BaseModel):
+class CampaignData(BaseStruct):
     stageId: str
     isSmallScale: int
-    breakLadders: list[CampaignDataBreakRewardLadder]
+    breakLadders: List[CampaignDataBreakRewardLadder]
     isCustomized: bool
-    dropGains: dict[str, CampaignDataDropGainInfo]
+    dropGains: Dict[str, CampaignDataDropGainInfo]
 
 
-class CampaignGroupData(BaseModel):
+class CampaignGroupData(BaseStruct):
     groupId: str
-    activeCamps: list[str]
+    activeCamps: List[str]
     startTs: int
     endTs: int
 
 
-class CampaignRegionData(BaseModel):
-    id_: str = Field(alias='id')
+class CampaignRegionData(BaseStruct):
+    id_: str = field(name='id')
     isUnknwon: int
 
 
-class CampaignZoneData(BaseModel):
-    id_: str = Field(alias='id')
+class CampaignZoneData(BaseStruct):
+    id_: str = field(name='id')
     name: str
     regionId: str
     templateId: str
 
 
-class CampaignMissionData(BaseModel):
-    id_: str = Field(alias='id')
+class CampaignMissionData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
-    param: list[str]
+    param: List[str]
     description: str
     breakFeeAdd: int
 
 
-class CampaignConstTable(BaseModel):
+class CampaignConstTable(BaseStruct):
     systemPreposedStage: str
     rotateStartTime: int
     rotatePreposedStage: str
@@ -117,42 +119,39 @@ class CampaignConstTable(BaseModel):
     sweepStartTime: int
 
 
-class CampaignRotateOpenTimeData(BaseModel):
+class CampaignRotateOpenTimeData(BaseStruct):
     groupId: str
     stageId: str
     mapId: str
-    unknownRegions: list[str]
+    unknownRegions: List[str]
     duration: int
     startTs: int
     endTs: int
 
 
-class CampaignTrainingOpenTimeData(BaseModel):
+class CampaignTrainingOpenTimeData(BaseStruct):
     groupId: str
-    stages: list[str]
+    stages: List[str]
     startTs: int
     endTs: int
 
 
-class CampaignTrainingAllOpenTimeData(BaseModel):
+class CampaignTrainingAllOpenTimeData(BaseStruct):
     groupId: str
     startTs: int
     endTs: int
 
 
-class CampaignTable(BaseModel):
+class CampaignTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    campaigns: dict[str, CampaignData]
-    campaignGroups: dict[str, CampaignGroupData]
-    campaignRegions: dict[str, CampaignRegionData]
-    campaignZones: dict[str, CampaignZoneData]
-    campaignMissions: dict[str, CampaignMissionData]
-    stageIndexInZoneMap: dict[str, int]
+    campaigns: Dict[str, CampaignData]
+    campaignGroups: Dict[str, CampaignGroupData]
+    campaignRegions: Dict[str, CampaignRegionData]
+    campaignZones: Dict[str, CampaignZoneData]
+    campaignMissions: Dict[str, CampaignMissionData]
+    stageIndexInZoneMap: Dict[str, int]
     campaignConstTable: CampaignConstTable
-    campaignRotateStageOpenTimes: list[CampaignRotateOpenTimeData]
-    campaignTrainingStageOpenTimes: list[CampaignTrainingOpenTimeData]
-    campaignTrainingAllOpenTimes: list[CampaignTrainingAllOpenTimeData]
-
-    class Config:
-        extra = 'allow'
+    campaignRotateStageOpenTimes: List[CampaignRotateOpenTimeData]
+    campaignTrainingStageOpenTimes: List[CampaignTrainingOpenTimeData]
+    campaignTrainingAllOpenTimes: List[CampaignTrainingAllOpenTimeData]

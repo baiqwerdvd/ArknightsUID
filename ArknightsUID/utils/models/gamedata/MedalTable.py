@@ -1,65 +1,65 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class MedalExpireTime(BaseModel):
+class MedalExpireTime(BaseStruct):
     start: int
     end: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class MedalGroupData(BaseModel):
+class MedalGroupData(BaseStruct):
     groupId: str
     groupName: str
     groupDesc: str
-    medalId: list[str]
+    medalId: List[str]
     sortId: int
     groupBackColor: str
     groupGetTime: int
-    sharedExpireTimes: list[MedalExpireTime] | None
+    sharedExpireTimes: Union[List[MedalExpireTime], None]
 
 
-class MedalRewardGroupData(BaseModel):
+class MedalRewardGroupData(BaseStruct):
     groupId: str
     slotId: int
-    itemList: list[ItemBundle]
+    itemList: List[ItemBundle]
 
 
-class MedalTypeData(BaseModel):
+class MedalTypeData(BaseStruct):
     medalGroupId: str
     sortId: int
     medalName: str
-    groupData: list[MedalGroupData]
+    groupData: List[MedalGroupData]
 
 
-class MedalPerData(BaseModel):
-    medalId: str | None
-    medalName: str | None
-    medalType: str | None
-    slotId: int | None
-    preMedalIdList: list[str] | None
+class MedalPerData(BaseStruct):
+    medalId: Union[str, None]
+    medalName: Union[str, None]
+    medalType: Union[str, None]
+    slotId: Union[int, None]
+    preMedalIdList: Union[List[str], None]
     rarity: int
-    template: str | None
-    unlockParam: list[str]
-    getMethod: str | None
-    description: str | None
-    advancedMedal: str | None
-    originMedal: str | None
+    template: Union[str, None]
+    unlockParam: List[str]
+    getMethod: Union[str, None]
+    description: Union[str, None]
+    advancedMedal: Union[str, None]
+    originMedal: Union[str, None]
     displayTime: int
-    expireTimes: list[MedalExpireTime]
-    medalRewardGroup: list[MedalRewardGroupData]
+    expireTimes: List[MedalExpireTime]
+    medalRewardGroup: List[MedalRewardGroupData]
+    isHidden: Union[bool, None] = None
 
 
-class MedalTable(BaseModel):
+class MedalTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    medalList: list[MedalPerData]
-    medalTypeData: dict[str, MedalTypeData]
-
-    class Config:
-        extra = 'allow'
+    medalList: List[MedalPerData]
+    medalTypeData: Dict[str, MedalTypeData]

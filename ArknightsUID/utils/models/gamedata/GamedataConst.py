@@ -1,24 +1,27 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
+from msgspec import json as msgjson
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class GameDataConstsCharAssistRefreshTimeState(BaseModel):
+class GameDataConstsCharAssistRefreshTimeState(BaseStruct):
     Hour: int
     Minute: int
 
 
-class TermDescriptionData(BaseModel):
+class TermDescriptionData(BaseStruct):
     termId: str
     termName: str
     description: str
 
 
-class GamedataConst(BaseModel):
+class GamedataConst(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
     addedRewardDisplayZone: str
@@ -26,13 +29,13 @@ class GamedataConst(BaseModel):
     announceWebBusType: str
     apBuyCost: int
     apBuyThreshold: int
-    assistBeUsedSocialPt: dict[str, int]
+    assistBeUsedSocialPt: Dict[str, int]
     attackMax: float
     baseMaxFriendNum: int
     buyApTimeNoLimitFlag: bool
-    characterExpMap: list[list[int]]
-    characterUpgradeCostMap: list[list[int]]
-    charAssistRefreshTime: list[GameDataConstsCharAssistRefreshTimeState]
+    characterExpMap: List[List[int]]
+    characterUpgradeCostMap: List[List[int]]
+    charAssistRefreshTime: List[GameDataConstsCharAssistRefreshTimeState]
     charmEquipCount: int
     commonPotentialLvlUpCount: int
     completeCrystalBonus: int
@@ -46,15 +49,15 @@ class GamedataConst(BaseModel):
     diamondMaterialToShardExchangeRatio: int
     diamondToShdRate: int
     easyCrystalBonus: int
-    evolveGoldCost: list[list[int]]
-    friendAssistRarityLimit: list[int]
+    evolveGoldCost: List[List[int]]
+    friendAssistRarityLimit: List[int]
     hardDiamondDrop: int
     hpMax: float
     initCampaignTotalFee: int
-    initCharIdList: list[str]
+    initCharIdList: List[str]
     initPlayerDiamondShard: int
     initPlayerGold: int
-    initRecruitTagList: list[int]
+    initRecruitTagList: List[int]
     instFinDmdShdCost: int
     isClassicGachaPoolFuncEnabled: bool
     isClassicPotentialItemFuncEnabled: bool
@@ -64,33 +67,31 @@ class GamedataConst(BaseModel):
     isLMGTSEnabled: bool
     isRoguelikeAvgAchieveFuncEnabled: bool
     isRoguelikeTopicFuncEnabled: bool
-    isVoucherClassicItemDistinguishable: bool | None = None
-    legacyItemList: list[ItemBundle]
+    legacyItemList: List[ItemBundle]
     legacyTime: int
     lMTGSDescConstOne: str
     lMTGSDescConstTwo: str
     LMTGSToEPGSRatio: int
-    mailBannerType: list[str]
+    mailBannerType: List[str]
     mainlineCompatibleDesc: str
     mainlineEasyDesc: str
     mainlineNormalDesc: str
     mainlineToughDesc: str
-    maxLevel: list[list[int]]
+    maxLevel: List[List[int]]
     maxPlayerLevel: int
     maxPracticeTicket: int
     monthlySubRemainTimeLimitDays: int
     monthlySubWarningTime: int
-    multiInComeByRank: list[str]
+    multiInComeByRank: List[str]
     newBeeGiftEPGS: int
-    normalGachaUnlockPrice: list[int]
-    normalRecruitLockedString: list[str]
-    operatorRecordsStartTime: int | None = None
-    playerApMap: list[int]
+    normalGachaUnlockPrice: List[int]
+    normalRecruitLockedString: List[str]
+    playerApMap: List[int]
     playerApRegenSpeed: int
-    playerExpMap: list[int]
-    pullForces: list[float]
+    playerExpMap: List[int]
+    pullForces: List[float]
     pullForceZeroIndex: int
-    pushForces: list[float]
+    pushForces: List[float]
     pushForceZeroIndex: int
     recruitPoolVersion: int
     rejectSpCharMission: int
@@ -98,10 +99,9 @@ class GamedataConst(BaseModel):
     replicateShopStartTime: int
     requestSameFriendCD: int
     resPrefVersion: str
-    richTextStyles: dict[str, str]
+    richTextStyles: Dict[str, str]
     storyReviewUnlockItemLackTip: str
-    subProfessionDamageTypePairs: dict[str, int] | None = None
-    termDescriptionDict: dict[str, TermDescriptionData]
+    termDescriptionDict: Dict[str, TermDescriptionData]
     UnlimitSkinOutOfTime: int
     useAssistSocialPt: int
     useAssistSocialPtMaxCount: int
@@ -113,6 +113,6 @@ class GamedataConst(BaseModel):
     voucherSkinRedeem: int
     weeklyOverrideDesc: str
     TSO: int
-
-    class Config:
-        extra = 'allow'
+    isVoucherClassicItemDistinguishable: Union[bool, None] = None
+    operatorRecordsStartTime: Union[int, None] = None
+    subProfessionDamageTypePairs: Union[Dict[str, int], None] = None

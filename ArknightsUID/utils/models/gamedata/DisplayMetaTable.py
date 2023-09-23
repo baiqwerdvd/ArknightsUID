@@ -1,7 +1,9 @@
-from pydantic import BaseModel
+from typing import Dict, List
+from ..common import BaseStruct
+from msgspec import field
 
 
-class PlayerAvatarPerData(BaseModel):
+class PlayerAvatarPerData(BaseStruct):
     avatarId: str
     avatarType: str
     avatarIdSort: int
@@ -12,19 +14,19 @@ class PlayerAvatarPerData(BaseModel):
     obtainApproach: str
 
 
-class PlayerAvatarGroupData(BaseModel):
+class PlayerAvatarGroupData(BaseStruct):
     avatarType: str
     typeName: str
-    avatarIdList: list[str]
+    avatarIdList: List[str]
 
 
-class PlayerAvatarData(BaseModel):
+class PlayerAvatarData(BaseStruct):
     defaultAvatarId: str
-    avatarList: list[PlayerAvatarPerData]
-    avatarTypeData: dict[str, PlayerAvatarGroupData]
+    avatarList: List[PlayerAvatarPerData]
+    avatarTypeData: Dict[str, PlayerAvatarGroupData]
 
 
-class HomeBackgroundSingleData(BaseModel):
+class HomeBackgroundSingleData(BaseStruct):
     bgId: str
     bgType: str
     bgSortId: int
@@ -34,20 +36,32 @@ class HomeBackgroundSingleData(BaseModel):
     bgDes: str
     bgUsage: str
     obtainApproach: str
-    unlockDesList: list[str]
+    unlockDesList: List[str]
 
 
-class HomeBackgroundData(BaseModel):
+class HomeBackgroundThemeData(BaseStruct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
+    sortId: int
+    startTime: int
+    tmName: str
+    tmDes: str
+    tmUsage: str
+    obtainApproach: str
+    unlockDesList: List[str]
+
+
+class HomeBackgroundData(BaseStruct):
     defaultBackgroundId: str
-    homeBgDataList: list[HomeBackgroundSingleData]
+    defaultThemeId: str
+    homeBgDataList: List[HomeBackgroundSingleData]
+    themeList: List[HomeBackgroundThemeData]
     defaultBgMusicId: str
+    themeStartTime: int
 
 
-class DisplayMetaTable(BaseModel):
+class DisplayMetaTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
     playerAvatarData: PlayerAvatarData
     homeBackgroundData: HomeBackgroundData
-
-    class Config:
-        extra = 'allow'

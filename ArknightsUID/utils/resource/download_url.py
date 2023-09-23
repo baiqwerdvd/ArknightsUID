@@ -1,4 +1,5 @@
 
+from typing import Union, Tuple
 import aiofiles
 from aiohttp.client import ClientSession
 from aiohttp.client_exceptions import ClientConnectorError
@@ -16,7 +17,7 @@ async def download(
     res_type: str,
     resource_type: str,
     name: str,
-) -> tuple[str, str, str] | None:
+) -> Union[Tuple[str, str, str], None]:
     """
     :说明:
       下载URL保存入目录
@@ -43,8 +44,8 @@ async def download_file(
     res_type: str,
     resource_type: str,
     name: str,
-    sess: ClientSession | None = None,
-) -> tuple[str, str, str] | None:
+    sess: Union[ClientSession, None] = None,
+) -> Union[Tuple[str, str, str], None]:
     if sess is None:
         sess = ClientSession()
     try:

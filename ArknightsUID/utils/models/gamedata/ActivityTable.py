@@ -1,86 +1,87 @@
-from typing import Any
-from pydantic import BaseModel, Field
+from typing import Any, Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ActivityTableBasicData(BaseModel):
-    id_: str = Field(alias='id')
-    type_: str = Field(alias='type')
-    displayType: str | None = None
+class ActivityTableBasicData(BaseStruct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     name: str
     startTime: int
     endTime: int
     rewardEndTime: int
     displayOnHome: bool
     hasStage: bool
-    templateShopId: str | None
-    medalGroupId: str | None
-    ungroupedMedalIds: list[str] | None = None
+    templateShopId: Union[str, None]
+    medalGroupId: Union[str, None]
     isReplicate: bool
     needFixedSync: bool
+    displayType: Union[str, None] = None
+    ungroupedMedalIds: Union[List[str], None] = None
 
 
-class ActivityTableHomeActivityConfig(BaseModel):
+class ActivityTableHomeActivityConfig(BaseStruct):
     actId: str
     isPopupAfterCheckin: bool
     showTopBarMenu: bool
-    actTopBarColor: str | None
-    actTopBarText: str | None
+    actTopBarColor: Union[str, None]
+    actTopBarText: Union[str, None]
 
 
-class MissionDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class MissionDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     count: int
 
 
-class MissionData(BaseModel):
-    id_: str = Field(alias='id')
+class MissionData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     description: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     itemBgType: str
-    preMissionIds: list[str] | None
+    preMissionIds: Union[List[str], None]
     template: str
     templateType: str
-    param: list[str]
-    unlockCondition: str | None
-    unlockParam: list[str] | None
+    param: List[str]
+    unlockCondition: Union[str, None]
+    unlockParam: Union[List[str], None]
     missionGroup: str
-    toPage: str | None
+    toPage: Union[str, None]
     periodicalPoint: int
-    rewards: list[MissionDisplayRewards] | None
-    backImagePath: str | None
-    foldId: str | None
+    rewards: Union[List[MissionDisplayRewards], None]
+    backImagePath: Union[str, None]
+    foldId: Union[str, None]
     haveSubMissionToUnlock: bool
 
 
-class MissionGroup(BaseModel):
-    id_: str = Field(alias='id')
-    title: str | None
-    type_: str = Field(alias='type')
-    preMissionGroup: str | None
-    period: list[int] | None
-    rewards: list[MissionDisplayRewards] | None
-    missionIds: list[str]
+class MissionGroup(BaseStruct):
+    id_: str = field(name='id')
+    title: Union[str, None]
+    type_: str = field(name='type')
+    preMissionGroup: Union[str, None]
+    period: Union[List[int], None]
+    rewards: Union[List[MissionDisplayRewards], None]
+    missionIds: List[str]
     startTs: int
     endTs: int
 
 
-class DefaultZoneData(BaseModel):
+class DefaultZoneData(BaseStruct):
     zoneId: str
     zoneIndex: str
     zoneName: str
     zoneDesc: str
-    itemDropList: list[str]
+    itemDropList: List[str]
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class DefaultShopData(BaseModel):
+class DefaultShopData(BaseStruct):
     goodId: str
     slotId: int
     price: int
@@ -89,13 +90,13 @@ class DefaultShopData(BaseModel):
     item: ItemBundle
 
 
-class DefaultFirstData(BaseModel):
-    zoneList: list[DefaultZoneData]
-    shopList: list[DefaultShopData] | None
+class DefaultFirstData(BaseStruct):
+    zoneList: List[DefaultZoneData]
+    shopList: Union[List[DefaultShopData], None]
 
 
-class DefaultCheckInDataCheckInDailyInfo(BaseModel):
-    itemList: list[ItemBundle]
+class DefaultCheckInDataCheckInDailyInfo(BaseStruct):
+    itemList: List[ItemBundle]
     order: int
     color: int
     keyItem: int
@@ -103,63 +104,63 @@ class DefaultCheckInDataCheckInDailyInfo(BaseModel):
     isDynItem: bool
 
 
-class DefaultCheckInDataDynCheckInDailyInfo(BaseModel):
+class DefaultCheckInDataDynCheckInDailyInfo(BaseStruct):
     questionDesc: str
     preOption: str
-    optionList: list[str]
+    optionList: List[str]
     showDay: int
     spOrderIconId: str
     spOrderDesc: str
     spOrderCompleteDesc: str
 
 
-class DefaultCheckInDataOptionInfo(BaseModel):
-    optionDesc: str | None
-    showImageId1: str | None
-    showImageId2: str | None
-    optionCompleteDesc: str | None
+class DefaultCheckInDataOptionInfo(BaseStruct):
+    optionDesc: Union[str, None]
+    showImageId1: Union[str, None]
+    showImageId2: Union[str, None]
+    optionCompleteDesc: Union[str, None]
     isStart: bool
 
 
-class DefaultCheckInDataDynamicCheckInConsts(BaseModel):
+class DefaultCheckInDataDynamicCheckInConsts(BaseStruct):
     firstQuestionDesc: str
     firstQuestionTipsDesc: str
     expirationDesc: str
     firstQuestionConfirmDesc: str
 
 
-class DefaultCheckInDataDynamicCheckInData(BaseModel):
-    dynCheckInDict: dict[str, DefaultCheckInDataDynCheckInDailyInfo]
-    dynOptionDict: dict[str, DefaultCheckInDataOptionInfo]
-    dynItemDict: dict[str, list[ItemBundle]]
+class DefaultCheckInDataDynamicCheckInData(BaseStruct):
+    dynCheckInDict: Dict[str, DefaultCheckInDataDynCheckInDailyInfo]
+    dynOptionDict: Dict[str, DefaultCheckInDataOptionInfo]
+    dynItemDict: Dict[str, List[ItemBundle]]
     constData: DefaultCheckInDataDynamicCheckInConsts
     initOption: str
 
 
-class DefaultCheckInDataExtraCheckinDailyInfo(BaseModel):
+class DefaultCheckInDataExtraCheckinDailyInfo(BaseStruct):
     order: int
     blessing: str
     absolutData: int
     adTip: str
     relativeData: int
-    itemList: list[ItemBundle]
+    itemList: List[ItemBundle]
 
 
-class DefaultCheckInData(BaseModel):
-    checkInList: dict[str, DefaultCheckInDataCheckInDailyInfo]
-    apSupplyOutOfDateDict: dict[str, int]
-    dynCheckInData: DefaultCheckInDataDynamicCheckInData | None = None
-    extraCheckinList: list[DefaultCheckInDataExtraCheckinDailyInfo] | None
+class DefaultCheckInData(BaseStruct):
+    checkInList: Dict[str, DefaultCheckInDataCheckInDailyInfo]
+    apSupplyOutOfDateDict: Dict[str, int]
+    extraCheckinList: Union[List[DefaultCheckInDataExtraCheckinDailyInfo], None]
+    dynCheckInData: Union[DefaultCheckInDataDynamicCheckInData, None] = None
 
 
-class AllPlayerCheckinDataDailyInfo(BaseModel):
-    itemList: list[ItemBundle]
+class AllPlayerCheckinDataDailyInfo(BaseStruct):
+    itemList: List[ItemBundle]
     order: int
     keyItem: bool
     showItemOrder: int
 
 
-class AllPlayerCheckinDataPublicBehaviour(BaseModel):
+class AllPlayerCheckinDataPublicBehaviour(BaseStruct):
     sortId: int
     allBehaviorId: str
     displayOrder: int
@@ -167,10 +168,10 @@ class AllPlayerCheckinDataPublicBehaviour(BaseModel):
     requiringValue: int
     requireRepeatCompletion: bool
     rewardReceivedDesc: str
-    rewards: list[ItemBundle]
+    rewards: List[ItemBundle]
 
 
-class AllPlayerCheckinDataPersonalBehaviour(BaseModel):
+class AllPlayerCheckinDataPersonalBehaviour(BaseStruct):
     sortId: int
     personalBehaviorId: str
     displayOrder: int
@@ -178,165 +179,165 @@ class AllPlayerCheckinDataPersonalBehaviour(BaseModel):
     desc: str
 
 
-class AllPlayerCheckinDataConstData(BaseModel):
+class AllPlayerCheckinDataConstData(BaseStruct):
     characterName: str
     skinName: str
 
 
-class AllPlayerCheckinData(BaseModel):
-    checkInList: dict[str, AllPlayerCheckinDataDailyInfo]
-    apSupplyOutOfDateDict: dict[str, int]
-    pubBhvs: dict[str, AllPlayerCheckinDataPublicBehaviour]
-    personalBhvs: dict[str, AllPlayerCheckinDataPersonalBehaviour]
+class AllPlayerCheckinData(BaseStruct):
+    checkInList: Dict[str, AllPlayerCheckinDataDailyInfo]
+    apSupplyOutOfDateDict: Dict[str, int]
+    pubBhvs: Dict[str, AllPlayerCheckinDataPublicBehaviour]
+    personalBhvs: Dict[str, AllPlayerCheckinDataPersonalBehaviour]
     constData: AllPlayerCheckinDataConstData
 
 
-class VersusCheckInDataDailyInfo(BaseModel):
-    rewardList: list[ItemBundle]
+class VersusCheckInDataDailyInfo(BaseStruct):
+    rewardList: List[ItemBundle]
     order: int
 
 
-class VersusCheckInDataVoteData(BaseModel):
+class VersusCheckInDataVoteData(BaseStruct):
     plSweetNum: int
     plSaltyNum: int
     plTaste: int
 
 
-class VersusCheckInDataTasteInfoData(BaseModel):
+class VersusCheckInDataTasteInfoData(BaseStruct):
     plTaste: int
     tasteType: str
     tasteText: str
 
 
-class VersusCheckInDataTasteRewardData(BaseModel):
+class VersusCheckInDataTasteRewardData(BaseStruct):
     tasteType: str
     rewardItem: ItemBundle
 
 
-class VersusCheckInData(BaseModel):
-    checkInDict: dict[str, VersusCheckInDataDailyInfo]
-    voteTasteList: list[VersusCheckInDataVoteData]
-    tasteInfoDict: dict[str, VersusCheckInDataTasteInfoData]
-    tasteRewardDict: dict[str, VersusCheckInDataTasteRewardData]
-    apSupplyOutOfDateDict: dict[str, int]
+class VersusCheckInData(BaseStruct):
+    checkInDict: Dict[str, VersusCheckInDataDailyInfo]
+    voteTasteList: List[VersusCheckInDataVoteData]
+    tasteInfoDict: Dict[str, VersusCheckInDataTasteInfoData]
+    tasteRewardDict: Dict[str, VersusCheckInDataTasteRewardData]
+    apSupplyOutOfDateDict: Dict[str, int]
     versusTotalDays: int
     ruleText: str
 
 
-class Act3D0DataCampBasicInfo(BaseModel):
+class Act3D0DataCampBasicInfo(BaseStruct):
     campId: str
     campName: str
     campDesc: str
-    rewardDesc: str | None
+    rewardDesc: Union[str, None]
 
 
-class Act3D0DataLimitedPoolDetailInfoPoolItemInfo(BaseModel):
+class Act3D0DataLimitedPoolDetailInfoPoolItemInfo(BaseStruct):
     goodId: str
-    itemInfo: ItemBundle | None
+    itemInfo: Union[ItemBundle, None]
     goodType: str
     perCount: int
     totalCount: int
     weight: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     orderId: int
 
 
-class Act3D0DataLimitedPoolDetailInfo(BaseModel):
+class Act3D0DataLimitedPoolDetailInfo(BaseStruct):
     poolId: str
-    poolItemInfo: list[Act3D0DataLimitedPoolDetailInfoPoolItemInfo]
+    poolItemInfo: List[Act3D0DataLimitedPoolDetailInfoPoolItemInfo]
 
 
-class Act3D0DataInfinitePoolDetailInfoPoolItemInfo(BaseModel):
+class Act3D0DataInfinitePoolDetailInfoPoolItemInfo(BaseStruct):
     goodId: str
     itemInfo: ItemBundle
     goodType: str
     perCount: int
     weight: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     orderId: int
 
 
-class Act3D0DataInfinitePoolDetailInfo(BaseModel):
+class Act3D0DataInfinitePoolDetailInfo(BaseStruct):
     poolId: str
-    poolItemInfo: list[Act3D0DataInfinitePoolDetailInfoPoolItemInfo]
+    poolItemInfo: List[Act3D0DataInfinitePoolDetailInfoPoolItemInfo]
 
 
-class Act3D0DataInfinitePoolPercent(BaseModel):
-    percentDict: dict[str, int]
+class Act3D0DataInfinitePoolPercent(BaseStruct):
+    percentDict: Dict[str, int]
 
 
-class Act3D0DataCampItemMapInfo(BaseModel):
+class Act3D0DataCampItemMapInfo(BaseStruct):
     goodId: str
-    itemDict: dict[str, ItemBundle]
+    itemDict: Dict[str, ItemBundle]
 
 
-class Act3D0DataClueInfo(BaseModel):
+class Act3D0DataClueInfo(BaseStruct):
     itemId: str
     campId: str
     orderId: int
     imageId: str
 
 
-class Act3D0DataMileStoneInfo(BaseModel):
+class Act3D0DataMileStoneInfo(BaseStruct):
     mileStoneId: str
     orderId: int
     mileStoneType: int
-    normalItem: ItemBundle | None
-    specialItemDict: dict[str, ItemBundle]
+    normalItem: Union[ItemBundle, None]
+    specialItemDict: Dict[str, ItemBundle]
     tokenNum: int
 
 
-class Act3D0DataGachaBoxInfo(BaseModel):
+class Act3D0DataGachaBoxInfo(BaseStruct):
     gachaBoxId: str
     boxType: str
-    keyGoodId: str | None
+    keyGoodId: Union[str, None]
     tokenId: ItemBundle
     tokenNumOnce: int
-    unlockImg: str | None
-    nextGachaBoxInfoId: str | None
+    unlockImg: Union[str, None]
+    nextGachaBoxInfoId: Union[str, None]
 
 
-class Act3D0DataCampInfo(BaseModel):
+class Act3D0DataCampInfo(BaseStruct):
     campId: str
     campChineseName: str
 
 
-class Act3D0DataZoneDescInfo(BaseModel):
+class Act3D0DataZoneDescInfo(BaseStruct):
     zoneId: str
-    lockedText: str | None
+    lockedText: Union[str, None]
 
 
-class CommonFavorUpInfo(BaseModel):
+class CommonFavorUpInfo(BaseStruct):
     charId: str
     displayStartTime: int
     displayEndTime: int
 
 
-class Act3D0Data(BaseModel):
-    campBasicInfo: dict[str, Act3D0DataCampBasicInfo]
-    limitedPoolList: dict[str, Act3D0DataLimitedPoolDetailInfo]
-    infinitePoolList: dict[str, Act3D0DataInfinitePoolDetailInfo]
-    infinitePercent: dict[str, Act3D0DataInfinitePoolPercent] | None
-    campItemMapInfo: dict[str, Act3D0DataCampItemMapInfo]
-    clueInfo: dict[str, Act3D0DataClueInfo]
-    mileStoneInfo: list[Act3D0DataMileStoneInfo]
+class Act3D0Data(BaseStruct):
+    campBasicInfo: Dict[str, Act3D0DataCampBasicInfo]
+    limitedPoolList: Dict[str, Act3D0DataLimitedPoolDetailInfo]
+    infinitePoolList: Dict[str, Act3D0DataInfinitePoolDetailInfo]
+    infinitePercent: Union[Dict[str, Act3D0DataInfinitePoolPercent], None]
+    campItemMapInfo: Dict[str, Act3D0DataCampItemMapInfo]
+    clueInfo: Dict[str, Act3D0DataClueInfo]
+    mileStoneInfo: List[Act3D0DataMileStoneInfo]
     mileStoneTokenId: str
     coinTokenId: str
     etTokenId: str
-    gachaBoxInfo: list[Act3D0DataGachaBoxInfo]
-    campInfo: dict[str, Act3D0DataCampInfo] | None
-    zoneDesc: dict[str, Act3D0DataZoneDescInfo]
-    favorUpList: dict[str, CommonFavorUpInfo] | None
+    gachaBoxInfo: List[Act3D0DataGachaBoxInfo]
+    campInfo: Union[Dict[str, Act3D0DataCampInfo], None]
+    zoneDesc: Dict[str, Act3D0DataZoneDescInfo]
+    favorUpList: Union[Dict[str, CommonFavorUpInfo], None]
 
 
-class Act4D0DataMileStoneItemInfo(BaseModel):
+class Act4D0DataMileStoneItemInfo(BaseStruct):
     mileStoneId: str
     orderId: int
     tokenNum: int
     item: ItemBundle
 
 
-class Act4D0DataMileStoneStoryInfo(BaseModel):
+class Act4D0DataMileStoneStoryInfo(BaseStruct):
     mileStoneId: str
     orderId: int
     tokenNum: int
@@ -344,7 +345,7 @@ class Act4D0DataMileStoneStoryInfo(BaseModel):
     desc: str
 
 
-class Act4D0DataStoryInfo(BaseModel):
+class Act4D0DataStoryInfo(BaseStruct):
     storyKey: str
     storyId: str
     storySort: str
@@ -353,7 +354,7 @@ class Act4D0DataStoryInfo(BaseModel):
     storyDesc: str
 
 
-class Act4D0DataStageJumpInfo(BaseModel):
+class Act4D0DataStageJumpInfo(BaseStruct):
     stageKey: str
     zoneId: str
     stageId: str
@@ -361,18 +362,18 @@ class Act4D0DataStageJumpInfo(BaseModel):
     lockDesc: str
 
 
-class Act4D0Data(BaseModel):
-    mileStoneItemList: list[Act4D0DataMileStoneItemInfo]
-    mileStoneStoryList: list[Act4D0DataMileStoneStoryInfo]
-    storyInfoList: list[Act4D0DataStoryInfo]
-    stageInfo: list[Act4D0DataStageJumpInfo]
+class Act4D0Data(BaseStruct):
+    mileStoneItemList: List[Act4D0DataMileStoneItemInfo]
+    mileStoneStoryList: List[Act4D0DataMileStoneStoryInfo]
+    storyInfoList: List[Act4D0DataStoryInfo]
+    stageInfo: List[Act4D0DataStageJumpInfo]
     tokenItem: ItemBundle
     charStoneId: str
-    apSupplyOutOfDateDict: dict[str, int]
-    extraDropZones: list[str]
+    apSupplyOutOfDateDict: Dict[str, int]
+    extraDropZones: List[str]
 
 
-class MileStoneInfo(BaseModel):
+class MileStoneInfo(BaseStruct):
     mileStoneId: str
     orderId: int
     tokenNum: int
@@ -381,26 +382,26 @@ class MileStoneInfo(BaseModel):
     IsBonus: int
 
 
-class Act5D0DataZoneDescInfo(BaseModel):
+class Act5D0DataZoneDescInfo(BaseStruct):
     zoneId: str
-    lockedText: str | None
+    lockedText: Union[str, None]
 
 
-class Act5D0DataMissionExtraInfo(BaseModel):
+class Act5D0DataMissionExtraInfo(BaseStruct):
     difficultLevel: int
     levelDesc: str
     sortId: int
 
 
-class Act5D0Data(BaseModel):
-    mileStoneInfo: list[MileStoneInfo]
+class Act5D0Data(BaseStruct):
+    mileStoneInfo: List[MileStoneInfo]
     mileStoneTokenId: str
-    zoneDesc: dict[str, Act5D0DataZoneDescInfo]
-    missionExtraList: dict[str, Act5D0DataMissionExtraInfo]
+    zoneDesc: Dict[str, Act5D0DataZoneDescInfo]
+    missionExtraList: Dict[str, Act5D0DataMissionExtraInfo]
     spReward: str
 
 
-class Act5D1DataRuneStageData(BaseModel):
+class Act5D1DataRuneStageData(BaseStruct):
     stageId: str
     levelId: str
     code: str
@@ -410,18 +411,18 @@ class Act5D1DataRuneStageData(BaseModel):
     picId: str
 
 
-class Act5D1DataRuneRecurrentStateData(BaseModel):
+class Act5D1DataRuneRecurrentStateData(BaseStruct):
     runeReId: str
     stageId: str
     slotId: int
     startTime: int
     endTime: int
-    runeList: list[str]
+    runeList: List[str]
     isAvail: bool
     warningPoint: int
 
 
-class Act5D1DataRuneUnlockData(BaseModel):
+class Act5D1DataRuneUnlockData(BaseStruct):
     runeId: str
     priceItem: ItemBundle
     runeName: str
@@ -431,13 +432,13 @@ class Act5D1DataRuneUnlockData(BaseModel):
     iconId: str
 
 
-class Act5D1DataRuneReleaseData(BaseModel):
+class Act5D1DataRuneReleaseData(BaseStruct):
     runeId: str
     stageId: str
     releaseTime: int
 
 
-class Act5D1DataShopGood(BaseModel):
+class Act5D1DataShopGood(BaseStruct):
     goodId: str
     slotId: int
     price: int
@@ -447,126 +448,127 @@ class Act5D1DataShopGood(BaseModel):
     goodType: str
 
 
-class Act5D1DataProgessGoodItem(BaseModel):
+class Act5D1DataProgessGoodItem(BaseStruct):
     order: int
     price: int
     displayName: str
     item: ItemBundle
 
 
-class Act5D1DataShopData(BaseModel):
-    shopGoods: dict[str, Act5D1DataShopGood]
-    progressGoods: dict[str, list[Act5D1DataProgessGoodItem]]
+class Act5D1DataShopData(BaseStruct):
+    shopGoods: Dict[str, Act5D1DataShopGood]
+    progressGoods: Dict[str, List[Act5D1DataProgessGoodItem]]
 
 
-class RuneDataSelector(BaseModel):
-    professionMask: int | str
+class RuneDataSelector(BaseStruct):
+    professionMask: Union[int, str]
     buildableMask: int
-    charIdFilter: list[str] | None
-    enemyIdFilter: list[str] | None
-    enemyIdExcludeFilter: list[str] | None
-    skillIdFilter: list[str] | None
-    tileKeyFilter: list[str] | None
-    groupTagFilter: list[str] | None
-    filterTagFilter: list[str] | None
+    charIdFilter: Union[List[str], None]
+    enemyIdFilter: Union[List[str], None]
+    enemyIdExcludeFilter: Union[List[str], None]
+    skillIdFilter: Union[List[str], None]
+    tileKeyFilter: Union[List[str], None]
+    groupTagFilter: Union[List[str], None]
+    filterTagFilter: Union[List[str], None]
+    subProfessionExcludeFilter: Union[List[str], None]
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: float | None = None
-    valueStr: str | None = None
+    value: Union[float, None] = None
+    valueStr: Union[str, None] = None
 
 
-class RuneData(BaseModel):
+class RuneData(BaseStruct):
     key: str
     selector: RuneDataSelector
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
 
 
-class RuneTablePackedRuneData(BaseModel):
-    id_: str = Field(alias='id')
+class RuneTablePackedRuneData(BaseStruct):
+    id_: str = field(name='id')
     points: float
-    mutexGroupKey: str | None
+    mutexGroupKey: Union[str, None]
     description: str
-    runes: list[RuneData]
+    runes: List[RuneData]
 
 
-class RuneTableRuneStageExtraData(BaseModel):
+class RuneTableRuneStageExtraData(BaseStruct):
     stageId: str
-    runes: list[RuneTablePackedRuneData]
+    runes: List[RuneTablePackedRuneData]
 
 
-class Act5D1Data(BaseModel):
-    stageCommonData: list[Act5D1DataRuneStageData]
-    runeStageData: list[Act5D1DataRuneRecurrentStateData]
-    runeUnlockDict: dict[str, list[Act5D1DataRuneUnlockData]]
-    runeReleaseData: list[Act5D1DataRuneReleaseData]
-    missionData: list[MissionData]
-    missionGroup: list[MissionGroup]
-    useBenefitMissionDict: dict[str, bool]
+class Act5D1Data(BaseStruct):
+    stageCommonData: List[Act5D1DataRuneStageData]
+    runeStageData: List[Act5D1DataRuneRecurrentStateData]
+    runeUnlockDict: Dict[str, List[Act5D1DataRuneUnlockData]]
+    runeReleaseData: List[Act5D1DataRuneReleaseData]
+    missionData: List[MissionData]
+    missionGroup: List[MissionGroup]
+    useBenefitMissionDict: Dict[str, bool]
     shopData: Act5D1DataShopData
     coinItemId: str
     ptItemId: str
-    stageRune: list[RuneTableRuneStageExtraData]
-    showRuneMissionList: list[str]
+    stageRune: List[RuneTableRuneStageExtraData]
+    showRuneMissionList: List[str]
 
 
-class ActivityCollectionDataCollectionInfo(BaseModel):
-    id_: int = Field(alias='id')
+class ActivityCollectionDataCollectionInfo(BaseStruct):
+    id_: int = field(name='id')
     itemType: str
     itemId: str
     itemCnt: int
     pointId: str
     pointCnt: int
     isBonus: bool
-    pngName: str | None
+    pngName: Union[str, None]
     pngSort: int
     isShow: bool
     showInList: bool
     showIconBG: bool
 
 
-class ActivityCollectionData(BaseModel):
-    collections: list[ActivityCollectionDataCollectionInfo]
-    apSupplyOutOfDateDict: dict[str, int]
+class ActivityCollectionData(BaseStruct):
+    collections: List[ActivityCollectionDataCollectionInfo]
+    apSupplyOutOfDateDict: Dict[str, int]
 
 
-class Act9D0DataZoneDescInfo(BaseModel):
+class Act9D0DataZoneDescInfo(BaseStruct):
     zoneId: str
     unlockText: str
     displayStartTime: int
 
 
-class Act9D0DataFavorUpInfo(BaseModel):
+class Act9D0DataFavorUpInfo(BaseStruct):
     charId: str
     displayStartTime: int
     displayEndTime: int
 
 
-class Act9D0DataSubMissionInfo(BaseModel):
+class Act9D0DataSubMissionInfo(BaseStruct):
     missionId: str
     missionTitle: str
     sortId: int
     missionIndex: str
 
 
-class Act9D0DataActivityNewsStyleInfo(BaseModel):
+class Act9D0DataActivityNewsStyleInfo(BaseStruct):
     typeId: str
     typeName: str
     typeLogo: str
     typeMainLogo: str
 
 
-class Act9D0DataActivityNewsLine(BaseModel):
+class Act9D0DataActivityNewsLine(BaseStruct):
     lineType: int
     content: str
 
 
-class Act9D0DataActivityNewsInfo(BaseModel):
+class Act9D0DataActivityNewsInfo(BaseStruct):
     newsId: str
     newsSortId: int
     styleInfo: Act9D0DataActivityNewsStyleInfo
-    preposedStage: str | None
+    preposedStage: Union[str, None]
     titlePic: str
     newsTitle: str
     newsInfShow: int
@@ -575,27 +577,27 @@ class Act9D0DataActivityNewsInfo(BaseModel):
     newsParam1: int
     newsParam2: int
     newsParam3: float
-    newsLines: list[Act9D0DataActivityNewsLine]
+    newsLines: List[Act9D0DataActivityNewsLine]
 
 
-class Act9D0DataActivityNewsServerInfo(BaseModel):
+class Act9D0DataActivityNewsServerInfo(BaseStruct):
     newsId: str
     preposedStage: str
 
 
-class Act9D0Data(BaseModel):
+class Act9D0Data(BaseStruct):
     tokenItemId: str
-    zoneDescList: dict[str, Act9D0DataZoneDescInfo]
-    favorUpList: dict[str, Act9D0DataFavorUpInfo]
-    subMissionInfo: dict[str, Act9D0DataSubMissionInfo] | None
+    zoneDescList: Dict[str, Act9D0DataZoneDescInfo]
+    favorUpList: Dict[str, Act9D0DataFavorUpInfo]
+    subMissionInfo: Union[Dict[str, Act9D0DataSubMissionInfo], None]
     hasSubMission: bool
-    apSupplyOutOfDateDict: dict[str, int]
-    newsInfoList: dict[str, Act9D0DataActivityNewsInfo] | None
-    newsServerInfoList: dict[str, Act9D0DataActivityNewsServerInfo] | None
-    miscHub: dict[str, str]
+    apSupplyOutOfDateDict: Dict[str, int]
+    newsInfoList: Union[Dict[str, Act9D0DataActivityNewsInfo], None]
+    newsServerInfoList: Union[Dict[str, Act9D0DataActivityNewsServerInfo], None]
+    miscHub: Dict[str, str]
 
 
-class Act12SideDataConstData(BaseModel):
+class Act12SideDataConstData(BaseStruct):
     recycleRewardThreshold: int
     charmRepoUnlockStageId: str
     recycleLowThreshold: int
@@ -608,21 +610,21 @@ class Act12SideDataConstData(BaseModel):
     fogUnlockDesc: str
 
 
-class Act12SideDataZoneAdditionData(BaseModel):
+class Act12SideDataZoneAdditionData(BaseStruct):
     zoneId: str
     unlockText: str
     zoneClass: str
 
 
-class Act12SideDataMissionDescInfo(BaseModel):
+class Act12SideDataMissionDescInfo(BaseStruct):
     zoneClass: str
     specialMissionDesc: str
     needLock: bool
-    unlockHint: str | None
-    unlockStage: str | None
+    unlockHint: Union[str, None]
+    unlockStage: Union[str, None]
 
 
-class Act12SideDataMileStoneInfo(BaseModel):
+class Act12SideDataMileStoneInfo(BaseStruct):
     mileStoneId: str
     orderId: int
     tokenNum: int
@@ -631,32 +633,32 @@ class Act12SideDataMileStoneInfo(BaseModel):
     mileStoneStage: int
 
 
-class Act12SideDataPhotoInfo(BaseModel):
+class Act12SideDataPhotoInfo(BaseStruct):
     picId: str
     picName: str
     mileStoneId: str
     picDesc: str
-    jumpStageId: str | None
+    jumpStageId: Union[str, None]
 
 
-class Act12SideDataRecycleDialogData(BaseModel):
+class Act12SideDataRecycleDialogData(BaseStruct):
     dialogType: str
     dialog: str
     dialogExpress: str
 
 
-class Act12SideData(BaseModel):
+class Act12SideData(BaseStruct):
     constData: Act12SideDataConstData
-    zoneAdditionDataList: list[Act12SideDataZoneAdditionData]
-    missionDescList: dict[str, Act12SideDataMissionDescInfo]
-    mileStoneInfoList: list[Act12SideDataMileStoneInfo]
-    photoList: dict[str, Act12SideDataPhotoInfo]
-    recycleDialogDict: dict[str, list[Act12SideDataRecycleDialogData]]
+    zoneAdditionDataList: List[Act12SideDataZoneAdditionData]
+    missionDescList: Dict[str, Act12SideDataMissionDescInfo]
+    mileStoneInfoList: List[Act12SideDataMileStoneInfo]
+    photoList: Dict[str, Act12SideDataPhotoInfo]
+    recycleDialogDict: Dict[str, List[Act12SideDataRecycleDialogData]]
 
 
-class Act13SideDataConstData(BaseModel):
-    prestigeDescList: list[str]
-    dailyRandomCount: list[list[int]] | None
+class Act13SideDataConstData(BaseStruct):
+    prestigeDescList: List[str]
+    dailyRandomCount: Union[List[List[int]], None]
     dailyWeightInitial: int
     dailyWeightComplete: int
     agendaRecover: int
@@ -664,130 +666,130 @@ class Act13SideDataConstData(BaseModel):
     agendaHint: int
     missionPoolMax: int
     missionBoardMax: int
-    itemRandomList: list[ItemBundle]
+    itemRandomList: List[ItemBundle]
     unlockPrestigeCond: str
     hotSpotShowFlag: int
 
 
-class Act13SideDataPrestigeData(BaseModel):
+class Act13SideDataPrestigeData(BaseStruct):
     rank: str
     threshold: int
-    reward: ItemBundle | None
+    reward: Union[ItemBundle, None]
     newsCount: int
     archiveCount: int
     avgCount: int
 
 
-class Act13SideDataLongTermMissionGroupData(BaseModel):
+class Act13SideDataLongTermMissionGroupData(BaseStruct):
     groupId: str
     groupName: str
     orgId: str
-    missionList: list[str]
+    missionList: List[str]
 
 
-class Act13SideDataOrgSectionData(BaseModel):
+class Act13SideDataOrgSectionData(BaseStruct):
     sectionName: str
     sortId: int
     groupData: Act13SideDataLongTermMissionGroupData
 
 
-class Act13SideDataOrgData(BaseModel):
+class Act13SideDataOrgData(BaseStruct):
     orgId: str
     orgName: str
     orgEnName: str
     openTime: int
-    principalIdList: list[str]
-    prestigeList: list[Act13SideDataPrestigeData]
-    agendaCount2PrestigeItemMap: dict[str, ItemBundle]
-    orgSectionList: list[Act13SideDataOrgSectionData]
+    principalIdList: List[str]
+    prestigeList: List[Act13SideDataPrestigeData]
+    agendaCount2PrestigeItemMap: Dict[str, ItemBundle]
+    orgSectionList: List[Act13SideDataOrgSectionData]
     prestigeItem: ItemBundle
 
 
-class Act13SideDataPrincipalData(BaseModel):
+class Act13SideDataPrincipalData(BaseStruct):
     principalId: str
     principalName: str
     principalEnName: str
     avgCharId: str
-    principalDescList: list[str]
+    principalDescList: List[str]
 
 
-class Act13SideDataLongTermMissionData(BaseModel):
+class Act13SideDataLongTermMissionData(BaseStruct):
     missionName: str
     groupId: str
     principalId: str
     finishedDesc: str
     sectionSortId: int
     haveStageBtn: bool
-    jumpStageId: str | None
+    jumpStageId: Union[str, None]
 
 
-class Act13SideDataDailyMissionData(BaseModel):
-    id_: str = Field(alias='id')
+class Act13SideDataDailyMissionData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     description: str
     missionName: str
     template: str
     templateType: str
-    param: list[str]
-    rewards: list[MissionDisplayRewards] | None
-    orgPool: list[str] | None
-    rewardPool: list[str] | None
+    param: List[str]
+    rewards: Union[List[MissionDisplayRewards], None]
+    orgPool: Union[List[str], None]
+    rewardPool: Union[List[str], None]
     jumpStageId: str
     agendaCount: int
 
 
-class Act13SideDataDailyMissionRewardGroupData(BaseModel):
+class Act13SideDataDailyMissionRewardGroupData(BaseStruct):
     groupId: str
-    rewards: list[ItemBundle]
+    rewards: List[ItemBundle]
 
 
-class Act13SideDataArchiveItemUnlockData(BaseModel):
+class Act13SideDataArchiveItemUnlockData(BaseStruct):
     itemId: str
     itemType: str
     unlockCondition: str
-    param1: str | None
-    param2: str | None
+    param1: Union[str, None]
+    param2: Union[str, None]
 
 
-class ActivityTableActHiddenAreaPreposeStageData(BaseModel):
+class ActivityTableActHiddenAreaPreposeStageData(BaseStruct):
     stageId: str
     unlockRank: int
 
 
-class ActivityTableActivityHiddenAreaData(BaseModel):
+class ActivityTableActivityHiddenAreaData(BaseStruct):
     name: str
     desc: str
-    preposedStage: list[ActivityTableActHiddenAreaPreposeStageData]
+    preposedStage: List[ActivityTableActHiddenAreaPreposeStageData]
     preposedTime: int
 
 
-class Act13SideDataZoneAdditionData(BaseModel):
+class Act13SideDataZoneAdditionData(BaseStruct):
     unlockText: str
     zoneClass: str
 
 
-class Act13SideData(BaseModel):
+class Act13SideData(BaseStruct):
     constData: Act13SideDataConstData
-    orgDataMap: dict[str, Act13SideDataOrgData]
-    principalDataMap: dict[str, Act13SideDataPrincipalData]
-    longTermMissionDataMap: dict[str, Act13SideDataLongTermMissionData]
-    dailyMissionDataList: list[Act13SideDataDailyMissionData]
-    dailyRewardGroupDataMap: dict[str, Act13SideDataDailyMissionRewardGroupData]
-    archiveItemUnlockData: dict[str, Act13SideDataArchiveItemUnlockData]
-    hiddenAreaData: dict[str, ActivityTableActivityHiddenAreaData]
-    zoneAddtionDataMap: dict[str, Act13SideDataZoneAdditionData]
+    orgDataMap: Dict[str, Act13SideDataOrgData]
+    principalDataMap: Dict[str, Act13SideDataPrincipalData]
+    longTermMissionDataMap: Dict[str, Act13SideDataLongTermMissionData]
+    dailyMissionDataList: List[Act13SideDataDailyMissionData]
+    dailyRewardGroupDataMap: Dict[str, Act13SideDataDailyMissionRewardGroupData]
+    archiveItemUnlockData: Dict[str, Act13SideDataArchiveItemUnlockData]
+    hiddenAreaData: Dict[str, ActivityTableActivityHiddenAreaData]
+    zoneAddtionDataMap: Dict[str, Act13SideDataZoneAdditionData]
 
 
-class Act17sideDataPlaceData(BaseModel):
+class Act17sideDataPlaceData(BaseStruct):
     placeId: str
     placeDesc: str
-    lockEventId: str | None
+    lockEventId: Union[str, None]
     zoneId: str
-    visibleCondType: str | None = None
-    visibleParams: list[str] | None = None
+    visibleCondType: Union[str, None] = None
+    visibleParams: Union[List[str], None] = None
 
 
-class Act17sideDataNodeInfoData(BaseModel):
+class Act17sideDataNodeInfoData(BaseStruct):
     nodeId: str
     nodeType: str
     sortId: int
@@ -795,105 +797,105 @@ class Act17sideDataNodeInfoData(BaseModel):
     isPointPlace: bool
     chapterId: str
     trackPointType: str
-    unlockCondType: str | None = None
-    unlockParams: list[str] | None = None
+    unlockCondType: Union[str, None] = None
+    unlockParams: Union[List[str], None] = None
 
 
-class Act17sideDataLandmarkNodeData(BaseModel):
+class Act17sideDataLandmarkNodeData(BaseStruct):
     nodeId: str
     landmarkId: str
     landmarkName: str
-    landmarkPic: str | None
+    landmarkPic: Union[str, None]
     landmarkSpecialPic: str
-    landmarkDesList: list[str]
+    landmarkDesList: List[str]
 
 
-class Act17sideDataStoryNodeData(BaseModel):
+class Act17sideDataStoryNodeData(BaseStruct):
     nodeId: str
     storyId: str
     storyKey: str
     storyName: str
-    storyPic: str | None
+    storyPic: Union[str, None]
     confirmDes: str
-    storyDesList: list[str]
+    storyDesList: List[str]
 
 
-class Act17sideDataBattleNodeData(BaseModel):
+class Act17sideDataBattleNodeData(BaseStruct):
     nodeId: str
     stageId: str
 
 
-class Act17sideDataTreasureNodeData(BaseModel):
+class Act17sideDataTreasureNodeData(BaseStruct):
     nodeId: str
     treasureId: str
     treasureName: str
-    treasurePic: str | None
-    treasureSpecialPic: str | None
+    treasurePic: Union[str, None]
+    treasureSpecialPic: Union[str, None]
     endEventId: str
     confirmDes: str
-    treasureDesList: list[str]
-    missionIdList: list[str]
-    rewardList: list[ItemBundle]
+    treasureDesList: List[str]
+    missionIdList: List[str]
+    rewardList: List[ItemBundle]
     treasureType: str
 
 
-class Act17sideDataEventNodeData(BaseModel):
+class Act17sideDataEventNodeData(BaseStruct):
     nodeId: str
     eventId: str
     endEventId: str
 
 
-class Act17sideDataTechNodeData(BaseModel):
+class Act17sideDataTechNodeData(BaseStruct):
     nodeId: str
     techTreeId: str
     techTreeName: str
-    techPic: str | None
+    techPic: Union[str, None]
     techSpecialPic: str
     endEventId: str
     confirmDes: str
-    techDesList: list[str]
-    missionIdList: list[str]
+    techDesList: List[str]
+    missionIdList: List[str]
 
 
-class Act17sideDataChoiceNodeOptionData(BaseModel):
+class Act17sideDataChoiceNodeOptionData(BaseStruct):
     canRepeat: bool
     eventId: str
     des: str
-    unlockDes: str | None
-    unlockCondType: str | None = None
-    unlockParams: str | None = None
+    unlockDes: Union[str, None]
+    unlockCondType: Union[str, None] = None
+    unlockParams: Union[str, None] = None
 
 
-class Act17sideDataChoiceNodeData(BaseModel):
+class Act17sideDataChoiceNodeData(BaseStruct):
     nodeId: str
-    choicePic: str | None
+    choicePic: Union[str, None]
     isDisposable: bool
-    choiceSpecialPic: str | None
+    choiceSpecialPic: Union[str, None]
     choiceName: str
-    choiceDesList: list[str]
+    choiceDesList: List[str]
     cancelDes: str
     choiceNum: int
-    optionList: list[Act17sideDataChoiceNodeOptionData]
+    optionList: List[Act17sideDataChoiceNodeOptionData]
 
 
-class Act17sideDataEventData(BaseModel):
+class Act17sideDataEventData(BaseStruct):
     eventId: str
-    eventPic: str | None
-    eventSpecialPic: str | None
+    eventPic: Union[str, None]
+    eventSpecialPic: Union[str, None]
     eventTitle: str
-    eventDesList: list[str]
+    eventDesList: List[str]
 
 
-class Act17sideDataArchiveItemUnlockData(BaseModel):
+class Act17sideDataArchiveItemUnlockData(BaseStruct):
     itemId: str
     itemType: str
     unlockCondition: str
-    nodeId: str | None
+    nodeId: Union[str, None]
     stageParam: str
-    chapterId: str | None
+    chapterId: Union[str, None]
 
 
-class Act17sideDataTechTreeData(BaseModel):
+class Act17sideDataTechTreeData(BaseStruct):
     techTreeId: str
     sortId: int
     techTreeName: str
@@ -901,7 +903,7 @@ class Act17sideDataTechTreeData(BaseModel):
     lockDes: str
 
 
-class Act17sideDataTechTreeBranchData(BaseModel):
+class Act17sideDataTechTreeBranchData(BaseStruct):
     techTreeBranchId: str
     techTreeId: str
     techTreeBranchName: str
@@ -910,116 +912,116 @@ class Act17sideDataTechTreeBranchData(BaseModel):
     runeData: RuneTablePackedRuneData
 
 
-class Act17sideDataMainlineChapterData(BaseModel):
+class Act17sideDataMainlineChapterData(BaseStruct):
     chapterId: str
     chapterDes: str
     chapterIcon: str
     unlockDes: str
-    id_: str = Field(alias='id')
+    id_: str = field(name='id')
 
 
-class Act17sideDataMainlineData(BaseModel):
+class Act17sideDataMainlineData(BaseStruct):
     mainlineId: str
-    nodeId: str | None
+    nodeId: Union[str, None]
     sortId: int
     missionSort: str
     zoneId: str
     mainlineDes: str
-    focusNodeId: str | None
+    focusNodeId: Union[str, None]
 
 
-class Act17sideDataZoneData(BaseModel):
+class Act17sideDataZoneData(BaseStruct):
     zoneId: str
-    unlockPlaceId: str | None
+    unlockPlaceId: Union[str, None]
     unlockText: str
 
 
-class Act17sideDataConstData(BaseModel):
+class Act17sideDataConstData(BaseStruct):
     techTreeUnlockEventId: str
 
 
-class Act17sideData(BaseModel):
-    placeDataMap: dict[str, Act17sideDataPlaceData]
-    nodeInfoDataMap: dict[str, Act17sideDataNodeInfoData]
-    landmarkNodeDataMap: dict[str, Act17sideDataLandmarkNodeData]
-    storyNodeDataMap: dict[str, Act17sideDataStoryNodeData]
-    battleNodeDataMap: dict[str, Act17sideDataBattleNodeData]
-    treasureNodeDataMap: dict[str, Act17sideDataTreasureNodeData]
-    eventNodeDataMap: dict[str, Act17sideDataEventNodeData]
-    techNodeDataMap: dict[str, Act17sideDataTechNodeData]
-    choiceNodeDataMap: dict[str, Act17sideDataChoiceNodeData]
-    eventDataMap: dict[str, Act17sideDataEventData]
-    archiveItemUnlockDataMap: dict[str, Act17sideDataArchiveItemUnlockData]
-    techTreeDataMap: dict[str, Act17sideDataTechTreeData]
-    techTreeBranchDataMap: dict[str, Act17sideDataTechTreeBranchData]
-    mainlineChapterDataMap: dict[str, Act17sideDataMainlineChapterData]
-    mainlineDataMap: dict[str, Act17sideDataMainlineData]
-    zoneDataList: list[Act17sideDataZoneData]
+class Act17sideData(BaseStruct):
+    placeDataMap: Dict[str, Act17sideDataPlaceData]
+    nodeInfoDataMap: Dict[str, Act17sideDataNodeInfoData]
+    landmarkNodeDataMap: Dict[str, Act17sideDataLandmarkNodeData]
+    storyNodeDataMap: Dict[str, Act17sideDataStoryNodeData]
+    battleNodeDataMap: Dict[str, Act17sideDataBattleNodeData]
+    treasureNodeDataMap: Dict[str, Act17sideDataTreasureNodeData]
+    eventNodeDataMap: Dict[str, Act17sideDataEventNodeData]
+    techNodeDataMap: Dict[str, Act17sideDataTechNodeData]
+    choiceNodeDataMap: Dict[str, Act17sideDataChoiceNodeData]
+    eventDataMap: Dict[str, Act17sideDataEventData]
+    archiveItemUnlockDataMap: Dict[str, Act17sideDataArchiveItemUnlockData]
+    techTreeDataMap: Dict[str, Act17sideDataTechTreeData]
+    techTreeBranchDataMap: Dict[str, Act17sideDataTechTreeBranchData]
+    mainlineChapterDataMap: Dict[str, Act17sideDataMainlineChapterData]
+    mainlineDataMap: Dict[str, Act17sideDataMainlineData]
+    zoneDataList: List[Act17sideDataZoneData]
     constData: Act17sideDataConstData
 
 
-class Act20SideDataResidentCartData(BaseModel):
+class Act20SideDataResidentCartData(BaseStruct):
     residentPic: str
 
 
-class Act20SideData(BaseModel):
-    zoneAdditionDataMap: dict[str, str]
-    residentCartDatas: dict[str, Act20SideDataResidentCartData]
+class Act20SideData(BaseStruct):
+    zoneAdditionDataMap: Dict[str, str]
+    residentCartDatas: Dict[str, Act20SideDataResidentCartData]
 
 
-class Act21SideDataZoneAddtionData(BaseModel):
+class Act21SideDataZoneAddtionData(BaseStruct):
     zoneId: str
     unlockText: str
-    stageUnlockText: str | None
+    stageUnlockText: Union[str, None]
     entryId: str
 
 
-class Act21SideDataConstData(BaseModel):
+class Act21SideDataConstData(BaseStruct):
     lineConnectZone: str
 
 
-class Act21SideData(BaseModel):
-    zoneAdditionDataMap: dict[str, Act21SideDataZoneAddtionData]
+class Act21SideData(BaseStruct):
+    zoneAdditionDataMap: Dict[str, Act21SideDataZoneAddtionData]
     constData: Act21SideDataConstData
 
 
-class ActivityLoginData(BaseModel):
+class ActivityLoginData(BaseStruct):
     description: str
-    itemList: list[ItemBundle]
-    apSupplyOutOfDateDict: dict[str, int]
+    itemList: List[ItemBundle]
+    apSupplyOutOfDateDict: Dict[str, int]
 
 
-class ActivitySwitchCheckinConstData(BaseModel):
+class ActivitySwitchCheckinConstData(BaseStruct):
     activityTime: str
     activityRule: str
 
 
-class ActivitySwitchCheckinData(BaseModel):
+class ActivitySwitchCheckinData(BaseStruct):
     constData: ActivitySwitchCheckinConstData
-    rewards: dict[str, list[ItemBundle]]
-    apSupplyOutOfDateDict: dict[str, int]
-    rewardsTitle: dict[str, str]
+    rewards: Dict[str, List[ItemBundle]]
+    apSupplyOutOfDateDict: Dict[str, int]
+    rewardsTitle: Dict[str, str]
 
 
-class ActivityMiniStoryDataZoneDescInfo(BaseModel):
+class ActivityMiniStoryDataZoneDescInfo(BaseStruct):
     zoneId: str
     unlockText: str
 
 
-class ActivityMiniStoryDataFavorUpInfo(BaseModel):
+class ActivityMiniStoryDataFavorUpInfo(BaseStruct):
     charId: str
     displayStartTime: int
     displayEndTime: int
 
 
-class ActivityMiniStoryData(BaseModel):
+class ActivityMiniStoryData(BaseStruct):
     tokenItemId: str
-    zoneDescList: dict[str, ActivityMiniStoryDataZoneDescInfo]
-    favorUpList: dict[str, ActivityMiniStoryDataFavorUpInfo]
-    extraDropZoneList: list[str]
+    zoneDescList: Dict[str, ActivityMiniStoryDataZoneDescInfo]
+    favorUpList: Dict[str, ActivityMiniStoryDataFavorUpInfo]
+    extraDropZoneList: List[str]
 
 
-class ActivityRoguelikeDataOuterBuffUnlockInfo(BaseModel):
+class ActivityRoguelikeDataOuterBuffUnlockInfo(BaseStruct):
     buffLevel: int
     name: str
     iconId: str
@@ -1030,26 +1032,26 @@ class ActivityRoguelikeDataOuterBuffUnlockInfo(BaseModel):
     cost: int
 
 
-class ActivityRoguelikeDataOuterBuffUnlockInfoData(BaseModel):
+class ActivityRoguelikeDataOuterBuffUnlockInfoData(BaseStruct):
     buffId: str
-    buffUnlockInfos: dict[str, ActivityRoguelikeDataOuterBuffUnlockInfo]
+    buffUnlockInfos: Dict[str, ActivityRoguelikeDataOuterBuffUnlockInfo]
 
 
-class ActivityRoguelikeDataMileStoneItemInfo(BaseModel):
+class ActivityRoguelikeDataMileStoneItemInfo(BaseStruct):
     mileStoneId: str
     orderId: int
     tokenNum: int
     item: ItemBundle
 
 
-class ActivityTableCustomUnlockCond(BaseModel):
-    actId: str | None
+class ActivityTableCustomUnlockCond(BaseStruct):
+    actId: Union[str, None]
     stageId: str
 
 
-class ActivityRoguelikeData(BaseModel):
-    outBuffInfos: dict[str, ActivityRoguelikeDataOuterBuffUnlockInfoData]
-    apSupplyOutOfDateDict: dict[str, int]
+class ActivityRoguelikeData(BaseStruct):
+    outBuffInfos: Dict[str, ActivityRoguelikeDataOuterBuffUnlockInfoData]
+    apSupplyOutOfDateDict: Dict[str, int]
     outerBuffToken: str
     shopToken: str
     relicUnlockTime: int
@@ -1060,21 +1062,21 @@ class ActivityRoguelikeData(BaseModel):
     reOpenCoolDown: int
     tokenItem: ItemBundle
     charStoneId: str
-    milestone: list[ActivityRoguelikeDataMileStoneItemInfo]
-    unlockConds: list[ActivityTableCustomUnlockCond]
+    milestone: List[ActivityRoguelikeDataMileStoneItemInfo]
+    unlockConds: List[ActivityTableCustomUnlockCond]
 
 
-class ActivityMultiplayDataStageData(BaseModel):
+class ActivityMultiplayDataStageData(BaseStruct):
     stageId: str
     levelId: str
     groupId: str
     difficulty: str
     loadingPicId: str
     dangerLevel: str
-    unlockConds: list[str]
+    unlockConds: List[str]
 
 
-class ActivityMultiplayDataStageGroupData(BaseModel):
+class ActivityMultiplayDataStageGroupData(BaseStruct):
     groupId: str
     sortId: int
     code: str
@@ -1082,17 +1084,17 @@ class ActivityMultiplayDataStageGroupData(BaseModel):
     description: str
 
 
-class ActivityMultiplayDataMissionExtraData(BaseModel):
+class ActivityMultiplayDataMissionExtraData(BaseStruct):
     missionId: str
     isHard: bool
 
 
-class ActivityMultiplayDataRoomMessageData(BaseModel):
+class ActivityMultiplayDataRoomMessageData(BaseStruct):
     sortId: int
     picId: str
 
 
-class ActivityMultiplayDataConstData(BaseModel):
+class ActivityMultiplayDataConstData(BaseStruct):
     linkActId: str
     maxRetryTimeInTeamRoom: int
     maxRetryTimeInMatchRoom: int
@@ -1105,23 +1107,23 @@ class ActivityMultiplayDataConstData(BaseModel):
     settleRetryTime: float
 
 
-class ActivityMultiplayData(BaseModel):
-    stages: dict[str, ActivityMultiplayDataStageData]
-    stageGroups: dict[str, ActivityMultiplayDataStageGroupData]
-    missionExtras: dict[str, ActivityMultiplayDataMissionExtraData]
-    roomMessages: list[ActivityMultiplayDataRoomMessageData]
+class ActivityMultiplayData(BaseStruct):
+    stages: Dict[str, ActivityMultiplayDataStageData]
+    stageGroups: Dict[str, ActivityMultiplayDataStageGroupData]
+    missionExtras: Dict[str, ActivityMultiplayDataMissionExtraData]
+    roomMessages: List[ActivityMultiplayDataRoomMessageData]
     constData: ActivityMultiplayDataConstData
-    unlockConds: list[ActivityTableCustomUnlockCond]
+    unlockConds: List[ActivityTableCustomUnlockCond]
 
 
-class ActivityInterlockDataStageAdditionData(BaseModel):
+class ActivityInterlockDataStageAdditionData(BaseStruct):
     stageId: str
     stageType: str
-    lockStageKey: str | None
+    lockStageKey: Union[str, None]
     lockSortIndex: int
 
 
-class ActivityInterlockDataTreasureMonsterData(BaseModel):
+class ActivityInterlockDataTreasureMonsterData(BaseStruct):
     lockStageKey: str
     enemyId: str
     enemyName: str
@@ -1129,54 +1131,54 @@ class ActivityInterlockDataTreasureMonsterData(BaseModel):
     enemyDescription: str
 
 
-class SharedCharDataCharEquipInfo(BaseModel):
+class SharedCharDataCharEquipInfo(BaseStruct):
     hide: int
-    locked: bool | int
+    locked: Union[bool, int]
     level: int
 
 
-class SharedCharDataSharedCharSkillData(BaseModel):
-    completeUpgradeTime: int | None = None
-    unlock: bool | int | None = None
+class SharedCharDataSharedCharSkillData(BaseStruct):
     skillId: str
     specializeLevel: int
-    state: int | None = None
+    completeUpgradeTime: Union[int, None] = None
+    unlock: Union[bool, Union[int, None]] = None
+    state: Union[int, None] = None
 
 
-class SharedCharDataTmplData(BaseModel):
+class SharedCharDataTmplData(BaseStruct):
     skinId: str
     defaultSkillIndex: int
-    skills: list[SharedCharDataSharedCharSkillData]
-    currentEquip: str | None
-    equip: dict[str, SharedCharDataSharedCharSkillData] | None = None
+    skills: List[SharedCharDataSharedCharSkillData]
+    currentEquip: Union[str, None]
+    equip: Union[Dict[str, SharedCharDataSharedCharSkillData], None] = None
 
 
-class SharedCharData(BaseModel):
+class SharedCharData(BaseStruct):
     charId: str
     potentialRank: int
-    skillIndex: int | None = None
-    skinId: str | None = None
-    skin: str | None = None
-    skills: list[SharedCharDataSharedCharSkillData] | None = None
-    currentEquip: str | None = Field(alias='currentEquip', default=None)
-    equips: dict[str, SharedCharDataCharEquipInfo] | None = Field(alias='equip', default={})
     mainSkillLvl: int
     evolvePhase: int
     level: int
     favorPoint: int
-    crisisRecord: dict[str, int] | None = None
-    currentTmpl: str | None | None = None
-    tmpl: dict[str, SharedCharDataTmplData] | None = None
+    currentEquip: Union[str, None] = field(name='currentEquip', default=None)
+    equips: Union[Dict[str, SharedCharDataCharEquipInfo], None] = field(name='equip', default={})
+    skillIndex: Union[int, None] = None
+    skinId: Union[str, None] = None
+    skin: Union[str, None] = None
+    skills: Union[List[SharedCharDataSharedCharSkillData], None] = None
+    crisisRecord: Union[Dict[str, int], None] = None
+    currentTmpl: Union[Union[str, None], None] = None
+    tmpl: Union[Dict[str, SharedCharDataTmplData], None] = None
 
 
-class ActivityInterlockDataMileStoneItemInfo(BaseModel):
+class ActivityInterlockDataMileStoneItemInfo(BaseStruct):
     mileStoneId: str
     orderId: int
     tokenNum: int
     item: ItemBundle
 
 
-class ActivityInterlockDataFinalStageProgressData(BaseModel):
+class ActivityInterlockDataFinalStageProgressData(BaseStruct):
     stageId: str
     killCnt: int
     apCost: int
@@ -1185,70 +1187,70 @@ class ActivityInterlockDataFinalStageProgressData(BaseModel):
     gold: int
 
 
-class ActivityInterlockData(BaseModel):
-    stageAdditionInfoMap: dict[str, ActivityInterlockDataStageAdditionData]
-    treasureMonsterMap: dict[str, ActivityInterlockDataTreasureMonsterData]
+class ActivityInterlockData(BaseStruct):
+    stageAdditionInfoMap: Dict[str, ActivityInterlockDataStageAdditionData]
+    treasureMonsterMap: Dict[str, ActivityInterlockDataTreasureMonsterData]
     specialAssistData: SharedCharData
-    mileStoneItemList: list[ActivityInterlockDataMileStoneItemInfo]
-    finalStageProgressMap: dict[str, list[ActivityInterlockDataFinalStageProgressData]]
+    mileStoneItemList: List[ActivityInterlockDataMileStoneItemInfo]
+    finalStageProgressMap: Dict[str, List[ActivityInterlockDataFinalStageProgressData]]
 
 
-class ActivityBossRushDataZoneAdditionData(BaseModel):
+class ActivityBossRushDataZoneAdditionData(BaseStruct):
     unlockText: str
     displayStartTime: int
 
 
-class ActivityBossRushDataBossRushStageGroupData(BaseModel):
+class ActivityBossRushDataBossRushStageGroupData(BaseStruct):
     stageGroupId: str
     sortId: int
     stageGroupName: str
-    stageIdMap: dict[str, str]
-    waveBossInfo: list[list[str]]
+    stageIdMap: Dict[str, str]
+    waveBossInfo: List[List[str]]
     normalStageCount: int
     isHardStageGroup: bool
-    unlockCondtion: str | None
+    unlockCondtion: Union[str, None]
 
 
-class ActivityBossRushDataBossRushStageAdditionData(BaseModel):
+class ActivityBossRushDataBossRushStageAdditionData(BaseStruct):
     stageId: str
     stageType: str
     stageGroupId: str
-    teamIdList: list[str]
-    unlockText: str | None
+    teamIdList: List[str]
+    unlockText: Union[str, None]
 
 
-class ActivityBossRushDataDisplayDetailRewards(BaseModel):
+class ActivityBossRushDataDisplayDetailRewards(BaseStruct):
     occPercent: int
     dropCount: int
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class ActivityBossRushDataBossRushDropInfo(BaseModel):
+class ActivityBossRushDataBossRushDropInfo(BaseStruct):
     clearWaveCount: int
-    displayDetailRewards: list[ActivityBossRushDataDisplayDetailRewards]
-    firstPassRewards: list[ItemBundle]
-    passRewards: list[ItemBundle]
+    displayDetailRewards: List[ActivityBossRushDataDisplayDetailRewards]
+    firstPassRewards: List[ItemBundle]
+    passRewards: List[ItemBundle]
 
 
-class ActivityBossRushDataBossRushMissionAdditionData(BaseModel):
+class ActivityBossRushDataBossRushMissionAdditionData(BaseStruct):
     missionId: str
     isRelicTask: bool
 
 
-class ActivityBossRushDataBossRushTeamData(BaseModel):
+class ActivityBossRushDataBossRushTeamData(BaseStruct):
     teamId: str
     teamName: str
-    charIdList: list[str]
-    teamBuffName: str | None
-    teamBuffDes: str | None
-    teamBuffId: str | None
+    charIdList: List[str]
+    teamBuffName: Union[str, None]
+    teamBuffDes: Union[str, None]
+    teamBuffId: Union[str, None]
     maxCharNum: int
-    runeData: RuneTablePackedRuneData | None
+    runeData: Union[RuneTablePackedRuneData, None]
 
 
-class ActivityBossRushDataRelicData(BaseModel):
+class ActivityBossRushDataRelicData(BaseStruct):
     relicId: str
     sortId: int
     name: str
@@ -1256,83 +1258,84 @@ class ActivityBossRushDataRelicData(BaseModel):
     relicTaskId: str
 
 
-class ActivityBossRushDataRelicLevelInfo(BaseModel):
+class ActivityBossRushDataRelicLevelInfo(BaseStruct):
     level: int
     effectDesc: str
     runeData: RuneTablePackedRuneData
+    needItemCount: int
 
 
-class ActivityBossRushDataRelicLevelInfoData(BaseModel):
+class ActivityBossRushDataRelicLevelInfoData(BaseStruct):
     relicId: str
-    levelInfos: dict[str, ActivityBossRushDataRelicLevelInfo]
+    levelInfos: Dict[str, ActivityBossRushDataRelicLevelInfo]
 
 
-class ActivityBossRushDataBossRushMileStoneData(BaseModel):
+class ActivityBossRushDataBossRushMileStoneData(BaseStruct):
     mileStoneId: str
     mileStoneLvl: int
     needPointCnt: int
     rewardItem: ItemBundle
 
 
-class ActivityBossRushDataConstData(BaseModel):
+class ActivityBossRushDataConstData(BaseStruct):
     maxProvidedCharNum: int
     textMilestoneItemLevelDesc: str
     milestonePointId: str
     relicUpgradeItemId: str
-    defaultRelictList: list[str]
+    defaultRelictList: List[str]
     rewardSkinId: str
 
 
-class ActivityBossRushData(BaseModel):
-    zoneAdditionDataMap: dict[str, ActivityBossRushDataZoneAdditionData]
-    stageGroupMap: dict[str, ActivityBossRushDataBossRushStageGroupData]
-    stageAdditionDataMap: dict[str, ActivityBossRushDataBossRushStageAdditionData]
-    stageDropDataMap: dict[str, dict[str, ActivityBossRushDataBossRushDropInfo]]
-    missionAdditionDataMap: dict[str, ActivityBossRushDataBossRushMissionAdditionData]
-    teamDataMap: dict[str, ActivityBossRushDataBossRushTeamData]
-    relicList: list[ActivityBossRushDataRelicData]
-    relicLevelInfoDataMap: dict[str, ActivityBossRushDataRelicLevelInfoData]
-    mileStoneList: list[ActivityBossRushDataBossRushMileStoneData]
-    bestWaveRuneList: list[RuneTablePackedRuneData]
+class ActivityBossRushData(BaseStruct):
+    zoneAdditionDataMap: Dict[str, ActivityBossRushDataZoneAdditionData]
+    stageGroupMap: Dict[str, ActivityBossRushDataBossRushStageGroupData]
+    stageAdditionDataMap: Dict[str, ActivityBossRushDataBossRushStageAdditionData]
+    stageDropDataMap: Dict[str, Dict[str, ActivityBossRushDataBossRushDropInfo]]
+    missionAdditionDataMap: Dict[str, ActivityBossRushDataBossRushMissionAdditionData]
+    teamDataMap: Dict[str, ActivityBossRushDataBossRushTeamData]
+    relicList: List[ActivityBossRushDataRelicData]
+    relicLevelInfoDataMap: Dict[str, ActivityBossRushDataRelicLevelInfoData]
+    mileStoneList: List[ActivityBossRushDataBossRushMileStoneData]
+    bestWaveRuneList: List[RuneTablePackedRuneData]
     constData: ActivityBossRushDataConstData
 
 
-class ActivityFloatParadeDataConstData(BaseModel):
+class ActivityFloatParadeDataConstData(BaseStruct):
     cityName: str
     lowStandard: float
     variationTitle: str
     ruleDesc: str
 
 
-class ActivityFloatParadeDataDailyData(BaseModel):
+class ActivityFloatParadeDataDailyData(BaseStruct):
     dayIndex: int
     dateName: str
     placeName: str
     placeEnName: str
     placePic: str
-    eventGroupId: int
-    extReward: ItemBundle | None
+    eventGroupId: str
+    extReward: Union[ItemBundle, None]
 
 
-class ActivityFloatParadeDataRewardPool(BaseModel):
-    grpId: int
-    id_: int = Field(alias='id')
-    type_: str = Field(alias='type')
+class ActivityFloatParadeDataRewardPool(BaseStruct):
+    grpId: str
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     name: str
-    desc: str | None
+    desc: Union[str, None]
     reward: ItemBundle
 
 
-class ActivityFloatParadeDataTactic(BaseModel):
-    id_: int = Field(alias='id')
+class ActivityFloatParadeDataTactic(BaseStruct):
+    id_: int = field(name='id')
     name: str
     packName: str
     briefName: str
-    rewardVar: dict[str, float]
+    rewardVar: Dict[str, float]
 
 
-class ActivityFloatParadeDataGroupData(BaseModel):
-    groupId: int
+class ActivityFloatParadeDataGroupData(BaseStruct):
+    groupId: str
     name: str
     startDay: int
     endDay: int
@@ -1340,15 +1343,15 @@ class ActivityFloatParadeDataGroupData(BaseModel):
     extRewardCount: int
 
 
-class ActivityFloatParadeData(BaseModel):
+class ActivityFloatParadeData(BaseStruct):
     constData: ActivityFloatParadeDataConstData
-    dailyDataDic: list[ActivityFloatParadeDataDailyData]
-    rewardPools: dict[str, dict[str, ActivityFloatParadeDataRewardPool]]
-    tacticList: list[ActivityFloatParadeDataTactic]
-    groupInfos: dict[str, ActivityFloatParadeDataGroupData]
+    dailyDataDic: List[ActivityFloatParadeDataDailyData]
+    rewardPools: Dict[str, Dict[str, ActivityFloatParadeDataRewardPool]]
+    tacticList: List[ActivityFloatParadeDataTactic]
+    groupInfos: Dict[str, ActivityFloatParadeDataGroupData]
 
 
-class ActSandboxDataMilestoneData(BaseModel):
+class ActSandboxDataMilestoneData(BaseStruct):
     milestoneId: str
     orderId: int
     tokenId: str
@@ -1357,50 +1360,50 @@ class ActSandboxDataMilestoneData(BaseModel):
     isPrecious: bool
 
 
-class ActSandboxData(BaseModel):
-    milestoneDataList: list[ActSandboxDataMilestoneData]
+class ActSandboxData(BaseStruct):
+    milestoneDataList: List[ActSandboxDataMilestoneData]
     milestoneTokenId: str
 
 
-class ActivityMainlineBuffDataMissionGroupData(BaseModel):
-    id_: str = Field(alias='id')
+class ActivityMainlineBuffDataMissionGroupData(BaseStruct):
+    id_: str = field(name='id')
     bindBanner: str
     sortId: int
     zoneId: str
-    missionIdList: list[str]
+    missionIdList: List[str]
 
 
-class ActivityMainlineBuffDataPeriodDataStepData(BaseModel):
+class ActivityMainlineBuffDataPeriodDataStepData(BaseStruct):
     isBlock: bool
-    favorUpDesc: str | None
-    unlockDesc: str | None
-    bindStageId: str | None
-    blockDesc: str | None
+    favorUpDesc: Union[str, None]
+    unlockDesc: Union[str, None]
+    bindStageId: Union[str, None]
+    blockDesc: Union[str, None]
 
 
-class ActivityMainlineBuffDataPeriodData(BaseModel):
-    id_: str = Field(alias='id')
+class ActivityMainlineBuffDataPeriodData(BaseStruct):
+    id_: str = field(name='id')
     startTime: int
     endTime: int
     favorUpCharDesc: str
     favorUpImgName: str
     newChapterImgName: str
-    newChapterZoneId: str | None
-    stepDataList: list[ActivityMainlineBuffDataPeriodDataStepData]
+    newChapterZoneId: Union[str, None]
+    stepDataList: List[ActivityMainlineBuffDataPeriodDataStepData]
 
 
-class ActivityMainlineBuffDataConstData(BaseModel):
+class ActivityMainlineBuffDataConstData(BaseStruct):
     favorUpStageRange: str
 
 
-class ActivityMainlineBuffData(BaseModel):
-    missionGroupList: dict[str, ActivityMainlineBuffDataMissionGroupData]
-    periodDataList: list[ActivityMainlineBuffDataPeriodData]
-    apSupplyOutOfDateDict: dict[str, int]
+class ActivityMainlineBuffData(BaseStruct):
+    missionGroupList: Dict[str, ActivityMainlineBuffDataMissionGroupData]
+    periodDataList: List[ActivityMainlineBuffDataPeriodData]
+    apSupplyOutOfDateDict: Dict[str, int]
     constData: ActivityMainlineBuffDataConstData
 
 
-class Act24SideDataToolData(BaseModel):
+class Act24SideDataToolData(BaseStruct):
     toolId: str
     sortId: int
     toolName: str
@@ -1412,7 +1415,7 @@ class Act24SideDataToolData(BaseModel):
     runeData: RuneTablePackedRuneData
 
 
-class Act24SideDataMealData(BaseModel):
+class Act24SideDataMealData(BaseStruct):
     mealId: str
     sortId: int
     mealName: str
@@ -1424,14 +1427,14 @@ class Act24SideDataMealData(BaseModel):
     mealRewardItemInfo: ItemBundle
 
 
-class Act24SideDataMeldingItemData(BaseModel):
+class Act24SideDataMeldingItemData(BaseStruct):
     meldingId: str
     sortId: int
     meldingPrice: int
     rarity: int
 
 
-class Act24SideDataMeldingGachaBoxData(BaseModel):
+class Act24SideDataMeldingGachaBoxData(BaseStruct):
     gachaBoxId: str
     gachaSortId: int
     gachaIcon: str
@@ -1442,7 +1445,7 @@ class Act24SideDataMeldingGachaBoxData(BaseModel):
     remainItemBgColor: str
 
 
-class Act24SideDataMeldingGachaBoxGoodData(BaseModel):
+class Act24SideDataMeldingGachaBoxGoodData(BaseStruct):
     goodId: str
     gachaBoxId: str
     orderId: int
@@ -1454,14 +1457,14 @@ class Act24SideDataMeldingGachaBoxGoodData(BaseModel):
     gachaType: str
 
 
-class Act24SideDataZoneAdditionData(BaseModel):
+class Act24SideDataZoneAdditionData(BaseStruct):
     zoneId: str
     zoneIcon: str
     unlockText: str
     displayTime: str
 
 
-class QuestStageData(BaseModel):
+class QuestStageData(BaseStruct):
     stageId: str
     stageRank: int
     sortId: int
@@ -1469,7 +1472,7 @@ class QuestStageData(BaseModel):
     isDragonStage: bool
 
 
-class Act24SideDataMissionExtraData(BaseModel):
+class Act24SideDataMissionExtraData(BaseStruct):
     taskTypeName: str
     taskTypeIcon: str
     taskType: str
@@ -1478,61 +1481,61 @@ class Act24SideDataMissionExtraData(BaseModel):
     taskClientDesc: str
 
 
-class WeightItemBundle(BaseModel):
-    id_: str = Field(alias='id')
-    type_: str = Field(alias='type')
+class WeightItemBundle(BaseStruct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     dropType: str
     count: int
     weight: int
 
 
-class StageDataDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class StageDataDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class StageDataDisplayDetailRewards(BaseModel):
+class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class StageDataStageDropInfo(BaseModel):
-    firstPassRewards: list[ItemBundle] | None
-    firstCompleteRewards: list[ItemBundle] | None
-    passRewards: list[list[WeightItemBundle]] | None
-    completeRewards: list[list[WeightItemBundle]] | None
-    displayRewards: list[StageDataDisplayRewards]
-    displayDetailRewards: list[StageDataDisplayDetailRewards]
+class StageDataStageDropInfo(BaseStruct):
+    firstPassRewards: Union[List[ItemBundle], None]
+    firstCompleteRewards: Union[List[ItemBundle], None]
+    passRewards: Union[List[List[WeightItemBundle]], None]
+    completeRewards: Union[List[List[WeightItemBundle]], None]
+    displayRewards: List[StageDataDisplayRewards]
+    displayDetailRewards: List[StageDataDisplayDetailRewards]
 
 
-class Act24SideDataConstData(BaseModel):
+class Act24SideDataConstData(BaseStruct):
     stageUnlockToolDesc: str
     mealLackMoney: str
     mealDayTimesLimit: int
     toolMaximum: int
-    stageCanNotUseToTool: list[str]
-    gachaExtraProb: float | int
+    stageCanNotUseToTool: List[str]
+    gachaExtraProb: Union[float, int]
 
 
-class Act24SideData(BaseModel):
-    toolDataList: dict[str, Act24SideDataToolData]
-    mealDataList: dict[str, Act24SideDataMealData]
-    meldingDict: dict[str, Act24SideDataMeldingItemData]
-    meldingGachaBoxDataList: dict[str, Act24SideDataMeldingGachaBoxData]
-    meldingGachaBoxGoodDataMap: dict[str, list[Act24SideDataMeldingGachaBoxGoodData]]
-    mealWelcomeTxtDataMap: dict[str, str]
-    zoneAdditionDataMap: dict[str, Act24SideDataZoneAdditionData]
-    questStageList: list[QuestStageData]
-    missionDataList: dict[str, Act24SideDataMissionExtraData]
-    meldingDropDict: dict[str, StageDataStageDropInfo]
-    stageMapPreviewDict: dict[str, list[str]]
+class Act24SideData(BaseStruct):
+    toolDataList: Dict[str, Act24SideDataToolData]
+    mealDataList: Dict[str, Act24SideDataMealData]
+    meldingDict: Dict[str, Act24SideDataMeldingItemData]
+    meldingGachaBoxDataList: Dict[str, Act24SideDataMeldingGachaBoxData]
+    meldingGachaBoxGoodDataMap: Dict[str, List[Act24SideDataMeldingGachaBoxGoodData]]
+    mealWelcomeTxtDataMap: Dict[str, str]
+    zoneAdditionDataMap: Dict[str, Act24SideDataZoneAdditionData]
+    questStageList: List[QuestStageData]
+    missionDataList: Dict[str, Act24SideDataMissionExtraData]
+    meldingDropDict: Dict[str, StageDataStageDropInfo]
+    stageMapPreviewDict: Dict[str, List[str]]
     constData: Act24SideDataConstData
 
 
-class Act25SideDataConstData(BaseModel):
+class Act25SideDataConstData(BaseStruct):
     getDailyCount: int
     costName: str
     costDesc: str
@@ -1546,25 +1549,25 @@ class Act25SideDataConstData(BaseModel):
     harvestDesc: str
 
 
-class Act25SideDataZoneDescInfo(BaseModel):
+class Act25SideDataZoneDescInfo(BaseStruct):
     zoneId: str
     unlockText: str
     displayStartTime: int
 
 
-class Act25SideDataArchiveItemData(BaseModel):
+class Act25SideDataArchiveItemData(BaseStruct):
     itemId: str
     itemType: int
     itemUnlockType: int
     itemUnlockParam: str
-    unlockDesc: str | None
-    iconId: str | None
+    unlockDesc: Union[str, None]
+    iconId: Union[str, None]
     itemName: str
 
 
-class Act25SideDataArchiveMapInfoData(BaseModel):
+class Act25SideDataArchiveMapInfoData(BaseStruct):
     objectId: str
-    type_: int = Field(alias='type')
+    type_: int = field(name='type')
     numberId: str
     areaId: str
     sortId: int
@@ -1572,7 +1575,7 @@ class Act25SideDataArchiveMapInfoData(BaseModel):
     hasDot: bool
 
 
-class Act25SideDataAreaInfoData(BaseModel):
+class Act25SideDataAreaInfoData(BaseStruct):
     areaId: str
     sortId: int
     areaIcon: str
@@ -1586,10 +1589,10 @@ class Act25SideDataAreaInfoData(BaseModel):
     finalId: str
 
 
-class Act25SideDataAreaMissionData(BaseModel):
-    id_: str = Field(alias='id')
+class Act25SideDataAreaMissionData(BaseStruct):
+    id_: str = field(name='id')
     areaId: str
-    preposedMissionId: str | None
+    preposedMissionId: Union[str, None]
     sortId: int
     isZone: bool
     stageId: str
@@ -1597,15 +1600,15 @@ class Act25SideDataAreaMissionData(BaseModel):
     transform: int
     progress: int
     progressPicId: str
-    template: str | None
+    template: Union[str, None]
     templateType: int
     desc: str
-    param: list[str] | None
-    rewards: list[ItemBundle]
-    archiveItems: list[str]
+    param: Union[List[str], None]
+    rewards: List[ItemBundle]
+    archiveItems: List[str]
 
 
-class Act25SideDataBattlePerformanceData(BaseModel):
+class Act25SideDataBattlePerformanceData(BaseStruct):
     itemId: str
     sortId: int
     itemName: str
@@ -1615,82 +1618,82 @@ class Act25SideDataBattlePerformanceData(BaseModel):
     runeData: RuneTablePackedRuneData
 
 
-class Act25SideDataKeyData(BaseModel):
+class Act25SideDataKeyData(BaseStruct):
     keyId: str
     keyName: str
     keyIcon: str
     toastText: str
 
 
-class Act25SideDataFogUnlockData(BaseModel):
+class Act25SideDataFogUnlockData(BaseStruct):
     lockId: str
     lockedCollectionIconId: str
     unlockedCollectionIconId: str
 
 
-class Act25SideDataDailyFarmData(BaseModel):
+class Act25SideDataDailyFarmData(BaseStruct):
     transform: int
     unitTime: int
 
 
-class Act25SideData(BaseModel):
+class Act25SideData(BaseStruct):
     tokenItemId: str
     constData: Act25SideDataConstData
-    zoneDescList: dict[str, Act25SideDataZoneDescInfo]
-    archiveItemData: dict[str, Act25SideDataArchiveItemData]
-    arcMapInfoData: dict[str, Act25SideDataArchiveMapInfoData]
-    areaInfoData: dict[str, Act25SideDataAreaInfoData]
-    areaMissionData: dict[str, Act25SideDataAreaMissionData]
-    battlePerformanceData: dict[str, Act25SideDataBattlePerformanceData]
-    keyData: dict[str, Act25SideDataKeyData]
-    fogUnlockData: dict[str, Act25SideDataFogUnlockData]
-    farmList: list[Act25SideDataDailyFarmData]
+    zoneDescList: Dict[str, Act25SideDataZoneDescInfo]
+    archiveItemData: Dict[str, Act25SideDataArchiveItemData]
+    arcMapInfoData: Dict[str, Act25SideDataArchiveMapInfoData]
+    areaInfoData: Dict[str, Act25SideDataAreaInfoData]
+    areaMissionData: Dict[str, Act25SideDataAreaMissionData]
+    battlePerformanceData: Dict[str, Act25SideDataBattlePerformanceData]
+    keyData: Dict[str, Act25SideDataKeyData]
+    fogUnlockData: Dict[str, Act25SideDataFogUnlockData]
+    farmList: List[Act25SideDataDailyFarmData]
 
 
-class Act38D1DataAct38D1NodeData(BaseModel):
+class Act38D1DataAct38D1NodeData(BaseStruct):
     slotId: str
-    groupId: str | None
+    groupId: Union[str, None]
     isUpper: bool
-    adjacentSlotList: list[str]
+    adjacentSlotList: List[str]
 
 
-class Act38D1DataAct38D1RoadData(BaseModel):
+class Act38D1DataAct38D1RoadData(BaseStruct):
     roadId: str
     startSlotId: str
     endSlotId: str
 
 
-class Act38D1DataAct38D1RewardBoxData(BaseModel):
+class Act38D1DataAct38D1RewardBoxData(BaseStruct):
     rewardBoxId: str
     roadId: str
 
 
-class Act38D1DataAct38D1ExclusionGroupData(BaseModel):
+class Act38D1DataAct38D1ExclusionGroupData(BaseStruct):
     groupId: str
-    slotIdList: list[str]
+    slotIdList: List[str]
 
 
-class Act38D1DataAct38D1DimensionItemData(BaseModel):
+class Act38D1DataAct38D1DimensionItemData(BaseStruct):
     desc: str
     maxScore: int
 
 
-class Act38D1DataAct38D1CommentData(BaseModel):
-    id_: str = Field(alias='id')
+class Act38D1DataAct38D1CommentData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     desc: str
 
 
-class Act38D1DataAct38D1StageDetailData(BaseModel):
-    nodeDataMap: dict[str, Act38D1DataAct38D1NodeData]
-    roadDataMap: dict[str, Act38D1DataAct38D1RoadData]
-    rewardBoxDataMap: dict[str, Act38D1DataAct38D1RewardBoxData]
-    exclusionGroupDataMap: dict[str, Act38D1DataAct38D1ExclusionGroupData]
-    dimensionItemList: list[Act38D1DataAct38D1DimensionItemData]
-    commentDataMap: dict[str, Act38D1DataAct38D1CommentData]
+class Act38D1DataAct38D1StageDetailData(BaseStruct):
+    nodeDataMap: Dict[str, Act38D1DataAct38D1NodeData]
+    roadDataMap: Dict[str, Act38D1DataAct38D1RoadData]
+    rewardBoxDataMap: Dict[str, Act38D1DataAct38D1RewardBoxData]
+    exclusionGroupDataMap: Dict[str, Act38D1DataAct38D1ExclusionGroupData]
+    dimensionItemList: List[Act38D1DataAct38D1DimensionItemData]
+    commentDataMap: Dict[str, Act38D1DataAct38D1CommentData]
 
 
-class Act38D1DataAct38D1ConstData(BaseModel):
+class Act38D1DataAct38D1ConstData(BaseStruct):
     redScoreThreshold: int
     detailBkgRedThreshold: int
     voiceGrade: int
@@ -1703,159 +1706,164 @@ class Act38D1DataAct38D1ConstData(BaseModel):
     mapRewardReceivedText: str
 
 
-class Act38D1Data(BaseModel):
-    scoreLevelToAppraiseDataMap: dict[str, str]
-    detailDataMap: dict[str, Act38D1DataAct38D1StageDetailData]
+class Act38D1Data(BaseStruct):
+    scoreLevelToAppraiseDataMap: Dict[str, str]
+    detailDataMap: Dict[str, Act38D1DataAct38D1StageDetailData]
     constData: Act38D1DataAct38D1ConstData
-    trackPointPeriodData: list[int]
+    trackPointPeriodData: List[int]
 
 
-class Act27SideDataAct27SideGoodData(BaseModel):
-    id_: str = Field(alias='id')
+class Act27SideDataAct27SideGoodData(BaseStruct):
+    id_: str = field(name='id')
     name: str
     typeDesc: str
     iconId: str
     launchIconId: str
-    purchasePrice: list[int]
-    sellingPriceList: list[int]
-    sellShopList: list[str]
+    purchasePrice: List[int]
+    sellingPriceList: List[int]
+    sellShopList: List[str]
     isPermanent: bool
 
 
-class Act27SideDataAct27SideMileStoneData(BaseModel):
+class Act27SideDataAct27SideMileStoneData(BaseStruct):
     mileStoneId: str
     mileStoneLvl: int
     needPointCnt: int
     rewardItem: ItemBundle
 
 
-class Act27SideDataAct27SideGoodLaunchData(BaseModel):
+class Act27SideDataAct27SideGoodLaunchData(BaseStruct):
     groupId: str
     startTime: int
-    stageId: str | None
-    code: str | None
+    stageId: Union[str, None]
+    code: Union[str, None]
     drinkId: str
     foodId: str
     souvenirId: str
 
 
-class Act27SideDataAct27SideShopData(BaseModel):
+class Act27SideDataAct27SideShopData(BaseStruct):
     shopId: str
     sortId: int
     name: str
     iconId: str
 
 
-class Act27SideDataAct27SideInquireData(BaseModel):
+class Act27SideDataAct27SideInquireData(BaseStruct):
     mileStonePt: int
     inquireCount: int
 
 
-class Act27SideDataAct27SideDynEntrySwitchData(BaseModel):
+class Act27SideDataAct27SideDynEntrySwitchData(BaseStruct):
     entryId: str
     startHour: int
     signalId: str
 
 
-class Act27SideDataAct27sideZoneAdditionData(BaseModel):
+class Act27SideDataAct27sideZoneAdditionData(BaseStruct):
     zoneId: str
     unlockText: str
     displayTime: str
 
 
-class Act27SideDataAct27SideMileStoneFurniRewardData(BaseModel):
+class Act27SideDataAct27SideMileStoneFurniRewardData(BaseStruct):
     furniId: str
     pointNum: int
 
 
-class Act27SideDataAct27SideConstData(BaseModel):
+class Act27SideDataAct27SideConstData(BaseStruct):
     stageId: str
     stageCode: str
-    purchasePriceName: list[str]
-    furniRewardList: list[Act27SideDataAct27SideMileStoneFurniRewardData]
+    purchasePriceName: List[str]
+    furniRewardList: List[Act27SideDataAct27SideMileStoneFurniRewardData]
     prizeText: str
     playerShopId: str
     milestonePointName: str
     inquirePanelTitle: str
     inquirePanelDesc: str
-    gain123: list[float]
-    gain113: list[float]
-    gain122: list[float]
-    gain111: list[float]
-    gain11None: list[float]
-    gain12None: list[float]
+    gain123: List[float]
+    gain113: List[float]
+    gain122: List[float]
+    gain111: List[float]
+    gain11None: List[float]
+    gain12None: List[float]
     campaignEnemyCnt: int
 
 
-class Act27SideData(BaseModel):
-    goodDataMap: dict[str, Act27SideDataAct27SideGoodData]
-    mileStoneList: list[Act27SideDataAct27SideMileStoneData]
-    goodLaunchDataList: list[Act27SideDataAct27SideGoodLaunchData]
-    shopDataMap: dict[str, Act27SideDataAct27SideShopData]
-    inquireDataList: list[Act27SideDataAct27SideInquireData]
-    dynEntrySwitchData: list[Act27SideDataAct27SideDynEntrySwitchData]
-    zoneAdditionDataMap: dict[str, Act27SideDataAct27sideZoneAdditionData]
+class Act27SideData(BaseStruct):
+    goodDataMap: Dict[str, Act27SideDataAct27SideGoodData]
+    mileStoneList: List[Act27SideDataAct27SideMileStoneData]
+    goodLaunchDataList: List[Act27SideDataAct27SideGoodLaunchData]
+    shopDataMap: Dict[str, Act27SideDataAct27SideShopData]
+    inquireDataList: List[Act27SideDataAct27SideInquireData]
+    dynEntrySwitchData: List[Act27SideDataAct27SideDynEntrySwitchData]
+    zoneAdditionDataMap: Dict[str, Act27SideDataAct27sideZoneAdditionData]
     constData: Act27SideDataAct27SideConstData
 
 
-class ActivityTableActivityDetailTable(BaseModel):
-    DEFAULT: dict[str, DefaultFirstData]
-    CHECKIN_ONLY: dict[str, DefaultCheckInData]
-    CHECKIN_ALL_PLAYER: dict[str, AllPlayerCheckinData]
-    CHECKIN_VS: dict[str, VersusCheckInData]
-    TYPE_ACT3D0: dict[str, Act3D0Data]
-    TYPE_ACT4D0: dict[str, Act4D0Data]
-    TYPE_ACT5D0: dict[str, Act5D0Data]
-    TYPE_ACT5D1: dict[str, Act5D1Data]
-    COLLECTION: dict[str, ActivityCollectionData]
-    TYPE_ACT9D0: dict[str, Act9D0Data]
-    TYPE_ACT12SIDE: dict[str, Act12SideData]
-    TYPE_ACT13SIDE: dict[str, Act13SideData]
-    TYPE_ACT17SIDE: dict[str, Act17sideData]
-    TYPE_ACT20SIDE: dict[str, Act20SideData]
-    TYPE_ACT21SIDE: dict[str, Act21SideData]
-    LOGIN_ONLY: dict[str, ActivityLoginData]
-    SWITCH_ONLY: dict[str, ActivitySwitchCheckinData]
-    MINISTORY: dict[str, ActivityMiniStoryData]
-    ROGUELIKE: dict[str, ActivityRoguelikeData]
-    MULTIPLAY: dict[str, ActivityMultiplayData]
-    INTERLOCK: dict[str, ActivityInterlockData]
-    BOSS_RUSH: dict[str, ActivityBossRushData]
-    FLOAT_PARADE: dict[str, ActivityFloatParadeData]
-    SANDBOX: dict[str, ActSandboxData]
-    MAIN_BUFF: dict[str, ActivityMainlineBuffData]
-    TYPE_ACT24SIDE: dict[str, Act24SideData]
-    TYPE_ACT25SIDE: dict[str, Act25SideData]
-    TYPE_ACT38D1: dict[str, Act38D1Data]
-    TYPE_ACT27SIDE: dict[str, Act27SideData]
+class Act42D0Data(BaseStruct):
+    pass
 
 
-class ActivityStageRewardData(BaseModel):
-    stageRewardsDict: dict[str, list[StageDataDisplayDetailRewards]]
+class ActivityTableActivityDetailTable(BaseStruct):
+    DEFAULT: Dict[str, DefaultFirstData]
+    CHECKIN_ONLY: Dict[str, DefaultCheckInData]
+    CHECKIN_ALL_PLAYER: Dict[str, AllPlayerCheckinData]
+    CHECKIN_VS: Dict[str, VersusCheckInData]
+    TYPE_ACT3D0: Dict[str, Act3D0Data]
+    TYPE_ACT4D0: Dict[str, Act4D0Data]
+    TYPE_ACT5D0: Dict[str, Act5D0Data]
+    TYPE_ACT5D1: Dict[str, Act5D1Data]
+    COLLECTION: Dict[str, ActivityCollectionData]
+    TYPE_ACT9D0: Dict[str, Act9D0Data]
+    TYPE_ACT12SIDE: Dict[str, Act12SideData]
+    TYPE_ACT13SIDE: Dict[str, Act13SideData]
+    TYPE_ACT17SIDE: Dict[str, Act17sideData]
+    TYPE_ACT20SIDE: Dict[str, Act20SideData]
+    TYPE_ACT21SIDE: Dict[str, Act21SideData]
+    LOGIN_ONLY: Dict[str, ActivityLoginData]
+    SWITCH_ONLY: Dict[str, ActivitySwitchCheckinData]
+    MINISTORY: Dict[str, ActivityMiniStoryData]
+    ROGUELIKE: Dict[str, ActivityRoguelikeData]
+    MULTIPLAY: Dict[str, ActivityMultiplayData]
+    INTERLOCK: Dict[str, ActivityInterlockData]
+    BOSS_RUSH: Dict[str, ActivityBossRushData]
+    FLOAT_PARADE: Dict[str, ActivityFloatParadeData]
+    SANDBOX: Dict[str, ActSandboxData]
+    MAIN_BUFF: Dict[str, ActivityMainlineBuffData]
+    TYPE_ACT24SIDE: Dict[str, Act24SideData]
+    TYPE_ACT25SIDE: Dict[str, Act25SideData]
+    TYPE_ACT38D1: Dict[str, Act38D1Data]
+    TYPE_ACT27SIDE: Dict[str, Act27SideData]
+    TYPE_ACT42D0: Dict[str, Act42D0Data]
 
 
-class ActivityThemeDataTimeNode(BaseModel):
+class ActivityStageRewardData(BaseStruct):
+    stageRewardsDict: Dict[str, List[StageDataDisplayDetailRewards]]
+
+
+class ActivityThemeDataTimeNode(BaseStruct):
     title: str
     ts: int
 
 
-class ActivityThemeData(BaseModel):
-    id_: str = Field(alias='id')
-    type_: str = Field(alias='type')
+class ActivityThemeData(BaseStruct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     funcId: str
     endTs: int
     sortId: int
-    itemId: str | None
-    timeNodes: list[ActivityThemeDataTimeNode]
+    itemId: Union[str, None]
+    timeNodes: List[ActivityThemeDataTimeNode]
     startTs: int
 
 
-class StageDataConditionDesc(BaseModel):
+class StageDataConditionDesc(BaseStruct):
     stageId: str
     completeState: int
 
 
-class AprilFoolStageData(BaseModel):
+class AprilFoolStageData(BaseStruct):
     stageId: str
     levelId: str
     code: str
@@ -1863,50 +1871,50 @@ class AprilFoolStageData(BaseModel):
     appearanceStyle: int
     loadingPicId: str
     difficulty: str
-    unlockCondition: list[StageDataConditionDesc]
-    stageDropInfo: list[ItemBundle]
+    unlockCondition: List[StageDataConditionDesc]
+    stageDropInfo: List[ItemBundle]
 
 
-class AprilFoolScoreData(BaseModel):
+class AprilFoolScoreData(BaseStruct):
     stageId: str
     sortId: int
     playerName: str
     playerScore: int
 
 
-class AprilFoolConst(BaseModel):
+class AprilFoolConst(BaseStruct):
     battleFinishLoseDes: str
     killEnemyDes: str
     killBossDes: str
     totalTime: str
 
 
-class Act4funPerformGroupInfo(BaseModel):
+class Act4funPerformGroupInfo(BaseStruct):
     performGroupId: str
-    performIds: list[str]
+    performIds: List[str]
 
 
-class Act4funPerformWordData(BaseModel):
+class Act4funPerformWordData(BaseStruct):
     text: str
     picId: str
     backgroundId: str
 
 
-class Act4funPerformInfo(BaseModel):
+class Act4funPerformInfo(BaseStruct):
     performId: str
-    performFinishedPicId: str | None
-    fixedCmpGroup: str | None
-    cmpGroups: list[str | None]
-    words: list[Act4funPerformWordData]
+    performFinishedPicId: Union[str, None]
+    fixedCmpGroup: Union[str, None]
+    cmpGroups: List[Union[str, None]]
+    words: List[Act4funPerformWordData]
 
 
-class Act4funLiveMatEffectInfo(BaseModel):
+class Act4funLiveMatEffectInfo(BaseStruct):
     liveMatEffectId: str
     valueId: str
     performGroup: str
 
 
-class Act4funLiveMatInfoData(BaseModel):
+class Act4funLiveMatInfoData(BaseStruct):
     liveMatId: str
     stageId: str
     name: str
@@ -1914,10 +1922,10 @@ class Act4funLiveMatInfoData(BaseModel):
     tagTxt: str
     emojiIcon: str
     selectedPerformId: str
-    effectInfos: dict[str, Act4funLiveMatEffectInfo]
+    effectInfos: Dict[str, Act4funLiveMatEffectInfo]
 
 
-class Act4funSpLiveMatInfoData(BaseModel):
+class Act4funSpLiveMatInfoData(BaseStruct):
     spLiveMatId: str
     spLiveEveId: str
     stageId: str
@@ -1925,18 +1933,18 @@ class Act4funSpLiveMatInfoData(BaseModel):
     picId: str
     tagTxt: str
     emojiIcon: str
-    accordingPerformId: str | None
-    selectedPerformId: str | None
+    accordingPerformId: Union[str, None]
+    selectedPerformId: Union[str, None]
     valueEffectId: str
-    accordingSuperChatId: str | None
+    accordingSuperChatId: Union[str, None]
 
 
-class Act4funValueEffectInfoData(BaseModel):
+class Act4funValueEffectInfoData(BaseStruct):
     valueEffectId: str
-    effectParams: dict[str, int]
+    effectParams: Dict[str, int]
 
 
-class Act4funLiveValueInfoData(BaseModel):
+class Act4funLiveValueInfoData(BaseStruct):
     liveValueId: str
     name: str
     stageId: str
@@ -1947,7 +1955,7 @@ class Act4funLiveValueInfoData(BaseModel):
     decreaseToastTxt: str
 
 
-class Act4funSuperChatInfo(BaseModel):
+class Act4funSuperChatInfo(BaseStruct):
     superChatId: str
     chatType: int
     userName: str
@@ -1957,42 +1965,42 @@ class Act4funSuperChatInfo(BaseModel):
     superChatTxt: str
 
 
-class Act4funCmtInfo(BaseModel):
-    iconId: str | None
-    name: str | None
+class Act4funCmtInfo(BaseStruct):
+    iconId: Union[str, None]
+    name: Union[str, None]
     cmtTxt: str
 
 
-class Act4funCmtGroupInfo(BaseModel):
+class Act4funCmtGroupInfo(BaseStruct):
     cmtGroupId: str
-    cmtList: list[Act4funCmtInfo]
+    cmtList: List[Act4funCmtInfo]
 
 
-class Act4funEndingInfo(BaseModel):
+class Act4funEndingInfo(BaseStruct):
     endingId: str
     endingAvg: str
-    endingDesc: str | None
-    stageId: str | None
+    endingDesc: Union[str, None]
+    stageId: Union[str, None]
     isGoodEnding: bool
 
 
-class Act4funTokenInfoData(BaseModel):
+class Act4funTokenInfoData(BaseStruct):
     tokenLevelId: str
-    levelDesc: str | None
+    levelDesc: Union[str, None]
     skillDesc: str
     tokenLevelNum: int
     levelIconId: str
 
 
-class Act4funMissionData(BaseModel):
+class Act4funMissionData(BaseStruct):
     missionId: str
-    sortId: int
+    sortId: str
     missionDes: str
-    rewardIconIds: list[str]
-    rewards: list[ItemBundle]
+    rewardIconIds: List[str]
+    rewards: List[ItemBundle]
 
 
-class Act4funConst(BaseModel):
+class Act4funConst(BaseStruct):
     liveMatAmtLowerLimit: int
     liveTurnUpperLimit: int
     superChatCountDownNum: int
@@ -2029,43 +2037,43 @@ class Act4funConst(BaseModel):
     formalLevelUnlockToastTxt: str
 
 
-class Act4funStageExtraData(BaseModel):
+class Act4funStageExtraData(BaseStruct):
     description: str
-    valueIconId: str | None
+    valueIconId: Union[str, None]
 
 
-class Act4funData(BaseModel):
-    performGroupInfoDict: dict[str, Act4funPerformGroupInfo]
-    performInfoDict: dict[str, Act4funPerformInfo]
-    normalMatDict: dict[str, Act4funLiveMatInfoData]
-    spMatDict: dict[str, Act4funSpLiveMatInfoData]
-    valueEffectInfoDict: dict[str, Act4funValueEffectInfoData]
-    liveValueInfoDict: dict[str, Act4funLiveValueInfoData]
-    superChatInfoDict: dict[str, Act4funSuperChatInfo]
-    cmtGroupInfoDict: dict[str, Act4funCmtGroupInfo]
-    cmtUsers: list[str]
-    endingDict: dict[str, Act4funEndingInfo]
-    tokenLevelInfos: dict[str, Act4funTokenInfoData]
-    missionDatas: dict[str, Act4funMissionData]
+class Act4funData(BaseStruct):
+    performGroupInfoDict: Dict[str, Act4funPerformGroupInfo]
+    performInfoDict: Dict[str, Act4funPerformInfo]
+    normalMatDict: Dict[str, Act4funLiveMatInfoData]
+    spMatDict: Dict[str, Act4funSpLiveMatInfoData]
+    valueEffectInfoDict: Dict[str, Act4funValueEffectInfoData]
+    liveValueInfoDict: Dict[str, Act4funLiveValueInfoData]
+    superChatInfoDict: Dict[str, Act4funSuperChatInfo]
+    cmtGroupInfoDict: Dict[str, Act4funCmtGroupInfo]
+    cmtUsers: List[str]
+    endingDict: Dict[str, Act4funEndingInfo]
+    tokenLevelInfos: Dict[str, Act4funTokenInfoData]
+    missionDatas: Dict[str, Act4funMissionData]
     constant: Act4funConst
-    stageExtraDatas: dict[str, Act4funStageExtraData]
-    randomMsgText: list[str]
-    randomUserIconId: list[str]
+    stageExtraDatas: Dict[str, Act4funStageExtraData]
+    randomMsgText: List[str]
+    randomUserIconId: List[str]
 
 
-class AprilFoolTable(BaseModel):
-    stages: dict[str, AprilFoolStageData]
-    scoreDict: dict[str, list[AprilFoolScoreData]]
+class AprilFoolTable(BaseStruct):
+    stages: Dict[str, AprilFoolStageData]
+    scoreDict: Dict[str, List[AprilFoolScoreData]]
     constant: AprilFoolConst
     act4FunData: Act4funData
 
 
-class CartComponents(BaseModel):
+class CartComponents(BaseStruct):
     compId: str
     sortId: int
     type: str
-    posList: list[str]
-    posIdDict: dict[str, list[str]]
+    posList: List[str]
+    posIdDict: Dict[str, List[str]]
     name: str
     icon: str
     showScores: int
@@ -2077,36 +2085,36 @@ class CartComponents(BaseModel):
     price: int
     specialObtain: str
     obtainInRandom: bool
-    additiveColor: str | None
+    additiveColor: Union[str, None]
 
 
-class CartDataCartConstData(BaseModel):
+class CartDataCartConstData(BaseStruct):
     carItemUnlockStageId: str
     carItemUnlockDesc: str
     spLevelUnlockItemCnt: int
     mileStoneBaseInterval: int
-    spStageIds: list[str]
+    spStageIds: List[str]
     carFrameDefaultColor: str
 
 
-class CartData(BaseModel):
-    carDict: dict[str, CartComponents]
-    runeDataDict: dict[str, RuneTablePackedRuneData]
-    cartStages: list[str]
+class CartData(BaseStruct):
+    carDict: Dict[str, CartComponents]
+    runeDataDict: Dict[str, RuneTablePackedRuneData]
+    cartStages: List[str]
     constData: CartDataCartConstData
 
 
-class SiracusaDataAreaData(BaseModel):
+class SiracusaDataAreaData(BaseStruct):
     areaId: str
     areaName: str
     areaSubName: str
     unlockType: str
-    unlockStage: str | None
+    unlockStage: Union[str, None]
     areaIconId: str
-    pointList: list[str]
+    pointList: List[str]
 
 
-class SiracusaDataPointData(BaseModel):
+class SiracusaDataPointData(BaseStruct):
     pointId: str
     areaId: str
     pointName: str
@@ -2115,11 +2123,11 @@ class SiracusaDataPointData(BaseModel):
     pointItaName: str
 
 
-class SiracusaDataCharCardData(BaseModel):
+class SiracusaDataCharCardData(BaseStruct):
     charCardId: str
     sortIndex: int
     avgChar: str
-    avgCharOffsetY: float | int
+    avgCharOffsetY: Union[float, int]
     charCardName: str
     charCardItaName: str
     charCardTitle: str
@@ -2127,12 +2135,12 @@ class SiracusaDataCharCardData(BaseModel):
     fullCompleteDes: str
     gainDesc: str
     themeColor: str
-    taskRingList: list[str]
+    taskRingList: List[str]
     operaItemId: str
-    gainParamList: list[str] | None
+    gainParamList: Union[List[str], None]
 
 
-class SiracusaDataTaskRingData(BaseModel):
+class SiracusaDataTaskRingData(BaseStruct):
     taskRingId: str
     sortIndex: int
     charCardId: str
@@ -2140,30 +2148,30 @@ class SiracusaDataTaskRingData(BaseModel):
     ringText: str
     item: ItemBundle
     isPrecious: bool
-    taskIdList: list[str]
+    taskIdList: List[str]
 
 
-class SiracusaDataTaskBasicInfoData(BaseModel):
+class SiracusaDataTaskBasicInfoData(BaseStruct):
     taskId: str
     taskRingId: str
     sortIndex: int
     placeId: str
-    npcId: str | None
+    npcId: Union[str, None]
     taskType: str
 
 
-class SiracusaDataBattleTaskData(BaseModel):
+class SiracusaDataBattleTaskData(BaseStruct):
     taskId: str
     stageId: str
     battleTaskDesc: str
 
 
-class SiracusaDataAVGTaskData(BaseModel):
+class SiracusaDataAVGTaskData(BaseStruct):
     taskId: str
     taskAvg: str
 
 
-class SiracusaDataItemInfoData(BaseModel):
+class SiracusaDataItemInfoData(BaseStruct):
     itemId: str
     itemName: str
     itemItalyName: str
@@ -2171,113 +2179,113 @@ class SiracusaDataItemInfoData(BaseModel):
     itemIcon: str
 
 
-class SiracusaDataItemCardInfoData(BaseModel):
+class SiracusaDataItemCardInfoData(BaseStruct):
     cardId: str
     cardName: str
     cardDesc: str
     optionScript: str
 
 
-class SiracusaDataNavigationInfoData(BaseModel):
+class SiracusaDataNavigationInfoData(BaseStruct):
     entryId: str
     navigationType: str
     entryIcon: str
-    entryName: str | None
-    entrySubName: str | None
+    entryName: Union[str, None]
+    entrySubName: Union[str, None]
 
 
-class SiracusaDataOptionInfoData(BaseModel):
+class SiracusaDataOptionInfoData(BaseStruct):
     optionId: str
     optionDesc: str
     optionScript: str
-    optionGoToScript: str | None
+    optionGoToScript: Union[str, None]
     isLeaveOption: bool
     needCommentLike: bool
-    requireCardId: str | None
+    requireCardId: Union[str, None]
 
 
-class SiracusaDataStagePointInfoData(BaseModel):
+class SiracusaDataStagePointInfoData(BaseStruct):
     stageId: str
     pointId: str
     sortId: int
     isTaskStage: bool
 
 
-class SiracusaDataStoryBriefInfoData(BaseModel):
+class SiracusaDataStoryBriefInfoData(BaseStruct):
     storyId: str
     stageId: str
     storyInfo: str
 
 
-class SiracusaDataOperaInfoData(BaseModel):
+class SiracusaDataOperaInfoData(BaseStruct):
     operaId: str
     sortId: int
     operaName: str
     operaSubName: str
-    operaScore: float
+    operaScore: str
     unlockTime: int
 
 
-class SiracusaDataOperaCommentInfoData(BaseModel):
+class SiracusaDataOperaCommentInfoData(BaseStruct):
     commentId: str
     referenceOperaId: str
     columnIndex: int
     columnSortId: int
     commentTitle: str
-    score: float
+    score: str
     commentContent: str
     commentCharId: str
 
 
-class SiracusaDataConstData(BaseModel):
+class SiracusaDataConstData(BaseStruct):
     operaDailyNum: int
     operaAllUnlockTime: int
     defaultFocusArea: str
 
 
-class SiracusaData(BaseModel):
-    areaDataMap: dict[str, SiracusaDataAreaData]
-    pointDataMap: dict[str, SiracusaDataPointData]
-    charCardMap: dict[str, SiracusaDataCharCardData]
-    taskRingMap: dict[str, SiracusaDataTaskRingData]
-    taskInfoMap: dict[str, SiracusaDataTaskBasicInfoData]
-    battleTaskMap: dict[str, SiracusaDataBattleTaskData]
-    avgTaskMap: dict[str, SiracusaDataAVGTaskData]
-    itemInfoMap: dict[str, SiracusaDataItemInfoData]
-    itemCardInfoMap: dict[str, SiracusaDataItemCardInfoData]
-    navigationInfoMap: dict[str, SiracusaDataNavigationInfoData]
-    optionInfoMap: dict[str, SiracusaDataOptionInfoData]
-    stagePointList: list[SiracusaDataStagePointInfoData]
-    storyBriefInfoDataMap: dict[str, SiracusaDataStoryBriefInfoData]
-    operaInfoMap: dict[str, SiracusaDataOperaInfoData]
-    operaCommentInfoMap: dict[str, SiracusaDataOperaCommentInfoData]
+class SiracusaData(BaseStruct):
+    areaDataMap: Dict[str, SiracusaDataAreaData]
+    pointDataMap: Dict[str, SiracusaDataPointData]
+    charCardMap: Dict[str, SiracusaDataCharCardData]
+    taskRingMap: Dict[str, SiracusaDataTaskRingData]
+    taskInfoMap: Dict[str, SiracusaDataTaskBasicInfoData]
+    battleTaskMap: Dict[str, SiracusaDataBattleTaskData]
+    avgTaskMap: Dict[str, SiracusaDataAVGTaskData]
+    itemInfoMap: Dict[str, SiracusaDataItemInfoData]
+    itemCardInfoMap: Dict[str, SiracusaDataItemCardInfoData]
+    navigationInfoMap: Dict[str, SiracusaDataNavigationInfoData]
+    optionInfoMap: Dict[str, SiracusaDataOptionInfoData]
+    stagePointList: List[SiracusaDataStagePointInfoData]
+    storyBriefInfoDataMap: Dict[str, SiracusaDataStoryBriefInfoData]
+    operaInfoMap: Dict[str, SiracusaDataOperaInfoData]
+    operaCommentInfoMap: Dict[str, SiracusaDataOperaCommentInfoData]
     constData: SiracusaDataConstData
 
 
-class KVSwitchInfo(BaseModel):
+class KVSwitchInfo(BaseStruct):
     isDefault: bool
     displayTime: int
-    zoneId: str | None
+    zoneId: Union[str, None]
 
 
-class ActivityKVSwitchData(BaseModel):
-    kvSwitchInfo: dict[str, KVSwitchInfo]
+class ActivityKVSwitchData(BaseStruct):
+    kvSwitchInfo: Dict[str, KVSwitchInfo]
 
 
-class DynEntrySwitchInfo(BaseModel):
+class DynEntrySwitchInfo(BaseStruct):
     entryId: str
     sortId: int
-    stageId: str | None
+    stageId: Union[str, None]
 
 
-class ActivityDynEntrySwitchData(BaseModel):
-    entrySwitchInfo: dict[str, DynEntrySwitchInfo]
+class ActivityDynEntrySwitchData(BaseStruct):
+    entrySwitchInfo: Dict[str, DynEntrySwitchInfo]
 
 
-class ActivityTableActivityHiddenStageUnlockConditionData(BaseModel):
+class ActivityTableActivityHiddenStageUnlockConditionData(BaseStruct):
     unlockStageId: str
     unlockTemplate: str
-    unlockParams: list[str] | None
+    unlockParams: Union[List[str], None]
     missionStageId: str
     unlockedName: str
     lockedName: str
@@ -2288,47 +2296,40 @@ class ActivityTableActivityHiddenStageUnlockConditionData(BaseModel):
     riddle: str
 
 
-class ActivityTableActivityHiddenStageData(BaseModel):
+class ActivityTableActivityHiddenStageData(BaseStruct):
     stageId: str
     encodedName: str
     showStageId: str
     rewardDiamond: bool
-    missions: list[ActivityTableActivityHiddenStageUnlockConditionData]
+    missions: List[ActivityTableActivityHiddenStageUnlockConditionData]
 
 
-class ActivityTable(BaseModel):
+class ActivityTableExtraData(BaseStruct):
+    periodId: str
+    startTs: int
+    endTs: int
+
+
+class ActivityTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    basicInfo: dict[str, ActivityTableBasicData]
-    homeActConfig: dict[str, ActivityTableHomeActivityConfig]
-    zoneToActivity: dict[str, str]
-    missionData: list[MissionData]
-    missionGroup: list[MissionGroup]
-    replicateMissions: dict[str, str] | None
+    basicInfo: Dict[str, ActivityTableBasicData]
+    homeActConfig: Dict[str, ActivityTableHomeActivityConfig]
+    zoneToActivity: Dict[str, str]
+    missionData: List[MissionData]
+    missionGroup: List[MissionGroup]
+    replicateMissions: Union[Dict[str, str], None]
     activity: ActivityTableActivityDetailTable
-    activityItems: dict[str, list[str]]
-    syncPoints: dict[str, list[int]]
+    extraData: Dict[str, Dict[str, Dict[str, List[ActivityTableExtraData]]]]
+    activityItems: Dict[str, List[str]]
+    syncPoints: Dict[str, List[int]]
     dynActs: Any
-    stageRewardsData: dict[str, ActivityStageRewardData]
-    actThemes: list[ActivityThemeData]
+    stageRewardsData: Dict[str, ActivityStageRewardData]
+    actThemes: List[ActivityThemeData]
     actFunData: AprilFoolTable
     carData: CartData
     siracusaData: SiracusaData
-    kvSwitchData: dict[str, ActivityKVSwitchData]
-    dynEntrySwitchData: dict[str, ActivityDynEntrySwitchData]
-    hiddenStageData: list[ActivityTableActivityHiddenStageData]
-    stringRes: dict[str, dict[str, str]]
-
-    class Config:
-        extra = 'allow'
-
-
-if __name__ == '__main__':
-    import json
-
-    path = "C:/Users/Administrator/Desktop/gsuid_core/data/ArknightsUID/resource/gamedata/activity_table.json"
-
-    with open(path, encoding='utf-8') as f:
-        data = json.load(f)
-    
-    print(ActivityTable(**data))
+    kvSwitchData: Dict[str, ActivityKVSwitchData]
+    dynEntrySwitchData: Dict[str, ActivityDynEntrySwitchData]
+    hiddenStageData: List[ActivityTableActivityHiddenStageData]
+    stringRes: Dict[str, Dict[str, str]]

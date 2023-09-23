@@ -1,76 +1,78 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class ClimbTowerSingleTowerDataClimbTowerTaskRewardData(BaseModel):
+class ClimbTowerSingleTowerDataClimbTowerTaskRewardData(BaseStruct):
     levelNum: int
-    rewards: list[ItemBundle]
+    rewards: List[ItemBundle]
 
 
-class ClimbTowerSingleTowerData(BaseModel):
-    id_: str = Field(alias='id')
+class ClimbTowerSingleTowerData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     stageNum: int
     name: str
     subName: str
     desc: str
     towerType: str
-    levels: list[str]
-    hardLevels: list[str] | None
-    taskInfo: list[ClimbTowerSingleTowerDataClimbTowerTaskRewardData] | None
-    preTowerId: str | None
-    medalId: str | None
-    hiddenMedalId: str | None
-    hardModeMedalId: str | None
-    bossId: str | None
-    cardId: str | None
-    curseCardIds: list[str]
+    levels: List[str]
+    hardLevels: Union[List[str], None]
+    taskInfo: Union[List[ClimbTowerSingleTowerDataClimbTowerTaskRewardData], None]
+    preTowerId: Union[str, None]
+    medalId: Union[str, None]
+    hiddenMedalId: Union[str, None]
+    hardModeMedalId: Union[str, None]
+    bossId: Union[str, None]
+    cardId: Union[str, None]
+    curseCardIds: List[str]
     dangerDesc: str
-    hardModeDesc: str | None
+    hardModeDesc: Union[str, None]
 
 
-class WeightItemBundle(BaseModel):
-    id_: str = Field(alias='id')
-    type_: str = Field(alias='type')
+class WeightItemBundle(BaseStruct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     dropType: str
     count: int
     weight: int
 
 
-class StageDataDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class StageDataDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class StageDataDisplayDetailRewards(BaseModel):
+class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class ClimbTowerDropDisplayInfo(BaseModel):
+class ClimbTowerDropDisplayInfo(BaseStruct):
     itemId: str
-    type_: int = Field(alias='type')
+    type_: int = field(name='type')
     maxCount: int
     minCount: int
 
 
-class ClimbTowerLevelDropInfo(BaseModel):
-    passRewards: list[list[WeightItemBundle]] | None = None
-    displayRewards: list[StageDataDisplayRewards] | None
-    displayDetailRewards: list[StageDataDisplayDetailRewards] | None
-    displayDropInfo: dict[str, ClimbTowerDropDisplayInfo] | None = None
+class ClimbTowerLevelDropInfo(BaseStruct):
+    displayRewards: Union[List[StageDataDisplayRewards], None]
+    displayDetailRewards: Union[List[StageDataDisplayDetailRewards], None]
+    passRewards: Union[List[List[WeightItemBundle]], None] = None
+    displayDropInfo: Union[Dict[str, ClimbTowerDropDisplayInfo], None] = None
 
 
-class ClimbTowerSingleLevelData(BaseModel):
-    id_: str = Field(alias='id')
+class ClimbTowerSingleLevelData(BaseStruct):
+    id_: str = field(name='id')
     levelId: str
     towerId: str
     layerNum: int
@@ -82,8 +84,8 @@ class ClimbTowerSingleLevelData(BaseModel):
     dropInfo: ClimbTowerLevelDropInfo
 
 
-class ClimbTowerTacticalBuffData(BaseModel):
-    id_: str = Field(alias='id')
+class ClimbTowerTacticalBuffData(BaseStruct):
+    id_: str = field(name='id')
     desc: str
     profession: str
     isDefaultActive: bool
@@ -91,79 +93,80 @@ class ClimbTowerTacticalBuffData(BaseModel):
     buffType: str
 
 
-class RuneDataSelector(BaseModel):
-    professionMask: int | str
+class RuneDataSelector(BaseStruct):
+    professionMask: Union[int, str]
     buildableMask: int
-    charIdFilter: list[str] | None
-    enemyIdFilter: list[str] | None
-    enemyIdExcludeFilter: list[str] | None
-    skillIdFilter: list[str] | None
-    tileKeyFilter: list[str] | None
-    groupTagFilter: list[str] | None
-    filterTagFilter: list[str] | None
+    charIdFilter: Union[List[str], None]
+    enemyIdFilter: Union[List[str], None]
+    enemyIdExcludeFilter: Union[List[str], None]
+    skillIdFilter: Union[List[str], None]
+    tileKeyFilter: Union[List[str], None]
+    groupTagFilter: Union[List[str], None]
+    filterTagFilter: Union[List[str], None]
+    subProfessionExcludeFilter: Union[List[str], None]
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: float | None = None
-    valueStr: str | None = None
+    value: Union[float, None] = None
+    valueStr: Union[str, None] = None
 
 
-class RuneData(BaseModel):
+class RuneData(BaseStruct):
     key: str
     selector: RuneDataSelector
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
 
 
-class RuneTablePackedRuneData(BaseModel):
-    id_: str = Field(alias='id')
+class RuneTablePackedRuneData(BaseStruct):
+    id_: str = field(name='id')
     points: float
-    mutexGroupKey: str | None
+    mutexGroupKey: Union[str, None]
     description: str
-    runes: list[RuneData]
+    runes: List[RuneData]
 
 
-class ClimbTowerMainCardData(BaseModel):
-    id_: str = Field(alias='id')
-    type_: str = Field(alias='type')
-    linkedTowerId: str | None
+class ClimbTowerMainCardData(BaseStruct):
+    id_: str = field(name='id')
+    type_: str = field(name='type')
+    linkedTowerId: Union[str, None]
     sortId: int
     name: str
     desc: str
-    subCardIds: list[str]
+    subCardIds: List[str]
     runeData: RuneTablePackedRuneData
-    trapIds: list[str]
+    trapIds: List[str]
 
 
-class ClimbTowerSubCardData(BaseModel):
-    id_: str = Field(alias='id')
+class ClimbTowerSubCardData(BaseStruct):
+    id_: str = field(name='id')
     mainCardId: str
     sortId: int
     name: str
     desc: str
     runeData: RuneTablePackedRuneData
-    trapIds: list[str]
+    trapIds: List[str]
 
 
-class ClimbTowerCurseCardData(BaseModel):
-    id_: str = Field(alias='id')
-    towerIdList: list[str]
+class ClimbTowerCurseCardData(BaseStruct):
+    id_: str = field(name='id')
+    towerIdList: List[str]
     name: str
     desc: str
     trapId: str
 
 
-class ClimbTowerSeasonInfoData(BaseModel):
-    id_: str = Field(alias='id')
+class ClimbTowerSeasonInfoData(BaseStruct):
+    id_: str = field(name='id')
     name: str
     startTs: int
     endTs: int
-    towers: list[str]
-    seasonCards: list[str]
+    towers: List[str]
+    seasonCards: List[str]
     seasonColor: str
 
 
-class ClimbTowerDetailConst(BaseModel):
+class ClimbTowerDetailConst(BaseStruct):
     unlockLevelId: str
     unlockModuleNumRequirement: int
     lowerItemId: str
@@ -171,7 +174,6 @@ class ClimbTowerDetailConst(BaseModel):
     higherItemId: str
     higherItemLimit: int
     initCharCount: int
-    recruitStageSort: list[int] | None = None
     charRecruitTimes: int
     charRecruitChoiceCount: int
     subcardStageSort: int
@@ -179,72 +181,70 @@ class ClimbTowerDetailConst(BaseModel):
     firstClearTaskDesc: str
     subCardObtainDesc: str
     subGodCardUnlockDesc: str
+    recruitStageSort: Union[List[int], None] = None
 
 
-class ClimbTowerRewardInfo(BaseModel):
+class ClimbTowerRewardInfo(BaseStruct):
     stageSort: int
     lowerItemCount: int
     higherItemCount: int
 
 
-class MissionDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class MissionDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     count: int
 
 
-class MissionData(BaseModel):
-    id_: str = Field(alias='id')
+class MissionData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     description: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     itemBgType: str
-    preMissionIds: list[str] | None
+    preMissionIds: Union[List[str], None]
     template: str
     templateType: str
-    param: list[str]
-    unlockCondition: str | None
-    unlockParam: list[str] | None
+    param: List[str]
+    unlockCondition: Union[str, None]
+    unlockParam: Union[List[str], None]
     missionGroup: str
-    toPage: str | None
+    toPage: Union[str, None]
     periodicalPoint: int
-    rewards: list[MissionDisplayRewards] | None
-    backImagePath: str | None
-    foldId: str | None
+    rewards: Union[List[MissionDisplayRewards], None]
+    backImagePath: Union[str, None]
+    foldId: Union[str, None]
     haveSubMissionToUnlock: bool
 
 
 class ClimbTowerMissionData(MissionData):
-    bindGodCardId: str | None
+    bindGodCardId: Union[str, None]
     missionBkg: str
 
 
-class MissionGroup(BaseModel):
-    id_: str = Field(alias='id')
-    title: str | None
-    type_: str = Field(alias='type')
-    preMissionGroup: str | None
-    period: list[int] | None
-    rewards: list[MissionDisplayRewards]
-    missionIds: list[str]
+class MissionGroup(BaseStruct):
+    id_: str = field(name='id')
+    title: Union[str, None]
+    type_: str = field(name='type')
+    preMissionGroup: Union[str, None]
+    period: Union[List[int], None]
+    rewards: List[MissionDisplayRewards]
+    missionIds: List[str]
     startTs: int
     endTs: int
 
 
-class ClimbTowerTable(BaseModel):
+class ClimbTowerTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    towers: dict[str, ClimbTowerSingleTowerData]
-    levels: dict[str, ClimbTowerSingleLevelData]
-    tacticalBuffs: dict[str, ClimbTowerTacticalBuffData]
-    mainCards: dict[str, ClimbTowerMainCardData]
-    subCards: dict[str, ClimbTowerSubCardData]
-    curseCards: dict[str, ClimbTowerCurseCardData]
-    seasonInfos: dict[str, ClimbTowerSeasonInfoData]
+    towers: Dict[str, ClimbTowerSingleTowerData]
+    levels: Dict[str, ClimbTowerSingleLevelData]
+    tacticalBuffs: Dict[str, ClimbTowerTacticalBuffData]
+    mainCards: Dict[str, ClimbTowerMainCardData]
+    subCards: Dict[str, ClimbTowerSubCardData]
+    curseCards: Dict[str, ClimbTowerCurseCardData]
+    seasonInfos: Dict[str, ClimbTowerSeasonInfoData]
     detailConst: ClimbTowerDetailConst
-    rewardInfoList: list[ClimbTowerRewardInfo]
-    missionData: dict[str, ClimbTowerMissionData]
-    missionGroup: dict[str, MissionGroup]
-
-    class Config:
-        extra = 'allow'
+    rewardInfoList: List[ClimbTowerRewardInfo]
+    missionData: Dict[str, ClimbTowerMissionData]
+    missionGroup: Dict[str, MissionGroup]

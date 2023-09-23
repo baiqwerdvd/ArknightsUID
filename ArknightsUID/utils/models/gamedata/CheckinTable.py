@@ -1,42 +1,41 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class MonthlySignInData(BaseModel):
+class MonthlySignInData(BaseStruct):
     itemId: str
     itemType: str
     count: int
 
 
-class MonthlySignInGroupData(BaseModel):
+class MonthlySignInGroupData(BaseStruct):
     groupId: str
     title: str
     description: str
     signStartTime: int
     signEndTime: int
-    items: list[MonthlySignInData]
+    items: List[MonthlySignInData]
 
 
-class MonthlyDailyBonusGroup(BaseModel):
+class MonthlyDailyBonusGroup(BaseStruct):
     groupId: str
     startTime: int
     endTime: int
-    items: list[ItemBundle]
+    items: List[ItemBundle]
     imgId: str
     backId: str
 
 
-class CheckinTable(BaseModel):
+class CheckinTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    groups: dict[str, MonthlySignInGroupData]
-    monthlySubItem: dict[str, list[MonthlyDailyBonusGroup]]
+    groups: Dict[str, MonthlySignInGroupData]
+    monthlySubItem: Dict[str, List[MonthlyDailyBonusGroup]]
     currentMonthlySubId: str
-
-    class Config:
-        extra = 'allow'

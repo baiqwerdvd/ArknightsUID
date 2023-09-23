@@ -1,37 +1,39 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class BuildingDataRoomUnlockCondCondItem(BaseModel):
-    type_: str = Field(alias='type')
+class BuildingDataRoomUnlockCondCondItem(BaseStruct):
+    type_: str = field(name='type')
     level: int
     count: int
 
 
-class BuildingDataRoomUnlockCond(BaseModel):
-    id_: str = Field(alias='id')
-    number: dict[str, BuildingDataRoomUnlockCondCondItem]
+class BuildingDataRoomUnlockCond(BaseStruct):
+    id_: str = field(name='id')
+    number: Dict[str, BuildingDataRoomUnlockCondCondItem]
 
 
-class GridPosition(BaseModel):
+class GridPosition(BaseStruct):
     row: int
     col: int
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class BuildingDataRoomDataBuildCost(BaseModel):
-    items: list[ItemBundle]
+class BuildingDataRoomDataBuildCost(BaseStruct):
+    items: List[ItemBundle]
     time: int
     labor: int
 
 
-class BuildingDataRoomDataPhaseData(BaseModel):
-    overrideName: str | None
-    overridePrefabId: str | None
+class BuildingDataRoomDataPhaseData(BaseStruct):
+    overrideName: Union[str, None]
+    overridePrefabId: Union[str, None]
     unlockCondId: str
     buildCost: BuildingDataRoomDataBuildCost
     electricity: int
@@ -39,20 +41,20 @@ class BuildingDataRoomDataPhaseData(BaseModel):
     manpowerCost: int
 
 
-class BuildingDataRoomData(BaseModel):
-    id_: str = Field(alias='id')
+class BuildingDataRoomData(BaseStruct):
+    id_: str = field(name='id')
     name: str
-    description: str | None
+    description: Union[str, None]
     defaultPrefabId: str
     canLevelDown: bool
     maxCount: int
     category: str
     size: GridPosition
-    phases: list[BuildingDataRoomDataPhaseData]
+    phases: List[BuildingDataRoomDataPhaseData]
 
 
-class BuildingDataLayoutDataRoomSlot(BaseModel):
-    id_: str = Field(alias='id')
+class BuildingDataLayoutDataRoomSlot(BaseStruct):
+    id_: str = field(name='id')
     cleanCostId: str
     costLabor: int
     provideLabor: int
@@ -62,133 +64,149 @@ class BuildingDataLayoutDataRoomSlot(BaseModel):
     storeyId: str
 
 
-class BuildingDataLayoutDataSlotCleanCostCountCost(BaseModel):
-    items: list[ItemBundle]
+class BuildingDataLayoutDataSlotCleanCostCountCost(BaseStruct):
+    items: List[ItemBundle]
 
 
-class BuildingDataLayoutDataSlotCleanCost(BaseModel):
-    id_: str = Field(alias='id')
-    number: dict[str, BuildingDataLayoutDataSlotCleanCostCountCost]
+class BuildingDataLayoutDataSlotCleanCost(BaseStruct):
+    id_: str = field(name='id')
+    number: Dict[str, BuildingDataLayoutDataSlotCleanCostCountCost]
 
 
-class BuildingDataLayoutDataStoreyData(BaseModel):
-    id_: str = Field(alias='id')
+class BuildingDataLayoutDataStoreyData(BaseStruct):
+    id_: str = field(name='id')
     yOffset: int
     unlockControlLevel: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class BuildingDataLayoutData(BaseModel):
-    id_: str = Field(alias='id')
-    slots: dict[str, BuildingDataLayoutDataRoomSlot]
-    cleanCosts: dict[str, BuildingDataLayoutDataSlotCleanCost]
-    storeys: dict[str, BuildingDataLayoutDataStoreyData]
+class BuildingDataLayoutData(BaseStruct):
+    id_: str = field(name='id')
+    slots: Dict[str, BuildingDataLayoutDataRoomSlot]
+    cleanCosts: Dict[str, BuildingDataLayoutDataSlotCleanCost]
+    storeys: Dict[str, BuildingDataLayoutDataStoreyData]
 
 
-class BuildingDataPrefabInfo(BaseModel):
-    id_: str = Field(alias='id')
-    blueprintRoomOverrideId: str | None
+class BuildingDataPrefabInfo(BaseStruct):
+    id_: str = field(name='id')
+    blueprintRoomOverrideId: Union[str, None]
     size: GridPosition
     floorGridSize: GridPosition
     backWallGridSize: GridPosition
-    obstacleId: str | None
+    obstacleId: Union[str, None]
 
 
-class BuildingDataManufactPhase(BaseModel):
-    speed: float | int
+class BuildingDataManufactPhase(BaseStruct, tag='BuildingDataManufactPhase'):
+    speed: Union[float, int]
     outputCapacity: int
 
 
-class BuildingDataShopPhase(BaseModel):
+class BuildingDataShopPhase(BaseStruct, tag='BuildingDataShopPhase'):
     counterNum: int
-    speed: float | int
+    speed: Union[float, int]
     moneyCapacity: int
 
 
-class BuildingDataHirePhase(BaseModel):
+class BuildingDataHirePhase(BaseStruct, tag='BuildingDataHirePhase'):
     economizeRate: float
     resSpeed: int
     refreshTimes: int
 
 
-class BuildingDataDormPhase(BaseModel):
+class BuildingDataDormPhase(BaseStruct, tag='BuildingDataDormPhase'):
     manpowerRecover: int
     decorationLimit: int
 
 
-class BuildingDataMeetingPhase(BaseModel):
+class BuildingDataMeetingPhase(BaseStruct, tag='BuildingDataMeetingPhase'):
     friendSlotInc: int
     maxVisitorNum: int
     gatheringSpeed: int
 
 
-class BuildingDataTradingPhase(BaseModel):
-    orderSpeed: float | int
+class BuildingDataTradingPhase(BaseStruct, tag='BuildingDataTradingPhase'):
+    orderSpeed: Union[float, int]
     orderLimit: int
     orderRarity: int
 
 
-class BuildingDataWorkshopPhase(BaseModel):
-    manpowerFactor: float | int
+class BuildingDataWorkshopPhase(BaseStruct, tag='BuildingDataWorkshopPhase'):
+    manpowerFactor: Union[float, int]
 
 
-class BuildingDataTrainingPhase(BaseModel):
+class BuildingDataTrainingPhase(BaseStruct, tag='BuildingDataTrainingPhase'):
     specSkillLvlLimit: int
 
 
-class BuildingDataRoomBean(BaseModel):
-    phases: list[BuildingDataManufactPhase | BuildingDataShopPhase | BuildingDataHirePhase | BuildingDataDormPhase | BuildingDataMeetingPhase | BuildingDataTradingPhase | BuildingDataWorkshopPhase | BuildingDataTrainingPhase] | None  # noqa: E501
+class BuildingDataShopRoomBean(BaseStruct):
+    phases: None = None
+    # phases: Union[List[Union[Union[Union[Union[Union[Union[Union[BuildingDataManufactPhase, BuildingDataShopPhase], BuildingDataHirePhase], BuildingDataDormPhase], BuildingDataMeetingPhase], BuildingDataTradingPhase], BuildingDataWorkshopPhase], BuildingDataTrainingPhase]], None]  # noqa: E501
 
 
-class BuildingDataControlRoomBean(BuildingDataRoomBean):
+class BuildingDataControlRoomBean(BaseStruct):
     basicCostBuff: int
+    phases: None = None
 
 
-class BuildingDataManufactRoomBean(BuildingDataRoomBean):
+class BuildingDataManufactRoomBean(BaseStruct):
     basicSpeedBuff: float
+    phases: List[BuildingDataManufactPhase]
 
 
-class BuildingDataHireRoomBean(BuildingDataRoomBean):
+class BuildingDataHireRoomBean(BaseStruct):
     basicSpeedBuff: float
+    phases: List[BuildingDataHirePhase]
 
 
-class BuildingDataMeetingRoomBean(BuildingDataRoomBean):
+class BuildingDataDormRoomBean(BaseStruct):
+    phases: List[BuildingDataDormPhase]
+
+
+class BuildingDataMeetingRoomBean(BaseStruct):
     basicSpeedBuff: float
+    phases: List[BuildingDataMeetingPhase]
 
 
-class BuildingDataTradingRoomBean(BuildingDataRoomBean):
+class BuildingDataTradingRoomBean(BaseStruct):
     basicSpeedBuff: float
+    phases: List[BuildingDataTradingPhase]
 
 
-class BuildingDataTrainingBean(BuildingDataRoomBean):
+class BuildingDataWorkShopRoomBean(BaseStruct):
+    phases: List[BuildingDataWorkshopPhase]
+
+
+class BuildingDataTrainingBean(BaseStruct):
     basicSpeedBuff: float
+    phases: List[BuildingDataTrainingPhase]
 
 
-class BuildingDataPowerRoomBean(BuildingDataRoomBean):
+class BuildingDataPowerRoomBean(BaseStruct):
     basicSpeedBuff: float
+    phases: None = None
 
 
-class CharacterDataUnlockCondition(BaseModel):
+class CharacterDataUnlockCondition(BaseStruct):
     phase: int
     level: int
 
 
-class BuildingDataBuildingBuffCharSlotSlotItem(BaseModel):
+class BuildingDataBuildingBuffCharSlotSlotItem(BaseStruct):
     buffId: str
     cond: CharacterDataUnlockCondition
 
 
-class BuildingDataBuildingBuffCharSlot(BaseModel):
-    buffData: list[BuildingDataBuildingBuffCharSlotSlotItem]
+class BuildingDataBuildingBuffCharSlot(BaseStruct):
+    buffData: List[BuildingDataBuildingBuffCharSlotSlotItem]
 
 
-class BuildingDataBuildingCharacter(BaseModel):
+class BuildingDataBuildingCharacter(BaseStruct):
     charId: str
     maxManpower: int
-    buffChar: list[BuildingDataBuildingBuffCharSlot]
+    buffChar: List[BuildingDataBuildingBuffCharSlot]
 
 
-class BuildingDataBuildingBuff(BaseModel):
+class BuildingDataBuildingBuff(BaseStruct):
     buffId: str
     buffName: str
     buffIcon: str
@@ -201,13 +219,12 @@ class BuildingDataBuildingBuff(BaseModel):
     description: str
 
 
-class BuildingDataCustomDataFurnitureData(BaseModel):
-    id_: str = Field(alias='id')
+class BuildingDataCustomDataFurnitureData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     name: str
     iconId: str
-    interactType: str | None = None
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     subType: str
     location: str
     category: str
@@ -226,101 +243,102 @@ class BuildingDataCustomDataFurnitureData(BaseModel):
     processedProductId: str
     processedProductCount: int
     processedByProductPercentage: int
-    processedByProductGroup: list
+    processedByProductGroup: List
     canBeDestroy: bool
     isOnly: int
     quantity: int
+    interactType: Union[str, None] = None
 
 
-class BuildingDataCustomDataThemeQuickSetupItem(BaseModel):
+class BuildingDataCustomDataThemeQuickSetupItem(BaseStruct):
     furnitureId: str
     pos0: int
     pos1: int
-    dir_: int = Field(alias='dir')
+    dir_: int = field(name='dir')
 
 
-class BuildingDataCustomDataThemeData(BaseModel):
-    id_: str = Field(alias='id')
+class BuildingDataCustomDataThemeData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     name: str
     themeType: str
     desc: str
-    quickSetup: list[BuildingDataCustomDataThemeQuickSetupItem]
-    groups: list[str]
-    furnitures: list[str]
+    quickSetup: List[BuildingDataCustomDataThemeQuickSetupItem]
+    groups: List[str]
+    furnitures: List[str]
 
 
-class BuildingDataCustomDataGroupData(BaseModel):
-    id_: str = Field(alias='id')
+class BuildingDataCustomDataGroupData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     name: str
     themeId: str
     comfort: int
     count: int
-    furniture: list[str]
+    furniture: List[str]
 
 
-class BuildingDataCustomDataFurnitureTypeData(BaseModel):
-    type_: str = Field(alias='type')
+class BuildingDataCustomDataFurnitureTypeData(BaseStruct):
+    type_: str = field(name='type')
     name: str
 
 
-class BuildingDataCustomDataFurnitureSubTypeData(BaseModel):
+class BuildingDataCustomDataFurnitureSubTypeData(BaseStruct):
     subType: str
     name: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     sortId: int
 
 
-class BuildingDataCustomDataDormitoryDefaultFurnitureItem(BaseModel):
+class BuildingDataCustomDataDormitoryDefaultFurnitureItem(BaseStruct):
     furnitureId: str
     xOffset: int
     yOffset: int
     defaultPrefabId: str
 
 
-class BuildingDataCustomDataInteractItem(BaseModel):
+class BuildingDataCustomDataInteractItem(BaseStruct):
     skinId: str
 
 
-class BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData(BaseModel):
+class BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData(BaseStruct):
     name: str
-    sequences: list[str]
+    sequences: List[str]
     stableSequence: str
     stableSequenceOrder: str
 
 
-class BuildingDataCustomDataDiyUISortTemplateListData(BaseModel):
+class BuildingDataCustomDataDiyUISortTemplateListData(BaseStruct):
     diyUIType: str
     expandState: str
     defaultTemplateIndex: int
     defaultTemplateOrder: str
-    templates: list[BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData]
+    templates: List[BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData]
 
 
-class BuildingDataCustomData(BaseModel):
-    furnitures: dict[str, BuildingDataCustomDataFurnitureData]
-    themes: dict[str, BuildingDataCustomDataThemeData]
-    groups: dict[str, BuildingDataCustomDataGroupData]
-    types: dict[str, BuildingDataCustomDataFurnitureTypeData]
-    subTypes: dict[str, BuildingDataCustomDataFurnitureSubTypeData]
-    defaultFurnitures: dict[str, list[BuildingDataCustomDataDormitoryDefaultFurnitureItem]]
-    interactGroups: dict[str, list[BuildingDataCustomDataInteractItem]]
-    diyUISortTemplates: dict[str, dict[str, BuildingDataCustomDataDiyUISortTemplateListData]]
+class BuildingDataCustomData(BaseStruct):
+    furnitures: Dict[str, BuildingDataCustomDataFurnitureData]
+    themes: Dict[str, BuildingDataCustomDataThemeData]
+    groups: Dict[str, BuildingDataCustomDataGroupData]
+    types: Dict[str, BuildingDataCustomDataFurnitureTypeData]
+    subTypes: Dict[str, BuildingDataCustomDataFurnitureSubTypeData]
+    defaultFurnitures: Dict[str, List[BuildingDataCustomDataDormitoryDefaultFurnitureItem]]
+    interactGroups: Dict[str, List[BuildingDataCustomDataInteractItem]]
+    diyUISortTemplates: Dict[str, Dict[str, BuildingDataCustomDataDiyUISortTemplateListData]]
 
 
-class BuildingDataManufactFormulaUnlockRoom(BaseModel):
+class BuildingDataManufactFormulaUnlockRoom(BaseStruct):
     roomId: str
     roomLevel: int
     roomCount: int
 
 
-class BuildingDataManufactFormulaUnlockStage(BaseModel):
+class BuildingDataManufactFormulaUnlockStage(BaseStruct):
     stageId: str
     rank: int
 
 
-class BuildingDataManufactFormula(BaseModel):
+class BuildingDataManufactFormula(BaseStruct):
     formulaId: str
     itemId: str
     count: int
@@ -328,43 +346,43 @@ class BuildingDataManufactFormula(BaseModel):
     costPoint: int
     formulaType: str
     buffType: str
-    costs: list[ItemBundle]
-    requireRooms: list[BuildingDataManufactFormulaUnlockRoom]
-    requireStages: list[BuildingDataManufactFormulaUnlockStage]
+    costs: List[ItemBundle]
+    requireRooms: List[BuildingDataManufactFormulaUnlockRoom]
+    requireStages: List[BuildingDataManufactFormulaUnlockStage]
 
 
-class BuildingDataShopFormulaUnlockRoom(BaseModel):
+class BuildingDataShopFormulaUnlockRoom(BaseStruct):
     roomId: str
     roomLevel: int
 
 
-class BuildingDataShopFormula(BaseModel):
+class BuildingDataShopFormula(BaseStruct):
     formulaId: str
     itemId: str
     formulaType: str
     costPoint: int
     gainItem: ItemBundle
-    requireRooms: list[BuildingDataShopFormulaUnlockRoom]
+    requireRooms: List[BuildingDataShopFormulaUnlockRoom]
 
 
-class BuildingDataWorkshopExtraWeightItem(BaseModel):
+class BuildingDataWorkshopExtraWeightItem(BaseStruct):
     weight: int
     itemId: str
     itemCount: int
 
 
-class BuildingDataWorkshopFormulaUnlockRoom(BaseModel):
+class BuildingDataWorkshopFormulaUnlockRoom(BaseStruct):
     roomId: str
     roomLevel: int
     roomCount: int
 
 
-class BuildingDataWorkshopFormulaUnlockStage(BaseModel):
+class BuildingDataWorkshopFormulaUnlockStage(BaseStruct):
     stageId: str
     rank: int
 
 
-class BuildingDataWorkshopFormula(BaseModel):
+class BuildingDataWorkshopFormula(BaseStruct):
     sortId: int
     formulaId: str
     rarity: int
@@ -375,23 +393,25 @@ class BuildingDataWorkshopFormula(BaseModel):
     formulaType: str
     buffType: str
     extraOutcomeRate: float
-    extraOutcomeGroup: list[BuildingDataWorkshopExtraWeightItem]
-    costs: list[ItemBundle]
-    requireRooms: list[BuildingDataWorkshopFormulaUnlockRoom]
-    requireStages: list[BuildingDataWorkshopFormulaUnlockStage]
+    extraOutcomeGroup: List[BuildingDataWorkshopExtraWeightItem]
+    costs: List[ItemBundle]
+    requireRooms: List[BuildingDataWorkshopFormulaUnlockRoom]
+    requireStages: List[BuildingDataWorkshopFormulaUnlockStage]
 
 
-class BuildingDataCreditFormulaValueModel(BaseModel):
+class BuildingDataCreditFormulaValueModel(BaseStruct):
     basic: int
     addition: int
 
 
-class BuildingDataCreditFormula(BaseModel):
-    initiative: BuildingDataCreditFormulaValueModel | dict
-    passive: BuildingDataCreditFormulaValueModel | dict
+class BuildingDataCreditFormula(BaseStruct):
+    initiative: Dict
+    passive: Dict
+    # initiative: Union[BuildingDataCreditFormulaValueModel, Dict]
+    # passive: Union[BuildingDataCreditFormulaValueModel, Dict]
 
 
-class BuildingData(BaseModel):
+class BuildingData(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
     controlSlotId: str
@@ -411,8 +431,8 @@ class BuildingData(BaseModel):
     manufactStationBuff: float
     comfortManpowerRecoverFactor: int
     manpowerDisplayFactor: int
-    shopOutputRatio: dict[str, int] | None
-    shopStackRatio: dict[str, int] | None
+    shopOutputRatio: Union[Dict[str, int], None]
+    shopStackRatio: Union[Dict[str, int], None]
     basicFavorPerDay: int
     humanResourceLimit: int
     tiredApThreshold: int
@@ -429,32 +449,29 @@ class BuildingData(BaseModel):
     socialSlotNum: int
     furniDuplicationLimit: int
     assistFavorReport: int
-    manufactManpowerCostByNum: list[int]
-    tradingManpowerCostByNum: list[int]
-    roomUnlockConds: dict[str, BuildingDataRoomUnlockCond]
-    rooms: dict[str, BuildingDataRoomData]
-    layouts: dict[str, BuildingDataLayoutData]
-    prefabs: dict[str, BuildingDataPrefabInfo]
+    manufactManpowerCostByNum: List[int]
+    tradingManpowerCostByNum: List[int]
+    roomUnlockConds: Dict[str, BuildingDataRoomUnlockCond]
+    rooms: Dict[str, BuildingDataRoomData]
+    layouts: Dict[str, BuildingDataLayoutData]
+    prefabs: Dict[str, BuildingDataPrefabInfo]
     controlData: BuildingDataControlRoomBean
     manufactData: BuildingDataManufactRoomBean
-    shopData: BuildingDataRoomBean
+    shopData: BuildingDataShopRoomBean
     hireData: BuildingDataHireRoomBean
-    dormData: BuildingDataRoomBean
+    dormData: BuildingDataDormRoomBean
     meetingData: BuildingDataMeetingRoomBean
     tradingData: BuildingDataTradingRoomBean
-    workshopData: BuildingDataRoomBean
+    workshopData: BuildingDataWorkShopRoomBean
     trainingData: BuildingDataTrainingBean
     powerData: BuildingDataPowerRoomBean
-    chars: dict[str, BuildingDataBuildingCharacter]
-    buffs: dict[str, BuildingDataBuildingBuff]
-    workshopBonus: dict[str, list[str]]
+    chars: Dict[str, BuildingDataBuildingCharacter]
+    buffs: Dict[str, BuildingDataBuildingBuff]
+    workshopBonus: Dict[str, List[str]]
     customData: BuildingDataCustomData
-    manufactFormulas: dict[str, BuildingDataManufactFormula]
-    shopFormulas: dict[str, BuildingDataShopFormula]
-    workshopFormulas: dict[str, BuildingDataWorkshopFormula]
+    manufactFormulas: Dict[str, BuildingDataManufactFormula]
+    shopFormulas: Dict[str, BuildingDataShopFormula]
+    workshopFormulas: Dict[str, BuildingDataWorkshopFormula]
     creditFormula: BuildingDataCreditFormula
-    goldItems: dict[str, int]
-    assistantUnlock: list[int]
-
-    class Config:
-        extra = 'allow'
+    goldItems: Dict[str, int]
+    assistantUnlock: List[int]

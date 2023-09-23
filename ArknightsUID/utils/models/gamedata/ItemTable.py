@@ -1,107 +1,107 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ItemDataStageDropInfo(BaseModel):
+class ItemDataStageDropInfo(BaseStruct):
     stageId: str
     occPer: str
 
 
-class ItemDataBuildingProductInfo(BaseModel):
+class ItemDataBuildingProductInfo(BaseStruct):
     roomType: str
     formulaId: str
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class FavorCharacterInfo(BaseModel):
+class FavorCharacterInfo(BaseStruct):
     itemId: str
     charId: str
     favorAddAmt: int
 
 
-class ActivityPotentialCharacterInfo(BaseModel):
+class ActivityPotentialCharacterInfo(BaseStruct):
     charId: str
 
 
-class FullPotentialCharacterInfo(BaseModel):
+class FullPotentialCharacterInfo(BaseStruct):
     itemId: str
     ts: int
 
 
-class ItemPackInfo(BaseModel):
+class ItemPackInfo(BaseStruct):
     packId: str
-    content: list[ItemBundle]
+    content: List[ItemBundle]
 
 
-class UniCollectionInfo(BaseModel):
+class UniCollectionInfo(BaseStruct):
     uniCollectionItemId: str
-    uniqueItem: list[ItemBundle]
+    uniqueItem: List[ItemBundle]
 
 
-class ApSupplyFeature(BaseModel):
-    id_: str = Field(alias='id')
+class ApSupplyFeature(BaseStruct):
+    id_: str = field(name='id')
     ap: int
     hasTs: bool
 
 
-class ExpItemFeature(BaseModel):
-    id_: str = Field(alias='id')
+class ExpItemFeature(BaseStruct):
+    id_: str = field(name='id')
     gainExp: int
 
 
-class ItemData(BaseModel):
+class ItemData(BaseStruct):
     itemId: str
     name: str
-    description: str | None
+    description: Union[str, None]
     rarity: int
     iconId: str
     overrideBkg: None
-    stackIconId: str | None
+    stackIconId: Union[str, None]
     sortId: int
-    usage: str | None
-    obtainApproach: str | None
+    usage: Union[str, None]
+    obtainApproach: Union[str, None]
     classifyType: str
     itemType: str
-    stageDropList: list[ItemDataStageDropInfo]
-    buildingProductList: list[ItemDataBuildingProductInfo]
+    stageDropList: List[ItemDataStageDropInfo]
+    buildingProductList: List[ItemDataBuildingProductInfo]
+    hideInItemGet: Union[bool, None] = None
 
 
-class CharVoucherItemFeature(BaseModel):
+class CharVoucherItemFeature(BaseStruct):
     displayType: int
-    id_: str = Field(alias='id')
+    id_: str = field(name='id')
 
 
-class ServerItemReminderMailData(BaseModel):
+class ServerItemReminderMailData(BaseStruct):
     content: str
     sender: str
     title: str
 
 
-class ServerItemReminderInfo(BaseModel):
-    paidItemIdList: list[str]
+class ServerItemReminderInfo(BaseStruct):
+    paidItemIdList: List[str]
     paidReminderMail: ServerItemReminderMailData
 
 
-class ItemTable(BaseModel):
+class ItemTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    activityPotentialCharacters: dict[str, ActivityPotentialCharacterInfo]
-    apSupplies: dict[str, ApSupplyFeature]
-    charVoucherItems: dict[str, CharVoucherItemFeature] | None = None
-    expItems: dict[str, ExpItemFeature]
-    favorCharacters: dict[str, FavorCharacterInfo]
-    fullPotentialCharacters: dict[str, FullPotentialCharacterInfo]
-    itemPackInfos: dict[str, ItemPackInfo]
-    items: dict[str, ItemData]
-    itemTimeLimit: dict[str, int]
-    potentialItems: dict[str, dict[str, str]]
-    reminderInfo: ServerItemReminderInfo | None = None
-    uniCollectionInfo: dict[str, UniCollectionInfo]
-    uniqueInfo: dict[str, int]
-
-    class Config:
-        extra = 'allow'
+    activityPotentialCharacters: Dict[str, ActivityPotentialCharacterInfo]
+    apSupplies: Dict[str, ApSupplyFeature]
+    expItems: Dict[str, ExpItemFeature]
+    favorCharacters: Dict[str, FavorCharacterInfo]
+    fullPotentialCharacters: Dict[str, FullPotentialCharacterInfo]
+    itemPackInfos: Dict[str, ItemPackInfo]
+    items: Dict[str, ItemData]
+    itemTimeLimit: Dict[str, int]
+    potentialItems: Dict[str, Dict[str, str]]
+    uniCollectionInfo: Dict[str, UniCollectionInfo]
+    uniqueInfo: Dict[str, int]
+    reminderInfo: Union[ServerItemReminderInfo, None] = None
+    charVoucherItems: Union[Dict[str, CharVoucherItemFeature], None] = None

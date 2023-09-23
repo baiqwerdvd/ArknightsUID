@@ -1,28 +1,25 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List
+from ..common import BaseStruct
+from msgspec import field
+from msgspec import json as msgjson
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class ReplicateData(BaseModel):
+class ReplicateData(BaseStruct):
     item: ItemBundle
     replicateTokenItem: ItemBundle
 
 
-class ReplicateList(BaseModel):
-    replicateList: list[ReplicateData]
+class ReplicateList(BaseStruct):
+    replicateList: List[ReplicateData]
 
 
-class ReplicateTable(BaseModel):
+class ReplicateTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    replicate: dict[str, ReplicateList]
-
-    class Config:
-        extra = 'allow'
-
-    def __init__(self, **data):
-        super().__init__(replicate=data)
+    replicate: Dict[str, ReplicateList]

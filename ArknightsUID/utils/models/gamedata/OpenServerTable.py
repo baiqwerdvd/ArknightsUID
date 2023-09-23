@@ -1,58 +1,67 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ItemBundle(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class RewardItem(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
+    count: int
+    sortId: int
+
+
+class ItemBundle(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     count: int
 
 
-class MissionDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class MissionDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     count: int
 
 
-class OpenServerItemData(BaseModel):
+class OpenServerItemData(BaseStruct):
     itemId: str
     itemType: str
     count: int
 
 
-class ReturnIntroData(BaseModel):
+class ReturnIntroData(BaseStruct):
     sort: int
     pubTime: int
     image: str
 
 
-class ReturnCheckinData(BaseModel):
+class ReturnCheckinData(BaseStruct):
     isImportant: bool
-    checkinRewardItems: list[ItemBundle]
+    checkinRewardItems: List[ItemBundle]
 
 
-class ReturnLongTermTaskData(BaseModel):
-    id_: str = Field(alias='id')
+class ReturnLongTermTaskData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     template: str
-    param: list[str]
+    param: List[str]
     desc: str
-    rewards: list[MissionDisplayRewards]
+    rewards: List[MissionDisplayRewards]
     playPoint: int
 
 
-class ReturnDailyTaskData(BaseModel):
+class ReturnDailyTaskData(BaseStruct):
     groupId: str
-    id_: str = Field(alias='id')
+    id_: str = field(name='id')
     groupSortId: int
     taskSortId: int
     template: str
-    param: list[str]
+    param: List[str]
     desc: str
-    rewards: list[MissionDisplayRewards]
+    rewards: List[MissionDisplayRewards]
     playPoint: int
 
 
-class ReturnConst(BaseModel):
+class ReturnConst(BaseStruct):
     startTime: int
     systemTab_time: int
     afkDays: int
@@ -66,75 +75,75 @@ class ReturnConst(BaseModel):
     pointId: str
 
 
-class ReturnData(BaseModel):
+class ReturnData(BaseStruct):
     constData: ReturnConst
-    onceRewards: list[ItemBundle]
-    intro: list[ReturnIntroData]
-    returnDailyTaskDic: dict[str, list[ReturnDailyTaskData]]
-    returnLongTermTaskList: list[ReturnLongTermTaskData]
-    creditsList: list[ItemBundle]
-    checkinRewardList: list[ReturnCheckinData]
+    onceRewards: List[ItemBundle]
+    intro: List[ReturnIntroData]
+    returnDailyTaskDic: Dict[str, List[ReturnDailyTaskData]]
+    returnLongTermTaskList: List[ReturnLongTermTaskData]
+    creditsList: List[ItemBundle]
+    checkinRewardList: List[ReturnCheckinData]
 
 
-class OpenServerConst(BaseModel):
+class OpenServerConst(BaseStruct):
     firstDiamondShardMailCount: int
     initApMailEndTs: int
 
 
-class TotalCheckinData(BaseModel):
+class TotalCheckinData(BaseStruct):
     order: int
     item: OpenServerItemData
     colorId: int
 
 
-class ChainLoginData(BaseModel):
+class ChainLoginData(BaseStruct):
     order: int
     item: OpenServerItemData
     colorId: int
 
 
-class MissionData(BaseModel):
-    id_: str = Field(alias='id')
+class MissionData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     description: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     itemBgType: str
     preMissionIds: None
     template: str
     templateType: str
-    param: list[str]
+    param: List[str]
     unlockCondition: None
     unlockParam: None
     missionGroup: str
     toPage: None
     periodicalPoint: int
-    rewards: list[ItemBundle]
+    rewards: List[ItemBundle]
     backImagePath: None
     foldId: None
     haveSubMissionToUnlock: bool
 
 
-class MissionGroup(BaseModel):
-    id_: str = Field(alias='id')
+class MissionGroup(BaseStruct):
+    id_: str = field(name='id')
     title: None
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     preMissionGroup: None
     period: None
     rewards: None
-    missionIds: list[str]
+    missionIds: List[str]
     startTs: int
     endTs: int
 
 
-class OpenServerData(BaseModel):
+class OpenServerData(BaseStruct):
     openServerMissionGroup: MissionGroup
-    openServerMissionData: list[MissionData]
-    checkInData: list[TotalCheckinData]
-    chainLoginData: list[ChainLoginData]
+    openServerMissionData: List[MissionData]
+    checkInData: List[TotalCheckinData]
+    chainLoginData: List[ChainLoginData]
 
 
-class OpenServerScheduleItem(BaseModel):
-    id_: str = Field(alias='id')
+class OpenServerScheduleItem(BaseStruct):
+    id_: str = field(name='id')
     startTs: int
     endTs: int
     totalCheckinDescption: str
@@ -142,13 +151,127 @@ class OpenServerScheduleItem(BaseModel):
     charImg: str
 
 
-class OpenServerTable(BaseModel):
+class ReturnConstV2(BaseStruct):
+    startTime: int
+    unlockLv: int
+    unlockStage: str
+    permMissionTime: int
+    pointId: str
+    returnPriceDesc: str
+    dailySupplyDesc: str
+
+
+class onceRewardDataV2(BaseStruct):
+    groupId: str
+    startTime: int
+    endTime: int
+    rewardList: List[RewardItem]
+
+
+class ReturnCheckinDataV2RewardList(BaseStruct):
+    sortId: int
+    isImportant: bool
+    rewardList: List[ItemBundle]
+
+
+class CheckInRewardData(BaseStruct):
+    groupId: str
+    startTime: int
+    endTime: int
+    rewardList: List[ReturnCheckinDataV2RewardList]
+
+
+class PriceRewardDataV2Content(BaseStruct):
+    contentId: str
+    sortId: int
+    pointRequire: int
+    desc: str
+    iconId: str
+    topIconId: str
+    rewardList: List[RewardItem]
+
+
+class PriceRewardDataV2(BaseStruct):
+    groupId: str
+    startTime: int
+    endTime: int
+    contentList: List[PriceRewardDataV2Content]
+
+
+class MissionGroupDataV2Mission(BaseStruct):
+    missionId: str
+    groupId: str
+    sortId: int
+    jumpType: str
+    jumpParam: Union[str, None]
+    desc: str
+    rewardList: List[ItemBundle]
+
+
+class MissionGroupDataV2(BaseStruct):
+    groupId: str
+    sortId: int
+    tabTitle: str
+    title: str
+    desc: str
+    diffMissionCount: int
+    startTime: int
+    endTime: int
+    imageId: str
+    iconId: str
+    missionList: List[MissionGroupDataV2Mission]
+
+
+class SailySupplyDataV2(BaseStruct):
+    groupId: str
+    startTime: int
+    endTime: int
+    rewardList: List[ItemBundle]
+
+
+class PackageCheckInRewardDataV2(BaseStruct):
+    groupId: str
+    startTime: int
+    endTime: int
+    getTime: int
+    bindGPGoodId: str
+    totalCheckInDay: int
+    iconId: str
+    rewardDict: Dict[str, List[RewardItem]]
+
+
+class ReturnDataV2(BaseStruct):
+    constData: ReturnConstV2
+    onceRewardData: List[onceRewardDataV2]
+    checkInRewardData: List[CheckInRewardData]
+    priceRewardData: List[PriceRewardDataV2]
+    missionGroupData: List[MissionGroupDataV2]
+    dailySupplyData: List[SailySupplyDataV2]
+    packageCheckInRewardData: List[PackageCheckInRewardDataV2]
+
+
+class CheckInRewardItem(BaseStruct):
+    orderNum: int
+    itemBundle: ItemBundle
+
+
+class OpenServerNewbieCheckInPackage(BaseStruct):
+    groupId: str
+    startTime: int
+    endTime: int
+    bindGPGoodId: str
+    checkInDuration: int
+    totalCheckInDay: int
+    iconId: str
+    checkInRewardDict: Dict[str, List[CheckInRewardItem]]
+
+
+class OpenServerTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    schedule: list[OpenServerScheduleItem]
-    dataMap: dict[str, OpenServerData]
+    schedule: List[OpenServerScheduleItem]
+    dataMap: Dict[str, OpenServerData]
     constant: OpenServerConst
     playerReturn: ReturnData
-
-    class Config:
-        extra = 'allow'
+    playerReturnV2: ReturnDataV2
+    newbieCheckInPackageList: List[OpenServerNewbieCheckInPackage]

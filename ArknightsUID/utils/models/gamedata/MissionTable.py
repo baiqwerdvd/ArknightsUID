@@ -1,87 +1,86 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class MissionDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class MissionDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     count: int
 
 
-class DailyMissionGroupInfoperiodInfo(BaseModel):
+class DailyMissionGroupInfoperiodInfo(BaseStruct):
     missionGroupId: str
-    period: list[int]
+    period: List[int]
     rewardGroupId: str
 
 
-class DailyMissionGroupInfo(BaseModel):
+class DailyMissionGroupInfo(BaseStruct):
     endTime: int
-    periodList: list[DailyMissionGroupInfoperiodInfo]
+    periodList: List[DailyMissionGroupInfoperiodInfo]
     startTime: int
-    tagState: str | None
+    tagState: Union[str, None]
 
 
-class MissionWeeklyRewardConf(BaseModel):
+class MissionWeeklyRewardConf(BaseStruct):
     beginTime: int
     endTime: int
     groupId: str
-    id_: str = Field(alias='id')
+    id_: str = field(name='id')
     periodicalPointCost: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     sortIndex: int
-    rewards: list[MissionDisplayRewards]
+    rewards: List[MissionDisplayRewards]
 
 
-class MissionDailyRewardConf(BaseModel):
+class MissionDailyRewardConf(BaseStruct):
     groupId: str
-    id_: str = Field(alias='id')
+    id_: str = field(name='id')
     periodicalPointCost: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     sortIndex: int
-    rewards: list[MissionDisplayRewards]
+    rewards: List[MissionDisplayRewards]
 
 
-class MissionGroup(BaseModel):
-    id_: str = Field(alias='id')
-    title: str | None
-    type_: str = Field(alias='type')
-    preMissionGroup: str | None
-    period: list[int] | None
-    rewards: list[MissionDisplayRewards] | None
-    missionIds: list[str]
+class MissionGroup(BaseStruct):
+    id_: str = field(name='id')
+    title: Union[str, None]
+    type_: str = field(name='type')
+    preMissionGroup: Union[str, None]
+    period: Union[List[int], None]
+    rewards: Union[List[MissionDisplayRewards], None]
+    missionIds: List[str]
     startTs: int
     endTs: int
 
 
-class MissionData(BaseModel):
-    id_: str = Field(alias='id')
+class MissionData(BaseStruct):
+    id_: str = field(name='id')
     sortId: int
     description: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     itemBgType: str
-    preMissionIds: list[str] | None
+    preMissionIds: Union[List[str], None]
     template: str
     templateType: str
-    param: list[str]
-    unlockCondition: str | None
-    unlockParam: list[str] | None
+    param: List[str]
+    unlockCondition: Union[str, None]
+    unlockParam: Union[List[str], None]
     missionGroup: str
     toPage: None
     periodicalPoint: int
-    rewards: list[MissionDisplayRewards] | None
-    backImagePath: str | None
-    foldId: str | None
+    rewards: Union[List[MissionDisplayRewards], None]
+    backImagePath: Union[str, None]
+    foldId: Union[str, None]
     haveSubMissionToUnlock: bool
 
 
-class MissionTable(BaseModel):
+class MissionTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    missions: dict[str, MissionData]
-    missionGroups: dict[str, MissionGroup]
-    periodicalRewards: dict[str, MissionDailyRewardConf]
-    weeklyRewards: dict[str, MissionWeeklyRewardConf]
-    dailyMissionGroupInfo: dict[str, DailyMissionGroupInfo]
-    dailyMissionPeriodInfo: list[DailyMissionGroupInfo]
-
-    class Config:
-        extra = 'allow'
+    missions: Dict[str, MissionData]
+    missionGroups: Dict[str, MissionGroup]
+    periodicalRewards: Dict[str, MissionDailyRewardConf]
+    weeklyRewards: Dict[str, MissionWeeklyRewardConf]
+    dailyMissionGroupInfo: Dict[str, DailyMissionGroupInfo]
+    dailyMissionPeriodInfo: List[DailyMissionGroupInfo]

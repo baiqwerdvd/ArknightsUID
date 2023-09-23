@@ -1,25 +1,27 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class UnlockCondition(BaseModel):
+class UnlockCondition(BaseStruct):
     phase: int
     level: int
 
 
-class TraitDescBundle(BaseModel):
+class TraitDescBundle(BaseStruct):
     unlockCondition: UnlockCondition
     requiredPotentialRank: int
     overrideDescription: None
     additiveDescription: str
 
 
-class UniEquipData(BaseModel):
+class UniEquipData(BaseStruct):
     uniEquipId: str
     uniEquipName: str
     uniEquipIcon: str
@@ -33,31 +35,31 @@ class UniEquipData(BaseModel):
     showLevel: int
     unlockLevel: int
     unlockFavorPercent: int
-    missionList: list[str]
-    itemCost: list[ItemBundle] | None
-    type_: str = Field(..., alias='type')
-    traitDescBundle: list[TraitDescBundle]
+    missionList: List[str]
+    itemCost: Union[List[ItemBundle], None]
+    type_: str = field(name='type')
+    traitDescBundle: List[TraitDescBundle]
 
 
-class UniEquipMissionData(BaseModel):
-    template: str | None
-    desc: str | None
-    paramList: list[str]
+class UniEquipMissionData(BaseStruct):
+    template: Union[str, None]
+    desc: Union[str, None]
+    paramList: List[str]
     uniEquipMissionId: str
     uniEquipMissionSort: int
     uniEquipId: str
 
 
-class SubProfessionData(BaseModel):
+class SubProfessionData(BaseStruct):
     subProfessionId: str
     subProfessionName: str
     subProfessionCatagory: int
 
 
-class UniequipData(BaseModel):
+class UniequipData(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    equipDict: dict[str, UniEquipData]
-    missionList: dict[str, UniEquipMissionData]
-    subProfDict: dict[str, SubProfessionData]
-    charEquip: dict[str, list[str]]
+    equipDict: Dict[str, UniEquipData]
+    missionList: Dict[str, UniEquipMissionData]
+    subProfDict: Dict[str, SubProfessionData]
+    charEquip: Dict[str, List[str]]

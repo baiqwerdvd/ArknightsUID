@@ -1,3 +1,4 @@
+from typing import List
 from gsuid_core.bot import Bot
 from gsuid_core.models import Event
 from gsuid_core.sv import SV
@@ -50,7 +51,7 @@ async def send_link_uid_msg(bot: Bot, ev: Event):
         )
     elif '切换' in ev.command:
         data = await ArknightsBind.switch_uid_by_game(qid, ev.bot_id, ark_uid)
-        if isinstance(data, list):
+        if isinstance(data, List):
             return await bot.send(f'切换ARK_UID{ark_uid}成功!')
         else:
             return await bot.send(f'尚未绑定该ARK_UID{ark_uid}')

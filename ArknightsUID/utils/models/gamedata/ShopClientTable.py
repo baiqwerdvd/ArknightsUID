@@ -1,26 +1,28 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ShopRecommendData(BaseModel):
+class ShopRecommendData(BaseStruct):
     imgId: str
     slotIndex: int
     cmd: str
-    param1: str | None
-    param2: str | None
-    skinId: str | None
+    param1: Union[str, None]
+    param2: Union[str, None]
+    skinId: Union[str, None]
 
 
-class ShopRecommendGroup(BaseModel):
-    recommendGroup: list[int]
-    dataList: list[ShopRecommendData]
+class ShopRecommendGroup(BaseStruct):
+    recommendGroup: List[int]
+    dataList: List[ShopRecommendData]
 
 
-class ShopKeeperWord(BaseModel):
-    id_: str = Field(alias='id')
+class ShopKeeperWord(BaseStruct):
+    id_: str = field(name='id')
     text: str
 
 
-class ShopRecommendItem(BaseModel):
+class ShopRecommendItem(BaseStruct):
     tagId: str
     displayType: str
     tagName: str
@@ -28,81 +30,81 @@ class ShopRecommendItem(BaseModel):
     orderNum: int
     startDatetime: int
     endDatetime: int
-    groupList: list[ShopRecommendGroup]
+    groupList: List[ShopRecommendGroup]
     tagWord: ShopKeeperWord
 
 
-class ShopCreditUnlockItem(BaseModel):
+class ShopCreditUnlockItem(BaseStruct):
     sortId: int
     unlockNum: int
     charId: str
 
 
-class ShopCreditUnlockGroup(BaseModel):
-    id_: str = Field(alias='id')
+class ShopCreditUnlockGroup(BaseStruct):
+    id_: str = field(name='id')
     index: str
     startDateTime: int
-    charDict: list[ShopCreditUnlockItem]
+    charDict: List[ShopCreditUnlockItem]
 
 
-class ShopClientDataShopKeeperData(BaseModel):
-    welcomeWords: list[ShopKeeperWord]
-    clickWords: list[ShopKeeperWord]
+class ShopClientDataShopKeeperData(BaseStruct):
+    welcomeWords: List[ShopKeeperWord]
+    clickWords: List[ShopKeeperWord]
 
 
-class ShopCarouselDataItem(BaseModel):
+class ShopCarouselDataItem(BaseStruct):
     spriteId: str
     startTime: int
     endTime: int
     cmd: str
-    param1: str | None
+    param1: Union[str, None]
     skinId: str
     furniId: str
 
 
-class ShopCarouselData(BaseModel):
-    items: list[ShopCarouselDataItem]
+class ShopCarouselData(BaseStruct):
+    items: List[ShopCarouselDataItem]
 
 
-class ChooseShopRelation(BaseModel):
+class ChooseShopRelation(BaseStruct):
     goodId: str
-    optionList: list[str]
+    optionList: List[str]
 
 
-class ShopClientGPData(BaseModel):
+class ShopClientGPData(BaseStruct):
     goodId: str
     displayName: str
     condTrigPackageType: str
 
 
-class LMTGSShopSchedule(BaseModel):
+class LMTGSShopSchedule(BaseStruct):
     gachaPoolId: str
     LMTGSId: str
     iconColor: str
     iconBackColor: str
-    storeTextColor: str | None = None
     startTime: int
     endTime: int
+    storeTextColor: Union[str, None] = None
 
 
-class LMTGSShopOverlaySchedule(BaseModel):
+class LMTGSShopOverlaySchedule(BaseStruct):
     gachaPoolId1: str
     gachaPoolId2: str
     picId: str
 
 
-class ShopClientTable(BaseModel):
+class ShopClientTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    recommendList: list[ShopRecommendItem]
-    creditUnlockGroup: dict[str, ShopCreditUnlockGroup]
+    recommendList: List[ShopRecommendItem]
+    creditUnlockGroup: Dict[str, ShopCreditUnlockGroup]
     shopKeeperData: ShopClientDataShopKeeperData
-    carousels: list[ShopCarouselData]
-    chooseShopRelations: list[ChooseShopRelation]
-    shopUnlockDict: dict[str, str]
-    extraQCShopRule: list[str]
-    repQCShopRule: list[str]
-    shopGPDataDict: dict[str, ShopClientGPData]
+    carousels: List[ShopCarouselData]
+    chooseShopRelations: List[ChooseShopRelation]
+    shopUnlockDict: Dict[str, str]
+    extraQCShopRule: List[str]
+    repQCShopRule: List[str]
+    shopGPDataDict: Dict[str, ShopClientGPData]
     shopMonthlySubGoodId: str
-    ls: list[LMTGSShopSchedule]
-    os: list[LMTGSShopOverlaySchedule]
+    ls: List[LMTGSShopSchedule]
+    os: List[LMTGSShopOverlaySchedule]

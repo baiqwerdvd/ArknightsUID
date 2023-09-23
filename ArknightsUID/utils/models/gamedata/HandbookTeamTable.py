@@ -1,7 +1,9 @@
-from pydantic import BaseModel
+from typing import Dict
+from ..common import BaseStruct
+from msgspec import json as msgjson
 
 
-class HandbookTeam(BaseModel):
+class HandbookTeam(BaseStruct):
     powerId: str
     orderNum: int
     powerLevel: int
@@ -12,10 +14,7 @@ class HandbookTeam(BaseModel):
     isRaw: bool
 
 
-class HandbookTeamTable(BaseModel):
+class HandbookTeamTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    team: dict[str, HandbookTeam]
-
-    def __init__(self, **data):
-        super().__init__(team=data)
+    team: Dict[str, HandbookTeam]

@@ -3,7 +3,7 @@ import hashlib
 import json
 import time
 import hmac
-from typing import Any, ClassVar, Literal, cast
+from typing import Any, ClassVar, Dict, Literal, Tuple, Union, cast
 from urllib.parse import urlparse
 
 import msgspec
@@ -24,7 +24,7 @@ proxy_url = core_plugins_config.get_config('proxy').data
 ssl_verify = core_plugins_config.get_config('MhySSLVerify').data
 
 
-_HEADER: dict[str, str] = {
+_HEADER: Dict[str, str] = {
         'Host': 'zonai.skland.com',
         'platform': '1',
         'Origin': 'https://www.skland.com',
@@ -49,9 +49,9 @@ class TokenRefreshFailed(Exception):
 
 
 class BaseArkApi:
-    proxy_url: str | None = proxy_url if proxy_url else None
+    proxy_url: Union[str, None] = proxy_url if proxy_url else None
 
-    async def _pass(self, gt: str, ch: str) -> tuple[str | None, str | None]:
+    async def _pass(self, gt: str, ch: str) -> Tuple[Union[str, None], Union[str, None]]:
         _pass_api = core_plugins_config.get_config('_pass_API').data
         if _pass_api:
             data = await self._ark_request(
@@ -68,8 +68,8 @@ class BaseArkApi:
 
         return validate, ch
 
-    async def get_game_player_info(self, uid: str) -> int | ArknightsPlayerInfoModel:
-        cred: str | None  = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
+    async def get_game_player_info(self, uid: str) -> Union[int, ArknightsPlayerInfoModel]:
+        cred: Union[str, None]  = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         if cred is None:
             return -60
         is_vaild = await self.check_cred_valid(cred)
@@ -92,8 +92,8 @@ class BaseArkApi:
         else:
             return msgspec.convert(unpack_data, type=ArknightsPlayerInfoModel)
 
-    async def skd_sign(self, uid: str) -> int | ArknightsAttendanceModel:
-        cred: str | None = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
+    async def skd_sign(self, uid: str) -> Union[int, ArknightsAttendanceModel]:
+        cred: Union[str, None] = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         if cred is None:
             return -60
         is_vaild = await self.check_cred_valid(cred)
@@ -127,8 +127,8 @@ class BaseArkApi:
         else:
             return msgspec.convert(unpack_data, ArknightsAttendanceModel)
 
-    async def get_sign_info(self, uid: str) -> int | ArknightsAttendanceCalendarModel:
-        cred: str | None = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
+    async def get_sign_info(self, uid: str) -> Union[int, ArknightsAttendanceCalendarModel]:
+        cred: Union[str, None] = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         if cred is None:
             return -60
         is_vaild = await self.check_cred_valid(cred)
@@ -163,8 +163,8 @@ class BaseArkApi:
             return msgspec.convert(unpack_data, ArknightsAttendanceCalendarModel)
 
     async def check_cred_valid(
-        self, cred: str | None = None, token: str | None = None, uid: str | None = None
-    ) -> bool | ArknightsUserMeModel:
+        self, cred: Union[str, None] = None, token: Union[str, None] = None, uid: Union[str, None] = None
+    ) -> Union[bool, ArknightsUserMeModel]:
         if uid is not None:
             cred = cred if cred else await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         header = deepcopy(_HEADER)
@@ -181,14 +181,14 @@ class BaseArkApi:
         unpack_data = self.unpack(raw_data)
         return msgspec.convert(unpack_data, type=ArknightsUserMeModel)
 
-    def unpack(self, raw_data: dict) -> dict:
+    def unpack(self, raw_data: Dict) -> Dict:
         try:
             data = raw_data['data']
             return data
         except KeyError:
             return raw_data
 
-    async def refresh_token(self, cred: str, uid: str | None = None) -> str:
+    async def refresh_token(self, cred: str, uid: Union[str, None] = None) -> str:
         header = deepcopy(_HEADER)
         header['cred'] = cred
         header['sign_enable'] = 'false'
@@ -205,11 +205,11 @@ class BaseArkApi:
     async def set_sign(
         self,
         url: str,
-        header: dict[str, Any],
-        data: dict[str, Any] | None = None,
-        params: dict[str, Any] | None = None,
-        token: str | None = None,
-    ) -> dict:
+        header: Dict[str, Any],
+        data: Union[Dict[str, Any], None ]= None,
+        params: Union[Dict[str, Any], None] = None,
+        token: Union[str, None] = None,
+    ) -> Dict:
         parsed_url = urlparse(url)
         path = parsed_url.path
         timestamp = str(int(time.time()) - 2)
@@ -249,11 +249,11 @@ class BaseArkApi:
         self,
         url: str,
         method: Literal['GET', 'POST'] = 'GET',
-        header: dict[str, Any] = _HEADER,
-        params: dict[str, Any] | None = None,
-        data: dict[str, Any] | None = None,
-        use_proxy: bool | None = False,
-    ) -> dict | int:
+        header: Dict[str, Any] = _HEADER,
+        params: Union[Dict[str, Any], None] = None,
+        data: Union[Dict[str, Any], None] = None,
+        use_proxy: Union[bool, None] = False,
+    ) -> Union[Dict, int]:
         logger.debug(f'{url} {method} {header} {params} {data} {use_proxy}')
         try:
             raw_data = await self._ark_request(
@@ -281,11 +281,11 @@ class BaseArkApi:
         self,
         url: str,
         method: Literal['GET', 'POST'] = 'GET',
-        header: dict[str, Any] = _HEADER,
-        params: dict[str, Any] | None = None,
-        data: dict[str, Any] | None = None,
-        use_proxy: bool | None = False,
-    ) -> dict | int:
+        header: Dict[str, Any] = _HEADER,
+        params: Union[Dict[str, Any], None ]= None,
+        data: Union[Dict[str, Any], None] = None,
+        use_proxy: Union[bool, None] = False,
+    ) -> Union[Dict, int]:
         async with ClientSession(
             connector=TCPConnector(verify_ssl=ssl_verify)
         ) as client:

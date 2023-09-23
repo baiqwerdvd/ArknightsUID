@@ -1,49 +1,51 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: float | None = None
-    valueStr: str | None = None
+    value: Union[float, None] = None
+    valueStr: Union[str, None] = None
 
 
-class RoguelikeBuff(BaseModel):
+class RoguelikeBuff(BaseStruct):
     key: str
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
 
 
-class RoguelikeOuterBuff(BaseModel):
-    buffId: str | None = None
+class RoguelikeOuterBuff(BaseStruct):
     level: int
     name: str
     iconId: str
     description: str
     usage: str
     key: str
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
+    buffId: Union[str, None] = None
 
 
-class RoguelikeOutBuffData(BaseModel):
-    id_: str = Field(alias='id')
-    buffs: dict[str, RoguelikeOuterBuff]
+class RoguelikeOutBuffData(BaseStruct):
+    id_: str = field(name='id')
+    buffs: Dict[str, RoguelikeOuterBuff]
 
 
-class RoguelikeEndingData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeEndingData(BaseStruct):
+    id_: str = field(name='id')
     backgroundId: str
     name: str
     description: str
     priority: int
-    unlockItemId: str | None
+    unlockItemId: Union[str, None]
     changeEndingDesc: None
 
 
-class RoguelikeModeData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeModeData(BaseStruct):
+    id_: str = field(name='id')
     name: str
     canUnlockItem: int
     scoreFactor: float
-    itemPools: list[str]
+    itemPools: List[str]
     difficultyDesc: str
     ruleDesc: str
     sortId: int
@@ -51,25 +53,25 @@ class RoguelikeModeData(BaseModel):
     color: str
 
 
-class RoguelikeChoiceSceneData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeChoiceSceneData(BaseStruct):
+    id_: str = field(name='id')
     title: str
     description: str
     background: str
 
 
-class RoguelikeChoiceData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeChoiceData(BaseStruct):
+    id_: str = field(name='id')
     title: str
-    description: str | None
-    type_: str = Field(alias='type')
-    nextSceneId: str | None
-    icon: str | None
-    param: dict[str, object]
+    description: Union[str, None]
+    type_: str = field(name='type')
+    nextSceneId: Union[str, None]
+    icon: Union[str, None]
+    param: Dict[str, object]
 
 
-class RoguelikeZoneData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeZoneData(BaseStruct):
+    id_: str = field(name='id')
     name: str
     description: str
     endingDescription: str
@@ -77,106 +79,106 @@ class RoguelikeZoneData(BaseModel):
     subIconId: str
 
 
-class RoguelikeStageData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeStageData(BaseStruct):
+    id_: str = field(name='id')
     linkedStageId: str
     levelId: str
     code: str
     name: str
     loadingPicId: str
     description: str
-    eliteDesc: str | None
+    eliteDesc: Union[str, None]
     isBoss: int
     isElite: int
     difficulty: str
 
 
-class RoguelikeRelicFeature(BaseModel):
-    id_: str = Field(alias='id')
-    buffs: list[RoguelikeBuff]
+class RoguelikeRelicFeature(BaseStruct):
+    id_: str = field(name='id')
+    buffs: List[RoguelikeBuff]
 
 
-class RoguelikeUpgradeTicketFeature(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeUpgradeTicketFeature(BaseStruct):
+    id_: str = field(name='id')
     profession: int
     rarity: int
-    professionList: list[str]
-    rarityList: list[int]
+    professionList: List[str]
+    rarityList: List[int]
 
 
-class RoguelikeRecruitTicketFeature(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeRecruitTicketFeature(BaseStruct):
+    id_: str = field(name='id')
     profession: int
     rarity: int
-    professionList: list[str]
-    rarityList: list[int]
+    professionList: List[str]
+    rarityList: List[int]
     extraEliteNum: int
-    extraFreeRarity: list[int | None]
-    extraCharIds: list[str]
+    extraFreeRarity: List[Union[int, None]]
+    extraCharIds: List[str]
 
 
-class RelicStableUnlockParam(BaseModel):
+class RelicStableUnlockParam(BaseStruct):
     unlockCondDetail: str
     unlockCnt: int
 
 
-class RoguelikeItemData(BaseModel):
-    id_: str = Field(alias='id')
+class RoguelikeItemData(BaseStruct):
+    id_: str = field(name='id')
     name: str
-    description: str | None
+    description: Union[str, None]
     usage: str
     obtainApproach: str
     iconId: str
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
     rarity: str
     value: int
     sortId: int
-    unlockCond: str | None
-    unlockCondDesc: str | None
-    unlockCondParams: list[str | None]
-    stableUnlockCond: RelicStableUnlockParam | None
+    unlockCond: Union[str, None]
+    unlockCondDesc: Union[str, None]
+    unlockCondParams: List[Union[str, None]]
+    stableUnlockCond: Union[RelicStableUnlockParam, None]
 
 
-class RoguelikeItemTable(BaseModel):
-    items: dict[str, RoguelikeItemData]
-    recruitTickets: dict[str, RoguelikeRecruitTicketFeature]
-    upgradeTickets: dict[str, RoguelikeUpgradeTicketFeature]
-    relics: dict[str, RoguelikeRelicFeature]
+class RoguelikeItemTable(BaseStruct):
+    items: Dict[str, RoguelikeItemData]
+    recruitTickets: Dict[str, RoguelikeRecruitTicketFeature]
+    upgradeTickets: Dict[str, RoguelikeUpgradeTicketFeature]
+    relics: Dict[str, RoguelikeRelicFeature]
 
 
-class RoguelikeConstTableEventTypeData(BaseModel):
+class RoguelikeConstTableEventTypeData(BaseStruct):
     name: str
     description: str
 
 
-class RoguelikeConstTableCharUpgradeData(BaseModel):
+class RoguelikeConstTableCharUpgradeData(BaseStruct):
     evolvePhase: int
     skillLevel: int
     skillSpecializeLevel: int
 
 
-class RoguelikeConstTableRecruitData(BaseModel):
+class RoguelikeConstTableRecruitData(BaseStruct):
     recruitPopulation: int
     upgradePopulation: int
 
 
-class RoguelikeConstTablePlayerLevelData(BaseModel):
+class RoguelikeConstTablePlayerLevelData(BaseStruct):
     exp: int
     populationUp: int
     squadCapacityUp: int
     battleCharLimitUp: int
 
 
-class RoguelikeConstTable(BaseModel):
-    playerLevelTable: dict[str, RoguelikeConstTablePlayerLevelData]
-    recruitPopulationTable: dict[str, RoguelikeConstTableRecruitData]
-    charUpgradeTable: dict[str, RoguelikeConstTableCharUpgradeData]
-    eventTypeTable: dict[str, RoguelikeConstTableEventTypeData]
-    shopDialogs: list[str]
-    shopRelicDialogs: list[str]
-    shopTicketDialogs: list[str]
-    mimicEnemyIds: list[str]
-    clearZoneScores: list[int]
+class RoguelikeConstTable(BaseStruct):
+    playerLevelTable: Dict[str, RoguelikeConstTablePlayerLevelData]
+    recruitPopulationTable: Dict[str, RoguelikeConstTableRecruitData]
+    charUpgradeTable: Dict[str, RoguelikeConstTableCharUpgradeData]
+    eventTypeTable: Dict[str, RoguelikeConstTableEventTypeData]
+    shopDialogs: List[str]
+    shopRelicDialogs: List[str]
+    shopTicketDialogs: List[str]
+    mimicEnemyIds: List[str]
+    clearZoneScores: List[int]
     moveToNodeScore: int
     clearNormalBattleScore: int
     clearEliteBattleScore: int
@@ -185,21 +187,18 @@ class RoguelikeConstTable(BaseModel):
     gainCharacterScore: int
     unlockRelicSpecialScore: int
     squadCapacityMax: int
-    bossIds: list[str]
+    bossIds: List[str]
 
 
-class RoguelikeTable(BaseModel):
+class RoguelikeTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
     constTable: RoguelikeConstTable
     itemTable: RoguelikeItemTable
-    stages: dict[str, RoguelikeStageData]
-    zones: dict[str, RoguelikeZoneData]
-    choices: dict[str, RoguelikeChoiceData]
-    choiceScenes: dict[str, RoguelikeChoiceSceneData]
-    modes: dict[str, RoguelikeModeData]
-    endings: dict[str, RoguelikeEndingData]
-    outBuffs: dict[str, RoguelikeOutBuffData]
-
-    class Config:
-        extra = 'allow'
+    stages: Dict[str, RoguelikeStageData]
+    zones: Dict[str, RoguelikeZoneData]
+    choices: Dict[str, RoguelikeChoiceData]
+    choiceScenes: Dict[str, RoguelikeChoiceSceneData]
+    modes: Dict[str, RoguelikeModeData]
+    endings: Dict[str, RoguelikeEndingData]
+    outBuffs: Dict[str, RoguelikeOutBuffData]

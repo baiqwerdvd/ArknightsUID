@@ -1,9 +1,9 @@
-from typing import Any
+from typing import Any, Dict, Union
 
 from gsuid_core.bot import Bot
 
 
-async def send_diff_msg(bot: Bot, code: Any, data: dict | None = None):
+async def send_diff_msg(bot: Bot, code: Any, data: Union[Dict, None] = None):
     if data is None:
         data = {
             0: '绑定UID成功!',

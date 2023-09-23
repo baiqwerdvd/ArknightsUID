@@ -1,29 +1,30 @@
-from pydantic import BaseModel
+from typing import List
+from ..common import BaseStruct
 
 
-class MeetingClueDataClueData(BaseModel):
+class MeetingClueDataClueData(BaseStruct):
     clueId: str
     clueName: str
     clueType: str
     number: int
 
 
-class MeetingClueDataClueTypeData(BaseModel):
+class MeetingClueDataClueTypeData(BaseStruct):
     clueType: str
     clueNumber: int
 
 
-class MeetingClueDataReceiveTimeBonus(BaseModel):
+class MeetingClueDataReceiveTimeBonus(BaseStruct):
     receiveTimes: int
     receiveBonus: int
 
 
-class ClueData(BaseModel):
+class ClueData(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    clues: list[MeetingClueDataClueData]
-    clueTypes: list[MeetingClueDataClueTypeData]
-    receiveTimeBonus: list[MeetingClueDataReceiveTimeBonus]
+    clues: List[MeetingClueDataClueData]
+    clueTypes: List[MeetingClueDataClueTypeData]
+    receiveTimeBonus: List[MeetingClueDataReceiveTimeBonus]
     inventoryLimit: int
     outputBasicBonus: int
     outputOperatorsBonus: int
@@ -35,6 +36,3 @@ class ClueData(BaseModel):
     communicationDuration: int
     initiatorBonus: int
     participantsBonus: int
-
-    class Config:
-        extra = 'allow'

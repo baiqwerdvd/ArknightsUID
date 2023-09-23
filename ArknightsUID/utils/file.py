@@ -1,10 +1,11 @@
 import json
 from pathlib import Path
+from typing import Dict
 
 from loguru import logger
 
 
-def read_json(file_path: Path, **kwargs) -> dict:
+def read_json(file_path: Path, **kwargs) -> Dict:
     """
     Read a JSON file and return its contents as a dictionary.
     """
@@ -16,7 +17,7 @@ def read_json(file_path: Path, **kwargs) -> dict:
         return {}
 
 
-def write_json(data: dict, file_path: Path) -> None:
+def write_json(data: Dict, file_path: Path) -> None:
     """
     Write a dictionary to a JSON file.
     """

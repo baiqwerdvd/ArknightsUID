@@ -1,89 +1,90 @@
+from typing import Dict, List, Union
+from ..common import BaseStruct
 
-from pydantic import BaseModel
 
-
-class CharSkinDataTokenSkinInfo(BaseModel):
+class CharSkinDataTokenSkinInfo(BaseStruct):
     tokenId: str
     tokenSkinId: str
 
 
-class CharSkinDataBattleSkin(BaseModel):
+class CharSkinDataBattleSkin(BaseStruct):
     overwritePrefab: bool
-    skinOrPrefabId: str | None
+    skinOrPrefabId: Union[str, None]
 
 
-class CharSkinDataDisplaySkin(BaseModel):
-    skinName: str | None
-    colorList: list[str] | None
-    titleList: list[str] | None
-    modelName: str | None
-    drawerList: list[str] | None
-    designerList: list[str] | None
-    skinGroupId: str | None
-    skinGroupName: str | None
+class CharSkinDataDisplaySkin(BaseStruct):
+    skinName: Union[str, None]
+    colorList: Union[List[str], None]
+    titleList: Union[List[str], None]
+    modelName: Union[str, None]
+    drawerList: Union[List[str], None]
+    designerList: Union[List[str], None]
+    skinGroupId: Union[str, None]
+    skinGroupName: Union[str, None]
     skinGroupSortIndex: int
-    content: str | None
-    dialog: str | None
-    usage: str | None
-    description: str | None
-    obtainApproach: str | None
+    content: Union[str, None]
+    dialog: Union[str, None]
+    usage: Union[str, None]
+    description: Union[str, None]
+    obtainApproach: Union[str, None]
     sortId: int
-    displayTagId: str | None
+    displayTagId: Union[str, None]
     getTime: int
     onYear: int
     onPeriod: int
 
 
-class CharSkinData(BaseModel):
+class CharSkinData(BaseStruct):
     skinId: str
     charId: str
-    tokenSkinMap: list[CharSkinDataTokenSkinInfo] | None
-    illustId: str | None
-    dynIllustId: str | None
+    tokenSkinMap: Union[List[CharSkinDataTokenSkinInfo], None]
+    illustId: Union[str, None]
+    dynIllustId: Union[str, None]
     avatarId: str
-    portraitId: str | None
-    dynPortraitId: str | None
-    dynEntranceId: str | None
-    buildingId: str | None
+    portraitId: Union[str, None]
+    dynPortraitId: Union[str, None]
+    dynEntranceId: Union[str, None]
+    buildingId: Union[str, None]
     battleSkin: CharSkinDataBattleSkin
     isBuySkin: bool
-    tmplId: str | None
-    voiceId: str | None
+    tmplId: Union[str, None]
+    voiceId: Union[str, None]
     voiceType: str
     displaySkin: CharSkinDataDisplaySkin
 
 
-class CharSkinGroupInfo(BaseModel):
+class CharSkinGroupInfo(BaseStruct):
     skinGroupId: str
     publishTime: int
 
 
-class CharSkinKvImgInfo(BaseModel):
+class CharSkinKvImgInfo(BaseStruct):
     kvImgId: str
     linkedSkinGroupId: str
 
 
-class CharSkinBrandInfo(BaseModel):
+class CharSkinBrandInfo(BaseStruct):
     brandId: str
-    groupList: list[CharSkinGroupInfo]
-    kvImgIdList: list[CharSkinKvImgInfo]
+    groupList: List[CharSkinGroupInfo]
+    kvImgIdList: List[CharSkinKvImgInfo]
     brandName: str
     brandCapitalName: str
     description: str
+    publishTime: int
     sortId: int
 
 
-class SpecialSkinInfo(BaseModel):
+class SpecialSkinInfo(BaseStruct):
     skinId: str
     startTime: int
     endTime: int
 
 
-class SkinTable(BaseModel):
+class SkinTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    charSkins: dict[str, CharSkinData]
-    buildinEvolveMap: dict[str, dict[str, str]]
-    buildinPatchMap: dict[str, dict[str, str]]
-    brandList: dict[str, CharSkinBrandInfo]
-    specialSkinInfoList: list[SpecialSkinInfo]
+    charSkins: Dict[str, CharSkinData]
+    buildinEvolveMap: Dict[str, Dict[str, str]]
+    buildinPatchMap: Dict[str, Dict[str, str]]
+    brandList: Dict[str, CharSkinBrandInfo]
+    specialSkinInfoList: List[SpecialSkinInfo]

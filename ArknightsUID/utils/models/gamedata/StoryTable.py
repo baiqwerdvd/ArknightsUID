@@ -1,50 +1,50 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
+from msgspec import json as msgjson
 
 
-class StoryDataTrigger(BaseModel):
-    type_: str = Field(alias='type')
-    key: str | None
+class StoryDataTrigger(BaseStruct):
+    type_: str = field(name='type')
+    key: Union[str, None]
     useRegex: bool
 
 
-class StoryDataConditionStageCondition(BaseModel):
+class StoryDataConditionStageCondition(BaseStruct):
     stageId: str
     minState: int
     maxState: int
 
 
-class StoryDataCondition(BaseModel):
+class StoryDataCondition(BaseStruct):
     minProgress: int
     maxProgress: int
     minPlayerLevel: int
-    requiredFlags: list[str]
-    excludedFlags: list[str]
-    requiredStages: list[StoryDataConditionStageCondition]
+    requiredFlags: List[str]
+    excludedFlags: List[str]
+    requiredStages: List[StoryDataConditionStageCondition]
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class StoryData(BaseModel):
-    id_: str = Field(alias='id')
+class StoryData(BaseStruct):
+    id_: str = field(name='id')
     needCommit: bool
     repeatable: bool
     disabled: bool
     videoResource: bool
     trigger: StoryDataTrigger
-    condition: StoryDataCondition | None
+    condition: Union[StoryDataCondition, None]
     setProgress: int
-    setFlags: list[str] | None
-    completedRewards: list[ItemBundle] | None
+    setFlags: Union[List[str], None]
+    completedRewards: Union[List[ItemBundle], None]
 
 
-class StoryTable(BaseModel):
+class StoryTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    stories: dict[str, StoryData]
-
-    def __init__(self, data: dict) -> None:
-        super().__init__(stories=data)
+    stories: Dict[str, StoryData]

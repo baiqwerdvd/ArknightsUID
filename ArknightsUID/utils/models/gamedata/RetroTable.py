@@ -1,78 +1,77 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
+from msgspec.inspect import NoneType
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class StageDataDisplayRewards(BaseModel):
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+class StageDataDisplayRewards(BaseStruct):
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
 
 
-class BlackboardStr(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    valueStr: str
+    value: Union[float, None] = None
+    valueStr: Union[str, None] = None
 
 
-class BlackboardInt(BaseModel):
-    key: str
-    value: float
-
-
-class Act17sideDataChoiceNodeOptionData(BaseModel):
+class Act17sideDataChoiceNodeOptionData(BaseStruct):
     canRepeat: bool
     eventId: str
     des: str
-    unlockDes: str | None
+    unlockDes: Union[str, None]
 
 
-class StageDataDisplayDetailRewards(BaseModel):
+class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = Field(alias='type')
-    id_: str = Field(alias='id')
+    type_: str = field(name='type')
+    id_: str = field(name='id')
     dropType: int
-    CannotGetPercent: float | None = None
-    GetPercent: float | None = None
+    CannotGetPercent: Union[float, None] = None
+    GetPercent: Union[float, None] = None
 
 
-class StageDataConditionDesc(BaseModel):
+class StageDataConditionDesc(BaseStruct):
     stageId: str
     completeState: int
 
 
-class Act17sideDataConstData(BaseModel):
+class Act17sideDataConstData(BaseStruct):
     techTreeUnlockEventId: str
 
 
-class Act17sideDataZoneData(BaseModel):
+class Act17sideDataZoneData(BaseStruct):
     zoneId: str
-    unlockPlaceId: str | None
+    unlockPlaceId: Union[str, None]
     unlockText: str
 
 
-class Act17sideDataMainlineData(BaseModel):
+class Act17sideDataMainlineData(BaseStruct):
     mainlineId: str
-    nodeId: str | None
+    nodeId: Union[str, None]
     sortId: int
     missionSort: str
     zoneId: str
     mainlineDes: str
-    focusNodeId: str | None
+    focusNodeId: Union[str, None]
 
 
-class Act17sideDataMainlineChapterData(BaseModel):
+class Act17sideDataMainlineChapterData(BaseStruct):
     chapterId: str
     chapterDes: str
     chapterIcon: str
     unlockDes: str
-    id_: str = Field(alias='id')
+    id_: str = field(name='id')
 
 
-class RunesSelector(BaseModel):
+class RunesSelector(BaseStruct):
     professionMask: int
     buildableMask: int
     charIdFilter: None
@@ -82,23 +81,24 @@ class RunesSelector(BaseModel):
     tileKeyFilter: None
     groupTagFilter: None
     filterTagFilter: None
+    subProfessionExcludeFilter: None
 
 
-class TechTreeBranchRunes(BaseModel):
+class TechTreeBranchRunes(BaseStruct):
     key: str
     selector: RunesSelector
-    blackboard: list[BlackboardInt | BlackboardStr]
+    blackboard: List[Blackboard]
 
 
-class BranchRuneData(BaseModel):
-    id_: str = Field(alias='id')
+class BranchRuneData(BaseStruct):
+    id_: str = field(name='id')
     points: float
     mutexGroupKey: None
     description: str
-    runes: list[TechTreeBranchRunes]
+    runes: List[TechTreeBranchRunes]
 
 
-class Act17sideDataTechTreeBranchData(BaseModel):
+class Act17sideDataTechTreeBranchData(BaseStruct):
     techTreeBranchId: str
     techTreeId: str
     techTreeBranchName: str
@@ -107,7 +107,7 @@ class Act17sideDataTechTreeBranchData(BaseModel):
     runeData: BranchRuneData
 
 
-class Act17sideDataTechTreeData(BaseModel):
+class Act17sideDataTechTreeData(BaseStruct):
     techTreeId: str
     sortId: int
     techTreeName: str
@@ -115,36 +115,36 @@ class Act17sideDataTechTreeData(BaseModel):
     lockDes: str
 
 
-class Act17sideDataArchiveItemUnlockData(BaseModel):
+class Act17sideDataArchiveItemUnlockData(BaseStruct):
     itemId: str
     itemType: str
     unlockCondition: str
-    nodeId: str | None
+    nodeId: Union[str, None]
     stageParam: str
-    chapterId: str | None
+    chapterId: Union[str, None]
 
 
-class Act17sideDataEventData(BaseModel):
+class Act17sideDataEventData(BaseStruct):
     eventId: str
-    eventPic: str | None = None
-    eventSpecialPic: str | None = None
     eventTitle: str
-    eventDesList: list[str]
+    eventDesList: List[str]
+    eventPic: Union[str, None] = None
+    eventSpecialPic: Union[str, None] = None
 
 
-class Act17sideDataChoiceNodeData(BaseModel):
+class Act17sideDataChoiceNodeData(BaseStruct):
     nodeId: str
-    choicePic: str | None = None
     isDisposable: bool
-    choiceSpecialPic: str | None = None
     choiceName: str
-    choiceDesList: list[str]
+    choiceDesList: List[str]
     cancelDes: str
     choiceNum: int
-    optionList: list[Act17sideDataChoiceNodeOptionData]
+    optionList: List[Act17sideDataChoiceNodeOptionData]
+    choicePic: Union[str, None] = None
+    choiceSpecialPic: Union[str, None] = None
 
 
-class Act17sideDataTechNodeData(BaseModel):
+class Act17sideDataTechNodeData(BaseStruct):
     nodeId: str
     techTreeId: str
     techTreeName: str
@@ -152,54 +152,55 @@ class Act17sideDataTechNodeData(BaseModel):
     techSpecialPic: str
     endEventId: str
     confirmDes: str
-    techDesList: list[str]
-    missionIdList: list[None]
+    techDesList: List[str]
+    missionIdList: List[None]
 
 
-class Act17sideDataEventNodeData(BaseModel):
+class Act17sideDataEventNodeData(BaseStruct):
     nodeId: str
     eventId: str
     endEventId: str
 
 
-class Act17sideDataTreasureNodeData(BaseModel):
+class Act17sideDataTreasureNodeData(BaseStruct):
     nodeId: str
     treasureId: str
     treasureName: str
-    treasurePic: str | None
+    treasurePic: Union[str, None]
     treasureSpecialPic: None
     endEventId: str
     confirmDes: str
-    treasureDesList: list[str]
-    missionIdList: list[str]
-    rewardList: list[ItemBundle]
+    treasureDesList: List[str]
+    missionIdList: List[str]
+    rewardList: List[ItemBundle]
+    treasureType: str
 
 
-class Act17sideDataBattleNodeData(BaseModel):
+class Act17sideDataBattleNodeData(BaseStruct):
     nodeId: str
     stageId: str
 
 
-class Act17sideDataStoryNodeData(BaseModel):
+class Act17sideDataStoryNodeData(BaseStruct):
     nodeId: str
     storyId: str
     storyKey: str
     storyName: str
-    storyPic: str | None
+    storyPic: Union[str, None]
     confirmDes: str
-    storyDesList: list[str]
+    storyDesList: List[str]
 
 
-class Act17sideDataLandmarkNodeData(BaseModel):
+class Act17sideDataLandmarkNodeData(BaseStruct):
     nodeId: str
     landmarkId: str
     landmarkName: str
-    landmarkPic: str | None
+    landmarkPic: Union[str, None]
     landmarkSpecialPic: str
-    landmarkDesList: list[str]
+    landmarkDesList: List[str]
 
 
-class Act17sideDataNodeInfoData(BaseModel):
+class Act17sideDataNodeInfoData(BaseStruct):
     nodeId: str
     nodeType: str
     sortId: int
@@ -209,121 +210,122 @@ class Act17sideDataNodeInfoData(BaseModel):
     trackPointType: str
 
 
-class Act17sideDataPlaceData(BaseModel):
+class Act17sideDataPlaceData(BaseStruct):
     placeId: str
     placeDesc: str
-    lockEventId: str | None
+    lockEventId: Union[str, None]
     zoneId: str
 
 
-class Act17sideData(BaseModel):
-    archiveItemUnlockDataMap: dict[str, Act17sideDataArchiveItemUnlockData]
-    battleNodeDataMap: dict[str, Act17sideDataBattleNodeData]
-    choiceNodeDataMap: dict[str, Act17sideDataChoiceNodeData]
+class Act17sideData(BaseStruct):
+    archiveItemUnlockDataMap: Dict[str, Act17sideDataArchiveItemUnlockData]
+    battleNodeDataMap: Dict[str, Act17sideDataBattleNodeData]
+    choiceNodeDataMap: Dict[str, Act17sideDataChoiceNodeData]
     constData: Act17sideDataConstData
-    eventDataMap: dict[str, Act17sideDataEventData]
-    eventNodeDataMap: dict[str, Act17sideDataEventNodeData]
-    landmarkNodeDataMap: dict[str, Act17sideDataLandmarkNodeData]
-    mainlineChapterDataMap: dict[str, Act17sideDataMainlineChapterData]
-    mainlineDataMap: dict[str, Act17sideDataMainlineData]
-    nodeInfoDataMap: dict[str, Act17sideDataNodeInfoData]
-    placeDataMap: dict[str, Act17sideDataPlaceData]
-    storyNodeDataMap: dict[str, Act17sideDataStoryNodeData]
-    techNodeDataMap: dict[str, Act17sideDataTechNodeData]
-    techTreeBranchDataMap: dict[str, Act17sideDataTechTreeBranchData]
-    techTreeDataMap: dict[str, Act17sideDataTechTreeData]
-    treasureNodeDataMap: dict[str, Act17sideDataTreasureNodeData]
-    zoneDataList: list[Act17sideDataZoneData]
+    eventDataMap: Dict[str, Act17sideDataEventData]
+    eventNodeDataMap: Dict[str, Act17sideDataEventNodeData]
+    landmarkNodeDataMap: Dict[str, Act17sideDataLandmarkNodeData]
+    mainlineChapterDataMap: Dict[str, Act17sideDataMainlineChapterData]
+    mainlineDataMap: Dict[str, Act17sideDataMainlineData]
+    nodeInfoDataMap: Dict[str, Act17sideDataNodeInfoData]
+    placeDataMap: Dict[str, Act17sideDataPlaceData]
+    storyNodeDataMap: Dict[str, Act17sideDataStoryNodeData]
+    techNodeDataMap: Dict[str, Act17sideDataTechNodeData]
+    techTreeBranchDataMap: Dict[str, Act17sideDataTechTreeBranchData]
+    techTreeDataMap: Dict[str, Act17sideDataTechTreeData]
+    treasureNodeDataMap: Dict[str, Act17sideDataTreasureNodeData]
+    zoneDataList: List[Act17sideDataZoneData]
 
 
-class Blackboard(BaseModel):
-    key: str
-    value: float | None = None
-    valueStr: str | None = None
-
-
-class RuneDataSelector(BaseModel):
+class RuneDataSelector(BaseStruct):
     buildableMask: int
-    charIdFilter: list[str] | None
-    enemyIdExcludeFilter: list[str] | None
-    enemyIdFilter: list[str] | None
-    filterTagFilter: list[str] | None
-    groupTagFilter: list[str] | None
     professionMask: int
-    skillIdFilter: list[str] | None
-    tileKeyFilter: list[str] | None
+    charIdFilter: None
+    enemyIdExcludeFilter: None
+    enemyIdFilter: None
+    filterTagFilter: None
+    groupTagFilter: None
+    skillIdFilter: None
+    tileKeyFilter: None
+    subProfessionExcludeFilter: None
 
 
-class RuneData(BaseModel):
-    blackboard: list[Blackboard]
+class RuneData(BaseStruct):
+    blackboard: List[Blackboard]
     key: str
-    m_inited: bool | None = None
     selector: RuneDataSelector
+    m_inited: Union[bool, None] = None
 
 
-class RuneTablePackedRuneData(BaseModel):
+class RuneTablePackedRuneData(BaseStruct):
     description: str
-    id_: str = Field(alias='id')
-    mutexGroupKey: str | None = None
+    id_: str = field(name='id')
     points: float
-    runes: list[RuneData]
+    runes: List[RuneData]
+    mutexGroupKey: Union[str, None] = None
 
 
-class Act25SideDataBattlePerformanceData(BaseModel):
+class Act25SideDataBattlePerformanceData(BaseStruct):
     itemDesc: str
     itemId: str
     itemIcon: str
-    ItemName: str | None = None
+    itemName: str
     itemTechType: str
     runeData: RuneTablePackedRuneData
     sortId: int
 
 
-class ActivityCustomDataAct25sideCustomData(BaseModel):
-    battlePerformanceData: dict[str, Act25SideDataBattlePerformanceData]
+class ActivityCustomDataAct25sideCustomData(BaseStruct):
+    battlePerformanceData: Dict[str, Act25SideDataBattlePerformanceData]
 
 
-class ActivityCustomData(BaseModel):
-    TYPE_ACT17SIDE: dict[str, Act17sideData]
-    TYPE_ACT25SIDE: dict[str, ActivityCustomDataAct25sideCustomData]
+class ActivityCustomDataAct20sideCustomData(BaseStruct):
+    zoneAdditionDataMap: Dict[str, str]
+    residentCartDatas: Dict[str, Dict[str, str]]
 
 
-class RetroTrailRuleData(BaseModel):
-    title: list[str]
-    desc: list[str]
+class ActivityCustomData(BaseStruct):
+    TYPE_ACT17SIDE: Dict[str, Act17sideData]
+    TYPE_ACT25SIDE: Dict[str, ActivityCustomDataAct25sideCustomData]
+    TYPE_ACT20SIDE: Dict[str, ActivityCustomDataAct20sideCustomData]
 
 
-class WeightItemBundle(BaseModel):
+class RetroTrailRuleData(BaseStruct):
+    title: List[str]
+    desc: List[str]
+
+
+class WeightItemBundle(BaseStruct):
     count: int
     dropType: str
-    id_: str = Field(alias='id')
-    type_: str = Field(alias='type')
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     weight: int
 
 
-class StageDataStageDropInfo(BaseModel):
-    firstPassRewards: list[ItemBundle] | None = None
-    firstCompleteRewards: list[ItemBundle] | None = None
-    passRewards: list[list[WeightItemBundle]] | None = None
-    completeRewards: list[list[WeightItemBundle]] | None = None
-    displayRewards: list[StageDataDisplayRewards]
-    displayDetailRewards: list[StageDataDisplayDetailRewards]
+class StageDataStageDropInfo(BaseStruct):
+    displayRewards: List[StageDataDisplayRewards]
+    displayDetailRewards: List[StageDataDisplayDetailRewards]
+    firstPassRewards: Union[List[ItemBundle], None] = None
+    firstCompleteRewards: Union[List[ItemBundle], None] = None
+    passRewards: Union[List[List[WeightItemBundle]], None] = None
+    completeRewards: Union[List[List[WeightItemBundle]], None] = None
 
 
-class StageData(BaseModel):
+class StageData(BaseStruct, kw_only=False):
     stageType: str
     difficulty: str
     performanceStageFlag: str
     diffGroup: str
-    unlockCondition: list[StageDataConditionDesc]
+    unlockCondition: List[StageDataConditionDesc]
     stageId: str
-    levelId: str | None
+    levelId: Union[str, None]
     zoneId: str
     code: str
     name: str
     description: str
-    hardStagedId: str | None
-    dangerLevel: str | None
+    hardStagedId: Union[str, None]
+    dangerLevel: Union[str, None]
     dangerPoint: float
     loadingPicId: str
     canPractice: bool
@@ -357,45 +359,48 @@ class StageData(BaseModel):
     startButtonOverrideId: None
     isStagePatch: bool
     mainStageId: str
+    canUseTech: Union[bool, None] = None
+    canUseCharm: Union[bool, None] = None
+    canUseBattlePerformance: Union[bool, None] = None
 
 
-class RetroTrailRewardItem(BaseModel):
+class RetroTrailRewardItem(BaseStruct):
     trailRewardId: str
     starCount: int
     rewardItem: ItemBundle
 
 
-class RetroTrailData(BaseModel):
+class RetroTrailData(BaseStruct):
     retroId: str
     trailStartTime: int
-    trailRewardList: list[RetroTrailRewardItem]
-    stageList: list[str]
+    trailRewardList: List[RetroTrailRewardItem]
+    stageList: List[str]
     relatedChar: str
     relatedFullPotentialItemId: None
     themeColor: str
     fullPotentialItemId: str
 
 
-class RetroActData(BaseModel):
+class RetroActData(BaseStruct):
     retroId: str
-    type_: int = Field(alias='type')
-    linkedActId: list[str]
+    type_: int = field(name='type')
+    linkedActId: List[str]
     startTime: int
     trailStartTime: int
     index: int
     name: str
     detail: str
     haveTrail: bool
-    customActId: str | None
+    customActId: Union[str, None]
     customActType: str
 
 
-class StageValidInfo(BaseModel):
+class StageValidInfo(BaseStruct):
     startTs: int
     endTs: int
 
 
-class RetroStageOverrideInfo(BaseModel):
+class RetroStageOverrideInfo(BaseStruct):
     apCost: int
     apFailReturn: int
     completeFavor: int
@@ -406,23 +411,20 @@ class RetroStageOverrideInfo(BaseModel):
     zoneId: str
 
 
-class RetroTable(BaseModel):
+class RetroTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
     customData: ActivityCustomData
     initRetroCoin: int
-    retroActList: dict[str, RetroActData]
+    retroActList: Dict[str, RetroActData]
     retroCoinMax: int
     retroCoinPerWeek: int
     retroDetail: str
     retroPreShowTime: int
-    retroTrailList: dict[str, RetroTrailData]
+    retroTrailList: Dict[str, RetroTrailData]
     retroUnlockCost: int
     ruleData: RetroTrailRuleData
-    stageList: dict[str, StageData]
-    stages: dict[str, RetroStageOverrideInfo] | None = None
-    stageValidInfo: dict[str, StageValidInfo]
-    zoneToRetro: dict[str, str]
-
-    class Config:
-        extra = 'allow'
+    stageList: Dict[str, StageData]
+    stageValidInfo: Dict[str, StageValidInfo]
+    zoneToRetro: Dict[str, str]
+    stages: Union[Dict[str, RetroStageOverrideInfo], None] = None

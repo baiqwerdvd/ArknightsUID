@@ -1,3 +1,4 @@
+from typing import Dict
 from gsuid_core.utils.plugins_config.models import (
     GSC,
     GsBoolConfig,
@@ -5,7 +6,7 @@ from gsuid_core.utils.plugins_config.models import (
     GsStrConfig,
 )
 
-CONIFG_DEFAULT: dict[str, GSC] = {
+CONIFG_DEFAULT: Dict[str, GSC] = {
     'SignTime': GsListStrConfig('每晚签到时间设置', '每晚森空岛签到时间设置(时,分)', ['0', '38']),
     'SignReportSimple': GsBoolConfig(
         '简洁签到报告',

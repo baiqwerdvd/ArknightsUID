@@ -1,36 +1,38 @@
-from pydantic import BaseModel, Field
+from typing import List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class RuneDataSelector(BaseModel):
+class RuneDataSelector(BaseStruct):
     professionMask: int
     buildableMask: int
-    charIdFilter: list[str] | None
-    enemyIdFilter: list[str] | None
-    skillIdFilter: list[str] | None
-    tileKeyFilter: list[str] | None
+    charIdFilter: Union[List[str], None]
+    enemyIdFilter: Union[List[str], None]
+    skillIdFilter: Union[List[str], None]
+    tileKeyFilter: Union[List[str], None]
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: float | None = None
-    valueStr: str | None = None
+    value: Union[float, None] = None
+    valueStr: Union[str, None] = None
 
 
-class RuneData(BaseModel):
+class RuneData(BaseStruct):
     key: str
     selector: RuneDataSelector
-    blackboard: list[Blackboard]
+    blackboard: List[Blackboard]
 
 
-class PackedRuneData(BaseModel):
-    id_: str = Field(alias='id')
+class PackedRuneData(BaseStruct):
+    id_: str = field(name='id')
     points: float
-    mutexGroupKey: str | None
+    mutexGroupKey: Union[str, None]
     description: str
-    runes: list[RuneData]
+    runes: List[RuneData]
 
 
-class TechBuffTable(BaseModel):
+class TechBuffTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    runes: list[PackedRuneData]
+    runes: List[PackedRuneData]

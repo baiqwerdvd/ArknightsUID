@@ -1,42 +1,45 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
+from msgspec import json as msgjson
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class StoryDataConditionStageCondition(BaseModel):
+class StoryDataConditionStageCondition(BaseStruct):
     stageId: str
     minState: int
     maxState: int
 
 
-class StoryReviewInfoClientData(BaseModel):
+class StoryReviewInfoClientData(BaseStruct):
     storyReviewType: int
     storyId: str
     storyGroup: str
     storySort: int
-    storyDependence: str | None
+    storyDependence: Union[str, None]
     storyCanShow: int
-    storyCode: str | None
+    storyCode: Union[str, None]
     storyName: str
-    storyPic: str | None
+    storyPic: Union[str, None]
     storyInfo: str
     storyCanEnter: int
     storyTxt: str
     avgTag: str
     unLockType: str
     costItemType: str
-    costItemId: str | None
+    costItemId: Union[str, None]
     costItemCount: int
     stageCount: int
-    requiredStages: list[StoryDataConditionStageCondition] | None
+    requiredStages: Union[List[StoryDataConditionStageCondition], None]
 
 
-class StoryReviewGroupClientData(BaseModel):
-    id_: str = Field(alias='id')
+class StoryReviewGroupClientData(BaseStruct):
+    id_: str = field(name='id')
     name: str
     entryType: str
     actType: str
@@ -46,19 +49,16 @@ class StoryReviewGroupClientData(BaseModel):
     endShowTime: int
     remakeStartTime: int
     remakeEndTime: int
-    storyEntryPicId: str | None
-    storyPicId: str | None
-    storyMainColor: str | None
+    storyEntryPicId: Union[str, None]
+    storyPicId: Union[str, None]
+    storyMainColor: Union[str, None]
     customType: int
-    storyCompleteMedalId: str | None
-    rewards: list[ItemBundle] | None
-    infoUnlockDatas: list[StoryReviewInfoClientData]
+    storyCompleteMedalId: Union[str, None]
+    rewards: Union[List[ItemBundle], None]
+    infoUnlockDatas: List[StoryReviewInfoClientData]
 
 
-class StoryReviewTable(BaseModel):
+class StoryReviewTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    storyreviewtable: dict[str, StoryReviewGroupClientData]
-
-    def __init__(self, data: dict) -> None:
-        super().__init__(storyreviewtable=data)
+    storyreviewtable: Dict[str, StoryReviewGroupClientData]

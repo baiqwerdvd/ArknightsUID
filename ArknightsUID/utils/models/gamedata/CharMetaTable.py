@@ -1,27 +1,26 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List
+from ..common import BaseStruct
+from msgspec import field
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class SpCharMissionData(BaseModel):
+class SpCharMissionData(BaseStruct):
     charId: str
     missionId: str
     sortId: int
     condType: str
-    param: list[str]
-    rewards: list[ItemBundle]
+    param: List[str]
+    rewards: List[ItemBundle]
 
 
-class CharMetaTable(BaseModel):
+class CharMetaTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    class Config:
-        extra = 'allow'
-
-    spCharGroups: dict[str, list[str]]
-    spCharMissions: dict[str, dict[str, SpCharMissionData]]
-    spCharVoucherSkinTime: dict[str, int]
+    spCharGroups: Dict[str, List[str]]
+    spCharMissions: Dict[str, Dict[str, SpCharMissionData]]
+    spCharVoucherSkinTime: Dict[str, int]

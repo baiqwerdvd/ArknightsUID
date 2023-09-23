@@ -1,57 +1,59 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class EnemyHandBookDataAbilty(BaseModel):
+class EnemyHandBookDataAbilty(BaseStruct):
     text: str
     textFormat: str
 
 
-class EnemyHandBookData(BaseModel):
+class EnemyHandBookData(BaseStruct):
     enemyId: str
     enemyIndex: str
-    enemyTags: list[str] | None
+    enemyTags: Union[List[str], None]
     sortId: int
     name: str
     enemyLevel: str
     description: str
-    attackType: str | None
-    ability: str | None
+    attackType: Union[str, None]
+    ability: Union[str, None]
     isInvalidKilled: bool
-    overrideKillCntInfos: dict[str, int]
+    overrideKillCntInfos: Dict[str, int]
     hideInHandbook: bool
-    abilityList: list[EnemyHandBookDataAbilty] | None
-    linkEnemies: list[str] | None
-    damageType: list[str] | None
+    abilityList: Union[List[EnemyHandBookDataAbilty], None]
+    linkEnemies: Union[List[str], None]
+    damageType: Union[List[str], None]
     invisibleDetail: bool
+    hideInStage: Union[bool, None] = None
 
 
-class EnemyHandbookLevelInfoDataRangePair(BaseModel):
-    min_: float = Field(alias='min')
-    max_: float = Field(alias='max')
+class EnemyHandbookLevelInfoDataRangePair(BaseStruct):
+    min_: float = field(name='min')
+    max_: float = field(name='max')
 
 
-class EnemyHandbookLevelInfoData(BaseModel):
+class EnemyHandbookLevelInfoData(BaseStruct):
     classLevel: str
     attack: EnemyHandbookLevelInfoDataRangePair
-    def_: EnemyHandbookLevelInfoDataRangePair = Field(alias='def')
+    def_: EnemyHandbookLevelInfoDataRangePair = field(name='def')
     magicRes: EnemyHandbookLevelInfoDataRangePair
     maxHP: EnemyHandbookLevelInfoDataRangePair
     moveSpeed: EnemyHandbookLevelInfoDataRangePair
     attackSpeed: EnemyHandbookLevelInfoDataRangePair
+    enemyDamageRes: EnemyHandbookLevelInfoDataRangePair
+    enemyRes: EnemyHandbookLevelInfoDataRangePair
 
 
-class EnemyHandbookRaceData(BaseModel):
-    id_: str = Field(alias='id')
+class EnemyHandbookRaceData(BaseStruct):
+    id_: str = field(name='id')
     raceName: str
     sortId: int
 
 
-class EnemyHandbookTable(BaseModel):
+class EnemyHandbookTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    levelInfoList: list[EnemyHandbookLevelInfoData]
-    enemyData: dict[str, EnemyHandBookData]
-    raceData: dict[str, EnemyHandbookRaceData]
-
-    class Config:
-        extra = 'allow'
+    levelInfoList: List[EnemyHandbookLevelInfoData]
+    enemyData: Dict[str, EnemyHandBookData]
+    raceData: Dict[str, EnemyHandbookRaceData]

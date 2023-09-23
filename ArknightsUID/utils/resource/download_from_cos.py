@@ -1,5 +1,6 @@
 import asyncio
 from pathlib import Path
+from typing import Dict, List, Tuple, Union
 
 from aiohttp.client import ClientSession
 from gsuid_core.logger import logger
@@ -15,19 +16,19 @@ with Path.open(
 ) as f:
     resource_map = msgjson.decode(
         f.read(),
-        type=dict[str, dict[str, dict[str, dict[str, int | str]]]],
+        type=Dict[str, Dict[str, Dict[str, Dict[str, Union[int, str]]]]],
     )
 
 
 async def download_all_file_from_cos():
-    async def _download(tasks: list[asyncio.Task]):
+    async def _download(tasks: List[asyncio.Task]):
         failed_list.extend(
             list(filter(lambda x: x is not None, await asyncio.gather(*tasks)))
         )
         tasks.clear()
         logger.info('[cos]下载完成!')
 
-    failed_list: list[tuple[str, str, str, str]] = []
+    failed_list: List[Tuple[str, str, str, str]] = []
     TASKS = []
     async with ClientSession() as sess:
         for res_type in ['resource']:

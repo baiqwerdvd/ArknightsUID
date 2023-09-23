@@ -1,39 +1,41 @@
-from pydantic import BaseModel, Field
+from typing import Dict, List, Union
+from ..common import BaseStruct
+from msgspec import field
 
 
-class CharPatchDataPatchInfo(BaseModel):
-    tmplIds: list[str]
+class CharPatchDataPatchInfo(BaseStruct):
+    tmplIds: List[str]
     default: str
 
 
-class CharacterDataUnlockCondition(BaseModel):
+class CharacterDataUnlockCondition(BaseStruct):
     phase: int
     level: int
 
 
-class Blackboard(BaseModel):
+class Blackboard(BaseStruct):
     key: str
-    value: float | None = None
-    valueStr: str | None = None
+    value: Union[float, None] = None
+    valueStr: Union[str, None] = None
 
 
-class CharacterDataTraitData(BaseModel):
+class CharacterDataTraitData(BaseStruct):
     unlockCondition: CharacterDataUnlockCondition
     requiredPotentialRank: int
-    blackboard: list[Blackboard]
-    overrideDescripton: str | None
-    prefabKey: str | None
-    rangeId: str | None
+    blackboard: List[Blackboard]
+    overrideDescripton: Union[str, None]
+    prefabKey: Union[str, None]
+    rangeId: Union[str, None]
 
 
-class CharacterDataTraitDataBundle(BaseModel):
-    candidates: list[CharacterDataTraitData]
+class CharacterDataTraitDataBundle(BaseStruct):
+    candidates: List[CharacterDataTraitData]
 
 
-class AttributesData(BaseModel):
+class AttributesData(BaseStruct):
     maxHp: int
     atk: int
-    def_: int = Field(alias='def')
+    def_: int = field(name='def')
     magicResistance: float
     cost: int
     blockCnt: int
@@ -55,54 +57,55 @@ class AttributesData(BaseModel):
     levitateImmune: bool
 
 
-class CharacterDataAttributesKeyFrame(BaseModel):
+class CharacterDataAttributesKeyFrame(BaseStruct):
     level: int
     data: AttributesData
 
 
-class ItemBundle(BaseModel):
-    id_: str = Field(alias='id')
+class ItemBundle(BaseStruct):
+    id_: str = field(name='id')
     count: int
-    type_: str = Field(alias='type')
+    type_: str = field(name='type')
 
 
-class CharacterDataPhaseData(BaseModel):
+class CharacterDataPhaseData(BaseStruct):
     characterPrefabKey: str
-    rangeId: str | None
+    rangeId: Union[str, None]
     maxLevel: int
-    attributesKeyFrames: list[CharacterDataAttributesKeyFrame]
-    evolveCost: list[ItemBundle] | None
+    attributesKeyFrames: List[CharacterDataAttributesKeyFrame]
+    evolveCost: Union[List[ItemBundle], None]
 
 
-class CharacterDataMainSkillSpecializeLevelData(BaseModel):
+class CharacterDataMainSkillSpecializeLevelData(BaseStruct):
     unlockCond: CharacterDataUnlockCondition
     lvlUpTime: int
-    levelUpCost: list[ItemBundle] | None
+    levelUpCost: Union[List[ItemBundle], None]
 
 
-class CharacterDataMainSkill(BaseModel):
-    skillId: str | None
-    overridePrefabKey: str | None
-    overrideTokenKey: str | None
-    levelUpCostCond: list[CharacterDataMainSkillSpecializeLevelData]
+class CharacterDataMainSkill(BaseStruct):
+    skillId: Union[str, None]
+    overridePrefabKey: Union[str, None]
+    overrideTokenKey: Union[str, None]
+    levelUpCostCond: List[CharacterDataMainSkillSpecializeLevelData]
     unlockCond: CharacterDataUnlockCondition
 
 
-class TalentData(BaseModel):
+class TalentData(BaseStruct):
     unlockCondition: CharacterDataUnlockCondition
     requiredPotentialRank: int
     prefabKey: str
-    name: str | None
-    description: str | None
-    rangeId: str | None
-    blackboard: list[Blackboard]
+    name: Union[str, None]
+    description: Union[str, None]
+    rangeId: Union[str, None]
+    blackboard: List[Blackboard]
+    displayRange: bool
 
 
-class CharacterDataTalentDataBundle(BaseModel):
-    candidates: list[TalentData] | None
+class CharacterDataTalentDataBundle(BaseStruct):
+    candidates: Union[List[TalentData], None]
 
 
-class AttributeModifierDataAttributeModifier(BaseModel):
+class AttributeModifierDataAttributeModifier(BaseStruct):
     attributeType: int
     formulaItem: int
     value: float
@@ -110,86 +113,85 @@ class AttributeModifierDataAttributeModifier(BaseModel):
     fetchBaseValueFromSourceEntity: bool
 
 
-class AttributeModifierData(BaseModel):
-    abnormalFlags: list[str] | None
-    abnormalImmunes: list[str] | None
-    abnormalAntis: list[str] | None
-    abnormalCombos: list[str] | None
-    abnormalComboImmunes: list[str] | None
-    attributeModifiers: list[AttributeModifierDataAttributeModifier]
+class AttributeModifierData(BaseStruct):
+    abnormalFlags: Union[List[str], None]
+    abnormalImmunes: Union[List[str], None]
+    abnormalAntis: Union[List[str], None]
+    abnormalCombos: Union[List[str], None]
+    abnormalComboImmunes: Union[List[str], None]
+    attributeModifiers: List[AttributeModifierDataAttributeModifier]
 
 
-class ExternalBuff(BaseModel):
+class ExternalBuff(BaseStruct):
     attributes: AttributeModifierData
 
 
-class CharacterDataPotentialRank(BaseModel):
-    type_: int = Field(alias='type')
+class CharacterDataPotentialRank(BaseStruct):
+    type_: int = field(name='type')
     description: str
-    buff: ExternalBuff | None
-    equivalentCost: ItemBundle | None
+    buff: Union[ExternalBuff, None]
+    equivalentCost: Union[ItemBundle, None]
 
 
-class CharacterDataSkillLevelCost(BaseModel):
+class CharacterDataSkillLevelCost(BaseStruct):
     unlockCond: CharacterDataUnlockCondition
-    lvlUpCost: list[ItemBundle] | None
+    lvlUpCost: Union[List[ItemBundle], None]
 
 
-class CharacterData(BaseModel):
+class CharacterData(BaseStruct):
     name: str
-    description: str | None
+    description: Union[str, None]
     canUseGeneralPotentialItem: bool
     canUseActivityPotentialItem: bool
-    potentialItemId: str | None
-    activityPotentialItemId: str | None
-    nationId: str | None
-    groupId: str | None
-    teamId: str | None
-    displayNumber: str | None
-    tokenKey: str | None = None
+    potentialItemId: Union[str, None]
+    activityPotentialItemId: Union[str, None]
+    nationId: Union[str, None]
+    groupId: Union[str, None]
+    teamId: Union[str, None]
+    displayNumber: Union[str, None]
     appellation: str
     position: str
-    tagList: list[str] | None
-    itemUsage: str | None
-    itemDesc: str | None
-    itemObtainApproach: str | None
+    tagList: Union[List[str], None]
+    itemUsage: Union[str, None]
+    itemDesc: Union[str, None]
+    itemObtainApproach: Union[str, None]
     isNotObtainable: bool
     isSpChar: bool
     maxPotentialLevel: int
     rarity: int
     profession: str
     subProfessionId: str
-    trait: CharacterDataTraitDataBundle | None
-    phases: list[CharacterDataPhaseData]
-    skills: list[CharacterDataMainSkill]
-    talents: list[CharacterDataTalentDataBundle] | None
-    potentialRanks: list[CharacterDataPotentialRank]
-    favorKeyFrames: list[CharacterDataAttributesKeyFrame] | None
-    allSkillLvlup: list[CharacterDataSkillLevelCost]
+    trait: Union[CharacterDataTraitDataBundle, None]
+    phases: List[CharacterDataPhaseData]
+    skills: List[CharacterDataMainSkill]
+    talents: Union[List[CharacterDataTalentDataBundle], None]
+    potentialRanks: List[CharacterDataPotentialRank]
+    favorKeyFrames: Union[List[CharacterDataAttributesKeyFrame], None]
+    allSkillLvlup: List[CharacterDataSkillLevelCost]
+    minPowerId: str
+    maxPowerId: str
+    tokenKey: Union[str, None] = None
 
 
-class CharPatchDataUnlockCondItem(BaseModel):
+class CharPatchDataUnlockCondItem(BaseStruct):
     stageId: str
     completeState: int
 
 
-class CharPatchDataUnlockCond(BaseModel):
-    conds: list[CharPatchDataUnlockCondItem]
+class CharPatchDataUnlockCond(BaseStruct):
+    conds: List[CharPatchDataUnlockCondItem]
 
 
-class CharPatchDataPatchDetailInfo(BaseModel):
+class CharPatchDataPatchDetailInfo(BaseStruct):
     patchId: str
     sortId: int
     infoParam: str
 
 
-class CharPatchTable(BaseModel):
+class CharPatchTable(BaseStruct):
     __version__ = '23-07-27-18-50-06-aeb568'
 
-    infos: dict[str, CharPatchDataPatchInfo]
-    patchChars: dict[str, CharacterData]
-    unlockConds: dict[str, CharPatchDataUnlockCond]
-    patchDetailInfoList: dict[str, CharPatchDataPatchDetailInfo]
-
-    class Config:
-        extra = 'allow'
+    infos: Dict[str, CharPatchDataPatchInfo]
+    patchChars: Dict[str, CharacterData]
+    unlockConds: Dict[str, CharPatchDataUnlockCond]
+    patchDetailInfoList: Dict[str, CharPatchDataPatchDetailInfo]

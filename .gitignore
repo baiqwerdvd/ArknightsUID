@@ -669,7 +669,7 @@ result.txt
 ### ArknightsUID ###
 ArknightsUID/tools/
 upload_file.py
-
+test.py
 
 ### Debug ###
 testnb2/

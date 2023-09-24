@@ -58,7 +58,7 @@ class BaseArkApi:
                 url=f'{_pass_api}&gt={gt}&challenge={ch}',
                 method='GET',
             )
-            if isinstance(data, int):
+            if isinstance(data, Union[int, None]):
                 return None, None
             else:
                 validate = data['data']['validate']
@@ -86,6 +86,8 @@ class BaseArkApi:
         )
         if isinstance(raw_data, int):
             return raw_data
+        if raw_data is None:
+            return -61
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return unpack_data
@@ -121,6 +123,8 @@ class BaseArkApi:
         )
         if isinstance(raw_data, int):
             return raw_data
+        if raw_data is None:
+            return -61
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return unpack_data
@@ -156,6 +160,8 @@ class BaseArkApi:
         )
         if isinstance(raw_data, int):
             return raw_data
+        if raw_data is None:
+            return -61
         unpack_data = self.unpack(raw_data)
         if isinstance(unpack_data, int):
             return unpack_data
@@ -173,7 +179,7 @@ class BaseArkApi:
         header['cred'] = cred
         header = await self.set_sign(ARK_USER_ME, header=header, token=token)
         raw_data = await self.ark_request(ARK_USER_ME, header=header)
-        if isinstance(raw_data, int):
+        if isinstance(raw_data, Union[int, None]):
             return False
         if 'code' in raw_data and raw_data['code'] == 10001:
             logger.info(f'cred is invalid {raw_data}')
@@ -193,7 +199,7 @@ class BaseArkApi:
         header['cred'] = cred
         header['sign_enable'] = 'false'
         raw_data = await self.ark_request(url=ARK_REFRESH_TOKEN, header=header)
-        if isinstance(raw_data, int):
+        if isinstance(raw_data, Union[int, None]):
             raise TokenRefreshFailed
         else:
             token = cast(str, self.unpack(raw_data)['token'])
@@ -253,7 +259,7 @@ class BaseArkApi:
         params: Union[Dict[str, Any], None] = None,
         data: Union[Dict[str, Any], None] = None,
         use_proxy: Union[bool, None] = False,
-    ) -> Union[Dict, int]:
+    ) -> Union[Dict, Union[int, None]]:
         logger.debug(f'{url} {method} {header} {params} {data} {use_proxy}')
         try:
             raw_data = await self._ark_request(
@@ -285,7 +291,7 @@ class BaseArkApi:
         params: Union[Dict[str, Any], None ]= None,
         data: Union[Dict[str, Any], None] = None,
         use_proxy: Union[bool, None] = False,
-    ) -> Union[Dict, int]:
+    ) -> Union[Dict, Union[int, None]]:
         async with ClientSession(
             connector=TCPConnector(verify_ssl=ssl_verify)
         ) as client:

@@ -58,7 +58,7 @@ class BaseArkApi:
                 url=f'{_pass_api}&gt={gt}&challenge={ch}',
                 method='GET',
             )
-            if isinstance(data, Union[int, None]):
+            if isinstance(data, int) or not data:
                 return None, None
             else:
                 validate = data['data']['validate']
@@ -179,7 +179,7 @@ class BaseArkApi:
         header['cred'] = cred
         header = await self.set_sign(ARK_USER_ME, header=header, token=token)
         raw_data = await self.ark_request(ARK_USER_ME, header=header)
-        if isinstance(raw_data, Union[int, None]):
+        if isinstance(raw_data, int) or not raw_data:
             return False
         if 'code' in raw_data and raw_data['code'] == 10001:
             logger.info(f'cred is invalid {raw_data}')
@@ -199,7 +199,7 @@ class BaseArkApi:
         header['cred'] = cred
         header['sign_enable'] = 'false'
         raw_data = await self.ark_request(url=ARK_REFRESH_TOKEN, header=header)
-        if isinstance(raw_data, Union[int, None]):
+        if isinstance(raw_data, int) or not raw_data:
             raise TokenRefreshFailed
         else:
             token = cast(str, self.unpack(raw_data)['token'])

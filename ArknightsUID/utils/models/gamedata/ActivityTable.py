@@ -1801,8 +1801,119 @@ class Act27SideData(BaseStruct):
     constData: Act27SideDataAct27SideConstData
 
 
+class Act42D0DataAreaInfoData(BaseStruct):
+    areaId: str
+    sortId: int
+    areaCode: str
+    areaName: str
+    difficulty: str
+    areaDesc: str
+    costLimit: int
+    bossIcon: str
+    bossId: str | None
+    nextAreaStage: str | None
+
+
+class Act42D0DataStageInfoData(BaseStruct):
+    stageId: str
+    areaId: str
+    stageCode: str
+    sortId: int
+    stageDesc: List[str]
+    levelId: str
+    code: str
+    name: str
+    loadingPicId: str
+
+
+class Act42D0DataEffectGroupInfoData(BaseStruct):
+    effectGroupId: str
+    sortId: int
+    effectGroupName: str
+
+
+class Act42D0DataEffectInfoRuneData(BaseStruct):
+    id_: str = field(name='id')
+    points: int
+    mutexGroupKey: Union[str, None]
+    description: str
+    runes: List[RuneData]
+
+
+class Act42D0DataEffectInfoData(BaseStruct):
+    effectId: str
+    effectGroupId: str
+    row: int
+    col: int
+    effectName: str
+    effectIcon: str
+    cost: int
+    effectDesc: str
+    unlockTime: int
+    runeData: Act42D0DataEffectInfoRuneData
+
+
+class ChallengeMissionData(BaseStruct):
+    missionId: str
+    sortId: int
+    stageId: str
+    missionDesc: str
+    milestoneCount: int
+
+
+class Act42D0DataChallengeInfoData(BaseStruct):
+    stageId: str
+    stageDesc: str
+    startTs: int
+    endTs: int
+    levelId: str
+    code: str
+    name: str
+    loadingPicId: str
+    challengeMissionData: List[ChallengeMissionData]
+
+
+class StageRatingInfoMilestoneData(BaseStruct):
+    ratingLevel: int
+    costUpLimit: int
+    achivement: str
+    icon: str
+    milestoneCount: int
+
+
+class Act42D0DataStageRatingInfo(BaseStruct):
+    stageId: str
+    areaId: str
+    milestoneData: List[StageRatingInfoMilestoneData]
+
+
+class Act42D0DataMilestoneData(BaseStruct):
+    milestoneId: str
+    orderId: int
+    tokenNum: int
+    item: ItemBundle
+
+class Act42D0DataConstData(BaseStruct):
+    milestoneId: str
+    strifeName: str
+    strifeDesc: str
+    unlockDesc: str
+    rewardDesc: str
+    traumaDesc: str
+    milestoneAreaName: str
+    traumaName: str
+
+
 class Act42D0Data(BaseStruct):
-    pass
+    areaInfoData: Dict[str, Act42D0DataAreaInfoData]
+    stageInfoData: Dict[str, Act42D0DataStageInfoData]
+    effectGroupInfoData: Dict[str, Act42D0DataEffectGroupInfoData]
+    effectInfoData: Dict[str, Act42D0DataEffectInfoData]
+    challengeInfoData: Dict[str, Act42D0DataChallengeInfoData]
+    stageRatingInfoData: Dict[str, Act42D0DataStageRatingInfo]
+    milestoneData: List[Act42D0DataMilestoneData]
+    constData: Act42D0DataConstData
+    trackPointPeriodData: List[int]
 
 
 class ActivityTableActivityDetailTable(BaseStruct):

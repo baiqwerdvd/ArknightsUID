@@ -1810,8 +1810,8 @@ class Act42D0DataAreaInfoData(BaseStruct):
     areaDesc: str
     costLimit: int
     bossIcon: str
-    bossId: str | None
-    nextAreaStage: str | None
+    bossId: Union[str, None]
+    nextAreaStage: Union[str, None]
 
 
 class Act42D0DataStageInfoData(BaseStruct):

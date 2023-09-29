@@ -2,7 +2,7 @@ import base64
 import json
 from collections.abc import Callable, Iterable, Iterator
 from copy import copy, deepcopy
-from typing import Any, Dict, List, Tuple, TypeVar, Union
+from typing import Any, Dict, List, Tuple, Type, TypeVar, Union
 
 from msgspec import Meta, Struct, UnsetType, convert, field
 from msgspec import json as mscjson
@@ -29,7 +29,7 @@ class BaseStruct(Struct, forbid_unknown_fields=True, omit_defaults=True, gc=Fals
 
     @classmethod
     def convert(
-        cls: type[Model],
+        cls: Type[Model],
         obj: Any,
         *,
         strict: bool = True,

@@ -1,6 +1,6 @@
-from typing import Dict, Literal, Union
+from typing import Dict, Literal, Optional, Type, Union
 
-from gsuid_core.utils.database.base_models import Bind, Push, T_BaseIDModel, T_User, User, with_session, BaseModel
+from gsuid_core.utils.database.base_models import Bind, Push, T_BaseIDModel, User, with_session, BaseModel
 from gsuid_core.webconsole.mount_app import GsAdminModel, PageSchema, site
 from sqlmodel import Field
 from sqlalchemy.future import select
@@ -79,6 +79,18 @@ class ArknightsPush(Push, table=True):
         )
 
     @classmethod
+    @with_session
+    async def base_select_data(
+        cls: Type[T_BaseIDModel], session: AsyncSession, **data
+    ) -> Optional[T_BaseIDModel]:
+        stmt = select(cls)
+        for k, v in data.items():
+            stmt = stmt.where(getattr(cls, k) == v)
+        result = await session.execute(stmt)
+        data = result.scalars().all()
+        return data[0] if data else None
+
+    @classmethod
     async def update_push_data(cls, uid: str, data: Dict) -> bool:
         retcode = -1
         if await cls.data_exist(uid=uid):
@@ -98,7 +110,7 @@ class ArknightsPush(Push, table=True):
 
     @classmethod
     async def select_push_data(
-        cls: type[T_BaseIDModel], uid: str
+        cls: Type[T_BaseIDModel], uid: str
     ) -> Union[T_BaseIDModel, None]:
         return await cls.base_select_data(uid=uid)
 

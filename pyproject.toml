@@ -51,6 +51,10 @@ extra_standard_library = ["typing_extensions"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 
+[tool.pyright]
+pythonVersion = "3.8"
+pythonPlatform = "All"
+
 [tool.ruff]
 select = ["E", "W", "F", "UP", "C", "T", "PYI", "PT", "Q"]
 ignore = ["C901", "Q000"]

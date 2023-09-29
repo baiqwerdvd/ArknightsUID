@@ -5,7 +5,7 @@ import json
 import os
 import pickle
 import shutil
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
 from tempfile import mkstemp
 from typing import Any
@@ -14,6 +14,7 @@ import anyio
 from anyio import Path as anyioPath
 from anyio.to_thread import run_sync
 from msgspec import Struct
+from pytz import UTC
 
 from gsuid_core.logger import logger
 

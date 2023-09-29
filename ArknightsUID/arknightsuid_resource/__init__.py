@@ -1,3 +1,4 @@
+import asyncio
 from pathlib import Path
 
 from gsuid_core.bot import Bot
@@ -7,7 +8,7 @@ from gsuid_core.models import Event
 from gsuid_core.sv import SV
 
 from ..utils.resource.download_all_resource import download_all_resource
-from .cachedata import CacheData
+from .memoryStore import store
 from .constants import Excel
 
 sv_download_config = SV('下载资源', pm=2)
@@ -25,9 +26,11 @@ async def startup():
     await download_all_resource()
     logger.info('[资源文件下载] 检查完毕, 正在加载 gamedata')
 
+    tasks = []
     for file_path in Path(
         get_res_path(['ArknightsUID', 'resource', 'gamedata'])
     ).rglob('*.json'):
-        CacheData.readFile(file_path)
+        tasks.append(store.get_file(Path(file_path)))
+    await asyncio.gather(*tasks)
 
-    Excel.preload_table()
+    await Excel.preload_table()

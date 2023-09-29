@@ -1,14 +1,13 @@
+import asyncio
 import inspect
-from typing import Dict, Union
-from msgspec import json as msgjson
 
 from ..utils.models.gamedata.ActivityTable import ActivityTable
 from ..utils.models.gamedata.AudioData import AudioData
-from ..utils.models.gamedata.BattleEquipTable import BattleEquipData
+from ..utils.models.gamedata.BattleEquipTable import BattleEquipTable
 from ..utils.models.gamedata.BuildingData import BuildingData
 from ..utils.models.gamedata.CampaignTable import CampaignTable
-from ..utils.models.gamedata.ChapterTable import ChapterData
-from ..utils.models.gamedata.CharacterTable import CharacterData
+from ..utils.models.gamedata.ChapterTable import ChapterTable
+from ..utils.models.gamedata.CharacterTable import CharacterTable
 from ..utils.models.gamedata.CharMetaTable import CharMetaTable
 from ..utils.models.gamedata.CharmTable import CharmTable
 from ..utils.models.gamedata.CharPatchTable import CharPatchTable
@@ -24,474 +23,516 @@ from ..utils.models.gamedata.GachaTable import GachaTable
 from ..utils.models.gamedata.GamedataConst import GamedataConst
 from ..utils.models.gamedata.HandbookInfoTable import HandbookInfoTable
 from ..utils.models.gamedata.HandbookTable import HandbookTable
-from ..utils.models.gamedata.HandbookTeamTable import HandbookTeam
+from ..utils.models.gamedata.HandbookTeamTable import HandbookTeamTable
 from ..utils.models.gamedata.ItemTable import ItemTable
 from ..utils.models.gamedata.MedalTable import MedalTable
 from ..utils.models.gamedata.MissionTable import MissionTable
 from ..utils.models.gamedata.OpenServerTable import OpenServerTable
 from ..utils.models.gamedata.PlayerAvatarTable import PlayerAvatarTable
-from ..utils.models.gamedata.RangeTable import Stage
-from ..utils.models.gamedata.ReplicateTable import ReplicateList
+from ..utils.models.gamedata.RangeTable import RangeTable
+from ..utils.models.gamedata.ReplicateTable import ReplicateTable
 from ..utils.models.gamedata.RetroTable import RetroTable
 from ..utils.models.gamedata.RoguelikeTable import RoguelikeTable
 from ..utils.models.gamedata.RoguelikeTopicTable import RoguelikeTopicTable
 from ..utils.models.gamedata.SandboxTable import SandboxTable
 from ..utils.models.gamedata.ShopClientTable import ShopClientTable
-from ..utils.models.gamedata.SkillTable import SkillDataBundle
+from ..utils.models.gamedata.SkillTable import SkillTable
 from ..utils.models.gamedata.SkinTable import SkinTable
 from ..utils.models.gamedata.StageTable import StageTable
 from ..utils.models.gamedata.StoryReviewMetaTable import StoryReviewMetaTable
-from ..utils.models.gamedata.StoryReviewTable import StoryReviewGroupClientData
-from ..utils.models.gamedata.StoryTable import StoryData
+from ..utils.models.gamedata.StoryReviewTable import StoryReviewTable
+from ..utils.models.gamedata.StoryTable import StoryTable
 from ..utils.models.gamedata.TechBuffTable import TechBuffTable
 from ..utils.models.gamedata.TipTable import TipTable
-from ..utils.models.gamedata.TokenTable import TokenCharacterData
+from ..utils.models.gamedata.TokenTable import TokenTable
 from ..utils.models.gamedata.UniequipData import UniequipData
 from ..utils.models.gamedata.UniequipTable import UniEquipTable
 from ..utils.models.gamedata.ZoneTable import ZoneTable
-from .cachedata import CacheData
+from .memoryStore import store
 
 
 class ExcelTableManager:
-    activity_table_: Union[ActivityTable, None] = None
-    audio_data_: Union[AudioData, None] = None
-    battle_equip_table_: Union[Dict[str, BattleEquipData], None] = None
-    building_data_: Union[BuildingData, None] = None
-    campaign_table_: Union[CampaignTable, None] = None
-    chapter_table_: Union[Dict[str, ChapterData], None] = None
-    character_table_: Union[Dict[str, CharacterData], None] = None
-    char_meta_table_: Union[CharMetaTable, None] = None
-    charm_table_: Union[CharmTable, None] = None
-    char_patch_table_: Union[CharPatchTable, None] = None
-    charword_table_: Union[CharwordTable, None] = None
-    checkin_table_: Union[CheckinTable, None] = None
-    climb_tower_table_: Union[ClimbTowerTable, None] = None
-    clue_data_: Union[ClueData, None] = None
-    crisis_table_: Union[CrisisTable, None] = None
-    display_meta_table_: Union[DisplayMetaTable, None] = None
-    enemy_handbook_table_: Union[EnemyHandbookTable, None] = None
-    favor_table_: Union[FavorTable, None] = None
-    gacha_table_: Union[GachaTable, None] = None
-    gamedata_const_: Union[GamedataConst, None] = None
-    handbook_info_table_: Union[HandbookInfoTable, None] = None
-    handbook_table_: Union[HandbookTable, None] = None
-    handbook_team_table_: Union[Dict[str, HandbookTeam], None] = None
-    item_table_: Union[ItemTable, None] = None
-    medal_table_: Union[MedalTable, None] = None
-    mission_table_: Union[MissionTable, None] = None
-    open_server_table_: Union[OpenServerTable, None] = None
-    player_avatar_table_: Union[PlayerAvatarTable, None] = None
-    range_table_: Union[Dict[str, Stage], None] = None
-    replicate_table_: Union[Dict[str, ReplicateList], None] = None
-    retro_table_: Union[RetroTable, None] = None
-    roguelike_table_: Union[RoguelikeTable, None] = None
-    roguelike_topic_table_: Union[RoguelikeTopicTable, None] = None
-    sandbox_table_: Union[SandboxTable, None] = None
-    shop_client_table_: Union[ShopClientTable, None] = None
-    skill_table_: Union[Dict[str, SkillDataBundle], None] = None
-    skin_table_: Union[SkinTable, None] = None
-    stage_table_: Union[StageTable, None] = None
-    story_review_meta_table_: Union[StoryReviewMetaTable, None] = None
-    story_review_table_: Union[Dict[str, StoryReviewGroupClientData], None] = None
-    story_table_: Union[Dict[str, StoryData], None] = None
-    tech_buff_table_: Union[TechBuffTable, None] = None
-    tip_table_: Union[TipTable, None] = None
-    token_table_: Union[Dict[str, TokenCharacterData], None] = None
-    uniequip_data_: Union[UniequipData, None] = None
-    uniequip_table_: Union[UniEquipTable, None] = None
-    zone_table_: Union[ZoneTable, None] = None
+    activity_table_: ActivityTable
+    audio_data_: AudioData
+    battle_equip_table_: BattleEquipTable
+    building_data_: BuildingData
+    campaign_table_: CampaignTable
+    chapter_table_: ChapterTable
+    character_table_: CharacterTable
+    char_meta_table_: CharMetaTable
+    charm_table_: CharmTable
+    char_patch_table_: CharPatchTable
+    charword_table_: CharwordTable
+    checkin_table_: CheckinTable
+    climb_tower_table_: ClimbTowerTable
+    clue_data_: ClueData
+    crisis_table_: CrisisTable
+    display_meta_table_: DisplayMetaTable
+    enemy_handbook_table_: EnemyHandbookTable
+    favor_table_: FavorTable
+    gacha_table_: GachaTable
+    gamedata_const_: GamedataConst
+    handbook_info_table_: HandbookInfoTable
+    handbook_table_: HandbookTable
+    handbook_team_table_: HandbookTeamTable
+    item_table_: ItemTable
+    medal_table_: MedalTable
+    mission_table_: MissionTable
+    open_server_table_: OpenServerTable
+    player_avatar_table_: PlayerAvatarTable
+    range_table_: RangeTable
+    replicate_table_: ReplicateTable
+    retro_table_: RetroTable
+    roguelike_table_: RoguelikeTable
+    roguelike_topic_table_: RoguelikeTopicTable
+    sandbox_table_: SandboxTable
+    shop_client_table_: ShopClientTable
+    skill_table_: SkillTable
+    skin_table_: SkinTable
+    stage_table_: StageTable
+    story_review_meta_table_: StoryReviewMetaTable
+    story_review_table_: StoryReviewTable
+    story_table_: StoryTable
+    tech_buff_table_: TechBuffTable
+    tip_table_: TipTable
+    token_table_: TokenTable
+    uniequip_data_: UniequipData
+    uniequip_table_: UniEquipTable
+    zone_table_: ZoneTable
+
+    async def activity_table(self) -> None:
+        self.activity_table_ = ActivityTable.convert(
+            await store.get_excel("activity_table")
+        )
 
     @property
     def ACTIVITY_TABLE(self) -> ActivityTable:
-        if not self.activity_table_:
-            self.activity_table_ = ActivityTable.convert(
-                CacheData.readExcel('activity_table')
-            )
         return self.activity_table_
+
+    async def audio_data(self) -> None:
+        self.audio_data_ = AudioData.convert(
+            await store.get_excel("audio_data")
+        )
 
     @property
     def AUDIO_DATA(self) -> AudioData:
-        if not self.audio_data_:
-            self.audio_data_ = AudioData.convert(
-                CacheData.readExcel('audio_data')
-            )
         return self.audio_data_
 
+    async def battle_equip_table(self) -> None:
+        self.battle_equip_table_ = BattleEquipTable.convert(
+            {"equips": await store.get_excel("battle_equip_table")}
+        )
+
     @property
-    def BATTLE_EQUIP_TABLE(self) -> Dict[str, BattleEquipData]:
-        if not self.battle_equip_table_:
-            self.battle_equip_table_ = msgjson.decode(
-                CacheData.readBytesExcel('battle_equip_table'),
-                type=Dict[str, BattleEquipData]
-            )
+    def BATTLE_EQUIP_TABLE(self) -> BattleEquipTable:
         return self.battle_equip_table_
+
+    async def building_data(self) -> None:
+        self.building_data_ = BuildingData.convert(
+            await store.get_excel("building_data")
+        )
 
     @property
     def BUILDING_DATA(self) -> BuildingData:
-        if not self.building_data_:
-            self.building_data_ = BuildingData.convert(
-                CacheData.readExcel('building_data')
-            )
         return self.building_data_
+
+    async def campaign_table(self) -> None:
+        self.campaign_table_ = CampaignTable.convert(
+            await store.get_excel("campaign_table")
+        )
 
     @property
     def CAMPAIGN_TABLE(self) -> CampaignTable:
-        if not self.campaign_table_:
-            self.campaign_table_ = CampaignTable.convert(
-                CacheData.readExcel('campaign_table')
-            )
         return self.campaign_table_
 
-    @property
-    def CHAPTER_TABLE(self) -> Dict[str, ChapterData]:
-        if not self.chapter_table_:
-            self.chapter_table_ = msgjson.decode(
-                CacheData.readBytesExcel('chapter_table'),
-                type=Dict[str, ChapterData]
-            )
-        return self.chapter_table_
+    async def chapter_table(self) -> None:
+        self.chapter_table_ = ChapterTable.convert(
+            {"chapters": await store.get_excel("chapter_table")}
+        )
 
     @property
-    def CHARATER_TABLE(self) -> Dict[str, CharacterData]:
-        if not self.character_table_:
-            self.character_table_ = msgjson.decode(
-                CacheData.readBytesExcel('character_table'),
-                type=Dict[str, CharacterData]
-            )
+    def CHAPTER_TABLE(self) -> ChapterTable:
+        return self.chapter_table_
+
+    async def character_table(self) -> None:
+        self.character_table_ = CharacterTable.convert(
+            {"chars": await store.get_excel("character_table")}
+        )
+
+    @property
+    def CHARATER_TABLE(self) -> CharacterTable:
         return self.character_table_
+
+    async def char_meta_table(self) -> None:
+        self.char_meta_table_ = CharMetaTable.convert(
+            await store.get_excel("char_meta_table")
+        )
 
     @property
     def CHAR_META_TABLE(self) -> CharMetaTable:
-        if not self.char_meta_table_:
-            self.char_meta_table_ = CharMetaTable.convert(
-                CacheData.readExcel('char_meta_table')
-            )
         return self.char_meta_table_
+
+    async def charm_table(self) -> None:
+        self.charm_table_ = CharmTable.convert(
+            await store.get_excel("charm_table")
+        )
 
     @property
     def CHARM_TABLE(self) -> CharmTable:
-        if not self.charm_table_:
-            self.charm_table_ = CharmTable.convert(
-                CacheData.readExcel('charm_table')
-            )
         return self.charm_table_
+
+    async def char_patch_table(self) -> None:
+        self.char_patch_table_ = CharPatchTable.convert(
+            await store.get_excel("char_patch_table")
+        )
 
     @property
     def CHAR_PATH_TABLE(self) -> CharPatchTable:
-        if not self.char_patch_table_:
-            self.char_patch_table_ = CharPatchTable.convert(
-                CacheData.readExcel('char_patch_table')
-            )
         return self.char_patch_table_
+
+    async def charword_table(self) -> None:
+        self.charword_table_ = CharwordTable.convert(
+            await store.get_excel("charword_table")
+        )
 
     @property
     def CHARWORD_TABLE(self) -> CharwordTable:
-        if not self.charword_table_:
-            self.charword_table_ = CharwordTable.convert(
-                CacheData.readExcel('charword_table')
-            )
         return self.charword_table_
+
+    async def checkin_table(self) -> None:
+        self.checkin_table_ = CheckinTable.convert(
+            await store.get_excel("checkin_table")
+        )
 
     @property
     def CHECKIN_TABLE(self) -> CheckinTable:
-        if not self.checkin_table_:
-            self.checkin_table_ = CheckinTable.convert(
-                CacheData.readExcel('checkin_table')
-            )
         return self.checkin_table_
+
+    async def climb_tower_table(self) -> None:
+        self.climb_tower_table_ = ClimbTowerTable.convert(
+            await store.get_excel("climb_tower_table")
+        )
 
     @property
     def CLIMB_TOWER_TABLE(self) -> ClimbTowerTable:
-        if not self.climb_tower_table_:
-            self.climb_tower_table_ = ClimbTowerTable.convert(
-                CacheData.readExcel('climb_tower_table')
-            )
         return self.climb_tower_table_
+
+    async def clue_data(self) -> None:
+        self.clue_data_ = ClueData.convert(
+            await store.get_excel("clue_data")
+        )
 
     @property
     def CLUE_DATA(self) -> ClueData:
-        if not self.clue_data_:
-            self.clue_data_ = ClueData.convert(
-                CacheData.readExcel('clue_data')
-            )
         return self.clue_data_
+
+    async def crisis_table(self) -> None:
+        self.crisis_table_ = CrisisTable.convert(
+            await store.get_excel("crisis_table")
+        )
 
     @property
     def CRISIS_TABLE(self) -> CrisisTable:
-        if not self.crisis_table_:
-            self.crisis_table_ = CrisisTable.convert(
-                CacheData.readExcel('crisis_table')
-            )
         return self.crisis_table_
+
+    async def display_meta_table(self) -> None:
+        self.display_meta_table_ = DisplayMetaTable.convert(
+            await store.get_excel("display_meta_table")
+        )
 
     @property
     def DISPLAY_META_TABLE(self) -> DisplayMetaTable:
-        if not self.display_meta_table_:
-            self.display_meta_table_ = DisplayMetaTable.convert(
-                CacheData.readExcel('display_meta_table')
-            )
         return self.display_meta_table_
+
+    async def enemy_handbook_table(self) -> None:
+        self.enemy_handbook_table_ = EnemyHandbookTable.convert(
+            await store.get_excel("enemy_handbook_table")
+        )
 
     @property
     def ENEMY_HANDBOOK_TABLE(self) -> EnemyHandbookTable:
-        if not self.enemy_handbook_table_:
-            self.enemy_handbook_table_ = EnemyHandbookTable.convert(
-                CacheData.readExcel('enemy_handbook_table')
-            )
         return self.enemy_handbook_table_
+
+    async def favor_table(self) -> None:
+        self.favor_table_ = FavorTable.convert(
+            await store.get_excel("favor_table")
+        )
 
     @property
     def FAVOR_TABLE(self) -> FavorTable:
-        if not self.favor_table_:
-            self.favor_table_ = FavorTable.convert(
-                CacheData.readExcel('favor_table')
-            )
         return self.favor_table_
+
+    async def gacha_table(self) -> None:
+        self.gacha_table_ = GachaTable.convert(
+            await store.get_excel("gacha_table")
+        )
 
     @property
     def GACHA_TABLE(self) -> GachaTable:
-        if not self.gacha_table_:
-            self.gacha_table_ = GachaTable.convert(
-                CacheData.readExcel('gacha_table')
-            )
         return self.gacha_table_
+
+    async def gamedata_const(self) -> None:
+        self.gamedata_const_ = GamedataConst.convert(
+            await store.get_excel("gamedata_const")
+        )
 
     @property
     def GAMEDATA_CONST(self) -> GamedataConst:
-        if not self.gamedata_const_:
-            self.gamedata_const_ = GamedataConst.convert(
-                CacheData.readExcel('gamedata_const')
-            )
         return self.gamedata_const_
+
+    async def handbook_info_table(self) -> None:
+        self.handbook_info_table_ = HandbookInfoTable.convert(
+            await store.get_excel("handbook_info_table")
+        )
 
     @property
     def HANDBOOK_INFO_TABLE(self) -> HandbookInfoTable:
-        if not self.handbook_info_table_:
-            self.handbook_info_table_ = HandbookInfoTable.convert(
-                CacheData.readExcel('handbook_info_table')
-            )
         return self.handbook_info_table_
+
+    async def handbook_table(self) -> None:
+        self.handbook_table_ = HandbookTable.convert(
+            await store.get_excel("handbook_table")
+        )
 
     @property
     def HANDBOOK_TABLE(self) -> HandbookTable:
-        if not self.handbook_table_:
-            self.handbook_table_ = HandbookTable.convert(
-                CacheData.readExcel('handbook_table')
-            )
         return self.handbook_table_
 
+    async def handbook_team_table(self) -> None:
+        self.handbook_team_table_ = HandbookTeamTable.convert(
+            {"team": await store.get_excel("handbook_team_table")}
+        )
+
     @property
-    def HANDBOOK_TEAM_TABLE(self) -> Dict[str, HandbookTeam]:
-        if not self.handbook_team_table_:
-            self.handbook_team_table_ = msgjson.decode(
-                CacheData.readBytesExcel('handbook_team_table'),
-                type=Dict[str, HandbookTeam]
-            )
+    def HANDBOOK_TEAM_TABLE(self) -> HandbookTeamTable:
         return self.handbook_team_table_
+
+    async def item_table(self) -> None:
+        self.item_table_ = ItemTable.convert(
+            await store.get_excel("item_table")
+        )
 
     @property
     def ITEM_TABLE(self) -> ItemTable:
-        if not self.item_table_:
-            self.item_table_ = ItemTable.convert(
-                CacheData.readExcel('item_table')
-            )
         return self.item_table_
+
+    async def medal_table(self) -> None:
+        self.medal_table_ = MedalTable.convert(
+            await store.get_excel("medal_table")
+        )
 
     @property
     def MEDAL_TABLE(self) -> MedalTable:
-        if not self.medal_table_:
-            self.medal_table_ = MedalTable.convert(
-                CacheData.readExcel('medal_table')
-            )
         return self.medal_table_
+
+    async def mission_table(self) -> None:
+        self.mission_table_ = MissionTable.convert(
+            await store.get_excel("mission_table")
+        )
 
     @property
     def MISSION_TABLE(self) -> MissionTable:
-        if not self.mission_table_:
-            self.mission_table_ = MissionTable.convert(
-                CacheData.readExcel('mission_table')
-            )
         return self.mission_table_
+
+    async def open_server_table(self) -> None:
+        self.open_server_table_ = OpenServerTable.convert(
+            await store.get_excel("open_server_table")
+        )
 
     @property
     def OPEN_SERVER_TABLE(self) -> OpenServerTable:
-        if not self.open_server_table_:
-            self.open_server_table_ = OpenServerTable.convert(
-                CacheData.readExcel('open_server_table')
-            )
         return self.open_server_table_
+
+    async def player_avatar_table(self) -> None:
+        self.player_avatar_table_ = PlayerAvatarTable.convert(
+            await store.get_excel("player_avatar_table")
+        )
 
     @property
     def PLAYER_AVATAR_TABLE(self) -> PlayerAvatarTable:
-        if not self.player_avatar_table_:
-            self.player_avatar_table_ = PlayerAvatarTable.convert(
-                CacheData.readExcel('player_avatar_table')
-            )
         return self.player_avatar_table_
 
-    @property
-    def RANGE_TABLE(self) -> Dict[str, Stage]:
-        if not self.range_table_:
-            self.range_table_ = msgjson.decode(
-                CacheData.readBytesExcel('range_table'),
-                type=Dict[str, Stage]
-            )
-        return self.range_table_
+    async def range_table(self) -> None:
+        self.range_table_ = RangeTable.convert(
+            {"range": await store.get_excel("range_table")}
+        )
 
     @property
-    def REPLICATE_TABLE(self) -> Dict[str, ReplicateList]:
-        if not self.replicate_table_:
-            self.replicate_table_ = msgjson.decode(
-                CacheData.readBytesExcel('replicate_table'),
-                type=Dict[str, ReplicateList]
-            )
+    def RANGE_TABLE(self) -> RangeTable:
+        return self.range_table_
+
+    async def replicate_table(self) -> None:
+        self.replicate_table_ = ReplicateTable.convert(
+            {"replicate": await store.get_excel("replicate_table")}
+        )
+
+    @property
+    def REPLICATE_TABLE(self) -> ReplicateTable:
         return self.replicate_table_
+
+    async def retro_table(self) -> None:
+        self.retro_table_ = RetroTable.convert(
+            await store.get_excel("retro_table")
+        )
 
     @property
     def RETRO_TABLE(self) -> RetroTable:
-        if not self.retro_table_:
-            self.retro_table_ = RetroTable.convert(
-                CacheData.readExcel('retro_table')
-            )
         return self.retro_table_
+
+    async def roguelike_table(self) -> None:
+        self.roguelike_table_ = RoguelikeTable.convert(
+            await store.get_excel("roguelike_table")
+        )
 
     @property
     def ROGUELIKE_TABLE(self) -> RoguelikeTable:
-        if not self.roguelike_table_:
-            self.roguelike_table_ = RoguelikeTable.convert(
-                CacheData.readExcel('roguelike_table')
-            )
         return self.roguelike_table_
+
+    async def roguelike_topic_table(self) -> None:
+        self.roguelike_topic_table_ = RoguelikeTopicTable.convert(
+            await store.get_excel("roguelike_topic_table")
+        )
 
     @property
     def ROGUELIKE_TOPIC_TABLE(self) -> RoguelikeTopicTable:
-        if not self.roguelike_topic_table_:
-            self.roguelike_topic_table_ = RoguelikeTopicTable.convert(
-                CacheData.readExcel('roguelike_topic_table')
-            )
         return self.roguelike_topic_table_
+
+    async def sandbox_table(self) -> None:
+        self.sandbox_table_ = SandboxTable.convert(
+            await store.get_excel("sandbox_table")
+        )
 
     @property
     def SANDBOX_TABLE(self) -> SandboxTable:
-        if not self.sandbox_table_:
-            self.sandbox_table_ = SandboxTable.convert(
-                CacheData.readExcel('sandbox_table')
-            )
         return self.sandbox_table_
+
+    async def shop_client_table(self) -> None:
+        self.shop_client_table_ = ShopClientTable.convert(
+            await store.get_excel("shop_client_table")
+        )
 
     @property
     def SHOP_CLIENT_TABLE(self) -> ShopClientTable:
-        if not self.shop_client_table_:
-            self.shop_client_table_ = ShopClientTable.convert(
-                CacheData.readExcel('shop_client_table')
-            )
         return self.shop_client_table_
 
+    async def skill_table(self) -> None:
+        self.skill_table_ = SkillTable.convert(
+            {"skills": await store.get_excel("skill_table")}
+        )
+
     @property
-    def SKILL_TABLE(self) -> Dict[str, SkillDataBundle]:
-        if not self.skill_table_:
-            self.skill_table_ = msgjson.decode(
-                CacheData.readBytesExcel('skill_table'),
-                type=Dict[str, SkillDataBundle]
-            )
+    def SKILL_TABLE(self) -> SkillTable:
         return self.skill_table_
+
+    async def skin_table(self) -> None:
+        self.skin_table_ = SkinTable.convert(
+            await store.get_excel("skin_table")
+        )
 
     @property
     def SKIN_TABLE(self) -> SkinTable:
-        if not self.skin_table_:
-            self.skin_table_ = SkinTable.convert(
-                CacheData.readExcel('skin_table')
-            )
         return self.skin_table_
+
+    async def stage_table(self) -> None:
+        self.stage_table_ = StageTable.convert(
+            await store.get_excel("stage_table")
+        )
 
     @property
     def STAGE_TABLE(self) -> StageTable:
-        if not self.stage_table_:
-            self.stage_table_ = StageTable.convert(
-                CacheData.readExcel('stage_table')
-            )
         return self.stage_table_
+
+    async def story_review_meta_table(self) -> None:
+        self.story_review_meta_table_ = StoryReviewMetaTable.convert(
+            await store.get_excel("story_review_meta_table")
+        )
 
     @property
     def STORY_REVIEW_META_TABLE(self) -> StoryReviewMetaTable:
-        if not self.story_review_meta_table_:
-            self.story_review_meta_table_ = StoryReviewMetaTable.convert(
-                CacheData.readExcel('story_review_meta_table')
-            )
         return self.story_review_meta_table_
 
-    @property
-    def STORY_REVIEW_TABLE(self) -> Dict[str, StoryReviewGroupClientData]:
-        if not self.story_review_table_:
-            self.story_review_table_ = msgjson.decode(
-                CacheData.readBytesExcel('story_review_table'),
-                type=Dict[str, StoryReviewGroupClientData]
-            )
-        return self.story_review_table_
+    async def story_review_table(self) -> None:
+        self.story_review_table_ = StoryReviewTable.convert(
+            {"storyreviewtable": await store.get_excel("story_review_table")}
+        )
 
     @property
-    def STORY_TABLE(self) -> Dict[str, StoryData]:
-        if not self.story_table_:
-            self.story_table_ = msgjson.decode(
-                CacheData.readBytesExcel('story_table'),
-                type=Dict[str, StoryData]
-            )
+    def STORY_REVIEW_TABLE(self) -> StoryReviewTable:
+        return self.story_review_table_
+
+    async def story_table(self) -> None:
+        self.story_table_ = StoryTable.convert(
+            {"stories": await store.get_excel("story_table")}
+        )
+
+    @property
+    def STORY_TABLE(self) -> StoryTable:
         return self.story_table_
+
+    async def tech_buff_table(self) -> None:
+        self.tech_buff_table_ = TechBuffTable.convert(
+            await store.get_excel("tech_buff_table")
+        )
 
     @property
     def TECH_BUFF_TABLE(self) -> TechBuffTable:
-        if not self.tech_buff_table_:
-            self.tech_buff_table_ = TechBuffTable.convert(
-                CacheData.readExcel('tech_buff_table')
-            )
         return self.tech_buff_table_
+
+    async def tip_table(self) -> None:
+        self.tip_table_ = TipTable.convert(
+            await store.get_excel("tip_table")
+        )
 
     @property
     def TIP_TABLE(self) -> TipTable:
-        if not self.tip_table_:
-            self.tip_table_ = TipTable.convert(
-                CacheData.readExcel('tip_table')
-            )
         return self.tip_table_
 
+    async def token_table(self) -> None:
+        self.token_table_ = TokenTable.convert(
+            {"tokens": await store.get_excel("token_table")}
+        )
+
     @property
-    def TOKEN_TABLE(self) -> Dict[str, TokenCharacterData]:
-        if not self.token_table_:
-            self.token_table_ = msgjson.decode(
-                CacheData.readBytesExcel('token_table'),
-                type=Dict[str, TokenCharacterData]
-            )
+    def TOKEN_TABLE(self) -> TokenTable:
         return self.token_table_
+
+    async def uniequip_data(self) -> None:
+        self.uniequip_data_ = UniequipData.convert(
+            await store.get_excel("uniequip_data")
+        )
 
     @property
     def UNIEQUIP_DATA(self) -> UniequipData:
-        if not self.uniequip_data_:
-            self.uniequip_data_ = UniequipData.convert(
-                CacheData.readExcel('uniequip_data')
-            )
         return self.uniequip_data_
+
+    async def uniequip_table(self) -> None:
+        self.uniequip_table_ = UniEquipTable.convert(
+            await store.get_excel("uniequip_table")
+        )
 
     @property
     def UNIEQUIP_TABLE(self) -> UniEquipTable:
-        if not self.uniequip_table_:
-            self.uniequip_table_ = UniEquipTable.convert(
-                CacheData.readExcel('uniequip_table')
-            )
         return self.uniequip_table_
+
+    async def zone_table(self) -> None:
+        self.zone_table_ = ZoneTable.convert(
+            await store.get_excel("zone_table")
+        )
 
     @property
     def ZONE_TABLE(self) -> ZoneTable:
-        if not self.zone_table_:
-            self.zone_table_ = ZoneTable.convert(
-                CacheData.readExcel('zone_table')
-            )
         return self.zone_table_
 
-    def preload_table(self) -> None:
-        for name, method in inspect.getmembers(self, predicate=inspect.ismethod):
-            if callable(method) and not name.startswith('__') \
-                    and name != 'preload_table':
-                method()
+    async def preload_table(self) -> None:
+        tasks = []
+        for name, method in inspect.getmembers(self):
+            if (
+                inspect.iscoroutinefunction(method)
+                and not name.startswith("__")
+                and name != "preload_table"
+            ):
+                await method()
+        await asyncio.gather(*tasks)
 
 
 Excel = ExcelTableManager()

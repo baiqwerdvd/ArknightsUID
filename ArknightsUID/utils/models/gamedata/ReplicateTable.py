@@ -1,7 +1,6 @@
 from typing import Dict, List
 from ..common import BaseStruct
 from msgspec import field
-from msgspec import json as msgjson
 
 
 class ItemBundle(BaseStruct):

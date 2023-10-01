@@ -34,7 +34,7 @@ build-backend = "pdm.backend"
 
 [tool.black]
 line-length = 108
-target-version = ["py311"]
+target-version = ["py38"]
 include = '\.pyi?$'
 skip-string-normalization = true
 extend-exclude = '''
@@ -60,4 +60,4 @@ select = ["E", "W", "F", "UP", "C", "T", "PYI", "PT", "Q"]
 ignore = ["C901", "Q000"]
 
 line-length = 108
-target-version = ["py38", "py39", "py310", "py311"]
+target-version = "py38"

@@ -1,6 +1,5 @@
 from typing import Dict
 from ..common import BaseStruct
-from msgspec import json as msgjson
 
 
 class HandbookTeam(BaseStruct):

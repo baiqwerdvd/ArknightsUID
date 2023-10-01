@@ -30,9 +30,9 @@ class GachaDataCarouselData(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class GachaDataRecruitRange(BaseStruct):
@@ -92,8 +92,8 @@ class GachaPoolClientData(BaseStruct):
     guarantee5Count: int
     LMTGSID: Union[str, None]
     openTime: int
-    dynMeta: Union[Dict[str, object], None, None] = None
-    linkageParam: Union[Dict[str, object], None, None] = None
+    dynMeta: Union[Dict[str, object], None] = None
+    linkageParam: Union[Dict[str, object], None] = None
     linkageRuleId: Union[str, None] = None
 
 
@@ -129,7 +129,7 @@ class GachaDataFesGachaPoolRelateItem(BaseStruct):
 
 
 class GachaTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = "23-07-27-18-50-06-aeb568"
 
     gachaTags: List[GachaTag]
     carousel: List[GachaDataCarouselData]

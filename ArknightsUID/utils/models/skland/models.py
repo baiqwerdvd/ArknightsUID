@@ -416,7 +416,7 @@ class BuildingTraining(Struct):
     lastUpdateTime: int
     remainSecs: int
     slotState: int
-    trainee: Union[BuildingTrainingTrainee, None] 
+    trainee: Union[BuildingTrainingTrainee, None]
     trainer: Union[BuildingTrainingTrainer, None]
 
 

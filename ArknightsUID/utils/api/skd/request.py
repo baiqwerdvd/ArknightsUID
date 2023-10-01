@@ -3,7 +3,7 @@ import hashlib
 import json
 import time
 import hmac
-from typing import Any, ClassVar, Dict, Literal, Tuple, Union, cast
+from typing import Any, Dict, Literal, Tuple, Union, cast
 from urllib.parse import urlparse
 
 import msgspec
@@ -250,7 +250,7 @@ class BaseArkApi:
         header["dId"] = dId
         logger.debug(header)
         return header
-    
+
     async def ark_request(
         self,
         url: str,
@@ -298,7 +298,7 @@ class BaseArkApi:
             raw_data = {}
             if 'cred' not in header:
                 return 10001
-            
+
             async with client.request(
                 method=method,
                 url=url,
@@ -318,7 +318,7 @@ class BaseArkApi:
                 # 判断code
                 if raw_data['code'] == 0:
                     return raw_data
-                
+
                 if raw_data['code'] == 10000:
                     # token失效
                     logger.info(f'{url} {raw_data}')

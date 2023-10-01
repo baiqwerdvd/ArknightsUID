@@ -10,7 +10,7 @@ async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
     uid_list = await ArknightsBind.get_uid_list_by_game(user_id, bot_id)
     if uid_list is None:
         return UID_HINT
-    
+
     match = re.search(r'\S+', cred)
     if not match:
         return 'Cred无效!'

@@ -1,5 +1,7 @@
 from typing import Dict, List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -24,7 +26,10 @@ class ClimbTowerSingleTowerData(BaseStruct):
     towerType: str
     levels: List[str]
     hardLevels: Union[List[str], None]
-    taskInfo: Union[List[ClimbTowerSingleTowerDataClimbTowerTaskRewardData], None]
+    taskInfo: Union[
+        List[ClimbTowerSingleTowerDataClimbTowerTaskRewardData],
+        None,
+    ]
     preTowerId: Union[str, None]
     medalId: Union[str, None]
     hiddenMedalId: Union[str, None]
@@ -235,7 +240,7 @@ class MissionGroup(BaseStruct):
 
 
 class ClimbTowerTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     towers: Dict[str, ClimbTowerSingleTowerData]
     levels: Dict[str, ClimbTowerSingleLevelData]

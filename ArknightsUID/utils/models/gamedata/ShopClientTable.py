@@ -1,5 +1,7 @@
 from typing import Dict, List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -22,6 +24,52 @@ class ShopKeeperWord(BaseStruct):
     text: str
 
 
+class ShopRecommendTemplateNormalGiftParam(BaseStruct):
+    showStartTs: int
+    showEndTs: int
+    goodId: str
+    giftPackageName: str
+    price: int
+    logoId: str
+    color: str
+    haveMark: bool
+
+
+class ShopRecommendTemplateNormalSkinParam(BaseStruct):
+    showStartTs: int
+    showEndTs: int
+    skinIds: List[str]
+    skinGroupName: str
+    brandIconId: str
+    colorBack: str
+    colorText: str
+    text: str
+
+
+class ShopRecommendTemplateNormalFurnParam(BaseStruct):
+    showStartTs: int
+    showEndTs: int
+    furnPackId: str
+    isNew: bool
+    isPackSell: bool
+    count: int
+    colorBack: str
+    colorText: str
+    actId: Union[str, None] = None
+
+
+class ShopRecommendTemplateReturnSkinParam(BaseStruct):
+    showStartTs: int
+    showEndTs: int
+
+
+class ShopRecommendTemplateParam(BaseStruct):
+    normalGiftParam: Union[ShopRecommendTemplateNormalGiftParam, None] = None
+    normalSkinParam: Union[ShopRecommendTemplateNormalSkinParam, None] = None
+    normalFurnParam: Union[ShopRecommendTemplateNormalFurnParam, None] = None
+    returnSkinParam: Union[ShopRecommendTemplateReturnSkinParam, None] = None
+
+
 class ShopRecommendItem(BaseStruct):
     tagId: str
     displayType: str
@@ -32,6 +80,8 @@ class ShopRecommendItem(BaseStruct):
     endDatetime: int
     groupList: List[ShopRecommendGroup]
     tagWord: ShopKeeperWord
+    templateType: str
+    templateParam: Union[ShopRecommendTemplateParam, None]
 
 
 class ShopCreditUnlockItem(BaseStruct):
@@ -94,7 +144,7 @@ class LMTGSShopOverlaySchedule(BaseStruct):
 
 
 class ShopClientTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     recommendList: List[ShopRecommendItem]
     creditUnlockGroup: Dict[str, ShopCreditUnlockGroup]

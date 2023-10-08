@@ -1,5 +1,7 @@
 from typing import Dict, List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -238,7 +240,7 @@ class ApProtectZoneInfo(BaseStruct):
 
 
 class StageTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     stages: Dict[str, StageData]
     runeStageGroups: Dict[str, RuneStageGroupData]

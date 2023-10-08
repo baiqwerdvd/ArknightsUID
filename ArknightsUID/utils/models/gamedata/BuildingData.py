@@ -1,5 +1,7 @@
 from typing import Dict, List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -247,6 +249,7 @@ class BuildingDataCustomDataFurnitureData(BaseStruct):
     canBeDestroy: bool
     isOnly: int
     quantity: int
+    musicId: str
     interactType: Union[str, None] = None
 
 
@@ -301,7 +304,9 @@ class BuildingDataCustomDataInteractItem(BaseStruct):
     skinId: str
 
 
-class BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData(BaseStruct):
+class BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData(
+    BaseStruct,
+):
     name: str
     sequences: List[str]
     stableSequence: str
@@ -322,9 +327,15 @@ class BuildingDataCustomData(BaseStruct):
     groups: Dict[str, BuildingDataCustomDataGroupData]
     types: Dict[str, BuildingDataCustomDataFurnitureTypeData]
     subTypes: Dict[str, BuildingDataCustomDataFurnitureSubTypeData]
-    defaultFurnitures: Dict[str, List[BuildingDataCustomDataDormitoryDefaultFurnitureItem]]
+    defaultFurnitures: Dict[
+        str,
+        List[BuildingDataCustomDataDormitoryDefaultFurnitureItem],
+    ]
     interactGroups: Dict[str, List[BuildingDataCustomDataInteractItem]]
-    diyUISortTemplates: Dict[str, Dict[str, BuildingDataCustomDataDiyUISortTemplateListData]]
+    diyUISortTemplates: Dict[
+        str,
+        Dict[str, BuildingDataCustomDataDiyUISortTemplateListData],
+    ]
 
 
 class BuildingDataManufactFormulaUnlockRoom(BaseStruct):
@@ -407,12 +418,10 @@ class BuildingDataCreditFormulaValueModel(BaseStruct):
 class BuildingDataCreditFormula(BaseStruct):
     initiative: Dict
     passive: Dict
-    # initiative: Union[BuildingDataCreditFormulaValueModel, Dict]
-    # passive: Union[BuildingDataCreditFormulaValueModel, Dict]
 
 
 class BuildingData(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     controlSlotId: str
     meetingSlotId: str

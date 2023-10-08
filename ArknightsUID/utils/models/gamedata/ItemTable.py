@@ -1,5 +1,7 @@
 from typing import Dict, List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -55,21 +57,27 @@ class ExpItemFeature(BaseStruct):
     gainExp: int
 
 
+class ItemDataVoucherRelateInfo(BaseStruct):
+    voucherId: str
+    voucherItemType: str
+
+
 class ItemData(BaseStruct):
     itemId: str
     name: str
-    description: Union[str, None]
     rarity: int
     iconId: str
-    overrideBkg: None
-    stackIconId: Union[str, None]
     sortId: int
-    usage: Union[str, None]
-    obtainApproach: Union[str, None]
     classifyType: str
     itemType: str
-    stageDropList: List[ItemDataStageDropInfo]
-    buildingProductList: List[ItemDataBuildingProductInfo]
+    stageDropList: List[Union[ItemDataStageDropInfo, None]] = []
+    buildingProductList: List[Union[ItemDataBuildingProductInfo, None]] = []
+    voucherRelateList: List[Union[ItemDataVoucherRelateInfo, None]] = []
+    overrideBkg: Union[str, None] = None
+    usage: Union[str, None] = None
+    description: Union[str, None] = None
+    stackIconId: Union[str, None] = None
+    obtainApproach: Union[str, None] = None
     hideInItemGet: Union[bool, None] = None
 
 
@@ -90,7 +98,7 @@ class ServerItemReminderInfo(BaseStruct):
 
 
 class ItemTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     activityPotentialCharacters: Dict[str, ActivityPotentialCharacterInfo]
     apSupplies: Dict[str, ApSupplyFeature]

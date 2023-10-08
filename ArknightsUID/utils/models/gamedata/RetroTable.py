@@ -1,5 +1,7 @@
 from typing import Dict, List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -287,6 +289,7 @@ class ActivityCustomData(BaseStruct):
     TYPE_ACT17SIDE: Dict[str, Act17sideData]
     TYPE_ACT25SIDE: Dict[str, ActivityCustomDataAct25sideCustomData]
     TYPE_ACT20SIDE: Dict[str, ActivityCustomDataAct20sideCustomData]
+    TYPE_ACT21SIDE: Dict[str, None]
 
 
 class RetroTrailRuleData(BaseStruct):
@@ -411,7 +414,7 @@ class RetroStageOverrideInfo(BaseStruct):
 
 
 class RetroTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     customData: ActivityCustomData
     initRetroCoin: int

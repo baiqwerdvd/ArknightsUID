@@ -1,5 +1,7 @@
 from typing import List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -33,6 +35,6 @@ class PackedRuneData(BaseStruct):
 
 
 class TechBuffTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     runes: List[PackedRuneData]

@@ -2,44 +2,44 @@
   "resource": {
     "gamedata": {
       "activity_table.json": {
-        "size": 6058773,
-        "url": "http://182.43.43.40:8765/UploadPic/ca02ede211988b47a47d88f768c111af.json"
+        "size": 6073859,
+        "url": "http://182.43.43.40:8765/UploadPic/a0f1ede97d3319a1bc54aa71f8e0d3b7.json"
       },
       "audio_data.json": {
-        "size": 4041589,
-        "url": "http://182.43.43.40:8765/UploadPic/379639883b45ae4b7351bb5c9ef50233.json"
+        "size": 4148762,
+        "url": "http://182.43.43.40:8765/UploadPic/086fc0b514b092ee4b0848339c0c390b.json"
       },
       "battle_equip_table.json": {
-        "size": 3031743,
-        "url": "http://182.43.43.40:8765/UploadPic/734751c40d12ec638e1cd4ba25a3f53e.json"
+        "size": 3127845,
+        "url": "http://182.43.43.40:8765/UploadPic/8b3cfa00047fa4f9f852a680ce12d68a.json"
       },
       "building_data.json": {
-        "size": 3630102,
-        "url": "http://182.43.43.40:8765/UploadPic/6ce85982090ce56868a99cd5b9123a68.json"
+        "size": 3751638,
+        "url": "http://182.43.43.40:8765/UploadPic/004cc0bee9a859b1288ad11d88d6cc92.json"
       },
       "campaign_table.json": {
-        "size": 382494,
-        "url": "http://182.43.43.40:8765/UploadPic/952e62083418194b3b300797e8cce07e.json"
+        "size": 383164,
+        "url": "http://182.43.43.40:8765/UploadPic/d4ce0f19d3dbbe30e1047193cb93368c.json"
       },
       "chapter_table.json": {
         "size": 971,
-        "url": "http://182.43.43.40:8765/UploadPic/37811c39da5a5982909814c1ff30bd5f.json"
+        "url": "http://182.43.43.40:8765/UploadPic/93372e99a20ee65da8835e7ab14cd0ae.json"
       },
       "character_table.json": {
-        "size": 10452279,
-        "url": "http://182.43.43.40:8765/UploadPic/9e05a1615dce99ed63275c39b80a0075.json"
+        "size": 10590926,
+        "url": "http://182.43.43.40:8765/UploadPic/31c6cfc69ca4b5efe5f2aaeb361dc0a5.json"
       },
       "charm_table.json": {
         "size": 115959,
         "url": "http://182.43.43.40:8765/UploadPic/531ca7c8a0e50ce887cb82c53bfc1735.json"
       },
       "charword_table.json": {
-        "size": 8074944,
-        "url": "http://182.43.43.40:8765/UploadPic/f6dd33d18c18b9a604a9da3d061f468c.json"
+        "size": 8185744,
+        "url": "http://182.43.43.40:8765/UploadPic/a8fd59b7bba9cf3ab8e8ba20ee1d7d9b.json"
       },
       "char_meta_table.json": {
-        "size": 68701,
-        "url": "http://182.43.43.40:8765/UploadPic/92ccb17b677a7c45ccd0d2ba1a47ba97.json"
+        "size": 68999,
+        "url": "http://182.43.43.40:8765/UploadPic/e6916f811f3cf9106dc93c952b501605.json"
       },
       "char_patch_table.json": {
         "size": 32184,
@@ -62,28 +62,28 @@
         "url": "http://182.43.43.40:8765/UploadPic/e0ae91a98b61c08815e7cee46d6db028.json"
       },
       "display_meta_table.json": {
-        "size": 45602,
-        "url": "http://182.43.43.40:8765/UploadPic/2d6d23ae655c3f21845b5ed867a5b581.json"
+        "size": 47570,
+        "url": "http://182.43.43.40:8765/UploadPic/e2e1b6bc43b67c1f167d802ba9a737ea.json"
       },
       "enemy_handbook_table.json": {
-        "size": 1013166,
-        "url": "http://182.43.43.40:8765/UploadPic/666dadfd65d9a33e7bb30bb33e83a05b.json"
+        "size": 1039110,
+        "url": "http://182.43.43.40:8765/UploadPic/e14f75361e65108bb2f5243f7b1270b9.json"
       },
       "favor_table.json": {
         "size": 39045,
         "url": "http://182.43.43.40:8765/UploadPic/a2aad37d3f67ffae35ce18aaba24898a.json"
       },
       "gacha_table.json": {
-        "size": 242650,
-        "url": "http://182.43.43.40:8765/UploadPic/e924b4bd3c8b4c979824dd6c20d70ca6.json"
+        "size": 245310,
+        "url": "http://182.43.43.40:8765/UploadPic/b6bb888244e34863e01c2f415d4867e5.json"
       },
       "gamedata_const.json": {
-        "size": 48781,
-        "url": "http://182.43.43.40:8765/UploadPic/9a03b2dac8b88e623576505ec0fc1202.json"
+        "size": 49035,
+        "url": "http://182.43.43.40:8765/UploadPic/b4c46b3446b303750618749edd76abe0.json"
       },
       "handbook_info_table.json": {
-        "size": 3759461,
-        "url": "http://182.43.43.40:8765/UploadPic/405a039b90274d8015336d84b3fded72.json"
+        "size": 3831976,
+        "url": "http://182.43.43.40:8765/UploadPic/ad15a21aca6c0d4b75fa4e1bd6707a79.json"
       },
       "handbook_table.json": {
         "size": 17270,
@@ -94,20 +94,20 @@
         "url": "http://182.43.43.40:8765/UploadPic/eb15c058fb2607fd149146b47b0657a3.json"
       },
       "item_table.json": {
-        "size": 1010888,
-        "url": "http://182.43.43.40:8765/UploadPic/1f27a07800ebb2d9a25eead50fb8f380.json"
+        "size": 1040831,
+        "url": "http://182.43.43.40:8765/UploadPic/351a4853e13a2ff7c54e7e6002195646.json"
       },
       "medal_table.json": {
-        "size": 935542,
-        "url": "http://182.43.43.40:8765/UploadPic/e2beecafdb5f062084252d86c88c8887.json"
+        "size": 944151,
+        "url": "http://182.43.43.40:8765/UploadPic/64ba969ce848d8978396f912c7c13b66.json"
       },
       "mission_table.json": {
-        "size": 605772,
-        "url": "http://182.43.43.40:8765/UploadPic/56c25cd7e4d3a066db26147ec813ae91.json"
+        "size": 615067,
+        "url": "http://182.43.43.40:8765/UploadPic/e462b6ea559050bc90d74f194cd778e4.json"
       },
       "open_server_table.json": {
-        "size": 140679,
-        "url": "http://182.43.43.40:8765/UploadPic/409ed506ad8384719284aa1bdd4f0922.json"
+        "size": 148892,
+        "url": "http://182.43.43.40:8765/UploadPic/b025b4ed419d97af9a3f355e3ff611f8.json"
       },
       "player_avatar_table.json": {
         "size": 9277,
@@ -122,48 +122,48 @@
         "url": "http://182.43.43.40:8765/UploadPic/808ddd375e78fa52c18746a331e5f3af.json"
       },
       "retro_table.json": {
-        "size": 2813644,
-        "url": "http://182.43.43.40:8765/UploadPic/c870b1c49ff24a5ec2aa40492ee4b3d7.json"
+        "size": 2979414,
+        "url": "http://182.43.43.40:8765/UploadPic/d6fe932d4b7240a842cea2cedff2aaac.json"
       },
       "roguelike_table.json": {
         "size": 493073,
         "url": "http://182.43.43.40:8765/UploadPic/f6d59f951312558c0129b7841746574c.json"
       },
       "roguelike_topic_table.json": {
-        "size": 5699885,
-        "url": "http://182.43.43.40:8765/UploadPic/e5d08eb0896a3e76552baa4fd685e97f.json"
+        "size": 5714268,
+        "url": "http://182.43.43.40:8765/UploadPic/eb9d00b6c99ce7c76896c60a9efd77b4.json"
       },
       "sandbox_table.json": {
         "size": 798748,
         "url": "http://182.43.43.40:8765/UploadPic/5bc662e1bd9a3ddfda37d1b3b765098f.json"
       },
       "shop_client_table.json": {
-        "size": 732952,
-        "url": "http://182.43.43.40:8765/UploadPic/e1dd10935449a82c40bfd7654aca5e54.json"
+        "size": 775150,
+        "url": "http://182.43.43.40:8765/UploadPic/39f38721154e730ee421572a9576049a.json"
       },
       "skill_table.json": {
-        "size": 7641135,
-        "url": "http://182.43.43.40:8765/UploadPic/00fbd465651b3d75c6807404b115351e.json"
+        "size": 7751259,
+        "url": "http://182.43.43.40:8765/UploadPic/9e45ef441a762f3593f660b15e558a73.json"
       },
       "skin_table.json": {
-        "size": 2205554,
-        "url": "http://182.43.43.40:8765/UploadPic/28c8c1de9d67fc2d2a71048063f264c4.json"
+        "size": 2237674,
+        "url": "http://182.43.43.40:8765/UploadPic/b3faf166fe4cf20258e5c0c33326ce14.json"
       },
       "stage_table.json": {
-        "size": 12741944,
-        "url": "http://182.43.43.40:8765/UploadPic/de825c46b6305a7c68cb73033f84ff94.json"
+        "size": 13500695,
+        "url": "http://182.43.43.40:8765/UploadPic/49100618d819fa0ed09071b67dee8aec.json"
       },
       "story_review_meta_table.json": {
         "size": 442837,
         "url": "http://182.43.43.40:8765/UploadPic/467a1bfb27b9b105827330aa75ad1f25.json"
       },
       "story_review_table.json": {
-        "size": 1377869,
-        "url": "http://182.43.43.40:8765/UploadPic/6df7cd52f7907e26fff280c2f8d1fe35.json"
+        "size": 1412606,
+        "url": "http://182.43.43.40:8765/UploadPic/82def473c33916cd6bcc446dce6cbf93.json"
       },
       "story_table.json": {
-        "size": 1060689,
-        "url": "http://182.43.43.40:8765/UploadPic/5a7a93e2219e135dd236aa5c3743fcd7.json"
+        "size": 1084715,
+        "url": "http://182.43.43.40:8765/UploadPic/6cfdfc4f03b2ded83ed821c5f6a8ec97.json"
       },
       "tech_buff_table.json": {
         "size": 12123,
@@ -182,12 +182,12 @@
         "url": "http://182.43.43.40:8765/UploadPic/1d89fb12977515ccb0887b391a781928.json"
       },
       "uniequip_table.json": {
-        "size": 1748170,
-        "url": "http://182.43.43.40:8765/UploadPic/9dc60db540be32c8416765505a5054ce.json"
+        "size": 1803714,
+        "url": "http://182.43.43.40:8765/UploadPic/66690ea4301738ea5f72c3d6f19a88c1.json"
       },
       "zone_table.json": {
-        "size": 213130,
-        "url": "http://182.43.43.40:8765/UploadPic/fd68fa523fdd65c2b34c715be8cf5281.json"
+        "size": 238807,
+        "url": "http://182.43.43.40:8765/UploadPic/db9bbeb891e1d72d1a1b2f8e3d4bd72a.json"
       }
     }
   }

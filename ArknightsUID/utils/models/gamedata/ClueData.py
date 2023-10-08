@@ -1,4 +1,5 @@
 from typing import List
+
 from ..common import BaseStruct
 
 
@@ -20,7 +21,7 @@ class MeetingClueDataReceiveTimeBonus(BaseStruct):
 
 
 class ClueData(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     clues: List[MeetingClueDataClueData]
     clueTypes: List[MeetingClueDataClueTypeData]

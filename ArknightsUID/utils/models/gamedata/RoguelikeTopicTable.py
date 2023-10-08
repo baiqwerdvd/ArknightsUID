@@ -1,5 +1,7 @@
 from typing import Dict, List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -139,6 +141,13 @@ class RoguelikeTopicMonthSquad(BaseStruct):
     taskDes: Union[str, None]
 
 
+class RoguelikeTopicChallengeTask(BaseStruct):
+    taskId: str
+    taskDes: str
+    completionClass: str
+    completionParams: List[str]
+
+
 class RoguelikeTopicChallenge(BaseStruct):
     challengeId: str
     sortId: int
@@ -150,9 +159,8 @@ class RoguelikeTopicChallenge(BaseStruct):
     challengeUnlockToastDesc: Union[str, None]
     challengeDes: str
     challengeConditionDes: List[str]
-    taskDes: str
-    completionClass: str
-    completionParams: List[str]
+    challengeTasks: Dict[str, RoguelikeTopicChallengeTask]
+    defaultTaskId: str
     rewards: List[ItemBundle]
 
 
@@ -179,6 +187,7 @@ class RoguelikeTopicDifficulty(BaseStruct):
     isHard: bool
     unlockText: Union[str, None]
     displayIconId: Union[str, None]
+    hideEndingStory: bool
 
 
 class RoguelikeTopicBankReward(BaseStruct):
@@ -312,6 +321,7 @@ class RoguelikeArchiveComponentData(BaseStruct):
     buff: ActArchiveBuffData
     totem: Union[ActArchiveTotemData, None]
     chaos: Union[ActArchiveChaosData, None]
+    challengeBook: Dict[str, Dict[str, None]]
 
 
 class RoguelikeArchiveUnlockCondDesc(BaseStruct):
@@ -380,6 +390,7 @@ class RoguelikeGameInitData(BaseStruct):
     modeId: str
     modeGrade: int
     predefinedId: Union[str, None]
+    predefinedStyle: Union[str, None]
     initialBandRelic: List[str]
     initialRecruitGroup: Union[List[str], None]
     initialHp: int
@@ -628,6 +639,7 @@ class RoguelikeGameConst(BaseStruct):
     relicDesc: Union[str, None]
     buffDesc: Union[str, None]
     portalZones: List[str]
+    exploreExpOnKill: Union[str, None]
 
 
 class RoguelikeTopicCapsule(BaseStruct):
@@ -714,6 +726,11 @@ class RoguelikeDifficultyUpgradeRelicGroupData(BaseStruct):
     relicData: List[RoguelikeDifficultyUpgradeRelicData]
 
 
+class RoguelikePredefinedStyleData(BaseStruct):
+    styleId: str
+    styleConfig: int
+
+
 class RoguelikeTopicDetail(BaseStruct):
     updates: List[RoguelikeTopicUpdate]
     enrolls: Dict[str, RoguelikeTopicEnroll]
@@ -757,7 +774,12 @@ class RoguelikeTopicDetail(BaseStruct):
     bandRef: Dict[str, RoguelikeBandRefData]
     endingDetailList: List[RoguelikeEndingDetailText]
     treasures: Dict[str, List[RoguelikeGameTreasureData]]
-    difficultyUpgradeRelicGroups: Dict[str, RoguelikeDifficultyUpgradeRelicGroupData]
+    difficultyUpgradeRelicGroups: Dict[
+        str,
+        RoguelikeDifficultyUpgradeRelicGroupData,
+    ]
+    styleConfig: Dict[str, RoguelikePredefinedStyleData]
+    styles: Union[Dict[str, RoguelikePredefinedStyleData], None] = {}
 
 
 class RoguelikeModuleBaseData(BaseStruct):

@@ -1,5 +1,7 @@
 from typing import Dict, List
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -19,7 +21,7 @@ class SpCharMissionData(BaseStruct):
 
 
 class CharMetaTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     spCharGroups: Dict[str, List[str]]
     spCharMissions: Dict[str, Dict[str, SpCharMissionData]]

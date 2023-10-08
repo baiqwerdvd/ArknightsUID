@@ -1,12 +1,14 @@
-from typing import Dict, Union, List
+from typing import Dict, List, Union
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
 class ZoneData(BaseStruct):
     zoneID: str
     zoneIndex: int
-    type: str
+    type_: str = field(name='type')
     zoneNameFirst: Union[str, None]
     zoneNameSecond: Union[str, None]
     zoneNameTitleCurrent: Union[str, None]
@@ -99,7 +101,7 @@ class ZoneMetaData(BaseStruct):
 
 
 class ZoneTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     zones: Dict[str, ZoneData]
     weeklyAdditionInfo: Dict[str, WeeklyZoneData]

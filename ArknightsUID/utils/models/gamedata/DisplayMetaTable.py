@@ -1,5 +1,7 @@
 from typing import Dict, List
+
 from ..common import BaseStruct
+
 from msgspec import field
 
 
@@ -49,6 +51,18 @@ class HomeBackgroundThemeData(BaseStruct):
     tmUsage: str
     obtainApproach: str
     unlockDesList: List[str]
+    isLimitObtain: bool
+
+
+class ThemeLimitInfo(BaseStruct):
+    startTime: int
+    endTime: int
+    invalidObtainDesc: str
+
+
+class HomeBackgroundThemeLimitData(BaseStruct):
+    id_: str = field(name='id')
+    limitInfos: List[ThemeLimitInfo]
 
 
 class HomeBackgroundData(BaseStruct):
@@ -56,12 +70,13 @@ class HomeBackgroundData(BaseStruct):
     defaultThemeId: str
     homeBgDataList: List[HomeBackgroundSingleData]
     themeList: List[HomeBackgroundThemeData]
+    themeLimitData: Dict[str, HomeBackgroundThemeLimitData]
     defaultBgMusicId: str
     themeStartTime: int
 
 
 class DisplayMetaTable(BaseStruct):
-    __version__ = '23-07-27-18-50-06-aeb568'
+    __version__ = '23-09-29-15-41-03-569cae'
 
     playerAvatarData: PlayerAvatarData
     homeBackgroundData: HomeBackgroundData

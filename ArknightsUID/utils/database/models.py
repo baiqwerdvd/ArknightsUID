@@ -1,10 +1,19 @@
-from typing import Dict, Literal, Optional, Type, Union
+from typing import Dict, List, Literal, Optional, Type, TypeVar, Union
 
-from gsuid_core.utils.database.base_models import Bind, Push, T_BaseIDModel, User, with_session, BaseModel
+from gsuid_core.utils.database.base_models import (
+    BaseModel,
+    Bind,
+    Push,
+    T_BaseIDModel,
+    User,
+    with_session,
+)
 from gsuid_core.webconsole.mount_app import GsAdminModel, PageSchema, site
-from sqlmodel import Field
-from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
+from sqlmodel import Field
+
+T_ARK_User = TypeVar("T_ARK_User", bound="ArknightsUser")
 
 
 class ArknightsBind(Bind, table=True):
@@ -20,23 +29,31 @@ class ArknightsUser(User, table=True):
     @classmethod
     @with_session
     async def select_data_by_cred(
-        cls,
-        session: AsyncSession,
-        cred: str
+        cls, session: AsyncSession, cred: str
     ) -> Union[BaseModel, None]:
-        sql= select(cls).where(cls.cred == cred)
+        sql = select(cls).where(cls.cred == cred)
         result = await session.execute(sql)
         data = result.scalars().all()
         return data[0] if data else None
 
     @classmethod
+    @with_session
+    async def get_all_user(
+        cls: Type[T_ARK_User], session: AsyncSession
+    ) -> List[T_ARK_User]:
+        sql = select(cls).where(cls.cred is not None, cls.cred != "")
+        result = await session.execute(sql)
+        data: List[T_ARK_User] = result.scalars().all()
+        return data
+
+    @classmethod
     async def get_token_by_cred(cls, cred: str) -> Union[str, None]:
-        result =  await cls.select_data_by_cred(cred)
+        result = await cls.select_data_by_cred(cred)
         return getattr(result, 'token') if result else None
 
     @classmethod
     async def get_uid_by_cred(cls, cred: str) -> Union[str, None]:
-        result =  await cls.select_data_by_cred(cred)
+        result = await cls.select_data_by_cred(cred)
         return getattr(result, 'uid') if result else None
 
     @classmethod
@@ -53,6 +70,10 @@ class ArknightsUser(User, table=True):
             )
         return not bool(retcode)
 
+    @classmethod
+    async def update_user_data(cls, uid: str, data: Dict = {}):
+        return await cls.update_data_by_uid(uid, cls.bot_id, None, **data)
+
 
 class ArknightsPush(Push, table=True):
     uid: Union[str, None] = Field(default=None, title='明日方舟UID')
@@ -62,20 +83,22 @@ class ArknightsPush(Push, table=True):
     ap_is_push: Union[bool, None] = Field(default=False, title='理智是否已经推送')
     training_push: Union[bool, None] = Field(default=False, title='训练室推送')
     training_value: Union[int, None] = Field(default=30, title='训练室推送阈值')
-    training_is_push: Union[bool, None] = Field(default=False, title='训练室是否已经推送')
+    training_is_push: Union[bool, None] = Field(
+        default=False, title='训练室是否已经推送'
+    )
 
     @classmethod
-    async def insert_push_data(cls, uid: str, skd_uid: str):
+    async def insert_push_data(cls, bot_id: str, uid: str, skd_uid: str):
         await cls.full_insert_data(
-            bot_id=cls.bot_id,
+            bot_id=bot_id,
             uid=uid,
             skd_uid=skd_uid,
-            ap_push=False,
-            ap_value=2100,
+            ap_push=True,
+            ap_value=110,
             ap_is_push=False,
             training_push=True,
             training_value=140,
-            training_is_push=False
+            training_is_push=False,
         )
 
     @classmethod

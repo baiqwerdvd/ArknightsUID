@@ -2,6 +2,7 @@ import asyncio
 import random
 from copy import deepcopy
 from datetime import datetime
+from typing import List
 
 from gsuid_core.gss import gss
 from gsuid_core.logger import logger
@@ -114,13 +115,15 @@ async def daily_sign():
     global already  # noqa: PLW0603
     tasks = []
     for _ in gss.active_bot:
-        user_list = await ArknightsUser.get_all_user()
+        user_list: List[ArknightsUser] = await ArknightsUser.get_all_user()
+        logger.info(f'[ARK签到] 共有{len(user_list)}个用户需要签到')
+        logger.info(f'[ARK签到] {user_list}')
         for user in user_list:
-            if user.sign_switch != 'off' and user.ark_uid is not None:
+            if user.sign_switch != 'off' and user.uid is not None:
                 tasks.append(
                     single_daily_sign(
                         user.bot_id,
-                        user.ark_uid,
+                        user.uid,
                         user.sign_switch,
                         user.user_id,
                     )

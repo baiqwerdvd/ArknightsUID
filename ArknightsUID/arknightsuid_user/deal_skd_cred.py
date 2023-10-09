@@ -1,8 +1,11 @@
 import re
-from ..utils.ark_api import ark_skd_api
-from ..utils.database.models import ArknightsBind, ArknightsUser
 
-ERROR_HINT = '添加失败, 格式为: skd添加cred Cred 例如: skd添加cred VropL583Sb1hClS5buQ4nSASkDlL8tMT'
+from ..utils.ark_api import ark_skd_api
+from ..utils.database.models import ArknightsBind, ArknightsPush, ArknightsUser
+
+ERROR_HINT = (
+    '添加失败, 格式为: skd添加cred Cred 例如: skd添加cred VropL583Sb1hClS5buQ4nSASkDlL8tMT'
+)
 UID_HINT = '添加失败, 请先绑定明日方舟UID'
 
 
@@ -18,7 +21,9 @@ async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
     # refresh token
     token = await ark_skd_api.refresh_token(match.group())
 
-    check_cred = await ark_skd_api.check_cred_valid(cred=match.group(), token=token)
+    check_cred = await ark_skd_api.check_cred_valid(
+        cred=match.group(), token=token
+    )
 
     if isinstance(check_cred, bool):
         return 'Cred无效!'
@@ -30,10 +35,25 @@ async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
 
     # 检查是否已经绑定过 Cred, 如果有的话就 update
     skd_data = await ArknightsUser.select_data_by_uid(uid)
+    push_data = await ArknightsPush.select_data_by_uid(uid)
     if not skd_data:
-        await ArknightsUser.insert_data(user_id, bot_id,
-                                        cred=match.group(), uid=uid, skd_uid=skd_uid, token=token)
+        await ArknightsUser.insert_data(
+            user_id,
+            bot_id,
+            cred=match.group(),
+            uid=uid,
+            skd_uid=skd_uid,
+            token=token,
+        )
     else:
-        await ArknightsUser.update_data(user_id, bot_id,
-                                        cred=match.group(), uid=uid, skd_uid=skd_uid, token=token)
+        await ArknightsUser.update_data(
+            user_id,
+            bot_id,
+            cred=match.group(),
+            uid=uid,
+            skd_uid=skd_uid,
+            token=token,
+        )
+    if not push_data:
+        await ArknightsPush.insert_push_data(bot_id, uid=uid, skd_uid=skd_uid)
     return '添加成功!'

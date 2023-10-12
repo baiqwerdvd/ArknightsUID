@@ -1,8 +1,8 @@
 from typing import Dict, List, Union
 
-from ..common import BaseStruct
-
 from msgspec import field
+
+from ..common import BaseStruct
 
 
 class ItemBundle(BaseStruct):
@@ -145,7 +145,7 @@ class CampaignTrainingAllOpenTimeData(BaseStruct):
 
 
 class CampaignTable(BaseStruct):
-    __version__ = '23-09-29-15-41-03-569cae'
+    __version__ = '23-10-08-17-52-18-288259'
 
     campaigns: Dict[str, CampaignData]
     campaignGroups: Dict[str, CampaignGroupData]

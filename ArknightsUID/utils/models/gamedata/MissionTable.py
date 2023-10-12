@@ -1,8 +1,8 @@
 from typing import Dict, List, Union
 
-from ..common import BaseStruct
-
 from msgspec import field
+
+from ..common import BaseStruct
 
 
 class MissionDisplayRewards(BaseStruct):
@@ -78,7 +78,7 @@ class MissionData(BaseStruct):
 
 
 class MissionTable(BaseStruct):
-    __version__ = '23-09-29-15-41-03-569cae'
+    __version__ = '23-10-08-17-52-18-288259'
 
     missions: Dict[str, MissionData]
     missionGroups: Dict[str, MissionGroup]

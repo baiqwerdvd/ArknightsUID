@@ -218,9 +218,7 @@ class ExcelTableManager:
         return self.climb_tower_table_
 
     async def clue_data(self) -> None:
-        self.clue_data_ = ClueData.convert(
-            await store.get_excel("clue_data")
-        )
+        self.clue_data_ = ClueData.convert(await store.get_excel("clue_data"))
 
     @property
     def CLUE_DATA(self) -> ClueData:
@@ -354,7 +352,7 @@ class ExcelTableManager:
 
     async def range_table(self) -> None:
         self.range_table_ = RangeTable.convert(
-            {"range": await store.get_excel("range_table")}
+            {"range_": await store.get_excel("range_table")}
         )
 
     @property
@@ -479,9 +477,7 @@ class ExcelTableManager:
         return self.tech_buff_table_
 
     async def tip_table(self) -> None:
-        self.tip_table_ = TipTable.convert(
-            await store.get_excel("tip_table")
-        )
+        self.tip_table_ = TipTable.convert(await store.get_excel("tip_table"))
 
     @property
     def TIP_TABLE(self) -> TipTable:

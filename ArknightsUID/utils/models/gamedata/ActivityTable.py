@@ -1,8 +1,8 @@
 from typing import Any, Dict, List, Union
 
-from ..common import BaseStruct
-
 from msgspec import field
+
+from ..common import BaseStruct
 
 
 class ActivityTableBasicData(BaseStruct):
@@ -2452,7 +2452,7 @@ class ActivityTableExtraData(BaseStruct):
 
 
 class ActivityTable(BaseStruct):
-    __version__ = '23-09-29-15-41-03-569cae'
+    __version__ = '23-10-08-17-52-18-288259'
 
     basicInfo: Dict[str, ActivityTableBasicData]
     homeActConfig: Dict[str, ActivityTableHomeActivityConfig]

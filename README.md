@@ -26,6 +26,11 @@
 
 ## 丨功能
 
+<details><summary>ark每日 - 命令: arkmr</summary><p>
+<img src="https://s2.loli.net/2023/10/30/atoCVXFJisMZIAu.jpg"/> 
+</p></details>
+
+以及签到 & 体力推送等..
 
 ## 丨其他
 

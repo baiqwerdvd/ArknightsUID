@@ -1,7 +1,7 @@
 # ArknightsUID
 
 <p align="center">
-  <a href="https://github.com/qwerdvd/ArknightsUID"><img src="https://s2.loli.net/2023/10/30/eFZmkfrni9bBjdV.png" width="256" height="256" alt="StarRailUID"></a>
+  <a href="https://github.com/qwerdvd/ArknightsUID"><img src="https://s2.loli.net/2023/10/30/eFZmkfrni9bBjdV.png" width="256" height="256" alt="ArknightsUID"></a>
 </p>
 <h1 align = "center">ArknightsUID 0.1</h1>
 <h4 align = "center">🚧支持OneBot(QQ)、QQ频道、微信、开黑啦、Telegram的全功能星铁Bot插件🚧</h4>

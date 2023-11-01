@@ -1,14 +1,14 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class GameDataConstsCharAssistRefreshTimeState(BaseStruct):
@@ -23,7 +23,7 @@ class TermDescriptionData(BaseStruct):
 
 
 class GamedataConst(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     addedRewardDisplayZone: str
     advancedGachaCrystalCost: int
@@ -41,9 +41,11 @@ class GamedataConst(BaseStruct):
     commonPotentialLvlUpCount: int
     completeCrystalBonus: int
     completeGainBonus: float
+    continuousActionOpen: bool
     creditLimit: int
-    crisisUnlockStage: str
     dataVersion: str
+    defaultMinContinuousBattleTimes: int
+    defaultMaxContinuousBattleTimes: int
     defCDPrimColor: str
     defCDSecColor: str
     defMax: float
@@ -117,3 +119,4 @@ class GamedataConst(BaseStruct):
     isVoucherClassicItemDistinguishable: Union[bool, None] = None
     operatorRecordsStartTime: Union[int, None] = None
     subProfessionDamageTypePairs: Union[Dict[str, int], None] = None
+    crisisUnlockStage: Union[str, None] = None  # Removed in 2.1.21

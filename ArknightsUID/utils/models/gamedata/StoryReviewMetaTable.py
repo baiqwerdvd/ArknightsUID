@@ -1,8 +1,8 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class MiniActTrialDataRuleData(BaseStruct):
@@ -11,9 +11,9 @@ class MiniActTrialDataRuleData(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class MiniActTrialDataMiniActTrialRewardData(BaseStruct):
@@ -38,23 +38,23 @@ class MiniActTrialData(BaseStruct):
 
 
 class ActArchiveResDataPicArchiveResItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     desc: str
     assetPath: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     subType: Union[str, None]
     picDescription: str
     kvId: Union[str, None]
 
 
 class ActArchiveResDataAudioArchiveResItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     desc: str
     name: str
 
 
 class ActArchiveResDataAvgArchiveResItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     desc: str
     breifPath: Union[str, None]
     contentPath: str
@@ -64,7 +64,7 @@ class ActArchiveResDataAvgArchiveResItemData(BaseStruct):
 
 
 class ActArchiveResDataStoryArchiveResItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     desc: str
     date: Union[str, None]
     pic: str
@@ -86,7 +86,7 @@ class ActArchiveResDataActivityNewsLine(BaseStruct):
 
 
 class ActArchiveResDataNewsArchiveResItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     desc: str
     newsType: str
     newsFormat: ActArchiveResDataNewsFormatData
@@ -111,6 +111,13 @@ class ActArchiveResDataLogArchiveResItemData(BaseStruct):
     logDesc: str
 
 
+class ActArchiveResDataChallengeBookArchiveResItemData(BaseStruct):
+    storyId: str
+    titleName: str
+    storyName: str
+    textId: str
+
+
 class ActArchiveResData(BaseStruct):
     pics: Dict[str, ActArchiveResDataPicArchiveResItemData]
     audios: Dict[str, ActArchiveResDataAudioArchiveResItemData]
@@ -119,6 +126,7 @@ class ActArchiveResData(BaseStruct):
     news: Dict[str, ActArchiveResDataNewsArchiveResItemData]
     landmarks: Dict[str, ActArchiveResDataLandmarkArchiveResItemData]
     logs: Dict[str, ActArchiveResDataLogArchiveResItemData]
+    challengeBooks: Dict[str, ActArchiveResDataChallengeBookArchiveResItemData]
 
 
 class ActArchiveTimelineItemData(BaseStruct):
@@ -195,8 +203,17 @@ class ActArchiveChapterLogData(BaseStruct):
     chapterIcon: str
 
 
+class ActArchiveChallengeBookItemData(BaseStruct):
+    storyId: str
+    sortId: int
+
+
+class ActArchiveChallengeBookData(BaseStruct):
+    stories: Dict[str, ActArchiveChallengeBookItemData]
+
+
 class ActArchiveComponentData(BaseStruct):
-    pic: ActArchivePicData
+    pic: Union[ActArchivePicData, None] = None
     timeline: Union[ActArchiveTimelineData, None] = None
     music: Union[ActArchiveMusicData, None] = None
     story: Union[ActArchiveStoryData, None] = None
@@ -204,6 +221,7 @@ class ActArchiveComponentData(BaseStruct):
     news: Union[ActArchiveNewsData, None] = None
     landmark: Union[Dict[str, ActArchiveLandmarkItemData], None] = None
     log: Union[Dict[str, ActArchiveChapterLogData], None] = None
+    challengeBook: Union[ActArchiveChallengeBookData, None] = None
 
 
 class ActArchiveComponentTable(BaseStruct):
@@ -211,7 +229,7 @@ class ActArchiveComponentTable(BaseStruct):
 
 
 class StoryReviewMetaTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     miniActTrialData: MiniActTrialData
     actArchiveResData: ActArchiveResData

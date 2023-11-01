@@ -1,14 +1,14 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class ZoneData(BaseStruct):
     zoneID: str
     zoneIndex: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     zoneNameFirst: Union[str, None]
     zoneNameSecond: Union[str, None]
     zoneNameTitleCurrent: Union[str, None]
@@ -21,7 +21,7 @@ class ZoneData(BaseStruct):
 
 class WeeklyZoneData(BaseStruct):
     daysOfWeek: List[int]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class ZoneValidInfo(BaseStruct):
@@ -47,9 +47,9 @@ class MainlineZoneData(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class RecordRewardInfo(BaseStruct):
@@ -101,7 +101,7 @@ class ZoneMetaData(BaseStruct):
 
 
 class ZoneTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     zones: Dict[str, ZoneData]
     weeklyAdditionInfo: Dict[str, WeeklyZoneData]

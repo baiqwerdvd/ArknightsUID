@@ -1,13 +1,13 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class MissionDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     count: int
 
 
@@ -28,26 +28,26 @@ class MissionWeeklyRewardConf(BaseStruct):
     beginTime: int
     endTime: int
     groupId: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     periodicalPointCost: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     sortIndex: int
     rewards: List[MissionDisplayRewards]
 
 
 class MissionDailyRewardConf(BaseStruct):
     groupId: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     periodicalPointCost: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     sortIndex: int
     rewards: List[MissionDisplayRewards]
 
 
 class MissionGroup(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     title: Union[str, None]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     preMissionGroup: Union[str, None]
     period: Union[List[int], None]
     rewards: Union[List[MissionDisplayRewards], None]
@@ -57,10 +57,10 @@ class MissionGroup(BaseStruct):
 
 
 class MissionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     description: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     itemBgType: str
     preMissionIds: Union[List[str], None]
     template: str
@@ -78,7 +78,7 @@ class MissionData(BaseStruct):
 
 
 class MissionTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     missions: Dict[str, MissionData]
     missionGroups: Dict[str, MissionGroup]

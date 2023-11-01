@@ -1,8 +1,8 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class HandbookUnlockParam(BaseStruct):
@@ -13,9 +13,9 @@ class HandbookUnlockParam(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class HandbookStageTimeData(BaseStruct):
@@ -43,11 +43,11 @@ class HandbookStoryStageData(BaseStruct):
 class HandbookDisplayCondition(BaseStruct):
     charId: str
     conditionCharId: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class HandbookTeamMission(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sort: int
     powerId: str
     powerName: str
@@ -122,7 +122,7 @@ class HandbookInfoData(BaseStruct):
 
 
 class HandbookInfoTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     handbookDict: Dict[str, HandbookInfoData]
     npcDict: Dict[str, NPCData]

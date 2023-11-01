@@ -1,14 +1,14 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class UnlockCondition(BaseStruct):
@@ -39,7 +39,7 @@ class UniEquipData(BaseStruct):
     unlockFavorPercent: int
     missionList: List[str]
     itemCost: Union[List[ItemBundle], None]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     traitDescBundle: List[TraitDescBundle]
 
 
@@ -59,7 +59,7 @@ class SubProfessionData(BaseStruct):
 
 
 class UniequipData(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     equipDict: Dict[str, UniEquipData]
     missionList: Dict[str, UniEquipMissionData]

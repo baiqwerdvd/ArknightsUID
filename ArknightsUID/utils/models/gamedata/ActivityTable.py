@@ -1,13 +1,14 @@
+from enum import Enum
 from typing import Any, Dict, List, Union
-
-from msgspec import field
 
 from ..common import BaseStruct
 
+from msgspec import field
+
 
 class ActivityTableBasicData(BaseStruct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     name: str
     startTime: int
     endTime: int
@@ -31,16 +32,16 @@ class ActivityTableHomeActivityConfig(BaseStruct):
 
 
 class MissionDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     count: int
 
 
 class MissionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     description: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     itemBgType: str
     preMissionIds: Union[List[str], None]
     template: str
@@ -58,9 +59,9 @@ class MissionData(BaseStruct):
 
 
 class MissionGroup(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     title: Union[str, None]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     preMissionGroup: Union[str, None]
     period: Union[List[int], None]
     rewards: Union[List[MissionDisplayRewards], None]
@@ -78,9 +79,9 @@ class DefaultZoneData(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class DefaultShopData(BaseStruct):
@@ -243,7 +244,7 @@ class Act3D0DataLimitedPoolDetailInfoPoolItemInfo(BaseStruct):
     perCount: int
     totalCount: int
     weight: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     orderId: int
 
 
@@ -258,7 +259,7 @@ class Act3D0DataInfinitePoolDetailInfoPoolItemInfo(BaseStruct):
     goodType: str
     perCount: int
     weight: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     orderId: int
 
 
@@ -491,7 +492,7 @@ class RuneData(BaseStruct):
 
 
 class RuneTablePackedRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     mutexGroupKey: Union[str, None]
     description: str
@@ -519,7 +520,7 @@ class Act5D1Data(BaseStruct):
 
 
 class ActivityCollectionDataCollectionInfo(BaseStruct):
-    id_: int = field(name='id')
+    id_: int = field(name="id")
     itemType: str
     itemId: str
     itemCnt: int
@@ -732,7 +733,7 @@ class Act13SideDataLongTermMissionData(BaseStruct):
 
 
 class Act13SideDataDailyMissionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     description: str
     missionName: str
@@ -928,7 +929,7 @@ class Act17sideDataMainlineChapterData(BaseStruct):
     chapterDes: str
     chapterIcon: str
     unlockDes: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
 
 
 class Act17sideDataMainlineData(BaseStruct):
@@ -1171,9 +1172,9 @@ class SharedCharData(BaseStruct):
     evolvePhase: int
     level: int
     favorPoint: int
-    currentEquip: Union[str, None] = field(name='currentEquip', default=None)
+    currentEquip: Union[str, None] = field(name="currentEquip", default=None)
     equips: Union[Dict[str, SharedCharDataCharEquipInfo], None] = field(
-        name='equip',
+        name="equip",
         default={},
     )
     skillIndex: Union[int, None] = None
@@ -1181,6 +1182,7 @@ class SharedCharData(BaseStruct):
     skin: Union[str, None] = None
     skills: Union[List[SharedCharDataSharedCharSkillData], None] = None
     crisisRecord: Union[Dict[str, int], None] = None
+    crisisV2Record: Union[Dict[str, int], None] = None
     currentTmpl: Union[str, None] = None
     tmpl: Union[Dict[str, SharedCharDataTmplData], None] = None
 
@@ -1239,8 +1241,8 @@ class ActivityBossRushDataBossRushStageAdditionData(BaseStruct):
 class ActivityBossRushDataDisplayDetailRewards(BaseStruct):
     occPercent: int
     dropCount: int
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
@@ -1328,6 +1330,7 @@ class ActivityBossRushData(BaseStruct):
 
 class ActivityFloatParadeDataConstData(BaseStruct):
     cityName: str
+    cityNamePic: str
     lowStandard: float
     variationTitle: str
     ruleDesc: str
@@ -1345,15 +1348,15 @@ class ActivityFloatParadeDataDailyData(BaseStruct):
 
 class ActivityFloatParadeDataRewardPool(BaseStruct):
     grpId: str
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     name: str
     desc: Union[str, None]
     reward: ItemBundle
 
 
 class ActivityFloatParadeDataTactic(BaseStruct):
-    id_: int = field(name='id')
+    id_: int = field(name="id")
     name: str
     packName: str
     briefName: str
@@ -1392,7 +1395,7 @@ class ActSandboxData(BaseStruct):
 
 
 class ActivityMainlineBuffDataMissionGroupData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     bindBanner: str
     sortId: int
     zoneId: str
@@ -1408,7 +1411,7 @@ class ActivityMainlineBuffDataPeriodDataStepData(BaseStruct):
 
 
 class ActivityMainlineBuffDataPeriodData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     startTime: int
     endTime: int
     favorUpCharDesc: str
@@ -1508,23 +1511,23 @@ class Act24SideDataMissionExtraData(BaseStruct):
 
 
 class WeightItemBundle(BaseStruct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     dropType: str
     count: int
     weight: int
 
 
 class StageDataDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
 class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
@@ -1596,7 +1599,7 @@ class Act25SideDataArchiveItemData(BaseStruct):
 
 class Act25SideDataArchiveMapInfoData(BaseStruct):
     objectId: str
-    type_: int = field(name='type')
+    type_: int = field(name="type")
     numberId: str
     areaId: str
     sortId: int
@@ -1619,7 +1622,7 @@ class Act25SideDataAreaInfoData(BaseStruct):
 
 
 class Act25SideDataAreaMissionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     areaId: str
     preposedMissionId: Union[str, None]
     sortId: int
@@ -1708,7 +1711,7 @@ class Act38D1DataAct38D1DimensionItemData(BaseStruct):
 
 
 class Act38D1DataAct38D1CommentData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     desc: str
 
@@ -1743,7 +1746,7 @@ class Act38D1Data(BaseStruct):
 
 
 class Act27SideDataAct27SideGoodData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     typeDesc: str
     iconId: str
@@ -1862,7 +1865,7 @@ class Act42D0DataEffectGroupInfoData(BaseStruct):
 
 
 class Act42D0DataEffectInfoRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: int
     mutexGroupKey: Union[str, None]
     description: str
@@ -1946,6 +1949,155 @@ class Act42D0Data(BaseStruct):
     trackPointPeriodData: List[int]
 
 
+class Act29SideFragData(BaseStruct):
+    fragId: str
+    sortId: int
+    fragName: str
+    fragIcon: str
+    fragStoreIcon: str
+
+
+class Act29SideOrcheType(Enum):
+    ORCHE_1 = "ORCHE_1"
+    ORCHE_2 = "ORCHE_2"
+    ORCHE_3 = "ORCHE_3"
+    ENUM = "ENUM"
+
+
+class Act29SideOrcheData(BaseStruct):
+    id_: str = field(name="id")
+    name: str
+    desc: str
+    icon: str
+    sortId: int
+    orcheType: Act29SideOrcheType
+
+
+class Act29SideProductType(Enum):
+    PRODUCT_TYPE_1 = "PRODUCT_TYPE_1"
+    PRODUCT_TYPE_2 = "PRODUCT_TYPE_2"
+    PRODUCT_TYPE_3 = "PRODUCT_TYPE_3"
+    PRODUCT_TYPE_4 = "PRODUCT_TYPE_4"
+    PRODUCT_TYPE_5 = "PRODUCT_TYPE_5"
+    ENUM = "ENUM"
+
+
+class Act29SideProductGroupData(BaseStruct):
+    groupId: str
+    groupName: str
+    groupIcon: str
+    groupDesc: str
+    defaultBgmSignal: str
+    productList: List[str]
+    groupEngName: str
+    groupSmallName: str
+    groupTypeIcon: str
+    groupStoreIconId: str
+    groupTypeBasePic: str
+    groupTypeEyeIcon: str
+    groupSortId: int
+    formList: List[str]
+    sheetId: str
+    sheetNum: int
+    sheetRotateSpd: float
+    productType: Act29SideProductType
+    productDescColor: str
+    playTintColor: str
+    confirmTintColor: str
+    confirmDescColor: str
+    bagThemeColor: str
+
+
+class Act29SideProductData(BaseStruct):
+    id_: str = field(name="id")
+    orcheId: Union[str, None]
+    groupId: str
+    formId: Union[str, None]
+    musicId: str
+
+
+class Act29SideFormData(BaseStruct):
+    formId: str
+    fragIdList: List[str]
+    formDesc: str
+    productIdDict: Dict[str, str]
+    withoutOrcheProductId: str
+    groupId: str
+    formSortId: int
+
+
+class Act29SideInvestResultData(BaseStruct):
+    resultId: str
+    resultTitle: str
+    resultDesc1: str
+    resultDesc2: str
+
+
+class Act29SideInvestType(Enum):
+    MAJOR = "MAJOR"
+    RARE = "RARE"
+    NORMAL = "NORMAL"
+
+
+class Act29SideInvestData(BaseStruct):
+    investId: str
+    investType: Act29SideInvestType
+    investNpcName: str
+    storyId: str
+    investNpcPic: str
+    investNpcAvatarPic: str
+    majorNpcPic: Union[str, None]
+    majorNpcBlackPic: Union[str, None]
+    reward: Union[ItemBundle, None]
+    investSucResultId: Union[str, None]
+    investFailResultId: str
+    investRareResultId: Union[str, None]
+
+
+class Act29SideConstData(BaseStruct):
+    majorInvestUnlockItemName: str
+    wrongTipsTriggerTime: int
+    majorInvestCompleteImgId: str
+    majorInvestUnknownAvatarId: str
+    majorInvestDetailDesc1: str
+    majorInvestDetailDesc2: str
+    majorInvestDetailDesc3: str
+    majorInvestDetailDesc4: str
+    hiddenInvestImgId: str
+    hiddenInvestHeadImgId: str
+    hiddenInvestNpcName: str
+    unlockLevelId: str
+    investResultHint: str
+    investUnlockText: str
+    noOrcheDesc: str
+
+
+class Act29SideZoneAdditionData(BaseStruct):
+    zoneId: str
+    unlockText: str
+
+
+class Act29SideMusicData(BaseStruct):
+    groupId: str
+    orcheId: Union[str, None]
+    musicId: str
+
+
+class Act29SideData(BaseStruct):
+    fragDataMap: Dict[str, Act29SideFragData]
+    orcheDataMap: Dict[str, Act29SideOrcheData]
+    productGroupDataMap: Dict[str, Act29SideProductGroupData]
+    productDataMap: Dict[str, Act29SideProductData]
+    formDataMap: Dict[str, Act29SideFormData]
+    investResultDataMap: Dict[str, Act29SideInvestResultData]
+    investDataMap: Dict[str, Act29SideInvestData]
+    majorInvestIdList: List[str]
+    rareInvestIdList: List[str]
+    constData: Act29SideConstData
+    zoneAdditionDataMap: Dict[str, Act29SideZoneAdditionData]
+    musicDataMap: List[Act29SideMusicData]
+
+
 class ActivityTableActivityDetailTable(BaseStruct):
     DEFAULT: Dict[str, DefaultFirstData]
     CHECKIN_ONLY: Dict[str, DefaultCheckInData]
@@ -1962,6 +2114,7 @@ class ActivityTableActivityDetailTable(BaseStruct):
     TYPE_ACT17SIDE: Dict[str, Act17sideData]
     TYPE_ACT20SIDE: Dict[str, Act20SideData]
     TYPE_ACT21SIDE: Dict[str, Act21SideData]
+    TYPE_ACT29SIDE: Dict[str, Act29SideData]
     LOGIN_ONLY: Dict[str, ActivityLoginData]
     SWITCH_ONLY: Dict[str, ActivitySwitchCheckinData]
     MINISTORY: Dict[str, ActivityMiniStoryData]
@@ -1974,9 +2127,9 @@ class ActivityTableActivityDetailTable(BaseStruct):
     MAIN_BUFF: Dict[str, ActivityMainlineBuffData]
     TYPE_ACT24SIDE: Dict[str, Act24SideData]
     TYPE_ACT25SIDE: Dict[str, Act25SideData]
-    TYPE_ACT38D1: Dict[str, Act38D1Data]
     TYPE_ACT27SIDE: Dict[str, Act27SideData]
     TYPE_ACT42D0: Dict[str, Act42D0Data]
+    TYPE_ACT38D1: Union[Dict[str, Act38D1Data], None] = None  # Remove in 2.1.21
 
 
 class ActivityStageRewardData(BaseStruct):
@@ -1989,8 +2142,8 @@ class ActivityThemeDataTimeNode(BaseStruct):
 
 
 class ActivityThemeData(BaseStruct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     funcId: str
     endTs: int
     sortId: int
@@ -2212,7 +2365,7 @@ class AprilFoolTable(BaseStruct):
 class CartComponents(BaseStruct):
     compId: str
     sortId: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     posList: List[str]
     posIdDict: Dict[str, List[str]]
     name: str
@@ -2452,7 +2605,7 @@ class ActivityTableExtraData(BaseStruct):
 
 
 class ActivityTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     basicInfo: Dict[str, ActivityTableBasicData]
     homeActConfig: Dict[str, ActivityTableHomeActivityConfig]

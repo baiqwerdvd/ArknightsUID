@@ -1,8 +1,8 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class BGMBank(BaseStruct):
@@ -12,6 +12,7 @@ class BGMBank(BaseStruct):
     volume: float
     crossfade: float
     delay: float
+    fadeStyleId: Union[str, None] = None
 
 
 class SoundFXBankSoundFX(BaseStruct):
@@ -61,7 +62,7 @@ class BattleVoiceOption(BaseStruct):
 
 
 class MusicData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     bank: str
 
@@ -73,8 +74,24 @@ class BattleVoiceData(BaseStruct):
     voiceTypeOptions: List[BattleVoiceOption]
 
 
+class AudioDataDucking(BaseStruct):
+    bank: str
+    volume: float
+    fadeTime: float
+    delay: float
+    fadeStyleId: Union[str, None] = None
+
+
+class AudioDataFadeStyle(BaseStruct):
+    styleName: str
+    fadeinTime: float
+    fadeoutTime: float
+    fadeinType: str
+    fadeoutType: str
+
+
 class AudioData(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     bgmBanks: List[BGMBank]
     soundFXBanks: List[SoundFXBank]
@@ -84,3 +101,5 @@ class AudioData(BaseStruct):
     musics: List[MusicData]
     soundFxVoiceLang: Dict[str, Dict[str, Dict[str, str]]]
     bankAlias: Dict[str, str]
+    duckings: List[AudioDataDucking]
+    fadeStyles: List[AudioDataFadeStyle]

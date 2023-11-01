@@ -1,19 +1,19 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class StageDataDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
@@ -32,8 +32,8 @@ class Act17sideDataChoiceNodeOptionData(BaseStruct):
 
 class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
     CannotGetPercent: Union[float, None] = None
     GetPercent: Union[float, None] = None
@@ -69,7 +69,7 @@ class Act17sideDataMainlineChapterData(BaseStruct):
     chapterDes: str
     chapterIcon: str
     unlockDes: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
 
 
 class RunesSelector(BaseStruct):
@@ -92,7 +92,7 @@ class TechTreeBranchRunes(BaseStruct):
 
 
 class BranchRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     mutexGroupKey: None
     description: str
@@ -260,7 +260,7 @@ class RuneData(BaseStruct):
 
 class RuneTablePackedRuneData(BaseStruct):
     description: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     runes: List[RuneData]
     mutexGroupKey: Union[str, None] = None
@@ -285,11 +285,27 @@ class ActivityCustomDataAct20sideCustomData(BaseStruct):
     residentCartDatas: Dict[str, Dict[str, str]]
 
 
+class Act21SideDataZoneAddtionData(BaseStruct):
+    zoneId: str
+    unlockText: str
+    stageUnlockText: Union[str, None]
+    entryId: str
+
+
+class Act21SideDataConstData(BaseStruct):
+    lineConnectZone: str
+
+
+class ActivityCustomDataAct21sideCustomData(BaseStruct):
+    zoneAdditionDataMap: Dict[str, Act21SideDataZoneAddtionData]
+    constData: Act21SideDataConstData
+
+
 class ActivityCustomData(BaseStruct):
     TYPE_ACT17SIDE: Dict[str, Act17sideData]
     TYPE_ACT25SIDE: Dict[str, ActivityCustomDataAct25sideCustomData]
     TYPE_ACT20SIDE: Dict[str, ActivityCustomDataAct20sideCustomData]
-    TYPE_ACT21SIDE: Dict[str, None]
+    TYPE_ACT21SIDE: Dict[str, ActivityCustomDataAct21sideCustomData]
 
 
 class RetroTrailRuleData(BaseStruct):
@@ -300,8 +316,8 @@ class RetroTrailRuleData(BaseStruct):
 class WeightItemBundle(BaseStruct):
     count: int
     dropType: str
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     weight: int
 
 
@@ -385,7 +401,7 @@ class RetroTrailData(BaseStruct):
 
 class RetroActData(BaseStruct):
     retroId: str
-    type_: int = field(name='type')
+    type_: int = field(name="type")
     linkedActId: List[str]
     startTime: int
     trailStartTime: int
@@ -414,7 +430,7 @@ class RetroStageOverrideInfo(BaseStruct):
 
 
 class RetroTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     customData: ActivityCustomData
     initRetroCoin: int

@@ -1,14 +1,14 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class StringKeyFrames(BaseStruct):
@@ -34,12 +34,9 @@ class CrisisMapRankInfo(BaseStruct):
 
 
 class CrisisTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     seasonInfo: List[CrisisClientDataSeasonInfo]
-    tempAppraise: List[StringKeyFrames]
-    permAppraise: List[StringKeyFrames]
-    mapRankInfo: Dict[str, CrisisMapRankInfo]
     meta: str
     unlockCoinLv3: int
     hardPointPerm: int
@@ -47,3 +44,6 @@ class CrisisTable(BaseStruct):
     voiceGrade: int
     crisisRuneCoinUnlockItemTitle: str
     crisisRuneCoinUnlockItemDesc: str
+    tempAppraise: Union[List[StringKeyFrames], None] = None  # Removed in 2.1.21
+    permAppraise: Union[List[StringKeyFrames], None] = None  # Removed in 2.1.21
+    mapRankInfo: Union[Dict[str, CrisisMapRankInfo], None] = None  # Removed in 2.1.21

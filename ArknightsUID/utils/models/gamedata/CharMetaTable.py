@@ -1,14 +1,14 @@
 from typing import Dict, List
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class SpCharMissionData(BaseStruct):
@@ -21,7 +21,7 @@ class SpCharMissionData(BaseStruct):
 
 
 class CharMetaTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     spCharGroups: Dict[str, List[str]]
     spCharMissions: Dict[str, Dict[str, SpCharMissionData]]

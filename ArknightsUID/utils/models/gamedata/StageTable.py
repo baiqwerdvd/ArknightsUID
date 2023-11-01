@@ -1,8 +1,8 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class StageDataConditionDesc(BaseStruct):
@@ -11,15 +11,15 @@ class StageDataConditionDesc(BaseStruct):
 
 
 class StageDataDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
 class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
@@ -44,9 +44,9 @@ class ProgressInfo(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class ExtraInfo(BaseStruct):
@@ -102,6 +102,7 @@ class StageData(BaseStruct):
     startButtonOverrideId: Union[str, None]
     isStagePatch: bool
     mainStageId: Union[str, None]
+    canContinuousBattle: Union[bool, None] = None
     canUseCharm: Union[bool, None] = None
     canUseTech: Union[bool, None] = None
     canUseTrapTool: Union[bool, None] = None
@@ -138,7 +139,7 @@ class TileAppendInfo(BaseStruct):
 
 
 class WeeklyForceOpenTable(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     startTime: int
     endTime: int
     forceOpenList: List[str]
@@ -240,7 +241,7 @@ class ApProtectZoneInfo(BaseStruct):
 
 
 class StageTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     stages: Dict[str, StageData]
     runeStageGroups: Dict[str, RuneStageGroupData]

@@ -1,14 +1,14 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class ClimbTowerSingleTowerDataClimbTowerTaskRewardData(BaseStruct):
@@ -17,7 +17,7 @@ class ClimbTowerSingleTowerDataClimbTowerTaskRewardData(BaseStruct):
 
 
 class ClimbTowerSingleTowerData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     stageNum: int
     name: str
@@ -42,29 +42,29 @@ class ClimbTowerSingleTowerData(BaseStruct):
 
 
 class WeightItemBundle(BaseStruct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     dropType: str
     count: int
     weight: int
 
 
 class StageDataDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
 class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
 class ClimbTowerDropDisplayInfo(BaseStruct):
     itemId: str
-    type_: int = field(name='type')
+    type_: int = field(name="type")
     maxCount: int
     minCount: int
 
@@ -77,7 +77,7 @@ class ClimbTowerLevelDropInfo(BaseStruct):
 
 
 class ClimbTowerSingleLevelData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     levelId: str
     towerId: str
     layerNum: int
@@ -90,7 +90,7 @@ class ClimbTowerSingleLevelData(BaseStruct):
 
 
 class ClimbTowerTacticalBuffData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     desc: str
     profession: str
     isDefaultActive: bool
@@ -124,7 +124,7 @@ class RuneData(BaseStruct):
 
 
 class RuneTablePackedRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     mutexGroupKey: Union[str, None]
     description: str
@@ -132,8 +132,8 @@ class RuneTablePackedRuneData(BaseStruct):
 
 
 class ClimbTowerMainCardData(BaseStruct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     linkedTowerId: Union[str, None]
     sortId: int
     name: str
@@ -144,7 +144,7 @@ class ClimbTowerMainCardData(BaseStruct):
 
 
 class ClimbTowerSubCardData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     mainCardId: str
     sortId: int
     name: str
@@ -154,7 +154,7 @@ class ClimbTowerSubCardData(BaseStruct):
 
 
 class ClimbTowerCurseCardData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     towerIdList: List[str]
     name: str
     desc: str
@@ -162,7 +162,7 @@ class ClimbTowerCurseCardData(BaseStruct):
 
 
 class ClimbTowerSeasonInfoData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     startTs: int
     endTs: int
@@ -196,16 +196,16 @@ class ClimbTowerRewardInfo(BaseStruct):
 
 
 class MissionDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     count: int
 
 
 class MissionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     description: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     itemBgType: str
     preMissionIds: Union[List[str], None]
     template: str
@@ -228,9 +228,9 @@ class ClimbTowerMissionData(MissionData):
 
 
 class MissionGroup(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     title: Union[str, None]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     preMissionGroup: Union[str, None]
     period: Union[List[int], None]
     rewards: List[MissionDisplayRewards]
@@ -240,7 +240,7 @@ class MissionGroup(BaseStruct):
 
 
 class ClimbTowerTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     towers: Dict[str, ClimbTowerSingleTowerData]
     levels: Dict[str, ClimbTowerSingleLevelData]

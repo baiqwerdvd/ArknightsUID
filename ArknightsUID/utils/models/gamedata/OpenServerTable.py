@@ -1,26 +1,26 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class RewardItem(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     count: int
     sortId: int
 
 
 class ItemBundle(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     count: int
 
 
 class MissionDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     count: int
 
 
@@ -42,7 +42,7 @@ class ReturnCheckinData(BaseStruct):
 
 
 class ReturnLongTermTaskData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     template: str
     param: List[str]
@@ -53,7 +53,7 @@ class ReturnLongTermTaskData(BaseStruct):
 
 class ReturnDailyTaskData(BaseStruct):
     groupId: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     groupSortId: int
     taskSortId: int
     template: str
@@ -105,10 +105,10 @@ class ChainLoginData(BaseStruct):
 
 
 class MissionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     description: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     itemBgType: str
     preMissionIds: None
     template: str
@@ -126,9 +126,9 @@ class MissionData(BaseStruct):
 
 
 class MissionGroup(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     title: None
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     preMissionGroup: None
     period: None
     rewards: None
@@ -145,7 +145,7 @@ class OpenServerData(BaseStruct):
 
 
 class OpenServerScheduleItem(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     startTs: int
     endTs: int
     totalCheckinDescption: str
@@ -269,7 +269,7 @@ class OpenServerNewbieCheckInPackage(BaseStruct):
 
 
 class OpenServerTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     schedule: List[OpenServerScheduleItem]
     dataMap: Dict[str, OpenServerData]

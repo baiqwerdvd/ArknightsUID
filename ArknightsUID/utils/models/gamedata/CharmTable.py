@@ -1,8 +1,8 @@
 from typing import List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class RuneDataSelector(BaseStruct):
@@ -31,7 +31,7 @@ class RuneData(BaseStruct):
 
 
 class RuneTablePackedRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     mutexGroupKey: Union[str, None]
     description: str
@@ -39,7 +39,7 @@ class RuneTablePackedRuneData(BaseStruct):
 
 
 class CharmItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sort: int
     name: str
     icon: str
@@ -58,6 +58,6 @@ class CharmItemData(BaseStruct):
 
 
 class CharmTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     charmList: List[CharmItemData]

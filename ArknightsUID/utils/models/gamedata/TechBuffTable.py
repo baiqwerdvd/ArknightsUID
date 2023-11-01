@@ -1,8 +1,8 @@
 from typing import List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class RuneDataSelector(BaseStruct):
@@ -27,7 +27,7 @@ class RuneData(BaseStruct):
 
 
 class PackedRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     mutexGroupKey: Union[str, None]
     description: str
@@ -35,6 +35,6 @@ class PackedRuneData(BaseStruct):
 
 
 class TechBuffTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     runes: List[PackedRuneData]

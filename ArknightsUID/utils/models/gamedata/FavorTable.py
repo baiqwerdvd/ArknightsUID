@@ -15,7 +15,7 @@ class FavorDataFrames(BaseStruct):
 
 
 class FavorTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     maxFavor: int
     favorFrames: List[FavorDataFrames]

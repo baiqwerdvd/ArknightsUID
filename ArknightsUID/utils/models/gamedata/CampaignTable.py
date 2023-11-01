@@ -1,14 +1,14 @@
 from typing import Dict, List, Union
 
-from msgspec import field
-
 from ..common import BaseStruct
+
+from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class CampaignDataBreakRewardLadder(BaseStruct):
@@ -18,16 +18,16 @@ class CampaignDataBreakRewardLadder(BaseStruct):
 
 
 class WeightItemBundle(BaseStruct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     dropType: str
     count: int
     weight: int
 
 
 class StageDataDisplayRewards_(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
@@ -58,15 +58,15 @@ class CampaignDataGainLadder(BaseStruct):
 
 
 class StageDataDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
 class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
@@ -93,19 +93,19 @@ class CampaignGroupData(BaseStruct):
 
 
 class CampaignRegionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     isUnknwon: int
 
 
 class CampaignZoneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     regionId: str
     templateId: str
 
 
 class CampaignMissionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     param: List[str]
     description: str
@@ -145,7 +145,7 @@ class CampaignTrainingAllOpenTimeData(BaseStruct):
 
 
 class CampaignTable(BaseStruct):
-    __version__ = '23-10-08-17-52-18-288259'
+    __version__ = "23-10-31-11-47-45-d410ff"
 
     campaigns: Dict[str, CampaignData]
     campaignGroups: Dict[str, CampaignGroupData]

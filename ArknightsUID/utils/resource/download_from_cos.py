@@ -29,15 +29,15 @@ async def find_fastest_url(urls: Dict[str, str]):
     for tag in urls:
         tasks.append(asyncio.create_task(check_url(tag, urls[tag])))
 
-    results: list[tuple[str, str, float]] = await asyncio.gather(
-        *tasks, return_exceptions=True
-    )
+    results: list[
+        Union[tuple[str, str, float], BaseException]
+    ] = await asyncio.gather(*tasks, return_exceptions=True)
     fastest_tag = ''
     fastest_url = None
     fastest_time = float('inf')
 
     for result in results:
-        if isinstance(result, Exception):
+        if isinstance(result, BaseException):
             continue
         tag, url, elapsed_time = result
         if elapsed_time < fastest_time:

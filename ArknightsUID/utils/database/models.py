@@ -86,6 +86,10 @@ class ArknightsPush(Push, table=True):
     training_is_push: Union[bool, None] = Field(
         default=False, title='训练室是否已经推送'
     )
+    version_push: Union[bool, None] = Field(default=False, title='版本更新推送')
+    version_is_push: Union[bool, None] = Field(
+        default=False, title='版本更新是否已经推送'
+    )
 
     @classmethod
     async def insert_push_data(cls, bot_id: str, uid: str, skd_uid: str):

@@ -1,3 +1,4 @@
+import asyncio
 import inspect
 
 from ..utils.models.gamedata.ActivityTable import ActivityTable
@@ -530,13 +531,15 @@ class ExcelTableManager:
         return self.zone_table_
 
     async def preload_table(self) -> None:
+        task = []
         for name, method in inspect.getmembers(self):
-            if (
-                inspect.iscoroutinefunction(method)
-                and not name.startswith("__")
-                and name != "preload_table"
-            ):
-                await method()
+            if not inspect.iscoroutinefunction(method):
+                continue
+            if name.startswith("__"):
+                continue
+            if name != "preload_table" and name != 'CHARATER_TABLE':
+                task.append(method())
+        await asyncio.gather(*task)
 
 
 Excel = ExcelTableManager()

@@ -1,6 +1,6 @@
 import asyncio
-import threading
 
+# import threading
 from loguru import logger
 
 from ..arknightsuid_resource import startup
@@ -8,11 +8,8 @@ from ..utils.database.startup import ark_adapter
 
 
 async def all_start():
-    try:
-        await startup()
-        await ark_adapter()
-    except Exception as e:
-        logger.exception(e)
+    await startup()
+    await ark_adapter()
 
 
-threading.Thread(target=lambda: asyncio.run(all_start()), daemon=True).start()
+# asyncio.run(all_start())

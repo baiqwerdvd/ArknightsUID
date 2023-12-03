@@ -1,3 +1,4 @@
+import asyncio
 from pathlib import Path
 
 from gsuid_core.bot import Bot
@@ -25,9 +26,11 @@ async def startup():
     await check_use()
     logger.info("[资源文件下载] 检查完毕, 正在加载 gamedata")
 
+    TASK = []
     for file_path in Path(
         get_res_path(["ArknightsUID", "resource", "gamedata"])
-    ).rglob("*.json"):
-        await store.get_file(file_path)
+    ).glob("*.json"):
+        TASK.append(store.get_file(file_path))
+    asyncio.gather(*TASK)
 
     await Excel.preload_table()

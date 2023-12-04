@@ -40,17 +40,6 @@ async def text2pic(text: str, max_size: int = 800, font_size: int = 20):
 async def send_role_wiki_pic(bot: Bot, ev: Event):
     char_name = ' '.join(re.findall('[\u4e00-\u9fa5]+', ev.text))
 
-    try:
-        CHARACTER_TABLE = Excel.CHARATER_TABLE
-    except AttributeError:
-        TASK = []
-        for file_path in Path(
-            get_res_path(["ArknightsUID", "resource", "gamedata"])
-        ).glob("*.json"):
-            TASK.append(store.get_file(file_path))
-        asyncio.gather(*TASK)
-
-    await Excel.preload_table()
     CHARACTER_TABLE = Excel.CHARATER_TABLE
 
     char_id = None

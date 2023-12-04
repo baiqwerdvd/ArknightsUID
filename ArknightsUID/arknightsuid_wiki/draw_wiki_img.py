@@ -112,14 +112,6 @@ def render_template(template_str, data):
 
 
 async def get_equip_info(char_id: str):
-    TASK = []
-    for file_path in Path(
-        get_res_path(["ArknightsUID", "resource", "gamedata"])
-    ).glob("*.json"):
-        TASK.append(store.get_file(file_path))
-    asyncio.gather(*TASK)
-
-    await Excel.preload_table()
 
     UNIEQUIP_TABLE = Excel.UNIEQUIP_TABLE
     BATTLE_EQUIP_TABLE = Excel.BATTLE_EQUIP_TABLE
@@ -235,14 +227,6 @@ async def get_equip_info(char_id: str):
 
 
 async def get_wiki_info(char_id: str):
-    TASK = []
-    for file_path in Path(
-        get_res_path(["ArknightsUID", "resource", "gamedata"])
-    ).glob("*.json"):
-        TASK.append(store.get_file(file_path))
-    asyncio.gather(*TASK)
-
-    await Excel.preload_table()
 
     CHARACTER_TABLE = Excel.CHARATER_TABLE
     SKILL_TABLE = Excel.SKILL_TABLE
@@ -402,14 +386,14 @@ async def get_wiki_info(char_id: str):
 
 async def draw_wiki(char_id: str):
 
-    TASK = []
-    for file_path in Path(
-        get_res_path(["ArknightsUID", "resource", "gamedata"])
-    ).glob("*.json"):
-        TASK.append(store.get_file(file_path))
-    asyncio.gather(*TASK)
+    # TASK = []
+    # for file_path in Path(
+    #     get_res_path(["ArknightsUID", "resource", "gamedata"])
+    # ).glob("*.json"):
+    #     TASK.append(store.get_file(file_path))
+    # asyncio.gather(*TASK)
 
-    await Excel.preload_table()
+    # await Excel.preload_table()
 
     CHARACTER_TABLE = Excel.CHARATER_TABLE
     SKILL_TABLE = Excel.SKILL_TABLE

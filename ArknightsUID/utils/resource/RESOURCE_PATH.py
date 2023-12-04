@@ -12,6 +12,7 @@ RESOURCE_PATH = MAIN_PATH / 'resource'
 GAMEDATA_PATH = RESOURCE_PATH / 'gamedata'
 SKIN_PATH = RESOURCE_PATH / 'skin'
 
+
 def init_dir():
     for i in [
         MAIN_PATH,
@@ -19,7 +20,7 @@ def init_dir():
         PLAYER_PATH,
         RESOURCE_PATH,
         GAMEDATA_PATH,
-        SKIN_PATH
+        SKIN_PATH,
     ]:
         i.mkdir(parents=True, exist_ok=True)
 

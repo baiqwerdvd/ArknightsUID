@@ -15,6 +15,6 @@ class HandbookTeam(BaseStruct):
 
 
 class HandbookTeamTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     team: Dict[str, HandbookTeam]

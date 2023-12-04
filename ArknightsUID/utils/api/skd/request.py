@@ -1,8 +1,8 @@
-from copy import deepcopy
 import hashlib
+import hmac
 import json
 import time
-import hmac
+from copy import deepcopy
 from typing import Any, Dict, Literal, Tuple, Union, cast
 from urllib.parse import urlparse
 
@@ -25,19 +25,19 @@ ssl_verify = core_plugins_config.get_config('MhySSLVerify').data
 
 
 _HEADER: Dict[str, str] = {
-        'Host': 'zonai.skland.com',
-        'platform': '1',
-        'Origin': 'https://www.skland.com',
-        'Referer': 'https://www.skland.com/',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Skland/1.5.1 (com.hypergryph.skland; build:100501001; Android 33; ) Okhttp/4.11.0',
-        'vName': '1.5.1',
-        'vCode': '100501001',
-        'nId': '1',
-        'os': '33',
-        'manufacturer': 'Xiaomi',
-        'Connection': 'close'
-    }
+    'Host': 'zonai.skland.com',
+    'platform': '1',
+    'Origin': 'https://www.skland.com',
+    'Referer': 'https://www.skland.com/',
+    'Content-Type': 'application/json',
+    'User-Agent': 'Skland/1.5.1 (com.hypergryph.skland; build:100501001; Android 33; ) Okhttp/4.11.0',
+    'vName': '1.5.1',
+    'vCode': '100501001',
+    'nId': '1',
+    'os': '33',
+    'manufacturer': 'Xiaomi',
+    'Connection': 'close',
+}
 
 
 class TokenExpiredError(Exception):
@@ -69,7 +69,7 @@ class BaseArkApi:
         return validate, ch
 
     async def get_game_player_info(self, uid: str) -> Union[int, ArknightsPlayerInfoModel]:
-        cred: Union[str, None]  = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
+        cred: Union[str, None] = await ArknightsUser.get_user_attr_by_uid(uid=uid, attr='cred')
         if cred is None:
             return -60
         is_vaild = await self.check_cred_valid(cred)
@@ -104,14 +104,11 @@ class BaseArkApi:
             return -61
         header = deepcopy(_HEADER)
         header['cred'] = cred
-        data = {
-            'uid': uid,
-            'gameId': 1
-        }
+        data = {'uid': uid, 'gameId': 1}
         header = await self.set_sign(
             ARK_SKD_SIGN,
             header=header,
-            data=data
+            data=data,
         )
         header['Content-Type'] = 'application/json'
         header['Content-Length'] = str(len(json.dumps(data)))
@@ -146,7 +143,7 @@ class BaseArkApi:
             header=header,
             params={
                 'uid': uid,
-                'gameId': 1
+                'gameId': 1,
             },
         )
         raw_data = await self.ark_request(
@@ -154,7 +151,7 @@ class BaseArkApi:
             method='GET',
             params={
                 'uid': uid,
-                'gameId': 1
+                'gameId': 1,
             },
             header=header,
         )
@@ -212,21 +209,22 @@ class BaseArkApi:
         self,
         url: str,
         header: Dict[str, Any],
-        data: Union[Dict[str, Any], None ]= None,
+        data: Union[Dict[str, Any], None] = None,
         params: Union[Dict[str, Any], None] = None,
         token: Union[str, None] = None,
     ) -> Dict:
         parsed_url = urlparse(url)
         path = parsed_url.path
         timestamp = str(int(time.time()) - 2)
-        dId = hashlib.sha256(header["cred"].encode('utf-8')).hexdigest()[0:16]
-        str1=json.dumps(
-        {
+        dId = hashlib.sha256(header['cred'].encode('utf-8')).hexdigest()[0:16]
+        str1 = json.dumps(
+            {
                 'platform': header.get('platform', '1'),
                 'timestamp': timestamp,
                 'dId': dId,
-                'vName': header.get('vName', '')
-            }, separators=(',', ':')
+                'vName': header.get('vName', ''),
+            },
+            separators=(',', ':'),
         )
         s2 = ''
         if params:
@@ -241,13 +239,13 @@ class BaseArkApi:
         logger.debug(f'cred {header["cred"]} token {token} token_ {token_}')
         token = token if token else token_
         if token is None:
-            raise Exception("token is None")
+            raise Exception('token is None')
         encode_token = token.encode('utf-8')
         hex_s = hmac.new(encode_token, str2.encode('utf-8'), hashlib.sha256).hexdigest()
         sign = hashlib.md5(hex_s.encode('utf-8')).hexdigest().encode('utf-8').decode('utf-8')
-        header["sign"] = sign
-        header["timestamp"] = timestamp
-        header["dId"] = dId
+        header['sign'] = sign
+        header['timestamp'] = timestamp
+        header['dId'] = dId
         logger.debug(header)
         return header
 
@@ -288,13 +286,11 @@ class BaseArkApi:
         url: str,
         method: Literal['GET', 'POST'] = 'GET',
         header: Dict[str, Any] = _HEADER,
-        params: Union[Dict[str, Any], None ]= None,
+        params: Union[Dict[str, Any], None] = None,
         data: Union[Dict[str, Any], None] = None,
         use_proxy: Union[bool, None] = False,
     ) -> Union[Dict, Union[int, None]]:
-        async with ClientSession(
-            connector=TCPConnector(verify_ssl=ssl_verify)
-        ) as client:
+        async with ClientSession(connector=TCPConnector(verify_ssl=ssl_verify)) as client:
             raw_data = {}
             if 'cred' not in header:
                 return 10001

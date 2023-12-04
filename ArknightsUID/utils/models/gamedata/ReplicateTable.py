@@ -6,9 +6,9 @@ from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     count: int
-    type_: str = field(name="type")
+    type_: str = field(name='type')
 
 
 class ReplicateData(BaseStruct):
@@ -21,6 +21,6 @@ class ReplicateList(BaseStruct):
 
 
 class ReplicateTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     replicate: Dict[str, ReplicateList]

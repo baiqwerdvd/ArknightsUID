@@ -3,6 +3,7 @@ from typing import Union
 
 UID_HINT = '添加失败, 请先绑定明日方舟UID'
 
+
 def get_error(retcode: Union[int, str]) -> str:
     if retcode == 10000:
         return '请求异常, 请检查具体实现代码...'

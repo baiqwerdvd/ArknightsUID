@@ -8,13 +8,13 @@ from msgspec import field
 class MedalExpireTime(BaseStruct):
     start: int
     end: int
-    type_: str = field(name="type")
+    type_: str = field(name='type')
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     count: int
-    type_: str = field(name="type")
+    type_: str = field(name='type')
 
 
 class MedalGroupData(BaseStruct):
@@ -61,7 +61,7 @@ class MedalPerData(BaseStruct):
 
 
 class MedalTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     medalList: List[MedalPerData]
     medalTypeData: Dict[str, MedalTypeData]

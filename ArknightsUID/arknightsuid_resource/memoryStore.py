@@ -24,10 +24,10 @@ def read_json(file_path: Path, **kwargs) -> dict:
     Read a JSON file and return its contents as a dictionary.
     """
     try:
-        with Path.open(file_path, encoding="UTF-8", **kwargs) as file:
+        with Path.open(file_path, encoding='UTF-8', **kwargs) as file:
             return json.load(file)
     except (FileNotFoundError, json.JSONDecodeError) as e:
-        logger.error(f"Error reading JSON file: {e}")
+        logger.error(f'Error reading JSON file: {e}')
         return {}
 
 
@@ -84,7 +84,7 @@ class StorageObject(Struct):
 
 
 class StoreService(Store):
-    __slots__ = ("store", "lock", "path")
+    __slots__ = ('store', 'lock', 'path')
 
     def __init__(self) -> None:
         self.path: anyioPath = anyioPath('data')
@@ -102,7 +102,7 @@ class StoreService(Store):
 
     def _write_sync(self, target_file: anyioPath) -> None:
         try:
-            tmp_file_fd, tmp_file_name = mkstemp(dir=self.path, prefix=f"{target_file.name}.cache")
+            tmp_file_fd, tmp_file_name = mkstemp(dir=self.path, prefix=f'{target_file.name}.cache')
             renamed = False
             try:
                 try:
@@ -122,7 +122,7 @@ class StoreService(Store):
 
     async def set(self, key: str, value: Any, expires_in: int | timedelta | None = None) -> None:
         if isinstance(value, str):
-            value = value.encode("UTF-8")
+            value = value.encode('UTF-8')
         async with self.lock:
             self.store_[key] = StorageObject.new(data=value, expires_in=expires_in)
 

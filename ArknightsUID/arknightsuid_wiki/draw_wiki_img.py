@@ -3,24 +3,21 @@ import re
 from pathlib import Path
 from typing import Union
 
-from gsuid_core.data_store import get_res_path
-from gsuid_core.plugins.ArknightsUID.ArknightsUID.arknightsuid_resource.memoryStore import store
 from jinja2 import Template
 from PIL import Image, ImageDraw
 
-# from rich import print
 from ..arknightsuid_resource.constants import Excel
 from ..utils.fonts.source_han_sans import (
-    sans_font_18,
-    sans_font_26,
-    sans_font_34,
-    sans_font_50,
+    # sans_font_18,
+    # sans_font_26,
+    # sans_font_34,
+    # sans_font_50,
     sans_font_120,
 )
 
 TEXTURE2D_PATH = Path(__file__).parent / 'texture2D'
 
-bg_img =Image.open(TEXTURE2D_PATH / 'bg.jpg')
+bg_img = Image.open(TEXTURE2D_PATH / 'bg.jpg')
 title_img = Image.open(TEXTURE2D_PATH / 'title.png')
 vvan_img = Image.open(TEXTURE2D_PATH / 'char_4098_vvana_2b.png').resize((2000, 2000))
 
@@ -30,36 +27,36 @@ red_color = (235, 61, 75)
 black_color = (0, 0, 0)
 
 profession_en_to_cn = {
-    "WARRIOR": "近卫",
-    "SNIPER": "狙击",
-    "TANK": "重装",
-    "MEDIC": "医疗",
-    "SUPPORT": "辅助",
-    "CASTER": "术师",
-    "SPECIAL": "特种",
-    "PIONEER": "先锋",
-    "TOKEN": "召唤物",
-    "TRAP": "陷阱",
+    'WARRIOR': '近卫',
+    'SNIPER': '狙击',
+    'TANK': '重装',
+    'MEDIC': '医疗',
+    'SUPPORT': '辅助',
+    'CASTER': '术师',
+    'SPECIAL': '特种',
+    'PIONEER': '先锋',
+    'TOKEN': '召唤物',
+    'TRAP': '陷阱',
 }
 
 char_position_en_to_cn = {
-    "MELEE": "近战",
-    "RANGED": "远程",
-    "ALL": "近战/远程",
-    "NONE": "无",
+    'MELEE': '近战',
+    'RANGED': '远程',
+    'ALL': '近战/远程',
+    'NONE': '无',
 }
 
 attr_en_to_cn = {
-    "maxHp": "生命",
-    "atk": "攻击",
-    "def_": "防御",
-    "magicResistance": "法抗",
-    "cost": "部署费用",
-    "blockCnt": "阻挡",
+    'maxHp': '生命',
+    'atk': '攻击',
+    'def_': '防御',
+    'magicResistance': '法抗',
+    'cost': '部署费用',
+    'blockCnt': '阻挡',
     # "moveSpeed": "移动速度",
-    "attackSpeed": "攻击速度",
-    "baseAttackTime": "攻击间隔",
-    "respawnTime": "再部署时间",
+    'attackSpeed': '攻击速度',
+    'baseAttackTime': '攻击间隔',
+    'respawnTime': '再部署时间',
     # "hpRecoveryPerSec": "生命回复",
     # "spRecoveryPerSec": "技力回复",
     # "maxDeployCount": "部署数量上限",
@@ -75,19 +72,18 @@ attr_en_to_cn = {
 }
 
 potential_id_to_cn = {
-    0: "潜能2",
-    1: "潜能3",
-    2: "潜能4",
-    3: "潜能5",
-    4: "潜能6",
+    0: '潜能2',
+    1: '潜能3',
+    2: '潜能4',
+    3: '潜能5',
+    4: '潜能6',
 }
 
+
 def render_template(template_str, data):
-    # Extract placeholders and formatting options from the template using regular expression
     matches = re.finditer(r'\{([^}:]+)\}', template_str)
     matches_1 = re.finditer(r'\{([^{}]+):([^{}]+)\}', template_str)
 
-    # Create a dictionary with placeholder names, formatting options, and corresponding values
     placeholder_data = {}
     for match in matches:
         placeholder = match.groups()
@@ -95,16 +91,17 @@ def render_template(template_str, data):
         placeholder_data[placeholder[0]] = (formatting_option, data.get(placeholder[0], ''))
     for match in matches_1:
         placeholder, formatting_option = match.groups()
-        # placeholder = placeholder.replace('-', '')
+
         placeholder_data[placeholder] = (formatting_option, data.get(placeholder.replace('-', ''), ''))
-    # Replace the placeholders in the template with the formatted values
+
     for placeholder, (formatting_option, value) in placeholder_data.items():
         if formatting_option == '':
-            template_str = template_str.replace(f'{{{placeholder}}}', f"{value}")
+            template_str = template_str.replace(f'{{{placeholder}}}', f'{value}')
         else:
-            template_str = template_str.replace(f'{{{placeholder}:{formatting_option}}}', f"{value:{formatting_option}}")
+            template_str = template_str.replace(
+                f'{{{placeholder}:{formatting_option}}}', f'{value:{formatting_option}}'
+            )
 
-    # Render the template
     template = Template(template_str)
     rendered_text = template.render()
 
@@ -112,7 +109,6 @@ def render_template(template_str, data):
 
 
 async def get_equip_info(char_id: str):
-
     UNIEQUIP_TABLE = Excel.UNIEQUIP_TABLE
     BATTLE_EQUIP_TABLE = Excel.BATTLE_EQUIP_TABLE
 
@@ -225,9 +221,7 @@ async def get_equip_info(char_id: str):
     return im
 
 
-
 async def get_wiki_info(char_id: str):
-
     CHARACTER_TABLE = Excel.CHARATER_TABLE
     SKILL_TABLE = Excel.SKILL_TABLE
     UNIEQUIP_TABLE = Excel.UNIEQUIP_TABLE
@@ -290,8 +284,10 @@ async def get_wiki_info(char_id: str):
             if len(potential.buff.attributes.attributeModifiers) == 1:
                 potential_add_attribute_type = potential_add_attribute[0].attributeType
                 potential_add_attribute_value = potential_add_attribute[0].value
-                potential_add_dict[potential_id] = (potential_add_attribute_type, potential_add_attribute_value)
-                # im += f"{potential_add_attribute_type}: {potential_add_attribute_value}"
+                potential_add_dict[potential_id] = (
+                    potential_add_attribute_type,
+                    potential_add_attribute_value,
+                )
             else:
                 raise NotImplementedError
     im += '-----------------\n'
@@ -316,7 +312,7 @@ async def get_wiki_info(char_id: str):
         skill_data = SKILL_TABLE.skills[skill]
         skill_level_data = skill_data.levels[-1]
         skill_name = skill_level_data.name
-        im += f"技能名: {skill_name}\n"
+        im += f'技能名: {skill_name}\n'
         skill_type = skill_level_data.skillType
         skill_description = skill_level_data.description
         skill_sp_data = skill_level_data.spData
@@ -331,7 +327,6 @@ async def get_wiki_info(char_id: str):
         elif skill_sp_type == 8:
             pass
         else:
-            print(skill_name, skill_sp_type)
             raise NotImplementedError
 
         if skill_type == 1:
@@ -341,13 +336,11 @@ async def get_wiki_info(char_id: str):
         elif skill_type == 0:
             pass
         else:
-            print(skill_name, skill_type)
             raise NotImplementedError
 
         skill_duration = skill_level_data.duration
         im += f'消耗: {skill_sp_data.spCost} '
         im += f'初始: {skill_sp_data.initSp} '
-        # im += f'持续: {skill_sp_data.increment}\n'
         im += f'持续: {str(skill_duration)}\n'
         skill_blackboard_data = skill_level_data.blackboard
         black_board_dict: dict[str, Union[Union[int, float], None]] = {}
@@ -356,45 +349,21 @@ async def get_wiki_info(char_id: str):
         if skill_description:
             skill_description = skill_description.replace(':0.0', '')
             skill_description = re.sub(r'<[^>]+>', '', skill_description)
-            # print(skill_description)
-            # [max_hp].max_hp [atk].atk [def].def
-            # skill_description = re.sub(r'\[max_hp].max_hp', '', skill_description)
-            # skill_description = re.sub(r'\[atk].atk', '', skill_description)
-            # skill_description = re.sub(r'\[def].def', '', skill_description)
-            # print(skill_description)
-            # print(black_board_dict)
-            # print(skill_description)
             skill_description = render_template(skill_description, black_board_dict).replace('--', '-')
-            # skill_description = template.render(**black_board_dict)
-
-            # skill_description = skill_description.format(**black_board_dict)
             last_skill_description = re.sub(r'.000000', '', skill_description)
-            print()
             if '{' in last_skill_description:
-                print(last_skill_description)
                 raise NotImplementedError
-            # re 匹配 '\n'
+
             skill_desc = re.findall(r'[^\\n]+', last_skill_description)
             for skill_desc_line in skill_desc:
                 im += f'{skill_desc_line}\n'
         im += '-----------------\n'
     im = im[:-19]
 
-    print(im)
     return im
 
 
 async def draw_wiki(char_id: str):
-
-    # TASK = []
-    # for file_path in Path(
-    #     get_res_path(["ArknightsUID", "resource", "gamedata"])
-    # ).glob("*.json"):
-    #     TASK.append(store.get_file(file_path))
-    # asyncio.gather(*TASK)
-
-    # await Excel.preload_table()
-
     CHARACTER_TABLE = Excel.CHARATER_TABLE
     SKILL_TABLE = Excel.SKILL_TABLE
     UNIEQUIP_TABLE = Excel.UNIEQUIP_TABLE
@@ -445,7 +414,10 @@ async def draw_wiki(char_id: str):
             if len(potential.buff.attributes.attributeModifiers) == 1:
                 potential_add_attribute_type = potential_add_attribute[0].attributeType
                 potential_add_attribute_value = potential_add_attribute[0].value
-                potential_add_dict[potential_id] = (potential_add_attribute_type, potential_add_attribute_value)
+                potential_add_dict[potential_id] = (
+                    potential_add_attribute_type,
+                    potential_add_attribute_value,
+                )
             else:
                 raise NotImplementedError
 
@@ -487,8 +459,5 @@ async def draw_wiki(char_id: str):
     return img
 
 
-
 if __name__ == '__main__':
-    import asyncio
-
     asyncio.run(draw_wiki(char_id='char_4098_vvana'))

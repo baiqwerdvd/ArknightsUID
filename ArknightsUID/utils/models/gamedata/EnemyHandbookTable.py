@@ -31,14 +31,14 @@ class EnemyHandBookData(BaseStruct):
 
 
 class EnemyHandbookLevelInfoDataRangePair(BaseStruct):
-    min_: float = field(name="min")
-    max_: float = field(name="max")
+    min_: float = field(name='min')
+    max_: float = field(name='max')
 
 
 class EnemyHandbookLevelInfoData(BaseStruct):
     classLevel: str
     attack: EnemyHandbookLevelInfoDataRangePair
-    def_: EnemyHandbookLevelInfoDataRangePair = field(name="def")
+    def_: EnemyHandbookLevelInfoDataRangePair = field(name='def')
     magicRes: EnemyHandbookLevelInfoDataRangePair
     maxHP: EnemyHandbookLevelInfoDataRangePair
     moveSpeed: EnemyHandbookLevelInfoDataRangePair
@@ -48,13 +48,13 @@ class EnemyHandbookLevelInfoData(BaseStruct):
 
 
 class EnemyHandbookRaceData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     raceName: str
     sortId: int
 
 
 class EnemyHandbookTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     levelInfoList: List[EnemyHandbookLevelInfoData]
     enemyData: Dict[str, EnemyHandBookData]

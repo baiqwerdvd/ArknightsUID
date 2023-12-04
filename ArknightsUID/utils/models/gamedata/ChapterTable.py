@@ -15,6 +15,6 @@ class ChapterData(BaseStruct):
 
 
 class ChapterTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     chapters: Dict[str, ChapterData]

@@ -18,7 +18,8 @@ async def get_help_data() -> Union[Dict[str, PluginHelp], None]:
     if HELP_DATA.exists():
         async with aiofiles.open(HELP_DATA, 'rb') as file:
             return msgjson.decode(
-                await file.read(), type=Dict[str, PluginHelp],
+                await file.read(),
+                type=Dict[str, PluginHelp],
             )
 
 
@@ -37,7 +38,8 @@ async def get_core_help() -> Union[bytes, str]:
         Image.open(TEXT_PATH / 'banner.png'),
         Image.open(TEXT_PATH / 'button.png'),
         source_han_sans_cn_origin,
-        extra_message = [f'Client Version:{Arknights_Client_version} '
-                         f' Res version: {Arknights_Res_version}'],
+        extra_message=[
+            f'Client Version:{Arknights_Client_version} ' f' Res version: {Arknights_Res_version}'
+        ],
     )
     return img

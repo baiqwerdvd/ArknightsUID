@@ -42,18 +42,21 @@ class ArknightsAttendanceAward(Struct):
     count: int
     type_: str = field(name='type')
 
+
 class ArknightsAttendanceModel(Struct):
     ts: str
     awards: List[ArknightsAttendanceAward]
+
+
 ################
 # ArknightsAttendance End
 ################
 
 
-
 ################
 # ArknightsUserMeModel Start
 ################
+
 
 class UserMeInfoApply(Struct):
     nickname: str
@@ -137,15 +140,16 @@ class ArknightsUserMeModel(Struct, omit_defaults=True):
     moderator: UserMeModerator
     userInfoApply: UserMeInfoApply
 
+
 ################
 # ArknightsUserMeModel End
 ################
 
 
-
 ################
 # ArknightsPlayerInfoModel Start
 ################
+
 
 class PlayerManufactureFormulaInfo(Struct):
     id_: str = field(name='id')
@@ -539,8 +543,8 @@ class PlayerInfoChar(Struct):
     evolvePhase: int
     potentialRank: int
     mainSkillLvl: int
-    skills: Union[List[PlayerInfoCharSkill] , None]
-    equip: Union[List[PlayerInfoCharEquip] , None]
+    skills: Union[List[PlayerInfoCharSkill], None]
+    equip: Union[List[PlayerInfoCharEquip], None]
     favorPercent: int
     defaultSkillId: str
     gainTime: int

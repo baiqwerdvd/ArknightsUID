@@ -103,18 +103,14 @@ class ExcelTableManager:
     zone_table_: ZoneTable
 
     async def activity_table(self) -> None:
-        self.activity_table_ = ActivityTable.convert(
-            await store.get_excel("activity_table")
-        )
+        self.activity_table_ = ActivityTable.convert(await store.get_excel('activity_table'))
 
     @property
     def ACTIVITY_TABLE(self) -> ActivityTable:
         return self.activity_table_
 
     async def audio_data(self) -> None:
-        self.audio_data_ = AudioData.convert(
-            await store.get_excel("audio_data")
-        )
+        self.audio_data_ = AudioData.convert(await store.get_excel('audio_data'))
 
     @property
     def AUDIO_DATA(self) -> AudioData:
@@ -122,7 +118,7 @@ class ExcelTableManager:
 
     async def battle_equip_table(self) -> None:
         self.battle_equip_table_ = BattleEquipTable.convert(
-            {"equips": await store.get_excel("battle_equip_table")}
+            {'equips': await store.get_excel('battle_equip_table')}
         )
 
     @property
@@ -130,124 +126,98 @@ class ExcelTableManager:
         return self.battle_equip_table_
 
     async def building_data(self) -> None:
-        self.building_data_ = BuildingData.convert(
-            await store.get_excel("building_data")
-        )
+        self.building_data_ = BuildingData.convert(await store.get_excel('building_data'))
 
     @property
     def BUILDING_DATA(self) -> BuildingData:
         return self.building_data_
 
     async def campaign_table(self) -> None:
-        self.campaign_table_ = CampaignTable.convert(
-            await store.get_excel("campaign_table")
-        )
+        self.campaign_table_ = CampaignTable.convert(await store.get_excel('campaign_table'))
 
     @property
     def CAMPAIGN_TABLE(self) -> CampaignTable:
         return self.campaign_table_
 
     async def chapter_table(self) -> None:
-        self.chapter_table_ = ChapterTable.convert(
-            {"chapters": await store.get_excel("chapter_table")}
-        )
+        self.chapter_table_ = ChapterTable.convert({'chapters': await store.get_excel('chapter_table')})
 
     @property
     def CHAPTER_TABLE(self) -> ChapterTable:
         return self.chapter_table_
 
     async def character_table(self) -> None:
-        self.character_table_ = CharacterTable.convert(
-            {"chars": await store.get_excel("character_table")}
-        )
+        self.character_table_ = CharacterTable.convert({'chars': await store.get_excel('character_table')})
 
     @property
     def CHARATER_TABLE(self) -> CharacterTable:
         return self.character_table_
 
     async def char_meta_table(self) -> None:
-        self.char_meta_table_ = CharMetaTable.convert(
-            await store.get_excel("char_meta_table")
-        )
+        self.char_meta_table_ = CharMetaTable.convert(await store.get_excel('char_meta_table'))
 
     @property
     def CHAR_META_TABLE(self) -> CharMetaTable:
         return self.char_meta_table_
 
     async def charm_table(self) -> None:
-        self.charm_table_ = CharmTable.convert(
-            await store.get_excel("charm_table")
-        )
+        self.charm_table_ = CharmTable.convert(await store.get_excel('charm_table'))
 
     @property
     def CHARM_TABLE(self) -> CharmTable:
         return self.charm_table_
 
     async def char_patch_table(self) -> None:
-        self.char_patch_table_ = CharPatchTable.convert(
-            await store.get_excel("char_patch_table")
-        )
+        self.char_patch_table_ = CharPatchTable.convert(await store.get_excel('char_patch_table'))
 
     @property
     def CHAR_PATH_TABLE(self) -> CharPatchTable:
         return self.char_patch_table_
 
     async def charword_table(self) -> None:
-        self.charword_table_ = CharwordTable.convert(
-            await store.get_excel("charword_table")
-        )
+        self.charword_table_ = CharwordTable.convert(await store.get_excel('charword_table'))
 
     @property
     def CHARWORD_TABLE(self) -> CharwordTable:
         return self.charword_table_
 
     async def checkin_table(self) -> None:
-        self.checkin_table_ = CheckinTable.convert(
-            await store.get_excel("checkin_table")
-        )
+        self.checkin_table_ = CheckinTable.convert(await store.get_excel('checkin_table'))
 
     @property
     def CHECKIN_TABLE(self) -> CheckinTable:
         return self.checkin_table_
 
     async def climb_tower_table(self) -> None:
-        self.climb_tower_table_ = ClimbTowerTable.convert(
-            await store.get_excel("climb_tower_table")
-        )
+        self.climb_tower_table_ = ClimbTowerTable.convert(await store.get_excel('climb_tower_table'))
 
     @property
     def CLIMB_TOWER_TABLE(self) -> ClimbTowerTable:
         return self.climb_tower_table_
 
     async def clue_data(self) -> None:
-        self.clue_data_ = ClueData.convert(await store.get_excel("clue_data"))
+        self.clue_data_ = ClueData.convert(await store.get_excel('clue_data'))
 
     @property
     def CLUE_DATA(self) -> ClueData:
         return self.clue_data_
 
     async def crisis_table(self) -> None:
-        self.crisis_table_ = CrisisTable.convert(
-            await store.get_excel("crisis_table")
-        )
+        self.crisis_table_ = CrisisTable.convert(await store.get_excel('crisis_table'))
 
     @property
     def CRISIS_TABLE(self) -> CrisisTable:
         return self.crisis_table_
 
     async def crisis_v2_table(self) -> None:
-        self.crisis_v2_table_ = CrisisV2Table.convert(
-            await store.get_excel("crisis_v2_table")
-        )
+        self.crisis_v2_table_ = CrisisV2Table.convert(await store.get_excel('crisis_v2_table'))
 
     @property
     def CRISIS_V2_TABLE(self) -> CrisisV2Table:
         return self.crisis_v2_table_
 
     async def display_meta_table(self) -> None:
-        self.display_meta_table_ = DisplayMetaTable.convert(
-            await store.get_excel("display_meta_table")
-        )
+        self.display_meta_table_ = DisplayMetaTable.convert(await store.get_excel('display_meta_table'))
 
     @property
     def DISPLAY_META_TABLE(self) -> DisplayMetaTable:
@@ -255,7 +225,7 @@ class ExcelTableManager:
 
     async def enemy_handbook_table(self) -> None:
         self.enemy_handbook_table_ = EnemyHandbookTable.convert(
-            await store.get_excel("enemy_handbook_table")
+            await store.get_excel('enemy_handbook_table')
         )
 
     @property
@@ -263,45 +233,35 @@ class ExcelTableManager:
         return self.enemy_handbook_table_
 
     async def favor_table(self) -> None:
-        self.favor_table_ = FavorTable.convert(
-            await store.get_excel("favor_table")
-        )
+        self.favor_table_ = FavorTable.convert(await store.get_excel('favor_table'))
 
     @property
     def FAVOR_TABLE(self) -> FavorTable:
         return self.favor_table_
 
     async def gacha_table(self) -> None:
-        self.gacha_table_ = GachaTable.convert(
-            await store.get_excel("gacha_table")
-        )
+        self.gacha_table_ = GachaTable.convert(await store.get_excel('gacha_table'))
 
     @property
     def GACHA_TABLE(self) -> GachaTable:
         return self.gacha_table_
 
     async def gamedata_const(self) -> None:
-        self.gamedata_const_ = GamedataConst.convert(
-            await store.get_excel("gamedata_const")
-        )
+        self.gamedata_const_ = GamedataConst.convert(await store.get_excel('gamedata_const'))
 
     @property
     def GAMEDATA_CONST(self) -> GamedataConst:
         return self.gamedata_const_
 
     async def handbook_info_table(self) -> None:
-        self.handbook_info_table_ = HandbookInfoTable.convert(
-            await store.get_excel("handbook_info_table")
-        )
+        self.handbook_info_table_ = HandbookInfoTable.convert(await store.get_excel('handbook_info_table'))
 
     @property
     def HANDBOOK_INFO_TABLE(self) -> HandbookInfoTable:
         return self.handbook_info_table_
 
     async def handbook_table(self) -> None:
-        self.handbook_table_ = HandbookTable.convert(
-            await store.get_excel("handbook_table")
-        )
+        self.handbook_table_ = HandbookTable.convert(await store.get_excel('handbook_table'))
 
     @property
     def HANDBOOK_TABLE(self) -> HandbookTable:
@@ -309,7 +269,7 @@ class ExcelTableManager:
 
     async def handbook_team_table(self) -> None:
         self.handbook_team_table_ = HandbookTeamTable.convert(
-            {"team": await store.get_excel("handbook_team_table")}
+            {'team': await store.get_excel('handbook_team_table')}
         )
 
     @property
@@ -317,54 +277,42 @@ class ExcelTableManager:
         return self.handbook_team_table_
 
     async def item_table(self) -> None:
-        self.item_table_ = ItemTable.convert(
-            await store.get_excel("item_table")
-        )
+        self.item_table_ = ItemTable.convert(await store.get_excel('item_table'))
 
     @property
     def ITEM_TABLE(self) -> ItemTable:
         return self.item_table_
 
     async def medal_table(self) -> None:
-        self.medal_table_ = MedalTable.convert(
-            await store.get_excel("medal_table")
-        )
+        self.medal_table_ = MedalTable.convert(await store.get_excel('medal_table'))
 
     @property
     def MEDAL_TABLE(self) -> MedalTable:
         return self.medal_table_
 
     async def mission_table(self) -> None:
-        self.mission_table_ = MissionTable.convert(
-            await store.get_excel("mission_table")
-        )
+        self.mission_table_ = MissionTable.convert(await store.get_excel('mission_table'))
 
     @property
     def MISSION_TABLE(self) -> MissionTable:
         return self.mission_table_
 
     async def open_server_table(self) -> None:
-        self.open_server_table_ = OpenServerTable.convert(
-            await store.get_excel("open_server_table")
-        )
+        self.open_server_table_ = OpenServerTable.convert(await store.get_excel('open_server_table'))
 
     @property
     def OPEN_SERVER_TABLE(self) -> OpenServerTable:
         return self.open_server_table_
 
     async def player_avatar_table(self) -> None:
-        self.player_avatar_table_ = PlayerAvatarTable.convert(
-            await store.get_excel("player_avatar_table")
-        )
+        self.player_avatar_table_ = PlayerAvatarTable.convert(await store.get_excel('player_avatar_table'))
 
     @property
     def PLAYER_AVATAR_TABLE(self) -> PlayerAvatarTable:
         return self.player_avatar_table_
 
     async def range_table(self) -> None:
-        self.range_table_ = RangeTable.convert(
-            {"range_": await store.get_excel("range_table")}
-        )
+        self.range_table_ = RangeTable.convert({'range_': await store.get_excel('range_table')})
 
     @property
     def RANGE_TABLE(self) -> RangeTable:
@@ -372,7 +320,7 @@ class ExcelTableManager:
 
     async def replicate_table(self) -> None:
         self.replicate_table_ = ReplicateTable.convert(
-            {"replicate": await store.get_excel("replicate_table")}
+            {'replicate': await store.get_excel('replicate_table')}
         )
 
     @property
@@ -380,18 +328,14 @@ class ExcelTableManager:
         return self.replicate_table_
 
     async def retro_table(self) -> None:
-        self.retro_table_ = RetroTable.convert(
-            await store.get_excel("retro_table")
-        )
+        self.retro_table_ = RetroTable.convert(await store.get_excel('retro_table'))
 
     @property
     def RETRO_TABLE(self) -> RetroTable:
         return self.retro_table_
 
     async def roguelike_table(self) -> None:
-        self.roguelike_table_ = RoguelikeTable.convert(
-            await store.get_excel("roguelike_table")
-        )
+        self.roguelike_table_ = RoguelikeTable.convert(await store.get_excel('roguelike_table'))
 
     @property
     def ROGUELIKE_TABLE(self) -> RoguelikeTable:
@@ -399,7 +343,7 @@ class ExcelTableManager:
 
     async def roguelike_topic_table(self) -> None:
         self.roguelike_topic_table_ = RoguelikeTopicTable.convert(
-            await store.get_excel("roguelike_topic_table")
+            await store.get_excel('roguelike_topic_table')
         )
 
     @property
@@ -407,45 +351,35 @@ class ExcelTableManager:
         return self.roguelike_topic_table_
 
     async def sandbox_table(self) -> None:
-        self.sandbox_table_ = SandboxTable.convert(
-            await store.get_excel("sandbox_table")
-        )
+        self.sandbox_table_ = SandboxTable.convert(await store.get_excel('sandbox_table'))
 
     @property
     def SANDBOX_TABLE(self) -> SandboxTable:
         return self.sandbox_table_
 
     async def shop_client_table(self) -> None:
-        self.shop_client_table_ = ShopClientTable.convert(
-            await store.get_excel("shop_client_table")
-        )
+        self.shop_client_table_ = ShopClientTable.convert(await store.get_excel('shop_client_table'))
 
     @property
     def SHOP_CLIENT_TABLE(self) -> ShopClientTable:
         return self.shop_client_table_
 
     async def skill_table(self) -> None:
-        self.skill_table_ = SkillTable.convert(
-            {"skills": await store.get_excel("skill_table")}
-        )
+        self.skill_table_ = SkillTable.convert({'skills': await store.get_excel('skill_table')})
 
     @property
     def SKILL_TABLE(self) -> SkillTable:
         return self.skill_table_
 
     async def skin_table(self) -> None:
-        self.skin_table_ = SkinTable.convert(
-            await store.get_excel("skin_table")
-        )
+        self.skin_table_ = SkinTable.convert(await store.get_excel('skin_table'))
 
     @property
     def SKIN_TABLE(self) -> SkinTable:
         return self.skin_table_
 
     async def stage_table(self) -> None:
-        self.stage_table_ = StageTable.convert(
-            await store.get_excel("stage_table")
-        )
+        self.stage_table_ = StageTable.convert(await store.get_excel('stage_table'))
 
     @property
     def STAGE_TABLE(self) -> StageTable:
@@ -453,7 +387,7 @@ class ExcelTableManager:
 
     async def story_review_meta_table(self) -> None:
         self.story_review_meta_table_ = StoryReviewMetaTable.convert(
-            await store.get_excel("story_review_meta_table")
+            await store.get_excel('story_review_meta_table')
         )
 
     @property
@@ -462,7 +396,7 @@ class ExcelTableManager:
 
     async def story_review_table(self) -> None:
         self.story_review_table_ = StoryReviewTable.convert(
-            {"storyreviewtable": await store.get_excel("story_review_table")}
+            {'storyreviewtable': await store.get_excel('story_review_table')}
         )
 
     @property
@@ -470,61 +404,49 @@ class ExcelTableManager:
         return self.story_review_table_
 
     async def story_table(self) -> None:
-        self.story_table_ = StoryTable.convert(
-            {"stories": await store.get_excel("story_table")}
-        )
+        self.story_table_ = StoryTable.convert({'stories': await store.get_excel('story_table')})
 
     @property
     def STORY_TABLE(self) -> StoryTable:
         return self.story_table_
 
     async def tech_buff_table(self) -> None:
-        self.tech_buff_table_ = TechBuffTable.convert(
-            await store.get_excel("tech_buff_table")
-        )
+        self.tech_buff_table_ = TechBuffTable.convert(await store.get_excel('tech_buff_table'))
 
     @property
     def TECH_BUFF_TABLE(self) -> TechBuffTable:
         return self.tech_buff_table_
 
     async def tip_table(self) -> None:
-        self.tip_table_ = TipTable.convert(await store.get_excel("tip_table"))
+        self.tip_table_ = TipTable.convert(await store.get_excel('tip_table'))
 
     @property
     def TIP_TABLE(self) -> TipTable:
         return self.tip_table_
 
     async def token_table(self) -> None:
-        self.token_table_ = TokenTable.convert(
-            {"tokens": await store.get_excel("token_table")}
-        )
+        self.token_table_ = TokenTable.convert({'tokens': await store.get_excel('token_table')})
 
     @property
     def TOKEN_TABLE(self) -> TokenTable:
         return self.token_table_
 
     async def uniequip_data(self) -> None:
-        self.uniequip_data_ = UniequipData.convert(
-            await store.get_excel("uniequip_data")
-        )
+        self.uniequip_data_ = UniequipData.convert(await store.get_excel('uniequip_data'))
 
     @property
     def UNIEQUIP_DATA(self) -> UniequipData:
         return self.uniequip_data_
 
     async def uniequip_table(self) -> None:
-        self.uniequip_table_ = UniEquipTable.convert(
-            await store.get_excel("uniequip_table")
-        )
+        self.uniequip_table_ = UniEquipTable.convert(await store.get_excel('uniequip_table'))
 
     @property
     def UNIEQUIP_TABLE(self) -> UniEquipTable:
         return self.uniequip_table_
 
     async def zone_table(self) -> None:
-        self.zone_table_ = ZoneTable.convert(
-            await store.get_excel("zone_table")
-        )
+        self.zone_table_ = ZoneTable.convert(await store.get_excel('zone_table'))
 
     @property
     def ZONE_TABLE(self) -> ZoneTable:
@@ -535,9 +457,9 @@ class ExcelTableManager:
         for name, method in inspect.getmembers(self):
             if not inspect.iscoroutinefunction(method):
                 continue
-            if name.startswith("__"):
+            if name.startswith('__'):
                 continue
-            if name != "preload_table" and name != 'CHARATER_TABLE':
+            if name != 'preload_table' and name != 'CHARATER_TABLE':
                 task.append(method())
         await asyncio.gather(*task)
 

@@ -57,7 +57,9 @@ pythonPlatform = "All"
 
 [tool.ruff]
 select = ["E", "W", "F", "UP", "C", "T", "PYI", "PT", "Q"]
-ignore = ["C901", "Q000"]
-
+ignore = ["C901", "Q000", "Q003"]
 line-length = 108
 target-version = "py38"
+
+[tool.ruff.format]
+quote-style = "single"

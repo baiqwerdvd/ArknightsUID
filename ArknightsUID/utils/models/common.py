@@ -7,7 +7,7 @@ from msgspec import json as mscjson
 from typing_extensions import dataclass_transform
 
 Model = TypeVar('Model', bound='BaseStruct')
-T = TypeVar("T")
+T = TypeVar('T')
 
 
 def transUnset(v: Union[T, UnsetType], d: Any = None) -> Union[T, Any]:
@@ -16,7 +16,10 @@ def transUnset(v: Union[T, UnsetType], d: Any = None) -> Union[T, Any]:
 
 @dataclass_transform(field_specifiers=(field,))
 class BaseStruct(
-    Struct, forbid_unknown_fields=True, omit_defaults=True, gc=False
+    Struct,
+    forbid_unknown_fields=True,
+    omit_defaults=True,
+    gc=False,
 ):
     class Config:
         encoder = mscjson.Encoder()

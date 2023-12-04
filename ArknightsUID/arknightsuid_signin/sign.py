@@ -82,9 +82,7 @@ async def single_daily_sign(bot_id: str, ark_uid: str, gid: str, qid: str):
     if gid == 'on':
         if qid not in private_msg_list:
             private_msg_list[qid] = []
-        private_msg_list[qid].append(
-            {'bot_id': bot_id, 'uid': ark_uid, 'msg': im}
-        )
+        private_msg_list[qid].append({'bot_id': bot_id, 'uid': ark_uid, 'msg': im})
     else:
         # 向群消息推送列表添加这个群
         if gid not in group_msg_list:

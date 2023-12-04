@@ -28,12 +28,12 @@ class RoguelikeOuterBuff(BaseStruct):
 
 
 class RoguelikeOutBuffData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     buffs: Dict[str, RoguelikeOuterBuff]
 
 
 class RoguelikeEndingData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     backgroundId: str
     name: str
     description: str
@@ -43,7 +43,7 @@ class RoguelikeEndingData(BaseStruct):
 
 
 class RoguelikeModeData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     name: str
     canUnlockItem: int
     scoreFactor: float
@@ -56,24 +56,24 @@ class RoguelikeModeData(BaseStruct):
 
 
 class RoguelikeChoiceSceneData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     title: str
     description: str
     background: str
 
 
 class RoguelikeChoiceData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     title: str
     description: Union[str, None]
-    type_: str = field(name="type")
+    type_: str = field(name='type')
     nextSceneId: Union[str, None]
     icon: Union[str, None]
     param: Dict[str, object]
 
 
 class RoguelikeZoneData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     name: str
     description: str
     endingDescription: str
@@ -82,7 +82,7 @@ class RoguelikeZoneData(BaseStruct):
 
 
 class RoguelikeStageData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     linkedStageId: str
     levelId: str
     code: str
@@ -96,12 +96,12 @@ class RoguelikeStageData(BaseStruct):
 
 
 class RoguelikeRelicFeature(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     buffs: List[RoguelikeBuff]
 
 
 class RoguelikeUpgradeTicketFeature(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     profession: int
     rarity: int
     professionList: List[str]
@@ -109,7 +109,7 @@ class RoguelikeUpgradeTicketFeature(BaseStruct):
 
 
 class RoguelikeRecruitTicketFeature(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     profession: int
     rarity: int
     professionList: List[str]
@@ -125,13 +125,13 @@ class RelicStableUnlockParam(BaseStruct):
 
 
 class RoguelikeItemData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     name: str
     description: Union[str, None]
     usage: str
     obtainApproach: str
     iconId: str
-    type_: str = field(name="type")
+    type_: str = field(name='type')
     rarity: str
     value: int
     sortId: int
@@ -193,7 +193,7 @@ class RoguelikeConstTable(BaseStruct):
 
 
 class RoguelikeTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     constTable: RoguelikeConstTable
     itemTable: RoguelikeItemTable

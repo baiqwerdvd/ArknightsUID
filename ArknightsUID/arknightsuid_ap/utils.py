@@ -11,5 +11,5 @@ def seconds2hours_zhcn(seconds: int) -> str:
 
 
 def now_ap(ap: PlayerStatusAp) -> int:
-    _ap =  ap.current + math.floor((datetime.now().timestamp() - ap.lastApAddTime) / 360)
+    _ap = ap.current + math.floor((datetime.now().timestamp() - ap.lastApAddTime) / 360)
     return _ap if _ap <= ap.max else ap.max

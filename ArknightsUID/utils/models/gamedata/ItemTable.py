@@ -16,9 +16,9 @@ class ItemDataBuildingProductInfo(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     count: int
-    type_: str = field(name="type")
+    type_: str = field(name='type')
 
 
 class FavorCharacterInfo(BaseStruct):
@@ -47,13 +47,13 @@ class UniCollectionInfo(BaseStruct):
 
 
 class ApSupplyFeature(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     ap: int
     hasTs: bool
 
 
 class ExpItemFeature(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     gainExp: int
 
 
@@ -83,7 +83,7 @@ class ItemData(BaseStruct):
 
 class CharVoucherItemFeature(BaseStruct):
     displayType: int
-    id_: str = field(name="id")
+    id_: str = field(name='id')
 
 
 class ServerItemReminderMailData(BaseStruct):
@@ -98,7 +98,7 @@ class ServerItemReminderInfo(BaseStruct):
 
 
 class ItemTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     activityPotentialCharacters: Dict[str, ActivityPotentialCharacterInfo]
     apSupplies: Dict[str, ApSupplyFeature]

@@ -34,9 +34,7 @@ async def get_role_img(uid: str):
     secretary_skinId = secretary.skinId.replace('@', '_')
 
     secretary_char_img = (
-        Image.open(SKIN_PATH / f'{secretary_skinId}b.png')
-        .resize((768, 768))
-        .convert('RGBA')
+        Image.open(SKIN_PATH / f'{secretary_skinId}b.png').resize((768, 768)).convert('RGBA')
     )
     char_info.paste(secretary_char_img, (0, -20), secretary_char_img)
 
@@ -48,11 +46,10 @@ async def get_role_img(uid: str):
         player_info.status.name,
         (255, 255, 255),
         sans_font_28,
-        'lm'
+        'lm',
     )
 
     # 放入职信息
-
 
     base_info.resize((475, 400)).convert('RGBA')
     char_info.paste(base_info, (200, 0), base_info)

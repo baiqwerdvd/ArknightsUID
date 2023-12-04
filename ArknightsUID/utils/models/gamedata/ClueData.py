@@ -21,7 +21,7 @@ class MeetingClueDataReceiveTimeBonus(BaseStruct):
 
 
 class ClueData(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     clues: List[MeetingClueDataClueData]
     clueTypes: List[MeetingClueDataClueTypeData]

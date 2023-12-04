@@ -11,9 +11,9 @@ class MiniActTrialDataRuleData(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     count: int
-    type_: str = field(name="type")
+    type_: str = field(name='type')
 
 
 class MiniActTrialDataMiniActTrialRewardData(BaseStruct):
@@ -38,23 +38,23 @@ class MiniActTrialData(BaseStruct):
 
 
 class ActArchiveResDataPicArchiveResItemData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     desc: str
     assetPath: str
-    type_: str = field(name="type")
+    type_: str = field(name='type')
     subType: Union[str, None]
     picDescription: str
     kvId: Union[str, None]
 
 
 class ActArchiveResDataAudioArchiveResItemData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     desc: str
     name: str
 
 
 class ActArchiveResDataAvgArchiveResItemData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     desc: str
     breifPath: Union[str, None]
     contentPath: str
@@ -64,7 +64,7 @@ class ActArchiveResDataAvgArchiveResItemData(BaseStruct):
 
 
 class ActArchiveResDataStoryArchiveResItemData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     desc: str
     date: Union[str, None]
     pic: str
@@ -86,7 +86,7 @@ class ActArchiveResDataActivityNewsLine(BaseStruct):
 
 
 class ActArchiveResDataNewsArchiveResItemData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     desc: str
     newsType: str
     newsFormat: ActArchiveResDataNewsFormatData
@@ -229,7 +229,7 @@ class ActArchiveComponentTable(BaseStruct):
 
 
 class StoryReviewMetaTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     miniActTrialData: MiniActTrialData
     actArchiveResData: ActArchiveResData

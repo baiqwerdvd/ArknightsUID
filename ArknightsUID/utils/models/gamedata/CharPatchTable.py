@@ -37,7 +37,7 @@ class CharacterDataTraitDataBundle(BaseStruct):
 class AttributesData(BaseStruct):
     maxHp: int
     atk: int
-    def_: int = field(name="def")
+    def_: int = field(name='def')
     magicResistance: float
     cost: int
     blockCnt: int
@@ -65,9 +65,9 @@ class CharacterDataAttributesKeyFrame(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     count: int
-    type_: str = field(name="type")
+    type_: str = field(name='type')
 
 
 class CharacterDataPhaseData(BaseStruct):
@@ -129,7 +129,7 @@ class ExternalBuff(BaseStruct):
 
 
 class CharacterDataPotentialRank(BaseStruct):
-    type_: int = field(name="type")
+    type_: int = field(name='type')
     description: str
     buff: Union[ExternalBuff, None]
     equivalentCost: Union[ItemBundle, None]
@@ -191,7 +191,7 @@ class CharPatchDataPatchDetailInfo(BaseStruct):
 
 
 class CharPatchTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     infos: Dict[str, CharPatchDataPatchInfo]
     patchChars: Dict[str, CharacterData]

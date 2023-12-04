@@ -21,13 +21,9 @@ async def text2pic(text: str, max_size: int = 800, font_size: int = 20):
     if text.endswith('\n'):
         text = text[:-1]
 
-    img = Image.new(
-        'RGB', (max_size, len(text) * font_size // 5), (228, 222, 210)
-    )
+    img = Image.new('RGB', (max_size, len(text) * font_size // 5), (228, 222, 210))
     img_draw = ImageDraw.ImageDraw(img)
-    y = draw_center_text_by_line(
-        img_draw, (25, 0), text, sans_font_20, 'black', 750, True
-    )
+    y = draw_center_text_by_line(img_draw, (25, 0), text, sans_font_20, 'black', 750, True)
     img = img.crop((0, 0, 800, int(y + 30)))
     return await convert_img(img)
 
@@ -49,6 +45,7 @@ async def send_role_wiki_pic(bot: Bot, ev: Event):
     await bot.logger.info(f'开始获取{char_name}图鉴')
     img = await get_wiki_info(char_id=char_id)
     await bot.send(await text2pic(img))
+
 
 @sv_sr_wiki.on_prefix('ark模组图鉴')
 async def send_equip_wiki_pic(bot: Bot, ev: Event):

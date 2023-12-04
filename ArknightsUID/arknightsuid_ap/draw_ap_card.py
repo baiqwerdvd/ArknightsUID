@@ -53,9 +53,7 @@ async def get_ap_img(bot_id: str, user_id: str):
             return '请先绑定一个可用CRED & UID再来查询哦~'
         # 开始绘图任务
         task = []
-        img = Image.new(
-            'RGBA', (based_w * len(useable_uid_list), based_h), (0, 0, 0, 0)
-        )
+        img = Image.new('RGBA', (based_w * len(useable_uid_list), based_h), (0, 0, 0, 0))
         for uid_index, uid in enumerate(useable_uid_list):
             task.append(_draw_all_ap_img(img, uid, uid_index))
         await asyncio.gather(*task)
@@ -513,7 +511,6 @@ async def draw_ap_img(uid: str) -> Image.Image:
         anchor='rm',
     )
     img.paste(blue_bar_bg1_img, (-20, 1570), blue_bar_bg1_img)
-
 
     img_draw = ImageDraw.Draw(img)
     img_draw.text(

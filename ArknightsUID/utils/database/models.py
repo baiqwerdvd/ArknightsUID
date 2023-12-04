@@ -13,7 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlmodel import Field
 
-T_ARK_User = TypeVar("T_ARK_User", bound="ArknightsUser")
+T_ARK_User = TypeVar('T_ARK_User', bound='ArknightsUser')
 
 
 class ArknightsBind(Bind, table=True):
@@ -29,7 +29,9 @@ class ArknightsUser(User, table=True):
     @classmethod
     @with_session
     async def select_data_by_cred(
-        cls, session: AsyncSession, cred: str
+        cls,
+        session: AsyncSession,
+        cred: str,
     ) -> Union[BaseModel, None]:
         sql = select(cls).where(cls.cred == cred)
         result = await session.execute(sql)
@@ -38,10 +40,8 @@ class ArknightsUser(User, table=True):
 
     @classmethod
     @with_session
-    async def get_all_user(
-        cls: Type[T_ARK_User], session: AsyncSession
-    ) -> List[T_ARK_User]:
-        sql = select(cls).where(cls.cred is not None, cls.cred != "")
+    async def get_all_user(cls: Type[T_ARK_User], session: AsyncSession) -> List[T_ARK_User]:
+        sql = select(cls).where(cls.cred is not None, cls.cred != '')
         result = await session.execute(sql)
         data: List[T_ARK_User] = result.scalars().all()
         return data
@@ -66,7 +66,10 @@ class ArknightsUser(User, table=True):
         retcode = -1
         if await cls.data_exist(uid=uid):
             retcode = await cls.update_data_by_uid(
-                uid, cls.bot_id, None, **{attr: value}
+                uid,
+                cls.bot_id,
+                None,
+                **{attr: value},
             )
         return not bool(retcode)
 
@@ -83,13 +86,9 @@ class ArknightsPush(Push, table=True):
     ap_is_push: Union[bool, None] = Field(default=False, title='理智是否已经推送')
     training_push: Union[bool, None] = Field(default=False, title='训练室推送')
     training_value: Union[int, None] = Field(default=30, title='训练室推送阈值')
-    training_is_push: Union[bool, None] = Field(
-        default=False, title='训练室是否已经推送'
-    )
+    training_is_push: Union[bool, None] = Field(default=False, title='训练室是否已经推送')
     version_push: Union[bool, None] = Field(default=False, title='版本更新推送')
-    version_is_push: Union[bool, None] = Field(
-        default=False, title='版本更新是否已经推送'
-    )
+    version_is_push: Union[bool, None] = Field(default=False, title='版本更新是否已经推送')
 
     @classmethod
     async def insert_push_data(cls, bot_id: str, uid: str, skd_uid: str):
@@ -122,7 +121,10 @@ class ArknightsPush(Push, table=True):
         retcode = -1
         if await cls.data_exist(uid=uid):
             retcode = await cls.update_data_by_uid(
-                uid, cls.bot_id, None, **data
+                uid,
+                cls.bot_id,
+                None,
+                **data,
             )
         return not bool(retcode)
 
@@ -136,9 +138,7 @@ class ArknightsPush(Push, table=True):
         await cls.update_push_data(uid, {f'{mode}_is_push': status})
 
     @classmethod
-    async def select_push_data(
-        cls: Type[T_BaseIDModel], uid: str
-    ) -> Union[T_BaseIDModel, None]:
+    async def select_push_data(cls: Type[T_BaseIDModel], uid: str) -> Union[T_BaseIDModel, None]:
         return await cls.base_select_data(uid=uid)
 
     @classmethod

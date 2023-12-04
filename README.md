@@ -4,13 +4,12 @@
   <a href="https://github.com/qwerdvd/ArknightsUID"><img src="https://s2.loli.net/2023/10/30/eFZmkfrni9bBjdV.png" width="256" height="256" alt="ArknightsUID"></a>
 </p>
 <h1 align = "center">ArknightsUID 0.1</h1>
-<h4 align = "center">🚧支持OneBot(QQ)、QQ频道、微信、开黑啦、Telegram的全功能星铁Bot插件🚧</h4>
+<h4 align = "center">🚧支持OneBot(QQ)、QQ频道、微信、开黑啦、Telegram的全功能明日方舟Bot插件🚧</h4>
 <div align = "center">
         <a href="https://docs.sayu-bot.com/" target="_blank">安装文档</a> &nbsp; · &nbsp;
         <a href="https://docs.sayu-bot.com/插件帮助/ArknightsUID.html" target="_blank">指令列表</a> &nbsp; · &nbsp;
         <a href="https://docs.sayu-bot.com/常见问题/">常见问题</a>
 </div>
-
 
 ## 丨安装提醒
 
@@ -27,7 +26,7 @@
 ## 丨功能
 
 <details><summary>ark每日 - 命令: arkmr</summary><p>
-<img src="https://s2.loli.net/2023/10/30/atoCVXFJisMZIAu.jpg"/> 
+<img src="https://s2.loli.net/2023/10/30/atoCVXFJisMZIAu.jpg"/>
 </p></details>
 
 以及签到 & 体力推送等..

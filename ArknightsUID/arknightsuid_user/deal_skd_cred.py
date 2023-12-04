@@ -3,9 +3,7 @@ import re
 from ..utils.ark_api import ark_skd_api
 from ..utils.database.models import ArknightsBind, ArknightsPush, ArknightsUser
 
-ERROR_HINT = (
-    '添加失败, 格式为: skd添加cred Cred 例如: skd添加cred VropL583Sb1hClS5buQ4nSASkDlL8tMT'
-)
+ERROR_HINT = '添加失败, 格式为: skd添加cred Cred 例如: skd添加cred VropL583Sb1hClS5buQ4nSASkDlL8tMT'
 UID_HINT = '添加失败, 请先绑定明日方舟UID'
 
 
@@ -22,7 +20,8 @@ async def deal_skd_cred(bot_id: str, cred: str, user_id: str) -> str:
     token = await ark_skd_api.refresh_token(match.group())
 
     check_cred = await ark_skd_api.check_cred_valid(
-        cred=match.group(), token=token
+        cred=match.group(),
+        token=token,
     )
 
     if isinstance(check_cred, bool):

@@ -240,7 +240,7 @@ class SandboxEventData(BaseStruct):
 
 class SandboxEventSceneData(BaseStruct):
     choiceSceneId: str
-    type_: str = field(name="type")
+    type_: str = field(name='type')
     title: str
     description: str
     choices: List[str]
@@ -248,7 +248,7 @@ class SandboxEventSceneData(BaseStruct):
 
 class SandboxEventChoiceData(BaseStruct):
     choiceId: str
-    type_: str = field(name="type")
+    type_: str = field(name='type')
     costAction: int
     finishScene: bool
     title: str
@@ -272,12 +272,12 @@ class SandboxMissionData(BaseStruct):
 
 
 class SandboxUnitData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     name: str
 
 
 class SandboxDailyDescTemplateData(BaseStruct):
-    type_: str = field(name="type")
+    type_: str = field(name='type')
     templateDesc: List[str]
 
 
@@ -296,7 +296,7 @@ class RushEnemyGroupConfig(BaseStruct):
 
 
 class RushEnemyGroupRushEnemyDBRef(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     level: int
 
 
@@ -331,7 +331,7 @@ class RuneData(BaseStruct):
 
 
 class RuneTablePackedRuneData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     points: Union[int, float]
     mutexGroupKey: Union[str, None]
     description: str
@@ -398,7 +398,7 @@ class SandboxItemData(BaseStruct):
 
 
 class SandboxTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     sandboxActTables: Dict[str, SandboxActTable]
     itemDatas: Dict[str, SandboxItemData]

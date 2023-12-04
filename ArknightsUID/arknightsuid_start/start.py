@@ -8,4 +8,5 @@ async def all_start():
     await startup()
     await ark_adapter()
 
+
 asyncio.run(all_start())

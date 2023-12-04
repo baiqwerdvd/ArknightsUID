@@ -1,4 +1,5 @@
 from typing import Dict
+
 from gsuid_core.gss import gss
 from gsuid_core.logger import logger
 
@@ -52,7 +53,8 @@ async def all_check(
             if arkconfig.get_config('CrazyNotice').data:
                 if not await check(mode, raw_data, push_data[f'{mode}_value']):
                     await ArknightsPush.update_push_data(
-                        uid, {f'{mode}_is_push': False}
+                        uid,
+                        {f'{mode}_is_push': False},
                     )
                 continue
         # 准备推送

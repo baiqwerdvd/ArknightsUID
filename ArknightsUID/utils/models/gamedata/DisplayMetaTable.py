@@ -42,8 +42,8 @@ class HomeBackgroundSingleData(BaseStruct):
 
 
 class HomeBackgroundThemeData(BaseStruct):
-    id_: str = field(name="id")
-    type_: str = field(name="type")
+    id_: str = field(name='id')
+    type_: str = field(name='type')
     sortId: int
     startTime: int
     tmName: str
@@ -61,7 +61,7 @@ class ThemeLimitInfo(BaseStruct):
 
 
 class HomeBackgroundThemeLimitData(BaseStruct):
-    id_: str = field(name="id")
+    id_: str = field(name='id')
     limitInfos: List[ThemeLimitInfo]
 
 
@@ -76,7 +76,7 @@ class HomeBackgroundData(BaseStruct):
 
 
 class DisplayMetaTable(BaseStruct):
-    __version__ = "23-10-31-11-47-45-d410ff"
+    __version__ = '23-10-31-11-47-45-d410ff'
 
     playerAvatarData: PlayerAvatarData
     homeBackgroundData: HomeBackgroundData

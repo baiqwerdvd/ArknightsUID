@@ -25,9 +25,7 @@ ark_skd_cred_add = SV('森空岛cred绑定')
 #     await bot.send(uid_list)
 
 
-@sv_user_info.on_command(
-    (f'{PREFIX}绑定uid', f'{PREFIX}切换uid', f'{PREFIX}删除uid', f'{PREFIX}解绑uid')
-)
+@sv_user_info.on_command((f'{PREFIX}绑定uid', f'{PREFIX}切换uid', f'{PREFIX}删除uid', f'{PREFIX}解绑uid'))
 async def send_link_uid_msg(bot: Bot, ev: Event):
     await bot.logger.info('开始执行[绑定/解绑用户信息]')
     qid = ev.user_id

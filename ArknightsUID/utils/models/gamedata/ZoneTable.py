@@ -101,7 +101,7 @@ class ZoneMetaData(BaseStruct):
 
 
 class ZoneTable(BaseStruct):
-    __version__ = '23-10-31-11-47-45-d410ff'
+    __version__ = '23-12-02-09-28-50-918524'
 
     zones: Dict[str, ZoneData]
     weeklyAdditionInfo: Dict[str, WeeklyZoneData]

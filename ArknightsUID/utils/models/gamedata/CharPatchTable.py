@@ -57,6 +57,7 @@ class AttributesData(BaseStruct):
     sleepImmune: bool
     frozenImmune: bool
     levitateImmune: bool
+    disarmedCombatImmune: bool
 
 
 class CharacterDataAttributesKeyFrame(BaseStruct):
@@ -191,7 +192,7 @@ class CharPatchDataPatchDetailInfo(BaseStruct):
 
 
 class CharPatchTable(BaseStruct):
-    __version__ = '23-10-31-11-47-45-d410ff'
+    __version__ = '23-12-02-09-28-50-918524'
 
     infos: Dict[str, CharPatchDataPatchInfo]
     patchChars: Dict[str, CharacterData]

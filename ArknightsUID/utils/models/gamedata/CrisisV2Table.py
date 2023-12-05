@@ -45,7 +45,7 @@ class CrisisV2ScoreLevelToAppraiseData(BaseStruct):
 
 
 class CrisisV2Table(BaseStruct):
-    __version__ = '23-10-31-11-47-45-d410ff'
+    __version__ = '23-12-02-09-28-50-918524'
 
     seasonInfoDataMap: Dict
     scoreLevelToAppraiseDataMap: Dict[str, CrisisV2ScoreLevelToAppraiseData]

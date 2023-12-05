@@ -36,7 +36,7 @@ class MonthlyDailyBonusGroup(BaseStruct):
 
 
 class CheckinTable(BaseStruct):
-    __version__ = '23-10-31-11-47-45-d410ff'
+    __version__ = '23-12-02-09-28-50-918524'
 
     groups: Dict[str, MonthlySignInGroupData]
     monthlySubItem: Dict[str, List[MonthlyDailyBonusGroup]]

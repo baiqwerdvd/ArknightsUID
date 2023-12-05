@@ -17,7 +17,7 @@ class WorldViewTip(BaseStruct):
 
 
 class TipTable(BaseStruct):
-    __version__ = '23-10-31-11-47-45-d410ff'
+    __version__ = '23-12-02-09-28-50-918524'
 
     tips: List[TipData]
     worldViewTips: List[WorldViewTip]

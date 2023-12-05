@@ -2,25 +2,23 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Iterator
 from copy import copy, deepcopy
-from typing import Any, TypeVar
+from typing import Any, Dict, Tuple, TypeVar, Union
+from typing_extensions import dataclass_transform
 
 from msgspec import (
     Struct,
     UnsetType,
     convert,
     field,
-)
-from msgspec import (
     json as mscjson,
 )
-from typing_extensions import dataclass_transform
 
 Model = TypeVar('Model', bound='BaseStruct')
 T1 = TypeVar('T1')
 T2 = TypeVar('T2')
 
 
-def transUnset(v: T1 | UnsetType, d: T2 = None) -> T1 | T2:
+def transUnset(v: Union[T1, UnsetType], d: T2 = None) -> Union[T1, T2]:
     return v if not isinstance(v, UnsetType) else d
 
 
@@ -41,8 +39,8 @@ class BaseStruct(
         *,
         strict: bool = True,
         from_attributes: bool = False,
-        dec_hook: Callable[[type, Any], Any] | None = None,
-        builtin_types: Iterable[type] | None = None,
+        dec_hook: Union[Callable[[type, Any], Any], None] = None,
+        builtin_types: Union[Iterable[type], None] = None,
         str_keys: bool = False,
     ) -> Model:
         if obj is None:
@@ -59,7 +57,7 @@ class BaseStruct(
             str_keys=str_keys,
         )
 
-    def __iter__(self) -> Iterator[tuple[str, Any]]:
+    def __iter__(self) -> Iterator[Tuple[str, Any]]:
         for field_name in self.__struct_fields__:
             yield field_name, getattr(self, field_name)
 
@@ -70,7 +68,7 @@ class BaseStruct(
         for field_name in self.__struct_fields__:
             yield getattr(self, field_name)
 
-    def model_dump(self) -> dict[str, Any]:
+    def model_dump(self) -> Dict[str, Any]:
         return mscjson.decode(mscjson.encode(self))
 
     def dump_child(self, target: str) -> Any:

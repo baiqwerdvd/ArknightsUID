@@ -33,6 +33,7 @@ class ShopRecommendTemplateNormalGiftParam(BaseStruct):
     logoId: str
     color: str
     haveMark: bool
+    availCount: int
 
 
 class ShopRecommendTemplateNormalSkinParam(BaseStruct):
@@ -144,7 +145,7 @@ class LMTGSShopOverlaySchedule(BaseStruct):
 
 
 class ShopClientTable(BaseStruct):
-    __version__ = '23-10-31-11-47-45-d410ff'
+    __version__ = '23-12-02-09-28-50-918524'
 
     recommendList: List[ShopRecommendItem]
     creditUnlockGroup: Dict[str, ShopCreditUnlockGroup]

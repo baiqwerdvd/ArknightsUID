@@ -165,6 +165,11 @@ class RoguelikeTopicChallenge(BaseStruct):
     challengeStoryId: Union[str, None] = None
 
 
+class RoguelikeTopicDifficultyRuleDescReplacement(BaseStruct):
+    enrollId: str
+    ruleDesc: str
+
+
 class RoguelikeTopicDifficulty(BaseStruct):
     modeDifficulty: str
     grade: int
@@ -176,6 +181,7 @@ class RoguelikeTopicDifficulty(BaseStruct):
     canUnlockItem: bool
     doMonthTask: bool
     ruleDesc: str
+    ruleDescReplacements: Union[List[RoguelikeTopicDifficultyRuleDescReplacement], None]
     failTitle: str
     failImageId: str
     failForceDesc: str
@@ -389,6 +395,8 @@ class RoguelikeTopicDetailConst(BaseStruct):
     outerBuffTokenSum: int
     needAllFrontNode: bool
     showBlurBack: bool
+    endingIconBorderDifficulty: int
+    endingIconBorderCount: int
     predefinedLevelTable: Union[
         Dict[str, RoguelikeTopicDetailConstPredefinedPlayerLevelData],
         None,
@@ -436,6 +444,7 @@ class RoguelikeGameZoneData(BaseStruct):
     clockPerformance: Union[str, None]
     displayTime: Union[str, None]
     description: str
+    buffDescription: Union[str, None]
     endingDescription: str
     backgroundId: str
     zoneIconId: str

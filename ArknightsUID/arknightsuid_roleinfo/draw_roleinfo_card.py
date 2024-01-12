@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw
 
 from ..utils.ark_api import ark_skd_api
 from ..utils.fonts.source_han_serif import sans_font_28
-from ..utils.resource.RESOURCE_PATH import SKIN_PATH
+from ..utils.resource.RESOURCE_PATH import SKINPACK_PATH
 
 TEXT_PATH = Path(__file__).parent / 'texture2D'
 bg_img = Image.open(TEXT_PATH / 'bg.png')
@@ -34,7 +34,7 @@ async def get_role_img(uid: str):
     secretary_skinId = secretary.skinId.replace('@', '_')
 
     secretary_char_img = (
-        Image.open(SKIN_PATH / f'{secretary_skinId}b.png').resize((768, 768)).convert('RGBA')
+        Image.open(SKINPACK_PATH / f'{secretary_skinId}b.png').resize((768, 768)).convert('RGBA')
     )
     char_info.paste(secretary_char_img, (0, -20), secretary_char_img)
 

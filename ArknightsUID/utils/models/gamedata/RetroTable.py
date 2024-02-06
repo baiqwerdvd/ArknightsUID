@@ -75,14 +75,17 @@ class Act17sideDataMainlineChapterData(BaseStruct):
 class RunesSelector(BaseStruct):
     professionMask: int
     buildableMask: int
-    charIdFilter: None
-    enemyIdFilter: None
-    enemyIdExcludeFilter: None
-    skillIdFilter: None
-    tileKeyFilter: None
-    groupTagFilter: None
-    filterTagFilter: None
-    subProfessionExcludeFilter: None
+    charIdFilter: Union[List[str], None]
+    enemyIdFilter: Union[List[str], None]
+    enemyIdExcludeFilter: Union[List[str], None]
+    enemyLevelTypeFilter: Union[List[str], None]
+    skillIdFilter: Union[List[str], None]
+    tileKeyFilter: Union[List[str], None]
+    groupTagFilter: Union[List[str], None]
+    filterTagFilter: Union[List[str], None]
+    filterTagExcludeFilter: Union[List[str], None]
+    subProfessionExcludeFilter: Union[List[str], None]
+    mapTagFilter: Union[List[str], None]
 
 
 class TechTreeBranchRunes(BaseStruct):
@@ -241,14 +244,17 @@ class Act17sideData(BaseStruct):
 class RuneDataSelector(BaseStruct):
     buildableMask: int
     professionMask: int
-    charIdFilter: None
-    enemyIdExcludeFilter: None
-    enemyIdFilter: None
-    filterTagFilter: None
-    groupTagFilter: None
-    skillIdFilter: None
-    tileKeyFilter: None
-    subProfessionExcludeFilter: None
+    charIdFilter: Union[List[str], None]
+    enemyIdFilter: Union[List[str], None]
+    enemyIdExcludeFilter: Union[List[str], None]
+    enemyLevelTypeFilter: Union[List[str], None]
+    skillIdFilter: Union[List[str], None]
+    tileKeyFilter: Union[List[str], None]
+    groupTagFilter: Union[List[str], None]
+    filterTagFilter: Union[List[str], None]
+    filterTagExcludeFilter: Union[List[str], None]
+    subProfessionExcludeFilter: Union[List[str], None]
+    mapTagFilter: Union[List[str], None]
 
 
 class RuneData(BaseStruct):
@@ -430,7 +436,7 @@ class RetroStageOverrideInfo(BaseStruct):
 
 
 class RetroTable(BaseStruct):
-    __version__ = '23-12-02-09-28-50-918524'
+    __version__ = '24-02-02-10-18-07-831ad8'
 
     customData: ActivityCustomData
     initRetroCoin: int

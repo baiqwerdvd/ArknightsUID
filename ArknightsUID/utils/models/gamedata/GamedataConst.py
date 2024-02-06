@@ -23,7 +23,7 @@ class TermDescriptionData(BaseStruct):
 
 
 class GamedataConst(BaseStruct):
-    __version__ = '23-12-02-09-28-50-918524'
+    __version__ = '24-02-02-10-18-07-831ad8'
 
     addedRewardDisplayZone: str
     advancedGachaCrystalCost: int
@@ -68,6 +68,7 @@ class GamedataConst(BaseStruct):
     isDynIllustEnabled: bool
     isDynIllustStartEnabled: bool
     isLMGTSEnabled: bool
+    isSandboxPermFuncEnabled: bool
     isRoguelikeAvgAchieveFuncEnabled: bool
     isRoguelikeTopicFuncEnabled: bool
     legacyItemList: List[ItemBundle]
@@ -116,6 +117,7 @@ class GamedataConst(BaseStruct):
     voucherSkinRedeem: int
     weeklyOverrideDesc: str
     TSO: int
+    classicProtectChar: List[str]
     isVoucherClassicItemDistinguishable: Union[bool, None] = None
     operatorRecordsStartTime: Union[int, None] = None
     subProfessionDamageTypePairs: Union[Dict[str, int], None] = None

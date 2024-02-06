@@ -421,7 +421,7 @@ class BuildingDataCreditFormula(BaseStruct):
 
 
 class BuildingData(BaseStruct):
-    __version__ = '23-12-02-09-28-50-918524'
+    __version__ = '24-02-02-10-18-07-831ad8'
 
     controlSlotId: str
     meetingSlotId: str
@@ -446,6 +446,7 @@ class BuildingData(BaseStruct):
     humanResourceLimit: int
     tiredApThreshold: int
     processedCountRatio: int
+    trainingBonusMax: int
     tradingStrategyUnlockLevel: int
     tradingReduceTimeUnit: int
     tradingLaborCostUnit: int

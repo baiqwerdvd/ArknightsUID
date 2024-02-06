@@ -1236,7 +1236,7 @@ class RoguelikeTopicCustomizeData(BaseStruct):
 
 
 class RoguelikeTopicTable(BaseStruct):
-    __version__ = '23-04-23-15-07-53-24a81c'
+    __version__ = '23-12-02-09-28-50-918524'
 
     topics: Dict[str, RoguelikeTopicBasicData]
     constant: RoguelikeTopicConst

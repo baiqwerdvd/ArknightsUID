@@ -2,7 +2,7 @@ import asyncio
 import re
 from pathlib import Path
 from pprint import pformat
-from typing import Any, Dict, Union
+from typing import Dict, Union
 
 from colorama import Fore, Style
 from gsuid_core.utils.colortext.ColorText import ColorTextGroup, split_ctg
@@ -10,7 +10,14 @@ from gsuid_core.utils.image.image_tools import draw_text_by_line
 from jinja2 import Template
 from PIL import Image, ImageDraw
 
-from ..arknightsuid_resource.constants import Excel
+from ..arknightsuid_resource.constants import (
+    BATTLE_EQUIP_TABLE,
+    CHARACTER_TABLE,
+    RANGE_TABLE,
+    SKILL_TABLE,
+    UNIEQUIP_TABLE,
+    CharacterTable,
+)
 from ..utils.fonts.source_han_sans import (
     sans_font_18,
     sans_font_20,
@@ -97,7 +104,7 @@ def test_ctg(length: int, *params):
     print(Fore.CYAN, '\t', f_[0], '\n\t'.join(f_[0:]))
 
 
-def render_template(template_str: str, data: Dict[str, Union[float, int]]):
+def render_template(template_str: str, data: Dict[str, Union[float, Union[int, None]]]):
     matches = re.finditer(r'\{([^}:]+)\}', template_str)
     matches_1 = re.finditer(r'\{([^{}]+):([^{}]+)\}', template_str)
 
@@ -131,9 +138,6 @@ def render_template(template_str: str, data: Dict[str, Union[float, int]]):
 
 
 async def get_equip_info(char_id: str):
-    UNIEQUIP_TABLE = Excel.UNIEQUIP_TABLE
-    BATTLE_EQUIP_TABLE = Excel.BATTLE_EQUIP_TABLE
-
     im = ''
 
     try:
@@ -244,10 +248,6 @@ async def get_equip_info(char_id: str):
 
 
 async def get_wiki_info(char_id: str):
-    CHARACTER_TABLE = Excel.CHARATER_TABLE
-    SKILL_TABLE = Excel.SKILL_TABLE
-    UNIEQUIP_TABLE = Excel.UNIEQUIP_TABLE
-
     im = ''
 
     character_data = CHARACTER_TABLE[char_id]
@@ -386,10 +386,6 @@ async def get_wiki_info(char_id: str):
 
 
 async def draw_wiki(char_id: str):
-    CHARACTER_TABLE = Excel.CHARATER_TABLE
-    SKILL_TABLE = Excel.SKILL_TABLE
-    UNIEQUIP_TABLE = Excel.UNIEQUIP_TABLE
-    RANGE_TABLE = Excel.RANGE_TABLE
     img = Image.new('RGBA', (1500, 2800), (255, 255, 255, 0))
     draw = ImageDraw.Draw(img)
 

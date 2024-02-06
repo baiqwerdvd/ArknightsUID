@@ -77,8 +77,20 @@ class MissionData(BaseStruct):
     haveSubMissionToUnlock: bool
 
 
+class CrossAppShareMissions(BaseStruct):
+    shareMissionId: str
+    missionType: str
+    relateActivityId: Union[str, None]
+    startTime: int
+    endTime: int
+    limitCount: int
+    condTemplate: Union[str, None]
+    condParam: List[Union[str, None]]
+    rewardsList: Union[List[str], None]
+
+
 class MissionTable(BaseStruct):
-    __version__ = '23-12-02-09-28-50-918524'
+    __version__ = '24-02-02-10-18-07-831ad8'
 
     missions: Dict[str, MissionData]
     missionGroups: Dict[str, MissionGroup]
@@ -86,3 +98,5 @@ class MissionTable(BaseStruct):
     weeklyRewards: Dict[str, MissionWeeklyRewardConf]
     dailyMissionGroupInfo: Dict[str, DailyMissionGroupInfo]
     dailyMissionPeriodInfo: List[DailyMissionGroupInfo]
+    crossAppShareMissions: Dict[str, CrossAppShareMissions]
+    crossAppShareMissionConst: Dict[str, str]

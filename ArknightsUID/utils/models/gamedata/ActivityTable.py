@@ -471,12 +471,15 @@ class RuneDataSelector(BaseStruct):
     buildableMask: int
     charIdFilter: Union[List[str], None]
     enemyIdFilter: Union[List[str], None]
+    enemyLevelTypeFilter: Union[List[str], None]
     enemyIdExcludeFilter: Union[List[str], None]
     skillIdFilter: Union[List[str], None]
     tileKeyFilter: Union[List[str], None]
     groupTagFilter: Union[List[str], None]
     filterTagFilter: Union[List[str], None]
+    filterTagExcludeFilter: Union[List[str], None]
     subProfessionExcludeFilter: Union[List[str], None]
+    mapTagFilter: Union[List[str], None]
 
 
 class Blackboard(BaseStruct):
@@ -495,7 +498,7 @@ class RuneTablePackedRuneData(BaseStruct):
     id_: str = field(name='id')
     points: float
     mutexGroupKey: Union[str, None]
-    description: str
+    description: Union[str, None]
     runes: List[RuneData]
 
 
@@ -2123,12 +2126,12 @@ class ActivityTableActivityDetailTable(BaseStruct):
     INTERLOCK: Dict[str, ActivityInterlockData]
     BOSS_RUSH: Dict[str, ActivityBossRushData]
     FLOAT_PARADE: Dict[str, ActivityFloatParadeData]
-    SANDBOX: Dict[str, ActSandboxData]
     MAIN_BUFF: Dict[str, ActivityMainlineBuffData]
     TYPE_ACT24SIDE: Dict[str, Act24SideData]
     TYPE_ACT25SIDE: Dict[str, Act25SideData]
     TYPE_ACT27SIDE: Dict[str, Act27SideData]
     TYPE_ACT42D0: Dict[str, Act42D0Data]
+    SANDBOX: Union[Dict[str, ActSandboxData], None] = None  # Remove in 2.2.01
     TYPE_ACT38D1: Union[Dict[str, Act38D1Data], None] = None  # Remove in 2.1.21
 
 
@@ -2605,7 +2608,7 @@ class ActivityTableExtraData(BaseStruct):
 
 
 class ActivityTable(BaseStruct):
-    __version__ = '23-12-02-09-28-50-918524'
+    __version__ = '24-02-02-10-18-07-831ad8'
 
     basicInfo: Dict[str, ActivityTableBasicData]
     homeActConfig: Dict[str, ActivityTableHomeActivityConfig]

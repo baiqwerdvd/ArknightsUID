@@ -67,8 +67,8 @@ def read_json(file_path: Path, **kwargs) -> dict:
         return {}
 
 
-ACTIVITY_TABLE = ActivityTable.convert(read_json(GAMEDATA_PATH / 'activity_table.json'))
-AUDIO_DATA = AudioData.convert(read_json(GAMEDATA_PATH / 'audio_data.json'))
+# ACTIVITY_TABLE = ActivityTable.convert(read_json(GAMEDATA_PATH / 'activity_table.json'))
+# AUDIO_DATA = AudioData.convert(read_json(GAMEDATA_PATH / 'audio_data.json'))
 
 BATTLE_EQUIP_TABLE = BattleEquipTable.convert(
     {'equips': read_json(GAMEDATA_PATH / 'battle_equip_table.json')}
@@ -88,7 +88,7 @@ CLUE_DATA = ClueData.convert(read_json(GAMEDATA_PATH / 'clue_data.json'))
 CRISIS_TABLE = CrisisTable.convert(read_json(GAMEDATA_PATH / 'crisis_table.json'))
 CRISIS_V2_TABLE = CrisisV2Table.convert(read_json(GAMEDATA_PATH / 'crisis_v2_table.json'))
 
-DISPLAY_META_TABLE = DisplayMetaTable.convert(read_json(GAMEDATA_PATH / 'display_meta_table.json'))
+# DISPLAY_META_TABLE = DisplayMetaTable.convert(read_json(GAMEDATA_PATH / 'display_meta_table.json'))
 
 ENEMY_HANDBOOK_TABLE = EnemyHandbookTable.convert(read_json(GAMEDATA_PATH / 'enemy_handbook_table.json'))
 

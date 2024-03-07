@@ -52,6 +52,7 @@ class HomeBackgroundThemeData(BaseStruct):
     obtainApproach: str
     unlockDesList: List[str]
     isLimitObtain: bool
+    hideWhenLimit: bool
 
 
 class ThemeLimitInfo(BaseStruct):
@@ -74,9 +75,18 @@ class HomeBackgroundData(BaseStruct):
     defaultBgMusicId: str
     themeStartTime: int
 
+# class
+
+# class NameCardV2Data(BaseStruct):
+#     fixedModuleData: Dict[str, Dict[str, str]]
+#     removableModuleData: Dict[str, RemovableModule]
+#     skinData: Dict[str, NameCardV2DataSkinData]
+#     consts: NameCardV2DataConsts
+
 
 class DisplayMetaTable(BaseStruct):
     __version__ = '24-02-02-10-18-07-831ad8'
 
     playerAvatarData: PlayerAvatarData
     homeBackgroundData: HomeBackgroundData
+    # nameCardV2Data: NameCardV2Data

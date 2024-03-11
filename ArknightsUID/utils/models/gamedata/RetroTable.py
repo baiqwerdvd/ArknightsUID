@@ -6,14 +6,14 @@ from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class StageDataDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
@@ -32,8 +32,8 @@ class Act17sideDataChoiceNodeOptionData(BaseStruct):
 
 class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
     CannotGetPercent: Union[float, None] = None
     GetPercent: Union[float, None] = None
@@ -69,7 +69,7 @@ class Act17sideDataMainlineChapterData(BaseStruct):
     chapterDes: str
     chapterIcon: str
     unlockDes: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
 
 
 class RunesSelector(BaseStruct):
@@ -95,7 +95,7 @@ class TechTreeBranchRunes(BaseStruct):
 
 
 class BranchRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     mutexGroupKey: None
     description: str
@@ -266,7 +266,7 @@ class RuneData(BaseStruct):
 
 class RuneTablePackedRuneData(BaseStruct):
     description: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     runes: List[RuneData]
     mutexGroupKey: Union[str, None] = None
@@ -322,8 +322,8 @@ class RetroTrailRuleData(BaseStruct):
 class WeightItemBundle(BaseStruct):
     count: int
     dropType: str
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     weight: int
 
 
@@ -407,7 +407,7 @@ class RetroTrailData(BaseStruct):
 
 class RetroActData(BaseStruct):
     retroId: str
-    type_: int = field(name='type')
+    type_: int = field(name="type")
     linkedActId: List[str]
     startTime: int
     trailStartTime: int
@@ -436,7 +436,7 @@ class RetroStageOverrideInfo(BaseStruct):
 
 
 class RetroTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     customData: ActivityCustomData
     initRetroCoin: int

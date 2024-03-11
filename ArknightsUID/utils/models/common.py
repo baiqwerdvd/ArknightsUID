@@ -6,8 +6,8 @@ from msgspec import Struct, UnsetType, convert, field
 from msgspec import json as mscjson
 from typing_extensions import dataclass_transform
 
-Model = TypeVar('Model', bound='BaseStruct')
-T = TypeVar('T')
+Model = TypeVar("Model", bound="BaseStruct")
+T = TypeVar("T")
 
 
 def transUnset(v: Union[T, UnsetType], d: Any = None) -> Union[T, Any]:

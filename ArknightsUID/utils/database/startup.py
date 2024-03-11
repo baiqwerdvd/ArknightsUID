@@ -3,9 +3,9 @@ from gsuid_core.utils.database.base_models import async_maker
 from sqlalchemy.sql import text
 
 exec_list = [
-    'ALTER TABLE arknightspush ADD COLUMN version_push BOOLEAN DEFAULT FALSE;',
-    'ALTER TABLE arknightspush ADD COLUMN version_is_push BOOLEAN DEFAULT FALSE;',
-    'ALTER TABLE arknightsuser ADD COLUMN token TEXT;',
+    "ALTER TABLE arknightspush ADD COLUMN version_push BOOLEAN DEFAULT FALSE;",
+    "ALTER TABLE arknightspush ADD COLUMN version_is_push BOOLEAN DEFAULT FALSE;",
+    "ALTER TABLE arknightsuser ADD COLUMN token TEXT;",
 ]
 
 

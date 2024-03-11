@@ -6,8 +6,8 @@ from msgspec import field
 
 
 class MissionDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     count: int
 
 
@@ -28,26 +28,26 @@ class MissionWeeklyRewardConf(BaseStruct):
     beginTime: int
     endTime: int
     groupId: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     periodicalPointCost: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     sortIndex: int
     rewards: List[MissionDisplayRewards]
 
 
 class MissionDailyRewardConf(BaseStruct):
     groupId: str
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     periodicalPointCost: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     sortIndex: int
     rewards: List[MissionDisplayRewards]
 
 
 class MissionGroup(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     title: Union[str, None]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     preMissionGroup: Union[str, None]
     period: Union[List[int], None]
     rewards: Union[List[MissionDisplayRewards], None]
@@ -57,10 +57,10 @@ class MissionGroup(BaseStruct):
 
 
 class MissionData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     description: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     itemBgType: str
     preMissionIds: Union[List[str], None]
     template: str
@@ -90,7 +90,7 @@ class CrossAppShareMissions(BaseStruct):
 
 
 class MissionTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     missions: Dict[str, MissionData]
     missionGroups: Dict[str, MissionGroup]

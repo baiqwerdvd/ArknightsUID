@@ -11,15 +11,15 @@ class StageDataConditionDesc(BaseStruct):
 
 
 class StageDataDisplayRewards(BaseStruct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
 class StageDataDisplayDetailRewards(BaseStruct):
     occPercent: int
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
     dropType: int
 
 
@@ -44,9 +44,9 @@ class ProgressInfo(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class ExtraInfo(BaseStruct):
@@ -139,7 +139,7 @@ class TileAppendInfo(BaseStruct):
 
 
 class WeeklyForceOpenTable(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     startTime: int
     endTime: int
     forceOpenList: List[str]
@@ -241,7 +241,7 @@ class ApProtectZoneInfo(BaseStruct):
 
 
 class StageTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     stages: Dict[str, StageData]
     runeStageGroups: Dict[str, RuneStageGroupData]

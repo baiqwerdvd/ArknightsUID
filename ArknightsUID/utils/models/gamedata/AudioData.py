@@ -62,7 +62,7 @@ class BattleVoiceOption(BaseStruct):
 
 
 class MusicData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     bank: str
 
@@ -91,7 +91,7 @@ class AudioDataFadeStyle(BaseStruct):
 
 
 class AudioData(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     bgmBanks: List[BGMBank]
     soundFXBanks: List[SoundFXBank]

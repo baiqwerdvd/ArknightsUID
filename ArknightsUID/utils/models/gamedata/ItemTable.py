@@ -1,4 +1,4 @@
-from typing import Dict, List, Union
+from typing import ClassVar, Dict, List, Union
 
 from ..common import BaseStruct
 
@@ -16,9 +16,9 @@ class ItemDataBuildingProductInfo(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class FavorCharacterInfo(BaseStruct):
@@ -47,13 +47,13 @@ class UniCollectionInfo(BaseStruct):
 
 
 class ApSupplyFeature(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     ap: int
     hasTs: bool
 
 
 class ExpItemFeature(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     gainExp: int
 
 
@@ -70,9 +70,9 @@ class ItemData(BaseStruct):
     sortId: int
     classifyType: str
     itemType: str
-    stageDropList: List[Union[ItemDataStageDropInfo, None]] = []
-    buildingProductList: List[Union[ItemDataBuildingProductInfo, None]] = []
-    voucherRelateList: List[Union[ItemDataVoucherRelateInfo, None]] = []
+    stageDropList: ClassVar[List[Union[ItemDataStageDropInfo, None]]] = []
+    buildingProductList: ClassVar[List[Union[ItemDataBuildingProductInfo, None]]] = []
+    voucherRelateList: ClassVar[List[Union[ItemDataVoucherRelateInfo, None]]] = []
     overrideBkg: Union[str, None] = None
     usage: Union[str, None] = None
     description: Union[str, None] = None
@@ -83,7 +83,7 @@ class ItemData(BaseStruct):
 
 class CharVoucherItemFeature(BaseStruct):
     displayType: int
-    id_: str = field(name='id')
+    id_: str = field(name="id")
 
 
 class ServerItemReminderMailData(BaseStruct):
@@ -98,7 +98,7 @@ class ServerItemReminderInfo(BaseStruct):
 
 
 class ItemTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     activityPotentialCharacters: Dict[str, ActivityPotentialCharacterInfo]
     apSupplies: Dict[str, ApSupplyFeature]

@@ -2,7 +2,7 @@ from pathlib import Path
 
 from PIL import ImageFont
 
-FONT_ORIGIN_PATH = Path(__file__).parent / 'SourceHanSerifCN-Medium.ttf'
+FONT_ORIGIN_PATH = Path(__file__).parent / "SourceHanSerifCN-Medium.ttf"
 
 
 def source_han_serif_origin(size: int) -> ImageFont.FreeTypeFont:

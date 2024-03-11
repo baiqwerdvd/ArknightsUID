@@ -6,8 +6,8 @@ from msgspec import Struct, field
 # ArknightsAttendanceCalendar Start
 ################
 class ArknightsAttendanceAwardResource(Struct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     name: str
     rarity: int
 
@@ -15,13 +15,13 @@ class ArknightsAttendanceAwardResource(Struct):
 class ArknightsAttendanceRecord(Struct):
     ts: str
     resourceId: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     count: int
 
 
 class ArknightsAttendanceCalendar(Struct):
     resourceId: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     count: int
     available: bool
     done: bool
@@ -40,7 +40,7 @@ class ArknightsAttendanceCalendarModel(Struct):
 class ArknightsAttendanceAward(Struct):
     resource: ArknightsAttendanceAwardResource
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class ArknightsAttendanceModel(Struct):
@@ -69,7 +69,7 @@ class UserMeModerator(Struct):
 
 class UserGameStatusAp(Struct):
     current: int
-    max_: int = field(name='max')
+    max_: int = field(name="max")
     lastApAddTime: int
     completeRecoveryTime: int
 
@@ -80,8 +80,8 @@ class UserGameStatusSecretary(Struct):
 
 
 class UserGameStatusAvatar(Struct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
 
 
 class UserGameStatus(Struct):
@@ -113,7 +113,7 @@ class UserMeInfoRts(Struct):
 
 
 class UserMeInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     nickname: str
     profile: str
     avatarCode: int
@@ -152,7 +152,7 @@ class ArknightsUserMeModel(Struct, omit_defaults=True):
 
 
 class PlayerManufactureFormulaInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     itemId: str
     count: int
     weight: int
@@ -161,7 +161,7 @@ class PlayerManufactureFormulaInfo(Struct):
 
 
 class PlayerEquipmentInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     typeIcon: str
     shiningColor: str
@@ -170,7 +170,7 @@ class PlayerEquipmentInfo(Struct):
 
 
 class PlayerCampaignZoneInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
 
 
@@ -179,19 +179,19 @@ class PlayerMedalInfo(Struct):
 
 
 class PlayerCampaignInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     campaignZoneId: str
 
 
 class PlayerRogueInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     sort: int
 
 
 class PlayerTowerInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     subName: str
     hasHard: Union[bool, None] = None
@@ -199,28 +199,28 @@ class PlayerTowerInfo(Struct):
 
 
 class PlayerZoneInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
 
 
 class PlayerActivityInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     startTime: int
     endTime: int
     rewardEndTime: int
     isReplicate: bool
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class PlayerStageInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     code: str
     name: str
 
 
 class PlayerSkinInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     brandId: str
     sortId: int
     displayTagId: str
@@ -235,7 +235,7 @@ class PlayerSkinInfo(Struct):
 
 
 class PlayerCharInfo(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     nationId: str
     groupId: str
@@ -262,7 +262,7 @@ class PlayerActivity(Struct):
     actId: str
     actReplicaId: str
     zones: List[ActivityZone]
-    type_: Union[str, None] = field(name='type', default=None)
+    type_: Union[str, None] = field(name="type", default=None)
 
 
 class RewoardItem(Struct):
@@ -451,14 +451,14 @@ class BuildingDormitories(Struct):
 
 
 class BuildingStockDelivery(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class BuildingStock(Struct):
     instId: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     delivery: List[BuildingStockDelivery]
     gain: BuildingStockDelivery
     isViolated: bool
@@ -522,17 +522,17 @@ class PlayerBuilding(Struct):
 
 
 class PlayerInfoSkin(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     ts: int
 
 
 class PlayerInfoCharSkill(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     specializeLevel: int
 
 
 class PlayerInfoCharEquip(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     level: int
 
 
@@ -552,7 +552,7 @@ class PlayerInfoChar(Struct):
 
 
 class PlayerAssistCharEquip(Struct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     level: int
 
 
@@ -569,7 +569,7 @@ class PlayerAssistChar(Struct):
 
 
 class PlayerMedal(Struct):
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     template: str
     templateMedalList: List[str]
     customMedalLayout: List[Union[str, None]]
@@ -589,8 +589,8 @@ class PlayerStatusSecretary(Struct):
 
 
 class PlayerStatusAvatar(Struct):
-    type_: str = field(name='type')
-    id_: str = field(name='id')
+    type_: str = field(name="type")
+    id_: str = field(name="id")
 
 
 class PlayerStatus(Struct):

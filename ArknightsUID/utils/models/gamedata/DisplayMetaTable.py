@@ -42,8 +42,8 @@ class HomeBackgroundSingleData(BaseStruct):
 
 
 class HomeBackgroundThemeData(BaseStruct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     sortId: int
     startTime: int
     tmName: str
@@ -62,7 +62,7 @@ class ThemeLimitInfo(BaseStruct):
 
 
 class HomeBackgroundThemeLimitData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     limitInfos: List[ThemeLimitInfo]
 
 
@@ -75,6 +75,7 @@ class HomeBackgroundData(BaseStruct):
     defaultBgMusicId: str
     themeStartTime: int
 
+
 # class
 
 # class NameCardV2Data(BaseStruct):
@@ -85,7 +86,7 @@ class HomeBackgroundData(BaseStruct):
 
 
 class DisplayMetaTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     playerAvatarData: PlayerAvatarData
     homeBackgroundData: HomeBackgroundData

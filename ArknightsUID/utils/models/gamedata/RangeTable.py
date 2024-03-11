@@ -18,13 +18,13 @@ class ObscuredRect(BaseStruct):
 
 
 class Stage(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     direction: int
     grids: List[GridPosition]
     boundingBoxes: Union[List[ObscuredRect], None] = None
 
 
 class RangeTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     range_: Dict[str, Stage]

@@ -873,7 +873,7 @@ class SandboxPermItemData(BaseStruct):
 
 
 class SandboxPermTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     basicInfo: Dict[str, SandboxPermBasicData]
     detail: SandboxPermDetailData

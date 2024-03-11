@@ -21,7 +21,7 @@ class RoguelikeTopicConfig(BaseStruct):
 
 
 class RoguelikeTopicBasicData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     startTime: int
     disappearTimeOnMainScreen: int
@@ -68,7 +68,7 @@ class RoguelikeTopicEnroll(BaseStruct):
 
 
 class RoguelikeTopicBP(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     level: int
     tokenNum: int
     nextTokenNum: int
@@ -88,9 +88,9 @@ class RoguelikeTopicMilestoneUpdateData(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class RoguelikeTopicBPGrandPrize(BaseStruct):
@@ -111,7 +111,7 @@ class RoguelikeTopicBPGrandPrize(BaseStruct):
 
 
 class RoguelikeTopicMonthMission(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     taskName: str
     taskClass: str
     innerClassWeight: int
@@ -122,7 +122,7 @@ class RoguelikeTopicMonthMission(BaseStruct):
 
 
 class RoguelikeTopicMonthSquad(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     teamName: str
     teamSubName: Union[str, None]
     teamFlavorDesc: Union[str, None]
@@ -298,8 +298,8 @@ class ActArchiveBuffData(BaseStruct):
 
 
 class ActArchiveTotemItemData(BaseStruct):
-    id_: str = field(name='id')
-    type_: int = field(name='type')
+    id_: str = field(name="id")
+    type_: int = field(name="type")
     enrollConditionId: Union[str, None]
     sortId: int
 
@@ -309,7 +309,7 @@ class ActArchiveTotemData(BaseStruct):
 
 
 class ActArchiveChaosItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     isHidden: bool
     enrollId: Union[str, None]
     sortId: int
@@ -420,7 +420,7 @@ class RoguelikeGameInitData(BaseStruct):
 
 
 class RoguelikeGameStageData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     linkedStageId: str
     levelId: str
     code: str
@@ -439,7 +439,7 @@ class RoguelikeGameStageData(BaseStruct):
 
 
 class RoguelikeGameZoneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     clockPerformance: Union[str, None]
     displayTime: Union[str, None]
@@ -462,7 +462,7 @@ class RoguelikeGameTrapData(BaseStruct):
 
 
 class RoguelikeGameRecruitTicketData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     profession: int
     rarity: int
     professionList: List[str]
@@ -473,7 +473,7 @@ class RoguelikeGameRecruitTicketData(BaseStruct):
 
 
 class RoguelikeGameUpgradeTicketData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     profession: int
     rarity: int
     professionList: List[str]
@@ -481,7 +481,7 @@ class RoguelikeGameUpgradeTicketData(BaseStruct):
 
 
 class RoguelikeGameCustomTicketData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     subType: str
     discardText: str
 
@@ -498,7 +498,7 @@ class RoguelikeBuff(BaseStruct):
 
 
 class RoguelikeGameRelicData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     buffs: List[RoguelikeBuff]
 
 
@@ -509,13 +509,13 @@ class RoguelikeGameRelicCheckParam(BaseStruct):
 
 
 class RoguelikeGameRelicParamData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     checkCharBoxTypes: List[str]
     checkCharBoxParams: List[RoguelikeGameRelicCheckParam]
 
 
 class RoguelikeGameRecruitGrpData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     iconId: str
     name: str
     desc: str
@@ -523,7 +523,7 @@ class RoguelikeGameRecruitGrpData(BaseStruct):
 
 
 class RoguelikeChoiceDisplayData(BaseStruct):
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     funcIconId: Union[str, None]
     itemId: Union[str, None]
     taskId: Union[str, None]
@@ -533,11 +533,11 @@ class RoguelikeChoiceDisplayData(BaseStruct):
 
 
 class RoguelikeGameChoiceData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     title: str
     description: Union[str, None]
     lockedCoverDesc: Union[str, None]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     leftDecoType: str
     nextSceneId: Union[str, None]
     icon: Union[str, None]
@@ -546,7 +546,7 @@ class RoguelikeGameChoiceData(BaseStruct):
 
 
 class RoguelikeGameChoiceSceneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     title: str
     description: str
     background: Union[str, None]
@@ -569,8 +569,8 @@ class RoguelikeGameNodeSubTypeData(BaseStruct):
 
 
 class RoguelikeGameVariationData(BaseStruct):
-    id_: str = field(name='id')
-    type_: str = field(name='type')
+    id_: str = field(name="id")
+    type_: str = field(name="type")
     outerName: str
     innerName: str
     functionDesc: str
@@ -580,7 +580,7 @@ class RoguelikeGameVariationData(BaseStruct):
 
 
 class RoguelikeGameCharBuffData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     iconId: str
     outerName: str
     innerName: str
@@ -590,7 +590,7 @@ class RoguelikeGameCharBuffData(BaseStruct):
 
 
 class RoguelikeGameSquadBuffData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     iconId: str
     outerName: str
     innerName: str
@@ -672,7 +672,7 @@ class RoguelikeGameEndingDataLevelIcon(BaseStruct):
 
 
 class RoguelikeGameEndingData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     familyId: int
     name: str
     desc: str
@@ -694,13 +694,13 @@ class TipData(BaseStruct):
 
 
 class RoguelikeGameItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     description: Union[str, None]
     usage: str
     obtainApproach: str
     iconId: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     subType: str
     rarity: str
     value: int
@@ -804,7 +804,7 @@ class RoguelikeTopicDetail(BaseStruct):
     ]
     styleConfig: Dict[str, RoguelikePredefinedStyleData]
     exploreTools: Union[Dict[str, RoguelikeGameExploreToolData], None] = None
-    styles: Union[Dict[str, RoguelikePredefinedStyleData], None] = {}
+    styles: Union[Dict[str, RoguelikePredefinedStyleData], None] = None
 
 
 class RoguelikeModuleBaseData(BaseStruct):
@@ -970,7 +970,7 @@ class RoguelikeVisionData(BaseStruct):
 
 class RoguelikeVisionModuleDataVisionChoiceConfig(BaseStruct):
     value: int
-    type_: int = field(name='type')
+    type_: int = field(name="type")
 
 
 class RoguelikeVisionModuleConsts(BaseStruct):
@@ -1236,7 +1236,7 @@ class RoguelikeTopicCustomizeData(BaseStruct):
 
 
 class RoguelikeTopicTable(BaseStruct):
-    __version__ = '23-12-02-09-28-50-918524'
+    __version__ = "23-12-02-09-28-50-918524"
 
     topics: Dict[str, RoguelikeTopicBasicData]
     constant: RoguelikeTopicConst

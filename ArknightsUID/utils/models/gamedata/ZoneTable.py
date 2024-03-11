@@ -8,7 +8,7 @@ from msgspec import field
 class ZoneData(BaseStruct):
     zoneID: str
     zoneIndex: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     zoneNameFirst: Union[str, None]
     zoneNameSecond: Union[str, None]
     zoneNameTitleCurrent: Union[str, None]
@@ -21,7 +21,7 @@ class ZoneData(BaseStruct):
 
 class WeeklyZoneData(BaseStruct):
     daysOfWeek: List[int]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class ZoneValidInfo(BaseStruct):
@@ -47,9 +47,9 @@ class MainlineZoneData(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class RecordRewardInfo(BaseStruct):
@@ -101,7 +101,7 @@ class ZoneMetaData(BaseStruct):
 
 
 class ZoneTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     zones: Dict[str, ZoneData]
     weeklyAdditionInfo: Dict[str, WeeklyZoneData]

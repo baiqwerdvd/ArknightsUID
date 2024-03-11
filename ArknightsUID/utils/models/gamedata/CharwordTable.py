@@ -36,7 +36,7 @@ class VoiceLangInfoData(BaseStruct):
 class VoiceLangData(BaseStruct):
     wordkeys: List[str]
     charId: str
-    dict_: Dict[str, VoiceLangInfoData] = field(name='dict')
+    dict_: Dict[str, VoiceLangInfoData] = field(name="dict")
 
 
 class VoiceLangTypeData(BaseStruct):
@@ -55,7 +55,7 @@ class NewVoiceTimeData(BaseStruct):
 
 
 class CharwordTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     charWords: Dict[str, CharWordData]
     voiceLangDict: Dict[str, VoiceLangData]

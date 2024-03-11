@@ -6,9 +6,9 @@ from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class UnlockCondition(BaseStruct):
@@ -39,7 +39,7 @@ class UniEquipData(BaseStruct):
     unlockFavorPercent: int
     missionList: List[str]
     itemCost: Union[List[ItemBundle], None]
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     traitDescBundle: List[TraitDescBundle]
 
 
@@ -59,7 +59,7 @@ class SubProfessionData(BaseStruct):
 
 
 class UniequipData(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     equipDict: Dict[str, UniEquipData]
     missionList: Dict[str, UniEquipMissionData]

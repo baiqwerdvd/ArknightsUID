@@ -21,7 +21,7 @@ class PlayerAvatarPerData(BaseStruct):
 
 
 class PlayerAvatarTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     avatarList: List[PlayerAvatarPerData]
     avatarTypeData: Dict[str, PlayerAvatarGroupData]

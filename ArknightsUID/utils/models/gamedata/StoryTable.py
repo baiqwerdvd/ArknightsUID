@@ -6,7 +6,7 @@ from msgspec import field
 
 
 class StoryDataTrigger(BaseStruct):
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     key: Union[str, None]
     useRegex: bool
 
@@ -27,13 +27,13 @@ class StoryDataCondition(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class StoryData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     needCommit: bool
     repeatable: bool
     disabled: bool
@@ -46,6 +46,6 @@ class StoryData(BaseStruct):
 
 
 class StoryTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     stories: Dict[str, StoryData]

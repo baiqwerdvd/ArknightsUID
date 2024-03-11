@@ -15,23 +15,25 @@ from ..arknightsuid_wiki.draw_wiki_img import (
 from ..arknightsuid_resource.constants import CHARACTER_TABLE
 from ..utils.fonts.source_han_sans import sans_font_20
 
-sv_sr_wiki = SV('arkWIKI')
+sv_sr_wiki = SV("arkWIKI")
 
 
 async def text2pic(text: str, max_size: int = 800, font_size: int = 20):
-    if text.endswith('\n'):
+    if text.endswith("\n"):
         text = text[:-1]
 
-    img = Image.new('RGB', (max_size, len(text) * font_size // 5), (228, 222, 210))
+    img = Image.new("RGB", (max_size, len(text) * font_size // 5), (228, 222, 210))
     img_draw = ImageDraw.ImageDraw(img)
-    y = draw_center_text_by_line(img_draw, (25, 0), text, sans_font_20, 'black', 750, True)
+    y = draw_center_text_by_line(
+        img_draw, (25, 0), text, sans_font_20, "black", 750, True
+    )
     img = img.crop((0, 0, 800, int(y + 30)))
     return await convert_img(img)
 
 
-@sv_sr_wiki.on_prefix('ark角色图鉴')
+@sv_sr_wiki.on_prefix("ark角色图鉴")
 async def send_role_wiki_pic(bot: Bot, ev: Event):
-    char_name = ' '.join(re.findall('[\u4e00-\u9fa5]+', ev.text))
+    char_name = " ".join(re.findall("[\u4e00-\u9fa5]+", ev.text))
 
     char_id = None
     for char_id_, char_info in CHARACTER_TABLE.chars.items():
@@ -39,17 +41,17 @@ async def send_role_wiki_pic(bot: Bot, ev: Event):
             char_id = char_id_
             break
     if not char_id:
-        await bot.send('未找到该干员')
+        await bot.send("未找到该干员")
         return
-    await bot.logger.info(f'开始获取{char_name}图鉴')
+    await bot.logger.info(f"开始获取{char_name}图鉴")
     # img = await draw_wiki(char_id=char_id)
     img = await get_wiki_info(char_id=char_id)
     await bot.send(await text2pic(img))
 
 
-@sv_sr_wiki.on_prefix('ark模组图鉴')
+@sv_sr_wiki.on_prefix("ark模组图鉴")
 async def send_equip_wiki_pic(bot: Bot, ev: Event):
-    char_name = ' '.join(re.findall('[\u4e00-\u9fa5]+', ev.text))
+    char_name = " ".join(re.findall("[\u4e00-\u9fa5]+", ev.text))
 
     char_id = None
     for char_id_, char_info in CHARACTER_TABLE.chars.items():
@@ -57,8 +59,8 @@ async def send_equip_wiki_pic(bot: Bot, ev: Event):
             char_id = char_id_
             break
     if not char_id:
-        await bot.send('未找到该干员')
+        await bot.send("未找到该干员")
         return
-    await bot.logger.info(f'开始获取{char_name}图鉴')
+    await bot.logger.info(f"开始获取{char_name}图鉴")
     img = await get_equip_info(char_id=char_id)
     await bot.send(await text2pic(img))

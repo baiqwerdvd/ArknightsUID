@@ -6,13 +6,13 @@ from msgspec import field
 
 
 class BuildingDataRoomUnlockCondCondItem(BaseStruct):
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     level: int
     count: int
 
 
 class BuildingDataRoomUnlockCond(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     number: Dict[str, BuildingDataRoomUnlockCondCondItem]
 
 
@@ -22,9 +22,9 @@ class GridPosition(BaseStruct):
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class BuildingDataRoomDataBuildCost(BaseStruct):
@@ -44,7 +44,7 @@ class BuildingDataRoomDataPhaseData(BaseStruct):
 
 
 class BuildingDataRoomData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     description: Union[str, None]
     defaultPrefabId: str
@@ -56,7 +56,7 @@ class BuildingDataRoomData(BaseStruct):
 
 
 class BuildingDataLayoutDataRoomSlot(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     cleanCostId: str
     costLabor: int
     provideLabor: int
@@ -71,26 +71,26 @@ class BuildingDataLayoutDataSlotCleanCostCountCost(BaseStruct):
 
 
 class BuildingDataLayoutDataSlotCleanCost(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     number: Dict[str, BuildingDataLayoutDataSlotCleanCostCountCost]
 
 
 class BuildingDataLayoutDataStoreyData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     yOffset: int
     unlockControlLevel: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class BuildingDataLayoutData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     slots: Dict[str, BuildingDataLayoutDataRoomSlot]
     cleanCosts: Dict[str, BuildingDataLayoutDataSlotCleanCost]
     storeys: Dict[str, BuildingDataLayoutDataStoreyData]
 
 
 class BuildingDataPrefabInfo(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     blueprintRoomOverrideId: Union[str, None]
     size: GridPosition
     floorGridSize: GridPosition
@@ -98,45 +98,45 @@ class BuildingDataPrefabInfo(BaseStruct):
     obstacleId: Union[str, None]
 
 
-class BuildingDataManufactPhase(BaseStruct, tag='BuildingDataManufactPhase'):
+class BuildingDataManufactPhase(BaseStruct, tag="BuildingDataManufactPhase"):
     speed: Union[float, int]
     outputCapacity: int
 
 
-class BuildingDataShopPhase(BaseStruct, tag='BuildingDataShopPhase'):
+class BuildingDataShopPhase(BaseStruct, tag="BuildingDataShopPhase"):
     counterNum: int
     speed: Union[float, int]
     moneyCapacity: int
 
 
-class BuildingDataHirePhase(BaseStruct, tag='BuildingDataHirePhase'):
+class BuildingDataHirePhase(BaseStruct, tag="BuildingDataHirePhase"):
     economizeRate: float
     resSpeed: int
     refreshTimes: int
 
 
-class BuildingDataDormPhase(BaseStruct, tag='BuildingDataDormPhase'):
+class BuildingDataDormPhase(BaseStruct, tag="BuildingDataDormPhase"):
     manpowerRecover: int
     decorationLimit: int
 
 
-class BuildingDataMeetingPhase(BaseStruct, tag='BuildingDataMeetingPhase'):
+class BuildingDataMeetingPhase(BaseStruct, tag="BuildingDataMeetingPhase"):
     friendSlotInc: int
     maxVisitorNum: int
     gatheringSpeed: int
 
 
-class BuildingDataTradingPhase(BaseStruct, tag='BuildingDataTradingPhase'):
+class BuildingDataTradingPhase(BaseStruct, tag="BuildingDataTradingPhase"):
     orderSpeed: Union[float, int]
     orderLimit: int
     orderRarity: int
 
 
-class BuildingDataWorkshopPhase(BaseStruct, tag='BuildingDataWorkshopPhase'):
+class BuildingDataWorkshopPhase(BaseStruct, tag="BuildingDataWorkshopPhase"):
     manpowerFactor: Union[float, int]
 
 
-class BuildingDataTrainingPhase(BaseStruct, tag='BuildingDataTrainingPhase'):
+class BuildingDataTrainingPhase(BaseStruct, tag="BuildingDataTrainingPhase"):
     specSkillLvlLimit: int
 
 
@@ -222,11 +222,11 @@ class BuildingDataBuildingBuff(BaseStruct):
 
 
 class BuildingDataCustomDataFurnitureData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     name: str
     iconId: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     subType: str
     location: str
     category: str
@@ -257,11 +257,11 @@ class BuildingDataCustomDataThemeQuickSetupItem(BaseStruct):
     furnitureId: str
     pos0: int
     pos1: int
-    dir_: int = field(name='dir')
+    dir_: int = field(name="dir")
 
 
 class BuildingDataCustomDataThemeData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     name: str
     themeType: str
@@ -272,7 +272,7 @@ class BuildingDataCustomDataThemeData(BaseStruct):
 
 
 class BuildingDataCustomDataGroupData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sortId: int
     name: str
     themeId: str
@@ -282,14 +282,14 @@ class BuildingDataCustomDataGroupData(BaseStruct):
 
 
 class BuildingDataCustomDataFurnitureTypeData(BaseStruct):
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     name: str
 
 
 class BuildingDataCustomDataFurnitureSubTypeData(BaseStruct):
     subType: str
     name: str
-    type_: str = field(name='type')
+    type_: str = field(name="type")
     sortId: int
 
 
@@ -318,7 +318,9 @@ class BuildingDataCustomDataDiyUISortTemplateListData(BaseStruct):
     expandState: str
     defaultTemplateIndex: int
     defaultTemplateOrder: str
-    templates: List[BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData]
+    templates: List[
+        BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData
+    ]
 
 
 class BuildingDataCustomData(BaseStruct):
@@ -421,7 +423,7 @@ class BuildingDataCreditFormula(BaseStruct):
 
 
 class BuildingData(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     controlSlotId: str
     meetingSlotId: str

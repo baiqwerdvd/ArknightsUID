@@ -20,7 +20,7 @@ class ShopRecommendGroup(BaseStruct):
 
 
 class ShopKeeperWord(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     text: str
 
 
@@ -92,7 +92,7 @@ class ShopCreditUnlockItem(BaseStruct):
 
 
 class ShopCreditUnlockGroup(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     index: str
     startDateTime: int
     charDict: List[ShopCreditUnlockItem]
@@ -145,7 +145,7 @@ class LMTGSShopOverlaySchedule(BaseStruct):
 
 
 class ShopClientTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     recommendList: List[ShopRecommendItem]
     creditUnlockGroup: Dict[str, ShopCreditUnlockGroup]

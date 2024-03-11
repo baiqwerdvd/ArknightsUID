@@ -7,9 +7,9 @@ from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class StringKeyFrames(BaseStruct):
@@ -31,13 +31,13 @@ class CrisisV2ConstData(BaseStruct):
 
 
 class appraiseType(Enum):
-    RANK_D = 'RANK_D'
-    RANK_C = 'RANK_C'
-    RANK_B = 'RANK_B'
-    RANK_A = 'RANK_A'
-    RANK_S = 'RANK_S'
-    RANK_SS = 'RANK_SS'
-    RANK_SSS = 'RANK_SSS'
+    RANK_D = "RANK_D"
+    RANK_C = "RANK_C"
+    RANK_B = "RANK_B"
+    RANK_A = "RANK_A"
+    RANK_S = "RANK_S"
+    RANK_SS = "RANK_SS"
+    RANK_SSS = "RANK_SSS"
 
 
 class CrisisV2ScoreLevelToAppraiseData(BaseStruct):
@@ -45,7 +45,7 @@ class CrisisV2ScoreLevelToAppraiseData(BaseStruct):
 
 
 class CrisisV2Table(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     seasonInfoDataMap: Dict
     scoreLevelToAppraiseDataMap: Dict[str, CrisisV2ScoreLevelToAppraiseData]

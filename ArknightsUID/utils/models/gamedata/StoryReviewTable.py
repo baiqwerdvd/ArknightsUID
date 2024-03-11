@@ -6,9 +6,9 @@ from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class StoryDataConditionStageCondition(BaseStruct):
@@ -40,7 +40,7 @@ class StoryReviewInfoClientData(BaseStruct):
 
 
 class StoryReviewGroupClientData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     name: str
     entryType: str
     actType: str
@@ -60,6 +60,6 @@ class StoryReviewGroupClientData(BaseStruct):
 
 
 class StoryReviewTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     storyreviewtable: Dict[str, StoryReviewGroupClientData]

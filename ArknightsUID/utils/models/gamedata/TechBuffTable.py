@@ -27,7 +27,7 @@ class RuneData(BaseStruct):
 
 
 class PackedRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     mutexGroupKey: Union[str, None]
     description: str
@@ -35,6 +35,6 @@ class PackedRuneData(BaseStruct):
 
 
 class TechBuffTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     runes: List[PackedRuneData]

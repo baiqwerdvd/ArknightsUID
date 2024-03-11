@@ -6,9 +6,9 @@ from msgspec import field
 
 
 class ItemBundle(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     count: int
-    type_: str = field(name='type')
+    type_: str = field(name="type")
 
 
 class MonthlySignInData(BaseStruct):
@@ -36,7 +36,7 @@ class MonthlyDailyBonusGroup(BaseStruct):
 
 
 class CheckinTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     groups: Dict[str, MonthlySignInGroupData]
     monthlySubItem: Dict[str, List[MonthlyDailyBonusGroup]]

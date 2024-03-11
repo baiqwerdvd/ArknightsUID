@@ -34,7 +34,7 @@ class RuneData(BaseStruct):
 
 
 class RuneTablePackedRuneData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     points: float
     mutexGroupKey: Union[str, None]
     description: str
@@ -42,7 +42,7 @@ class RuneTablePackedRuneData(BaseStruct):
 
 
 class CharmItemData(BaseStruct):
-    id_: str = field(name='id')
+    id_: str = field(name="id")
     sort: int
     name: str
     icon: str
@@ -61,6 +61,6 @@ class CharmItemData(BaseStruct):
 
 
 class CharmTable(BaseStruct):
-    __version__ = '24-02-02-10-18-07-831ad8'
+    __version__ = "24-02-02-10-18-07-831ad8"
 
     charmList: List[CharmItemData]

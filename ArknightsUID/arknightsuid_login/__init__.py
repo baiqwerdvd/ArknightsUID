@@ -1,6 +1,7 @@
 from gsuid_core.bot import Bot
 from gsuid_core.sv import SV
 from gsuid_core.models import Event
+from gsuid_core.logger import logger
 
 from ..utils.database.models import (
     ArknightsBind,
@@ -33,6 +34,7 @@ async def get_resp_msg(bot: Bot, ev: Event):
         code = await bot.receive_resp("请输入验证码:")
         if code is None or not code.text.isdigit():
             return await bot.send("你输入了错误的格式!")
+        logger.info(code.text)
         login.token_by_phone_code(code.text)
         login.post_account_info_hg()
         login.user_oauth2_v2_grant()

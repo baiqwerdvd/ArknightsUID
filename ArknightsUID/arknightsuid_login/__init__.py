@@ -49,7 +49,6 @@ async def get_resp_msg(bot: Bot, ev: Event):
             return "Cred无效!"
         else:
             skd_uid = check_cred.user.id_
-            assert skland_userId == skd_uid
             uid = check_cred.gameStatus.uid
         if uid not in uid_list:
             return "请先绑定该 Cred 对应的 uid"

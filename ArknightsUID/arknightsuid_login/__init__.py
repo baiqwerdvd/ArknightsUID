@@ -15,7 +15,7 @@ from .login import SklandLogin
 sv_skland_login = SV("ark森空岛登录")
 
 
-@sv_skland_login.on_fullmatch(f"{PREFIX}森空岛登录")
+@sv_skland_login.on_prefix(f"{PREFIX}森空岛登录")
 async def get_resp_msg(bot: Bot, ev: Event):
     uid_list = await ArknightsBind.get_uid_list_by_game(ev.user_id, ev.bot_id)
     if uid_list is None:

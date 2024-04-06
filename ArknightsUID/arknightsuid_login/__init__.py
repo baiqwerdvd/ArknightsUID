@@ -2,15 +2,14 @@ from gsuid_core.bot import Bot
 from gsuid_core.sv import SV
 from gsuid_core.models import Event
 
-from ArknightsUID.utils.database.models import (
+from ..utils.database.models import (
     ArknightsBind,
     ArknightsPush,
     ArknightsUser,
 )
-
-from ArknightsUID.utils.ark_api import ark_skd_api
-from ArknightsUID.utils.ark_prefix import PREFIX
-from ArknightsUID.utils.error_reply import UID_HINT
+from ..utils.ark_api import ark_skd_api
+from ..utils.ark_prefix import PREFIX
+from ..utils.error_reply import UID_HINT
 from .login import SklandLogin
 
 sv_skland_login = SV("ark森空岛登录")

@@ -7,7 +7,7 @@ from msgspec import UnsetType, convert
 from msgspec import json as mscjson
 
 from gsuid_core.utils.plugins_config.gs_config import core_plugins_config
-from ArknightsUID.arknightsuid_login.model import (
+from .model import (
     AccountInfoHGRequest,
     AccountInfoHGResponse,
     FuckMysGeetestPassResponse,
@@ -21,7 +21,7 @@ from ArknightsUID.arknightsuid_login.model import (
     ZonaiSklandWebUserGenerateCredByCodeRequest,
     ZonaiSklandWebUserGenerateCredByCodeResponse,
 )
-from ArknightsUID.arknightsuid_login.constant import (
+from .constant import (
     ARK_LOGIN_SEND_PHONE_CODE,
     ARK_TOKEN_BY_PHONE_CODE,
     ARK_ACCONUT_INFO_HG,

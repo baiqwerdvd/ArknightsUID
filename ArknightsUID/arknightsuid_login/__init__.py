@@ -19,7 +19,7 @@ sv_skland_login = SV("ark森空岛登录")
 async def get_resp_msg(bot: Bot, ev: Event):
     uid_list = await ArknightsBind.get_uid_list_by_game(ev.user_id, ev.bot_id)
     if uid_list is None:
-        return UID_HINT
+        return await bot.send(UID_HINT)
     phone_number = ev.text.strip()
     if not phone_number.isdigit():
         return await bot.send("你输入了错误的格式!")

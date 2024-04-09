@@ -46,12 +46,12 @@ async def get_resp_msg(bot: Bot, ev: Event):
         )
 
         if isinstance(check_cred, bool):
-            return "Cred无效!"
+            return await bot.send("Cred Check 不通过!")
         else:
             skd_uid = check_cred.user.id_
             uid = check_cred.gameStatus.uid
         if uid not in uid_list:
-            return "请先绑定该 Cred 对应的 uid"
+            return await bot.send("请先绑定该 Cred 对应的 uid")
 
         skd_data = await ArknightsUser.select_data_by_uid(uid)
         push_data = await ArknightsPush.select_data_by_uid(uid)

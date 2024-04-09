@@ -33,7 +33,7 @@ async def text2pic(text: str, max_size: int = 800, font_size: int = 20):
 
 @sv_sr_wiki.on_prefix("ark角色图鉴")
 async def send_role_wiki_pic(bot: Bot, ev: Event):
-    char_name = " ".join(re.findall("[\u4e00-\u9fa5]+", ev.text))
+    char_name = "".join(re.findall("[\u4e00-\u9fa5]+", ev.text))
 
     char_id = None
     for char_id_, char_info in CHARACTER_TABLE.chars.items():

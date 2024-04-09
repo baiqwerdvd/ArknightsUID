@@ -3,6 +3,7 @@ import re
 from gsuid_core.bot import Bot
 from gsuid_core.models import Event
 from gsuid_core.sv import SV
+from gsuid_core.logger import logger
 from gsuid_core.utils.image.convert import convert_img
 from gsuid_core.utils.image.image_tools import draw_center_text_by_line
 from PIL import Image, ImageDraw
@@ -34,6 +35,7 @@ async def text2pic(text: str, max_size: int = 800, font_size: int = 20):
 @sv_sr_wiki.on_prefix("ark角色图鉴")
 async def send_role_wiki_pic(bot: Bot, ev: Event):
     char_name = "".join(re.findall("[\u4e00-\u9fa5]+", ev.text))
+    logger.info(char_name)
 
     char_id = None
     for char_id_, char_info in CHARACTER_TABLE.chars.items():

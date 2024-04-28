@@ -43,8 +43,7 @@ async def get_core_help() -> Union[bytes, str]:
         Image.open(TEXT_PATH / "button.png"),
         source_han_sans_cn_origin,
         extra_message=[
-            f"Client Version:{Arknights_Client_version} "
-            f" Res version: {Arknights_Res_version}"
+            f"Client Version:{Arknights_Client_version} " f" Res version: {Arknights_Res_version}"
         ],
     )
     return img

@@ -25,8 +25,7 @@ async def get_resp_msg(bot: Bot, ev: Event):
     if not phone_number.isdigit():
         return await bot.send("你输入了错误的格式!")
     resp = await bot.receive_resp(
-        f"请确认你的手机号码: {phone_number}."
-        "如果正确请回复'确认', 其他任何回复将取消本次操作."
+        f"请确认你的手机号码: {phone_number}." "如果正确请回复'确认', 其他任何回复将取消本次操作."
     )
     if resp is not None and resp.text == "确认":
         login = SklandLogin(phone_number)

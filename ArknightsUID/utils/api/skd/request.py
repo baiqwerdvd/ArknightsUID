@@ -52,7 +52,9 @@ class BaseArkApi:
     proxy_url: Union[str, None] = proxy_url if proxy_url else None
 
     async def _pass(
-        self, gt: str, ch: str
+        self,
+        gt: str,
+        ch: str,
     ) -> Tuple[Union[str, None], Union[str, None]]:
         _pass_api = core_plugins_config.get_config("_pass_API").data
         if _pass_api:
@@ -71,10 +73,12 @@ class BaseArkApi:
         return validate, ch
 
     async def get_game_player_info(
-        self, uid: str
+        self,
+        uid: str,
     ) -> Union[int, ArknightsPlayerInfoModel]:
         cred: Union[str, None] = await ArknightsUser.get_user_attr_by_uid(
-            uid=uid, attr="cred"
+            uid=uid,
+            attr="cred",
         )
         if cred is None:
             return -60
@@ -102,7 +106,8 @@ class BaseArkApi:
 
     async def skd_sign(self, uid: str) -> Union[int, ArknightsAttendanceModel]:
         cred: Union[str, None] = await ArknightsUser.get_user_attr_by_uid(
-            uid=uid, attr="cred"
+            uid=uid,
+            attr="cred",
         )
         if cred is None:
             return -60
@@ -137,10 +142,12 @@ class BaseArkApi:
             return msgspec.convert(unpack_data, ArknightsAttendanceModel)
 
     async def get_sign_info(
-        self, uid: str
+        self,
+        uid: str,
     ) -> Union[int, ArknightsAttendanceCalendarModel]:
         cred: Union[str, None] = await ArknightsUser.get_user_attr_by_uid(
-            uid=uid, attr="cred"
+            uid=uid,
+            attr="cred",
         )
         if cred is None:
             return -60
@@ -187,7 +194,10 @@ class BaseArkApi:
             cred = (
                 cred
                 if cred
-                else await ArknightsUser.get_user_attr_by_uid(uid=uid, attr="cred")
+                else await ArknightsUser.get_user_attr_by_uid(
+                    uid=uid,
+                    attr="cred",
+                )
             )
         header = deepcopy(_HEADER)
         if cred is None:
@@ -222,7 +232,9 @@ class BaseArkApi:
             uid = await ArknightsUser.get_uid_by_cred(cred)
             if uid is not None:
                 await ArknightsUser.update_user_attr_by_uid(
-                    uid=uid, attr="token", value=token
+                    uid=uid,
+                    attr="token",
+                    value=token,
                 )
             return token
 
@@ -263,12 +275,7 @@ class BaseArkApi:
             raise Exception("token is None")
         encode_token = token.encode("utf-8")
         hex_s = hmac.new(encode_token, str2.encode("utf-8"), hashlib.sha256).hexdigest()
-        sign = (
-            hashlib.md5(hex_s.encode("utf-8"))
-            .hexdigest()
-            .encode("utf-8")
-            .decode("utf-8")
-        )
+        sign = hashlib.md5(hex_s.encode("utf-8")).hexdigest().encode("utf-8").decode("utf-8")
         header["sign"] = sign
         header["timestamp"] = timestamp
         header["dId"] = dId
@@ -317,7 +324,7 @@ class BaseArkApi:
         use_proxy: Union[bool, None] = False,
     ) -> Union[Dict, Union[int, None]]:
         async with ClientSession(
-            connector=TCPConnector(verify_ssl=ssl_verify)
+            connector=TCPConnector(verify_ssl=ssl_verify),
         ) as client:
             raw_data = {}
             if "cred" not in header:

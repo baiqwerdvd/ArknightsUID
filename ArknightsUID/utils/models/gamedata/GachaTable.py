@@ -130,6 +130,13 @@ class GachaDataFesGachaPoolRelateItem(BaseStruct):
     rarityRank6ItemId: str
 
 
+class GachaNormalItem(BaseStruct):
+    itemId: str
+    endTime: int
+    gachaPoolId: str
+    isTen: bool
+
+
 class GachaTable(BaseStruct):
     __version__ = "24-02-02-10-18-07-831ad8"
 
@@ -137,6 +144,7 @@ class GachaTable(BaseStruct):
     carousel: List[GachaDataCarouselData]
     classicPotentialMaterialConverter: PotentialMaterialConverterConfig
     dicRecruit6StarHint: Union[Dict[str, str], None]
+    normalGachaItem: List[GachaNormalItem]
     fesGachaPoolRelateItem: Union[
         Dict[str, GachaDataFesGachaPoolRelateItem],
         None,

@@ -54,7 +54,9 @@ async def get_ap_img(bot_id: str, user_id: str):
         # 开始绘图任务
         task = []
         img = Image.new(
-            "RGBA", (based_w * len(useable_uid_list), based_h), (0, 0, 0, 0)
+            "RGBA",
+            (based_w * len(useable_uid_list), based_h),
+            (0, 0, 0, 0),
         )
         for uid_index, uid in enumerate(useable_uid_list):
             task.append(_draw_all_ap_img(img, uid, uid_index))
@@ -97,9 +99,7 @@ def get_error(img: Image.Image, uid: str, daily_data: int):
 async def draw_ap_img(uid: str) -> Image.Image:
     # char
     char_pic = (
-        Image.open(TEXT_PATH / "char_1028_texas2_1b.png")
-        .resize((1700, 1700))
-        .convert("RGBA")
+        Image.open(TEXT_PATH / "char_1028_texas2_1b.png").resize((1700, 1700)).convert("RGBA")
     )
 
     tmp_img = Image.new("RGBA", (based_w, based_h))

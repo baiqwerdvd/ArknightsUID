@@ -172,15 +172,11 @@ async def get_equip_info(char_id: str):
                         for blackboard_ in blackboard:
                             blackboard_dict[blackboard_.key] = blackboard_.value
                         if additionalDescription:
-                            additionalDescription = re.sub(
-                                r"<[^>]+>", "", additionalDescription
-                            )
+                            additionalDescription = re.sub(r"<[^>]+>", "", additionalDescription)
                             additionalDescription = render_template(
                                 additionalDescription, blackboard_dict
                             )
-                            additionalDescription = re.sub(
-                                r".000000", "", additionalDescription
-                            )
+                            additionalDescription = re.sub(r".000000", "", additionalDescription)
                             im += f"{additionalDescription}\n"
 
                 elif target == "TALENT_DATA_ONLY":
@@ -192,9 +188,7 @@ async def get_equip_info(char_id: str):
                         upgradeDescription = candidate.upgradeDescription
                         blackboard = candidate.blackboard
                         if upgradeDescription and blackboard:
-                            upgradeDescription = re.sub(
-                                r"<[^>]+>", "", upgradeDescription
-                            )
+                            upgradeDescription = re.sub(r"<[^>]+>", "", upgradeDescription)
                             im += f"{upgradeDescription}\n"
 
                 elif target == "DISPLAY":
@@ -207,15 +201,11 @@ async def get_equip_info(char_id: str):
                         for blackboard_ in blackboard:
                             blackboard_dict[blackboard_.key] = blackboard_.value
                         if additionalDescription and blackboard:
-                            additionalDescription = re.sub(
-                                r"<[^>]+>", "", additionalDescription
-                            )
+                            additionalDescription = re.sub(r"<[^>]+>", "", additionalDescription)
                             additionalDescription = render_template(
                                 additionalDescription, blackboard_dict
                             )
-                            additionalDescription = re.sub(
-                                r".000000", "", additionalDescription
-                            )
+                            additionalDescription = re.sub(r".000000", "", additionalDescription)
                             im += f"{additionalDescription}\n"
 
                 elif target == "TALENT":
@@ -226,9 +216,7 @@ async def get_equip_info(char_id: str):
                         if upgradeDescription == "":
                             continue
                         else:
-                            upgradeDescription = re.sub(
-                                r"<[^>]+>", "", upgradeDescription
-                            )
+                            upgradeDescription = re.sub(r"<[^>]+>", "", upgradeDescription)
                             im += f"{upgradeDescription}\n"
 
                 elif target == "TRAIT_DATA_ONLY":
@@ -241,9 +229,7 @@ async def get_equip_info(char_id: str):
                         for blackboard_ in blackboard:
                             blackboard_dict[blackboard_.key] = blackboard_.value
                         if overrideDescripton and blackboard:
-                            overrideDescripton = re.sub(
-                                r"<[^>]+>", "", overrideDescripton
-                            )
+                            overrideDescripton = re.sub(r"<[^>]+>", "", overrideDescripton)
                             overrideDescripton = render_template(
                                 overrideDescripton, blackboard_dict
                             )
@@ -302,9 +288,7 @@ async def get_wiki_info(char_id: str):
             char_talent_name = talent_candidates[-1].name
             char_talent_description = talent_candidates[-1].description
             if char_talent_description:
-                char_talent_description = re.sub(
-                    r"<[^>]+>", "", char_talent_description
-                )
+                char_talent_description = re.sub(r"<[^>]+>", "", char_talent_description)
                 im += f"{char_talent_name}: {char_talent_description}\n"
 
     char_potential_data = character_data.potentialRanks
@@ -384,9 +368,9 @@ async def get_wiki_info(char_id: str):
         if skill_description:
             skill_description = skill_description.replace(":0.0", "")
             skill_description = re.sub(r"<[^>]+>", "", skill_description)
-            skill_description = render_template(
-                skill_description, black_board_dict
-            ).replace("--", "-")
+            skill_description = render_template(skill_description, black_board_dict).replace(
+                "--", "-"
+            )
             last_skill_description = re.sub(r".000000", "", skill_description)
             if "{" in last_skill_description:
                 raise NotImplementedError
@@ -668,9 +652,9 @@ async def draw_wiki(char_id: str):
             black_board_dict[black_board.key] = black_board.value
         if skill_description:
             skill_description = re.sub(r"<[^>]+>", "", skill_description)
-            skill_description = render_template(
-                skill_description, black_board_dict
-            ).replace("--", "-")
+            skill_description = render_template(skill_description, black_board_dict).replace(
+                "--", "-"
+            )
             last_skill_description = re.sub(r".000000", "", skill_description)
             if "{" in last_skill_description:
                 raise NotImplementedError

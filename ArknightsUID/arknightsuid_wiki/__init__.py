@@ -26,7 +26,13 @@ async def text2pic(text: str, max_size: int = 800, font_size: int = 20):
     img = Image.new("RGB", (max_size, len(text) * font_size // 5), (228, 222, 210))
     img_draw = ImageDraw.ImageDraw(img)
     y = draw_center_text_by_line(
-        img_draw, (25, 0), text, sans_font_20, "black", 750, True
+        img_draw,
+        (25, 0),
+        text,
+        sans_font_20,
+        "black",
+        750,
+        True,
     )
     img = img.crop((0, 0, 800, int(y + 30)))
     return await convert_img(img)

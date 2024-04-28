@@ -3,7 +3,9 @@ import re
 from ..utils.ark_api import ark_skd_api
 from ..utils.database.models import ArknightsBind, ArknightsPush, ArknightsUser
 
-ERROR_HINT = "添加失败, 格式为: skd添加cred Cred 例如: skd添加cred VropL583Sb1hClS5buQ4nSASkDlL8tMT"
+ERROR_HINT = (
+    "添加失败, 格式为: skd添加cred Cred 例如: skd添加cred VropL583Sb1hClS5buQ4nSASkDlL8tMT"
+)
 UID_HINT = "添加失败, 请先绑定明日方舟UID"
 
 

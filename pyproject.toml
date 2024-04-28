@@ -56,7 +56,7 @@ pythonVersion = "3.8"
 pythonPlatform = "All"
 
 [tool.ruff]
-line-length = 88
+line-length = 98
 target-version = "py38"
 
 [tool.ruff.lint]

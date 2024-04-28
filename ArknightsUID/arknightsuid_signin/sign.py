@@ -73,9 +73,7 @@ async def sign_in(ark_uid: str) -> str:
             count += 1
     sign_missed = day_of_month - count + special_count
     im = f"ark签到成功!\n{get_im}\n本月漏签次数:{sign_missed}"
-    logger.info(
-        f"[ARK签到] {ark_uid} 签到完成, 结果: ark签到成功, 漏签次数: {sign_missed}"
-    )
+    logger.info(f"[ARK签到] {ark_uid} 签到完成, 结果: ark签到成功, 漏签次数: {sign_missed}")
     return im
 
 
@@ -134,9 +132,7 @@ async def daily_sign():
                     delay = 1
                 else:
                     delay = 50 + random.randint(3, 45)
-                logger.info(
-                    f"[ARK签到] 已签到{len(tasks)}个用户, 等待{delay}秒进行下一次签到"
-                )
+                logger.info(f"[ARK签到] 已签到{len(tasks)}个用户, 等待{delay}秒进行下一次签到")
                 tasks.clear()
                 already = 0
                 await asyncio.sleep(delay)

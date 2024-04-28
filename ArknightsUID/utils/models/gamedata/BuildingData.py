@@ -318,9 +318,7 @@ class BuildingDataCustomDataDiyUISortTemplateListData(BaseStruct):
     expandState: str
     defaultTemplateIndex: int
     defaultTemplateOrder: str
-    templates: List[
-        BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData
-    ]
+    templates: List[BuildingDataCustomDataDiyUISortTemplateListDataDiyUISortTemplateData]
 
 
 class BuildingDataCustomData(BaseStruct):

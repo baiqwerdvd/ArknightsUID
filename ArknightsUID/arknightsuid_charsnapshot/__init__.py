@@ -12,7 +12,8 @@ sv_get_char_snapshot = SV("ark角色快照")
 
 @sv_get_char_snapshot.on_prefix(f"{PREFIX}角色快照")
 async def send_char_snapshot(bot: Bot, ev: Event):
-    uid = await get_uid(bot, ev, bind_model=ArknightsBind)
+    user_id = ev.at if ev.at else ev.user_id
+    uid = await ArknightsBind.get_uid_by_game(user_id, ev.bot_id)
     if uid is None:
         return "你还没有绑定UID噢,请使用[ark绑定uid123]完成绑定!"
 

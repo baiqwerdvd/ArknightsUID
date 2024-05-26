@@ -10,7 +10,7 @@ from .get_char_snapshot import get_char_snapshot
 sv_get_char_snapshot = SV("ark角色快照")
 
 
-@sv_get_char_snapshot.on_fullmatch(f"{PREFIX}角色快照")
+@sv_get_char_snapshot.on_prefix(f"{PREFIX}角色快照")
 async def send_char_snapshot(bot: Bot, ev: Event):
     uid = await get_uid(bot, ev, bind_model=ArknightsBind)
     if uid is None:

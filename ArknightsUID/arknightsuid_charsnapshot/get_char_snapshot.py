@@ -18,6 +18,8 @@ from ..utils.ark_api import ark_skd_api
 
 char_sort_list = [
     "伊内丝",
+    "维什戴尔",
+    "逻各斯",
     "刻俄柏",
     "琴柳",
     "风笛",

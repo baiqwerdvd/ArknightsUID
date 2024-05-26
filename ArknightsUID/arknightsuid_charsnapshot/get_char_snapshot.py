@@ -1,7 +1,7 @@
 from typing import Dict
 from PIL import Image, ImageDraw
-
-from ArknightsUID.utils.models.skland.models import (
+from pathlib import Path
+from ..utils.models.skland.models import (
     PlayerCharInfo,
     PlayerEquipmentInfo,
     PlayerInfoChar,
@@ -110,11 +110,14 @@ char_sort_list = [
     "W",
     "伺夜",
 ]
-bg_img = Image.open("./texture2D/bg.jpg").convert("RGBA")
-avatar_bg = Image.open("./texture2D/avatar_bg.png").resize((118, 118))
-avatar_fg = Image.open("./texture2D/avatar_fg.png")
 
-skill_selected = Image.open("./texture2D/skill_selected.png")
+TEXT_PATH = Path(__file__).parent / "texture2D"
+
+bg_img = Image.open(TEXT_PATH / "bg.jpg").convert("RGBA")
+avatar_bg = Image.open(TEXT_PATH / "avatar_bg.png").resize((118, 118))
+avatar_fg = Image.open(TEXT_PATH / "avatar_fg.png")
+
+skill_selected = Image.open(TEXT_PATH / "skill_selected.png")
 skill_selected = skill_selected.resize((40, 40))
 data = skill_selected.getdata()
 new_data = []
@@ -125,7 +128,7 @@ for item in data:
         new_data.append(item)
 skill_selected.putdata(new_data)
 
-equip_selected = Image.open("./texture2D/equip_selected.png")
+equip_selected = Image.open(TEXT_PATH / "equip_selected.png")
 
 
 async def get_char_snapshot(uid: str):
@@ -163,7 +166,7 @@ async def get_char_snapshot(uid: str):
         anchor="mm",
     )
 
-    title_img = Image.open("./texture2D/title.png")
+    title_img = Image.open(TEXT_PATH / "title.png")
     title_img.paste(avatar_img, (360, 85), mask=avatar_img)
     title_img.paste(avatar_fg, (328, 50), mask=avatar_fg)
     title_img_draw = ImageDraw.Draw(title_img)
@@ -190,7 +193,7 @@ async def get_char_snapshot(uid: str):
     )
     bg_img.paste(title_img, (0, 0), mask=title_img)
 
-    info_img = Image.open("./texture2D/info.png")
+    info_img = Image.open(TEXT_PATH / "info.png")
     bg_img.paste(info_img, (0, 440), mask=info_img)
 
     if six_star_count > 20:
@@ -228,7 +231,7 @@ async def get_char_snapshot(uid: str):
         img = draw_char(chars[i], charInfoMap, equipmentInfoMap)
         bg_img.paste(img, (0, 490 + 110 * i), mask=img)
 
-    footer_img = Image.open("./texture2D/footer.png")
+    footer_img = Image.open(TEXT_PATH / "footer.png")
     bg_img.paste(footer_img, (0, 2365), mask=footer_img)
 
 
@@ -237,7 +240,7 @@ def draw_char(
     charInfoMap: Dict[str, PlayerCharInfo],
     equipmentInfoMap: Dict[str, PlayerEquipmentInfo],
 ):
-    bar_img: Image.Image = Image.open("./texture2D/bar.png").convert("RGBA")
+    bar_img: Image.Image = Image.open(TEXT_PATH / "bar.png").convert("RGBA")
 
     ui_char_avatar = (
         Image.open(f"././texture2D/ui_char_avatar/{test_char.charId}.png")
@@ -249,12 +252,12 @@ def draw_char(
 
     potential_rank = test_char.potentialRank
     potential_img = Image.open(
-        f"./texture2D/potential_hub/potential_{potential_rank}.png"
+        TEXT_PATH / f"potential_hub/potential_{potential_rank}.png"
     ).resize((45, 45))
     bar_img.paste(potential_img, (135, 67), mask=potential_img)
 
     elite_level = test_char.evolvePhase
-    elite_img = Image.open(f"./texture2D/elite_hub/elite_{elite_level}_large.png")
+    elite_img = Image.open(TEXT_PATH / "elite_hub" / f"elite_{elite_level}_large.png")
     elite_img = elite_img.resize((44, 37))
     bar_img.paste(elite_img, (186, 71), mask=elite_img)
 
@@ -272,7 +275,7 @@ def draw_char(
 
     profession = charInfoMap[test_char.charId].profession.lower()
     profession_img = Image.open(
-        f"./texture2D/profession/icon_profession_{profession}_lighten.png"
+        TEXT_PATH / "profession" / f"icon_profession_{profession}_lighten.png"
     )
     profession_img = profession_img.resize((35, 35))
     bar_img.paste(profession_img, (139, 26), mask=profession_img)
@@ -294,12 +297,12 @@ def draw_char(
             skill_specialize_level = skill.specializeLevel
             if skill_icon_id is None:
                 skill_icon_id = skill_id
-            skill_img = Image.open(f"./texture2D/skill_icons/skill_icon_{skill_icon_id}.png")
+            skill_img = Image.open(TEXT_PATH / "skill_icons" / f"skill_icon_{skill_icon_id}.png")
             skill_img = skill_img.resize((70, 70))
             if test_char.defaultSkillId == skill_id:
                 skill_img.paste(skill_selected, (38, -1), mask=skill_selected)
             skill_specialize_img = Image.open(
-                f"./texture2D/charcommon/evolve_small_icon_{skill_specialize_level}.png"
+                TEXT_PATH / "charcommon" / f"evolve_small_icon_{skill_specialize_level}.png"
             )
             skill_img.paste(skill_specialize_img, (0, 0), mask=skill_specialize_img)
             bar_img.paste(skill_img, (345 + 78 * i, 30), mask=skill_img)
@@ -320,7 +323,7 @@ def draw_char(
             if equip_type_icon == "original":
                 continue
             equip_img = Image.open(
-                f"./texture2D/ui_equip_type_direction_hub_h2/{equip_type_icon}.png"
+                TEXT_PATH / "ui_equip_type_direction_hub_h2" / f"{equip_type_icon}.png"
             ).resize((92, 68))
             if test_char.defaultEquipId == equip_id.id_:
                 bar_img.paste(equip_selected, (626 + 67 * i, 31), mask=equip_selected)

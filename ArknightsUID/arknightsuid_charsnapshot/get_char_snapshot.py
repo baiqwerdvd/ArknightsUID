@@ -153,7 +153,7 @@ async def get_char_snapshot(uid: str):
         avatar_id = "avatar_activity_AW"
     else:
         avatar_id = status.avatar.id_
-    avatar_img = Image.open(f"././texture2D/ui_player_avatar_list_h2/{avatar_id}.png").resize(
+    avatar_img = Image.open(TEXT_PATH / "ui_player_avatar_list_h2" / f"{avatar_id}.png").resize(
         (235, 235)
     )
 
@@ -243,7 +243,7 @@ def draw_char(
     bar_img: Image.Image = Image.open(TEXT_PATH / "bar.png").convert("RGBA")
 
     ui_char_avatar = (
-        Image.open(f"././texture2D/ui_char_avatar/{test_char.charId}.png")
+        Image.open(TEXT_PATH / "ui_char_avatar" / f"{test_char.charId}.png")
         .resize((90, 90))
         .convert("RGBA")
     )

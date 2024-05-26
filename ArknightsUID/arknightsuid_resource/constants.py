@@ -136,7 +136,9 @@ SANDBOX_TABLE = SandboxTable.convert(read_json(GAMEDATA_PATH / "sandbox_table.js
 #     read_json(GAMEDATA_PATH / "sandbox_perm_table.json")
 # )
 SHOP_CLIENT_TABLE = ShopClientTable.convert(read_json(GAMEDATA_PATH / "shop_client_table.json"))
-SKILL_TABLE = SkillTable.convert({"skills": read_json(GAMEDATA_PATH / "skill_table.json")})
+SKILL_TABLE = SkillTable.convert(
+    {"skills": read_json(Path(__file__).parent / "skill_table.json")}
+)
 SKIN_TABLE = SkinTable.convert(read_json(GAMEDATA_PATH / "skin_table.json"))
 STAGE_TABLE = StageTable.convert(read_json(GAMEDATA_PATH / "stage_table.json"))
 STORY_REVIEW_META_TABLE = StoryReviewMetaTable.convert(

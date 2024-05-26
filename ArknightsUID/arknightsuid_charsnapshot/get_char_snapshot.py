@@ -6,7 +6,7 @@ from ..utils.models.skland.models import (
     PlayerEquipmentInfo,
     PlayerInfoChar,
 )
-
+from gsuid_core.utils.image.convert import convert_img
 from ..arknightsuid_resource.constants import SKILL_TABLE
 from ..utils.fonts.source_han_sans import (
     sans_font_26,
@@ -233,6 +233,8 @@ async def get_char_snapshot(uid: str):
 
     footer_img = Image.open(TEXT_PATH / "footer.png")
     bg_img.paste(footer_img, (0, 2365), mask=footer_img)
+    res = await convert_img(bg_img)
+    return res
 
 
 def draw_char(

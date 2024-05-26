@@ -17,4 +17,5 @@ async def send_char_snapshot(bot: Bot, ev: Event):
         return "你还没有绑定UID噢,请使用[ark绑定uid123]完成绑定!"
 
     await bot.logger.info("开始执行[ark角色快照]")
-    await get_char_snapshot(uid)
+    im = await get_char_snapshot(uid)
+    await bot.send(im)

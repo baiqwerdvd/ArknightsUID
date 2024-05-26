@@ -1,8 +1,8 @@
 from typing import List, Union
 
-from ..common import BaseStruct
-
 from msgspec import field
+
+from ..common import BaseStruct
 
 
 class RuneDataSelector(BaseStruct):

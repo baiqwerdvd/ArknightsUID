@@ -1,8 +1,8 @@
 from typing import Dict, List
 
-from ..common import BaseStruct
-
 from msgspec import field
+
+from ..common import BaseStruct
 
 
 class PlayerAvatarPerData(BaseStruct):

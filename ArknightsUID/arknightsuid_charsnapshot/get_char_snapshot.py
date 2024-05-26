@@ -1,20 +1,21 @@
-from typing import Dict
-from PIL import Image, ImageDraw
 from pathlib import Path
-from ..utils.models.skland.models import (
-    PlayerCharInfo,
-    PlayerEquipmentInfo,
-    PlayerInfoChar,
-)
+from typing import Dict
+
 from gsuid_core.utils.image.convert import convert_img
+from PIL import Image, ImageDraw
+
 from ..arknightsuid_resource.constants import SKILL_TABLE
+from ..utils.ark_api import ark_skd_api
 from ..utils.fonts.source_han_sans import (
     sans_font_26,
     sans_font_28,
     sans_font_34,
 )
-from ..utils.ark_api import ark_skd_api
-
+from ..utils.models.skland.models import (
+    PlayerCharInfo,
+    PlayerEquipmentInfo,
+    PlayerInfoChar,
+)
 
 char_sort_list = [
     "伊内丝",
@@ -26,12 +27,12 @@ char_sort_list = [
     "史尔特尔",
     "黍",
     "锏",
-    "焰影苇草",
+    "玛恩纳",
     "缄默德克萨斯",
     "艾拉",
     "麒麟R夜刀",
     "铃兰",
-    "玛恩纳",
+    "焰影苇草",
     "温蒂",
     "莱伊",
     "假日威龙陈",
@@ -142,7 +143,7 @@ async def get_char_snapshot(uid: str, cur_page: int):
     outher_chars = [char for char in chars if charInfoMap[char.charId].rarity != 5]
 
     six_star_count = len(six_star_chars)
-    other_char_count = len(outher_chars)
+    # other_char_count = len(outher_chars)
 
     # 6星角色按照list的顺序排序
     for char in chars:

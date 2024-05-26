@@ -1,8 +1,8 @@
 from typing import Dict, List, Union
 
-from ..common import BaseStruct
-
 from msgspec import field
+
+from ..common import BaseStruct
 
 
 class ItemBundle(BaseStruct):

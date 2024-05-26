@@ -1,4 +1,5 @@
 from typing import List
+
 from gsuid_core.bot import Bot
 from gsuid_core.models import Event
 from gsuid_core.sv import SV

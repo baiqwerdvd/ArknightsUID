@@ -1,19 +1,19 @@
 import re
 
 from gsuid_core.bot import Bot
+from gsuid_core.logger import logger
 from gsuid_core.models import Event
 from gsuid_core.sv import SV
-from gsuid_core.logger import logger
 from gsuid_core.utils.image.convert import convert_img
 from gsuid_core.utils.image.image_tools import draw_center_text_by_line
 from PIL import Image, ImageDraw
 
+from ..arknightsuid_resource.constants import CHARACTER_TABLE
 from ..arknightsuid_wiki.draw_wiki_img import (
     # draw_wiki,
     get_equip_info,
     get_wiki_info,
 )
-from ..arknightsuid_resource.constants import CHARACTER_TABLE
 from ..utils.fonts.source_han_sans import sans_font_20
 
 sv_sr_wiki = SV("arkWIKI")

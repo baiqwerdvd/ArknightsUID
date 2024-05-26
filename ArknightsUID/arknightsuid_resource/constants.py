@@ -1,10 +1,10 @@
 import asyncio
-from pathlib import Path
 import json
 import threading
+from pathlib import Path
 
-from ..utils.resource.download_all_resource import download_all_resource
-from ..utils.resource.RESOURCE_PATH import GAMEDATA_PATH
+from gsuid_core.logger import logger
+
 from ..utils.models.gamedata.BattleEquipTable import BattleEquipTable
 from ..utils.models.gamedata.BuildingData import BuildingData
 from ..utils.models.gamedata.CampaignTable import CampaignTable
@@ -49,8 +49,8 @@ from ..utils.models.gamedata.TokenTable import TokenTable
 from ..utils.models.gamedata.UniequipData import UniequipData
 from ..utils.models.gamedata.UniequipTable import UniEquipTable
 from ..utils.models.gamedata.ZoneTable import ZoneTable
-
-from gsuid_core.logger import logger
+from ..utils.resource.download_all_resource import download_all_resource
+from ..utils.resource.RESOURCE_PATH import GAMEDATA_PATH
 
 
 def read_json(file_path: Path, **kwargs) -> dict:

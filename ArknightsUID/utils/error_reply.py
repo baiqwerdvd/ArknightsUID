@@ -1,6 +1,5 @@
 from typing import Union
 
-
 UID_HINT = "添加失败, 请先绑定明日方舟UID"
 
 

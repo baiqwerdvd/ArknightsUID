@@ -1,9 +1,9 @@
 from enum import Enum
 from typing import Dict
 
-from ..common import BaseStruct
-
 from msgspec import field
+
+from ..common import BaseStruct
 
 
 class ItemBundle(BaseStruct):

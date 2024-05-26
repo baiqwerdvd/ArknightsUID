@@ -1,5 +1,6 @@
 from typing import Dict, Union
-from msgspec import Struct, field, UnsetType, UNSET
+
+from msgspec import UNSET, Struct, UnsetType, field
 
 
 class GeneralGeetestData(Struct):

@@ -549,6 +549,7 @@ class PlayerInfoChar(Struct):
     defaultSkillId: str
     gainTime: int
     defaultEquipId: str
+    specializeLevelCount: Union[int, None] = 0
 
 
 class PlayerAssistCharEquip(Struct):

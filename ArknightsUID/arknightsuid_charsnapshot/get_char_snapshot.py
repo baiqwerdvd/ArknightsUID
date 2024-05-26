@@ -154,11 +154,17 @@ async def get_char_snapshot(uid: str):
     else:
         avatar_id = status.avatar.id_
     try:
-        avatar_img = Image.open(
-            TEXT_PATH / "ui_player_avatar_list_h2" / f"{avatar_id}.png"
-        ).resize((235, 235))
+        try:
+            avatar_img = Image.open(
+                TEXT_PATH / "ui_player_avatar_list_h2" / f"{avatar_id}.png"
+            ).resize((235, 235))
+        except FileNotFoundError:
+            avatar_img = Image.open(TEXT_PATH / "ui_char_avatar" / f"{avatar_id}.png").resize(
+                (235, 235)
+            )
     except FileNotFoundError:
-        avatar_img = Image.open(TEXT_PATH / "ui_char_avatar" / f"{avatar_id}.png").resize(
+        avatar_id_rep = avatar_id.replace("#", "_")
+        avatar_img = Image.open(TEXT_PATH / "ui_char_avatar" / f"{avatar_id_rep}.png").resize(
             (235, 235)
         )
 

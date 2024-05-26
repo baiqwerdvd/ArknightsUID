@@ -193,7 +193,7 @@ async def get_char_snapshot(uid: str, cur_page: int):
         if avatar_id_rep == "char_1013_chen2_1":
             avatar_id_rep = "char_1013_chen2"
         if avatar_id_rep == "char_1037_amiya3":
-            avatar_id_rep = "char_1037_amiya2_2"
+            avatar_id_rep = "char_1037_amiya3_2"
         avatar_img = Image.open(TEXT_PATH / "ui_char_avatar" / f"{avatar_id_rep}.png").resize(
             (235, 235)
         )
@@ -266,8 +266,11 @@ def draw_char(
     avatar_bg = Image.open(TEXT_PATH / "avatar_bg.png").resize((118, 118))
     bar_img: Image.Image = Image.open(TEXT_PATH / "bar.png").convert("RGBA")
 
+    charid = test_char.charId
+    if charid == "char_1037_amiya3":
+        charid = "char_1037_amiya3_2"
     ui_char_avatar = (
-        Image.open(TEXT_PATH / "ui_char_avatar" / f"{test_char.charId}.png")
+        Image.open(TEXT_PATH / "ui_char_avatar" / f"{charid}.png")
         .resize((90, 90))
         .convert("RGBA")
     )

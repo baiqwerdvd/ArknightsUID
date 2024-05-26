@@ -22,6 +22,8 @@ async def get_resp_msg(bot: Bot, ev: Event):
     if uid_list is None:
         return await bot.send(UID_HINT)
     phone_number = ev.text.strip()
+    if phone_number[0] == " ":
+        phone_number = phone_number[1:]
     if not phone_number.isdigit():
         return await bot.send("你输入了错误的格式!")
     resp = await bot.receive_resp(

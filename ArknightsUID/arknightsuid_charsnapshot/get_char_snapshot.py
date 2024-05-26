@@ -345,7 +345,7 @@ def draw_char(
             if equip_type_icon == "original":
                 continue
             equip_img = Image.open(
-                TEXT_PATH / "ui_equip_type_direction_hub_h2" / f"{equip_type_icon}.png"
+                TEXT_PATH / "ui_equip_type_direction_hub_h2" / f"{equip_type_icon.lower()}.png"
             ).resize((92, 68))
             if test_char.defaultEquipId == equip_id.id_:
                 bar_img.paste(equip_selected, (626 + 67 * i, 31), mask=equip_selected)

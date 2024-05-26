@@ -164,6 +164,8 @@ async def get_char_snapshot(uid: str):
             )
     except FileNotFoundError:
         avatar_id_rep = avatar_id.replace("#", "_")
+        if avatar_id_rep == "char_1013_chen2_1":
+            avatar_id_rep = "char_1013_chen2"
         avatar_img = Image.open(TEXT_PATH / "ui_char_avatar" / f"{avatar_id_rep}.png").resize(
             (235, 235)
         )

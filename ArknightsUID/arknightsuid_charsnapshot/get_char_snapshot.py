@@ -113,10 +113,6 @@ char_sort_list = [
 
 TEXT_PATH = Path(__file__).parent / "texture2D"
 
-bg_img = Image.open(TEXT_PATH / "bg.jpg").convert("RGBA")
-avatar_bg = Image.open(TEXT_PATH / "avatar_bg.png").resize((118, 118))
-avatar_fg = Image.open(TEXT_PATH / "avatar_fg.png")
-
 skill_selected = Image.open(TEXT_PATH / "skill_selected.png")
 skill_selected = skill_selected.resize((40, 40))
 data = skill_selected.getdata()
@@ -131,7 +127,7 @@ skill_selected.putdata(new_data)
 equip_selected = Image.open(TEXT_PATH / "equip_selected.png")
 
 
-async def get_char_snapshot(uid: str):
+async def get_char_snapshot(uid: str, cur_page: int):
     data = await ark_skd_api.get_game_player_info(uid)
     if isinstance(data, int):
         return "查询失败, 请检查uid或者Cred是否正确"
@@ -142,12 +138,42 @@ async def get_char_snapshot(uid: str):
 
     char_cnt = len(chars)
 
-    six_star_count = 0
+    six_star_chars = [char for char in chars if charInfoMap[char.charId].rarity == 5]
+    outher_chars = [char for char in chars if charInfoMap[char.charId].rarity != 5]
+
+    six_star_count = len(six_star_chars)
+    other_char_count = len(outher_chars)
+
+    # 6星角色按照list的顺序排序
     for char in chars:
         char_id = char.charId
-        char_rarity = charInfoMap[char_id].rarity
-        if char_rarity == 5:
-            six_star_count += 1
+        if charInfoMap[char_id].name not in char_sort_list:
+            char_sort_list.append(charInfoMap[char_id].name)
+    six_star_chars = sorted(
+        six_star_chars,
+        key=lambda x: char_sort_list.index(charInfoMap[x.charId].name),
+    )
+
+    # 5,4,3,2,1星角色按照 evolvePhase, level, specializeLevelCount, potentialRank, charId 排序
+    for char in outher_chars:
+        char.specializeLevelCount = 0
+        if char.skills is None:
+            continue
+        for skill in char.skills:
+            char.specializeLevelCount += skill.specializeLevel  # type: ignore
+    outher_chars = sorted(
+        outher_chars,
+        key=lambda x: (
+            x.evolvePhase,
+            x.level,
+            x.specializeLevelCount,
+            x.potentialRank,
+            x.charId,
+        ),
+        reverse=True,
+    )
+
+    total_char = six_star_chars + outher_chars
 
     if status.avatar is None:
         avatar_id = "avatar_activity_AW"
@@ -169,6 +195,9 @@ async def get_char_snapshot(uid: str):
         avatar_img = Image.open(TEXT_PATH / "ui_char_avatar" / f"{avatar_id_rep}.png").resize(
             (235, 235)
         )
+
+    bg_img = Image.open(TEXT_PATH / "bg.jpg").convert("RGBA")
+    avatar_fg = Image.open(TEXT_PATH / "avatar_fg.png")
 
     avatar_fg_draw = ImageDraw.Draw(avatar_fg)
     avatar_fg_draw.text(
@@ -209,39 +238,16 @@ async def get_char_snapshot(uid: str):
     info_img = Image.open(TEXT_PATH / "info.png")
     bg_img.paste(info_img, (0, 440), mask=info_img)
 
-    if six_star_count > 20:
-        chars = [char for char in chars if charInfoMap[char.charId].rarity == 5]
-        # 按照list的顺序排序, 特殊处理不在list中的角色
-        for char in chars:
-            char_id = char.charId
-            if charInfoMap[char_id].name not in char_sort_list:
-                char_sort_list.append(charInfoMap[char_id].name)
+    avail_page = (char_cnt + 16) // 17
+    if cur_page > avail_page:
+        cur_page = avail_page
+    if cur_page < 1:
+        cur_page = 1
 
-        chars = sorted(
-            chars,
-            key=lambda x: char_sort_list.index(charInfoMap[x.charId].name),
-        )
-    else:
-        for char in chars:
-            char.specializeLevelCount = 0
-            if char.skills is None:
-                continue
-            for skill in char.skills:
-                char.specializeLevelCount += skill.specializeLevel  # type: ignore
-        chars = sorted(
-            chars,
-            key=lambda x: (
-                x.evolvePhase,
-                x.level,
-                x.specializeLevelCount,
-                x.potentialRank,
-                x.charId,
-            ),
-            reverse=True,
-        )
+    page_char = total_char[(cur_page - 1) * 17 : cur_page * 17]
 
-    for i in range(17):
-        img = draw_char(chars[i], charInfoMap, equipmentInfoMap)
+    for i, char in enumerate(page_char):
+        img = draw_char(char, charInfoMap, equipmentInfoMap)
         bg_img.paste(img, (0, 490 + 110 * i), mask=img)
 
     footer_img = Image.open(TEXT_PATH / "footer.png")
@@ -255,6 +261,7 @@ def draw_char(
     charInfoMap: Dict[str, PlayerCharInfo],
     equipmentInfoMap: Dict[str, PlayerEquipmentInfo],
 ):
+    avatar_bg = Image.open(TEXT_PATH / "avatar_bg.png").resize((118, 118))
     bar_img: Image.Image = Image.open(TEXT_PATH / "bar.png").convert("RGBA")
 
     ui_char_avatar = (

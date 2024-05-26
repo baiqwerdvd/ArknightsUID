@@ -16,6 +16,13 @@ async def send_char_snapshot(bot: Bot, ev: Event):
     if uid is None:
         return "你还没有绑定UID噢,请使用[ark绑定uid123]完成绑定!"
 
+    # 获取需要查询的页数
+    cur_page = ev.text.strip()
+    if cur_page.isdigit():
+        cur_page = int(cur_page)
+    else:
+        cur_page = 1
+
     await bot.logger.info("开始执行[ark角色快照]")
-    im = await get_char_snapshot(uid)
+    im = await get_char_snapshot(uid, cur_page)
     await bot.send(im)

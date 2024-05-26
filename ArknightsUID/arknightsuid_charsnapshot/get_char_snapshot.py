@@ -31,7 +31,7 @@ char_sort_list = [
     "艾拉",
     "麒麟R夜刀",
     "铃兰",
-    "歌蕾蒂娅",
+    "玛恩纳",
     "温蒂",
     "莱伊",
     "假日威龙陈",
@@ -39,7 +39,7 @@ char_sort_list = [
     "夜莺",
     "塞雷娅",
     "归溟幽灵鲨",
-    "玛恩纳",
+    "歌蕾蒂娅",
     "灵知",
     "阿尔图罗",
     "艾雅法拉",
@@ -110,7 +110,6 @@ char_sort_list = [
     "W",
     "伺夜",
 ]
-
 bg_img = Image.open("./texture2D/bg.jpg").convert("RGBA")
 avatar_bg = Image.open("./texture2D/avatar_bg.png").resize((118, 118))
 avatar_fg = Image.open("./texture2D/avatar_fg.png")

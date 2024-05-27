@@ -331,7 +331,8 @@ def draw_char(
                 TEXT_PATH / "charcommon" / f"evolve_small_icon_{skill_specialize_level}.png"
             )
             skill_img.paste(skill_specialize_img, (0, 0), mask=skill_specialize_img)
-            bar_img.paste(skill_img, (345 + 78 * i, 30), mask=skill_img)
+            skill_img = skill_img.resize((60, 60))
+            bar_img.paste(skill_img, box=(355 + 70 * i, 37), mask=skill_img)
 
     favor_percent = test_char.favorPercent
     bar_img_draw.text(

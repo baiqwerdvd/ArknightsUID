@@ -5,8 +5,9 @@ from typing import List
 
 from msgspec import convert
 from msgspec import json as msgjson
-from service.gachaLogic import GachaService
-from service.models import (
+
+from .service.gachaLogic import GachaService
+from .service.models import (
     GachaDetailTable,
     GachaPoolClientData,
     GachaTable,
@@ -115,8 +116,3 @@ async def testTenAdvancedGacha(
         char_get.append(bundle.id_)
         state.history.append(f"{bundle.id_}&{bundle.rarity}&{now}")  # &{charGet.isNew}")
     return char_get
-
-
-import asyncio
-
-asyncio.run(gacha("100000000"))

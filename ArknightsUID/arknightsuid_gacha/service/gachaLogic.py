@@ -100,7 +100,8 @@ class GachaService:
             state.init = 1
 
         if not poolClient.openTime <= now <= poolClient.endTime:
-            raise ValueError("gacha pool not open")
+            pass
+            # raise ValueError("gacha pool not open")
 
         ## === ↓ ***基础数据校验*** ↓ ===
         # poolClient.openTime <= now <= poolClient.endTime -> gacha pool not open
@@ -157,7 +158,8 @@ class GachaService:
             state.init = 1
 
         if not carousel.startTime <= now <= carousel.endTime or not curPool.openFlag:
-            raise ValueError("gacha pool not open")
+            pass
+            # raise ValueError("gacha pool not open")
 
         ## === ↓ ***基础数据校验*** ↓ ===
         # carousel.startTime <= now <= carousel.endTime | openFlag -> gacha pool not open
@@ -185,7 +187,8 @@ class GachaService:
             state.init = 1
 
         if not carousel.startTime <= now <= carousel.endTime or not curPool.openFlag:
-            raise ValueError("gacha pool not open")
+            pass
+            # raise ValueError("gacha pool not open")
 
         ## === ↓ ***基础数据校验*** ↓ ===
         # carousel.startTime <= now <= carousel.endTime | openFlag -> gacha pool not open
@@ -219,7 +222,8 @@ class GachaService:
             state.init = 1
 
         if not poolClient.openTime <= now <= poolClient.endTime:
-            raise ValueError("gacha pool not open")
+            pass
+            # raise ValueError("gacha pool not open")
 
         ## === ↓ ***基础数据校验*** ↓ ===
         # poolClient.openTime <= now <= poolClient.endTime -> gacha pool not open
@@ -249,7 +253,8 @@ class GachaService:
             state.init = 1
 
         if not poolClient.openTime <= now <= poolClient.endTime:
-            raise ValueError("gacha pool not open")
+            pass
+            # raise ValueError("gacha pool not open")
 
         ## === ↓ ***基础数据校验*** ↓ ===
         # poolClient.openTime <= now <= poolClient.endTime -> gacha pool not open
@@ -310,7 +315,8 @@ class GachaService:
             state.init = 1
 
         if not poolClient.openTime <= now <= poolClient.endTime:
-            raise ValueError("gacha pool not open")
+            pass
+            # raise ValueError("gacha pool not open")
 
         ## === ↓ ***基础数据校验*** ↓ ===
         # poolClient.openTime <= now <= poolClient.endTime -> gacha pool not open

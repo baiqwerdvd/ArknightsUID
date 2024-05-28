@@ -1,4 +1,5 @@
 import sys
+from tkinter import CHAR
 
 from gsuid_core.data_store import get_res_path
 
@@ -22,6 +23,14 @@ SKILL_ICONS_PATH = RESOURCE_PATH / "skill_icons"
 SKINPACK_PATH = RESOURCE_PATH / "skinpack"
 SUB_PROFESSION_ICON_PATH = RESOURCE_PATH / "sub_profession_icon"
 TEAM_ICON_PATH = RESOURCE_PATH / "team_icon"
+UI_CHAR_AVATAR_PATH = RESOURCE_PATH / "ui_char_avatar"
+UI_PLAYER_AVATAR_LIST_PATH = RESOURCE_PATH / "ui_player_avatar_list_h2"
+UI_EQUIP_TYPE_DIRECTION_HUB_PATH = RESOURCE_PATH / "ui_equip_type_direction_hub_h2"
+POTENTIAL_HUB_PATH = RESOURCE_PATH / "potential_hub"
+ELITE_HUB_PATH = RESOURCE_PATH / "elite_hub"
+PROFESSION_PATH = RESOURCE_PATH / "profession"
+CHAR_COMMON_PATH = RESOURCE_PATH / "charcommon"
+CHARPORTRAITS_PATH = RESOURCE_PATH / "charportraits"
 
 
 def init_dir():
@@ -41,6 +50,14 @@ def init_dir():
         SKINPACK_PATH,
         SUB_PROFESSION_ICON_PATH,
         TEAM_ICON_PATH,
+        UI_CHAR_AVATAR_PATH,
+        UI_PLAYER_AVATAR_LIST_PATH,
+        UI_EQUIP_TYPE_DIRECTION_HUB_PATH,
+        POTENTIAL_HUB_PATH,
+        ELITE_HUB_PATH,
+        PROFESSION_PATH,
+        CHAR_COMMON_PATH,
+        CHARPORTRAITS_PATH,
     ]:
         i.mkdir(parents=True, exist_ok=True)
 

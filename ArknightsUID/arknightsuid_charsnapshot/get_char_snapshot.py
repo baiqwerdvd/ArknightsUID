@@ -16,101 +16,17 @@ from ..utils.models.skland.models import (
     PlayerEquipmentInfo,
     PlayerInfoChar,
 )
-
-char_sort_list = [
-    "伊内丝",
-    "维什戴尔",
-    "逻各斯",
-    "刻俄柏",
-    "琴柳",
-    "风笛",
-    "史尔特尔",
-    "黍",
-    "锏",
-    "玛恩纳",
-    "缄默德克萨斯",
-    "艾拉",
-    "麒麟R夜刀",
-    "铃兰",
-    "焰影苇草",
-    "温蒂",
-    "莱伊",
-    "假日威龙陈",
-    "耀骑士临光",
-    "夜莺",
-    "塞雷娅",
-    "归溟幽灵鲨",
-    "歌蕾蒂娅",
-    "灵知",
-    "阿尔图罗",
-    "艾雅法拉",
-    "林",
-    "莫斯提马",
-    "瑕光",
-    " 伊芙利特",
-    "阿",
-    "令",
-    "涤火杰西卡",
-    "年",
-    "麦哲伦",
-    "浊心斯卡蒂",
-    "纯烬艾雅法拉",
-    "白铁",
-    "左乐",
-    "仇白",
-    "百炼嘉维尔",
-    "银灰",
-    "傀影",
-    "号角",
-    "泥岩",
-    "凯尔希",
-    "星熊",
-    "斥罪",
-    "山",
-    "黑键",
-    "多萝西",
-    "缪尔赛思",
-    "赫德雷",
-    "圣约送葬人",
-    "重岳",
-    "煌",
-    "提丰",
-    "鸿雪",
-    "澄闪",
-    "黑",
-    "闪灵",
-    "霍尔海雅",
-    "灰烬",
-    "薇薇安娜",
-    "早露",
-    "安洁莉娜",
-    "淬羽赫默",
-    "森蚺",
-    "嵯峨",
-    "斯卡蒂",
-    "陈",
-    "艾丽妮",
-    "卡涅利安",
-    "琳琅诗怀雅",
-    "老鲤",
-    "能天使",
-    "迷迭香",
-    "空弦",
-    "夕",
-    "菲亚梅塔",
-    "水月",
-    "流明",
-    "异客",
-    "棘刺",
-    "止颂",
-    "赫拉格",
-    "帕拉斯",
-    "焰尾",
-    "推进之王",
-    "远牙",
-    "W",
-    "伺夜",
-]
+from ..utils.resource.RESOURCE_PATH import (
+    CHAR_COMMON_PATH,
+    ELITE_HUB_PATH,
+    POTENTIAL_HUB_PATH,
+    PROFESSION_PATH,
+    SKILL_ICONS_PATH,
+    UI_CHAR_AVATAR_PATH,
+    UI_EQUIP_TYPE_DIRECTION_HUB_PATH,
+    UI_PLAYER_AVATAR_LIST_PATH,
+)
+from .const import char_sort_list
 
 TEXT_PATH = Path(__file__).parent / "texture2D"
 
@@ -143,7 +59,6 @@ async def get_char_snapshot(uid: str, cur_page: int):
     outher_chars = [char for char in chars if charInfoMap[char.charId].rarity != 5]
 
     six_star_count = len(six_star_chars)
-    # other_char_count = len(outher_chars)
 
     # 6星角色按照list的顺序排序
     for char in chars:
@@ -182,20 +97,16 @@ async def get_char_snapshot(uid: str, cur_page: int):
         avatar_id = status.avatar.id_
     try:
         try:
-            avatar_img = Image.open(
-                TEXT_PATH / "ui_player_avatar_list_h2" / f"{avatar_id}.png"
-            ).resize((235, 235))
-        except FileNotFoundError:
-            avatar_img = Image.open(TEXT_PATH / "ui_char_avatar" / f"{avatar_id}.png").resize(
+            avatar_img = Image.open(UI_PLAYER_AVATAR_LIST_PATH / f"{avatar_id}.png").resize(
                 (235, 235)
             )
+        except FileNotFoundError:
+            avatar_img = Image.open(UI_CHAR_AVATAR_PATH / f"{avatar_id}.png").resize((235, 235))
     except FileNotFoundError:
         avatar_id_rep = avatar_id.replace("#", "_")
         if avatar_id_rep == "char_1013_chen2_1":
             avatar_id_rep = "char_1013_chen2"
-        avatar_img = Image.open(TEXT_PATH / "ui_char_avatar" / f"{avatar_id_rep}.png").resize(
-            (235, 235)
-        )
+        avatar_img = Image.open(UI_CHAR_AVATAR_PATH / f"{avatar_id_rep}.png").resize((235, 235))
 
     bg_img = Image.open(TEXT_PATH / "bg.jpg").convert("RGBA")
     avatar_fg = Image.open(TEXT_PATH / "avatar_fg.png")
@@ -269,21 +180,19 @@ def draw_char(
     if charid == "char_1037_amiya3":
         charid = "char_1037_amiya3_2"
     ui_char_avatar = (
-        Image.open(TEXT_PATH / "ui_char_avatar" / f"{charid}.png")
-        .resize((90, 90))
-        .convert("RGBA")
+        Image.open(UI_CHAR_AVATAR_PATH / f"{charid}.png").resize((90, 90)).convert("RGBA")
     )
     bar_img.paste(avatar_bg, (24, 5), mask=avatar_bg)
     bar_img.paste(ui_char_avatar, (38, 21), mask=ui_char_avatar)
 
     potential_rank = test_char.potentialRank
-    potential_img = Image.open(
-        TEXT_PATH / f"potential_hub/potential_{potential_rank}.png"
-    ).resize((45, 45))
+    potential_img = Image.open(POTENTIAL_HUB_PATH / f"potential_{potential_rank}.png").resize(
+        (45, 45)
+    )
     bar_img.paste(potential_img, (135, 67), mask=potential_img)
 
     elite_level = test_char.evolvePhase
-    elite_img = Image.open(TEXT_PATH / "elite_hub" / f"elite_{elite_level}_large.png")
+    elite_img = Image.open(ELITE_HUB_PATH / f"elite_{elite_level}_large.png")
     elite_img = elite_img.resize((44, 37))
     bar_img.paste(elite_img, (186, 71), mask=elite_img)
 
@@ -300,9 +209,7 @@ def draw_char(
     )
 
     profession = charInfoMap[test_char.charId].profession.lower()
-    profession_img = Image.open(
-        TEXT_PATH / "profession" / f"icon_profession_{profession}_lighten.png"
-    )
+    profession_img = Image.open(PROFESSION_PATH / f"icon_profession_{profession}_lighten.png")
     profession_img = profession_img.resize((35, 35))
     bar_img.paste(profession_img, (139, 26), mask=profession_img)
 
@@ -323,12 +230,12 @@ def draw_char(
             skill_specialize_level = skill.specializeLevel
             if skill_icon_id is None:
                 skill_icon_id = skill_id
-            skill_img = Image.open(TEXT_PATH / "skill_icons" / f"skill_icon_{skill_icon_id}.png")
+            skill_img = Image.open(SKILL_ICONS_PATH / f"skill_icon_{skill_icon_id}.png")
             skill_img = skill_img.resize((70, 70))
             if test_char.defaultSkillId == skill_id:
                 skill_img.paste(skill_selected, (38, -1), mask=skill_selected)
             skill_specialize_img = Image.open(
-                TEXT_PATH / "charcommon" / f"evolve_small_icon_{skill_specialize_level}.png"
+                CHAR_COMMON_PATH / f"evolve_small_icon_{skill_specialize_level}.png"
             )
             skill_img.paste(skill_specialize_img, (0, 0), mask=skill_specialize_img)
             skill_img = skill_img.resize((60, 60))
@@ -350,7 +257,7 @@ def draw_char(
             if equip_type_icon == "original":
                 continue
             equip_img = Image.open(
-                TEXT_PATH / "ui_equip_type_direction_hub_h2" / f"{equip_type_icon.lower()}.png"
+                UI_EQUIP_TYPE_DIRECTION_HUB_PATH / f"{equip_type_icon.lower()}.png"
             ).resize((92, 68))
             if test_char.defaultEquipId == equip_id.id_:
                 bar_img.paste(equip_selected, (626 + 67 * i, 31), mask=equip_selected)

@@ -670,6 +670,10 @@ result.txt
 ArknightsUID/tools/
 upload_file.py
 test.py
+test2.py
+test3.py
+test.json
+skill_table_test.json
 
 ### Debug ###
 testnb2/

@@ -5,10 +5,9 @@ from typing_extensions import TypeAlias
 from .models import (
     GachaDetailDataGachaAvailChar,
     GachaDetailInfo,
-    PlayerGacha,
+    PlayerDataDetail,
     PoolWeightItem,
     gachaGroupConfig,
-    PlayerDataDetail,
 )
 
 PoolResultA: TypeAlias = Tuple[List[float], List[PoolWeightItem]]

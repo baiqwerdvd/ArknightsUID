@@ -28,7 +28,7 @@ with cur_path.joinpath("gacha_detail_table.json").open(encoding="UTF-8") as f:
 
 async def gacha(uid: str):
     if not (cur_path / Path(f"{uid}.json")).exists():
-        with open(cur_path / "uid_data.json", "w") as f:
+        with open(cur_path / Path(f"{uid}.json"), "w") as f:
             data = PlayerDataDetail(
                 user=PlayerData(
                     gacha=PlayerGacha(

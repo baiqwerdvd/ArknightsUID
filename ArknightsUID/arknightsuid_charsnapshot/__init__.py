@@ -9,7 +9,7 @@ from .get_char_snapshot import get_char_snapshot
 sv_get_char_snapshot = SV("ark角色快照")
 
 
-@sv_get_char_snapshot.on_prefix(f"{PREFIX}角色快照")
+@sv_get_char_snapshot.on_command(f"{PREFIX}角色快照")
 async def send_char_snapshot(bot: Bot, ev: Event):
     user_id = ev.at if ev.at else ev.user_id
     uid = await ArknightsBind.get_uid_by_game(user_id, ev.bot_id)

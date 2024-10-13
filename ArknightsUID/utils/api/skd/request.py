@@ -26,14 +26,15 @@ ssl_verify = core_plugins_config.get_config("MhySSLVerify").data
 
 
 _HEADER: Dict[str, str] = {
-    "User-Agent": "Skland/1.5.1 (com.hypergryph.skland; build:100501001; Android 33; ) Okhttp/4.11.0",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
     "Accept-Encoding": "gzip",
     "Connection": "close",
     "Origin": "https://www.skland.com",
     "Referer": "https://www.skland.com/",
-    "Content-Type": "application/json",
-    "manufacturer": "Xiaomi",
-    "os": "33",
+    "Content-Type": "application/json; charset=utf-8",
+    # "manufacturer": "Xiaomi",
+    # "os": "33",
+    "dId": get_d_id(),
 }
 
 
@@ -246,16 +247,12 @@ class BaseArkApi:
         parsed_url = urlparse(url)
         path = parsed_url.path
         timestamp = str(int(time.time()) - 2)
-        dId = get_d_id()
-        str1 = json.dumps(
-            {
-                "platform": header.get("platform", "1"),
-                "timestamp": timestamp,
-                "dId": dId,
-                "vName": "1.5.1",
-            },
-            separators=(",", ":"),
-        )
+        header_ca = {
+            "platform": "3",
+            "timestamp": timestamp,
+            "vName": "1.0.0",
+        }
+        header_ca_str = json.dumps(header_ca, separators=(",", ":"))
         s2 = ""
         if params:
             logger.debug(f"params {params}")
@@ -263,8 +260,8 @@ class BaseArkApi:
         if data:
             logger.debug(f"data {data}")
             s2 += json.dumps(data)
-        logger.debug(f"{path} {s2} {timestamp} {str1}")
-        str2 = path + s2 + timestamp + str1
+        logger.debug(f"{path} {s2} {timestamp} {header_ca_str}")
+        str2 = path + s2 + timestamp + header_ca_str
         token_ = await ArknightsUser.get_token_by_cred(header["cred"])
         logger.debug(f'cred {header["cred"]} token {token} token_ {token_}')
         token = token if token else token_
@@ -275,7 +272,7 @@ class BaseArkApi:
         sign = hashlib.md5(hex_s.encode("utf-8")).hexdigest().encode("utf-8").decode("utf-8")
         header["sign"] = sign
         header["timestamp"] = timestamp
-        header["dId"] = dId
+        # header["dId"] = dId
         logger.debug(header)
         return header
 
@@ -288,7 +285,7 @@ class BaseArkApi:
         data: Union[Dict[str, Any], None] = None,
         use_proxy: Union[bool, None] = False,
     ) -> Union[Dict, Union[int, None]]:
-        logger.debug(f"{url} {method} {header} {params} {data} {use_proxy}")
+        logger.debug(f"ark_request {url} {method} {header} {params} {data} {use_proxy}")
         try:
             raw_data = await self._ark_request(
                 url=url,
@@ -348,7 +345,7 @@ class BaseArkApi:
                     return raw_data
 
                 if raw_data["code"] == 10000:
-                    # token失效
+                    # 请求异常
                     logger.info(f"{url} {raw_data}")
                     raise TokenExpiredError
 

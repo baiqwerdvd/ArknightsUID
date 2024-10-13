@@ -109,10 +109,10 @@ class BaseArkApi:
         )
         if cred is None:
             return -60
-        is_vaild = await self.check_cred_valid(cred)
-        if isinstance(is_vaild, bool):
-            await ArknightsUser.delete_user_data_by_uid(uid)
-            return -61
+        # is_vaild = await self.check_cred_valid(cred)
+        # if isinstance(is_vaild, bool):
+        #     await ArknightsUser.delete_user_data_by_uid(uid)
+        #     return -61
         header = deepcopy(_HEADER)
         header["cred"] = cred
         data = {"uid": uid, "gameId": 1}
@@ -149,10 +149,10 @@ class BaseArkApi:
         )
         if cred is None:
             return -60
-        is_vaild = await self.check_cred_valid(cred)
-        if isinstance(is_vaild, bool):
-            await ArknightsUser.delete_user_data_by_uid(uid)
-            return -61
+        # is_vaild = await self.check_cred_valid(cred)
+        # if isinstance(is_vaild, bool):
+        #     await ArknightsUser.delete_user_data_by_uid(uid)
+        #     return -61
         header = deepcopy(_HEADER)
         header["cred"] = cred
         header = await self.set_sign(

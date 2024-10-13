@@ -160,18 +160,17 @@ class BaseArkApi:
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
         data = {"uid": uid, "gameId": 1}
-        header = get_sign_header(token, ARK_SKD_SIGN, "post", data, headers)
-        raw_data = await self.ark_request(
-            url=ARK_SKD_SIGN,
-            method="POST",
-            data=data,
-            header=header,
-        )
-        if isinstance(raw_data, int):
-            return raw_data
-        if raw_data is None:
-            return -61
-        unpack_data = self.unpack(raw_data)
+        # header = get_sign_header(token, ARK_SKD_SIGN, "post", data, headers)
+        async with ClientSession(
+            connector=TCPConnector(),
+        ) as client:
+            sign_response = await client.post(
+                ARK_SKD_SIGN,
+                headers=get_sign_header(token, ARK_SKD_SIGN, "post", data, headers),
+                json=data,
+            )
+            sign_response_json = await sign_response.json()
+        unpack_data = self.unpack(sign_response_json)
         if isinstance(unpack_data, int):
             return unpack_data
         else:

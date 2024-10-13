@@ -19,31 +19,31 @@ already = 0
 # 签到函数
 async def sign_in(ark_uid: str) -> str:
     logger.info(f"[ARK签到] {ark_uid} 开始执行签到")
-    # 获得签到信息
-    sign_info = await ark_skd_api.get_sign_info(ark_uid)
-    # 初步校验数据
-    if isinstance(sign_info, int):
-        logger.warning(f"[ARK签到] {ark_uid} 出错, 请检查森空岛Cred是否过期!")
-        return "签到失败...请检查森空岛Cred是否过期!"
-    # 检测是否已签到
-    for calendar in sign_info.calendar:
-        if calendar.available:
-            break
-    else:
-        logger.info(f"[ARK签到] {ark_uid} 该用户今日已签到,跳过...")
-        global already
-        already += 1
-        # 获取今天和月初的日期,计算漏签次数
-        day_of_month = datetime.now().day
-        special_count = 0
-        count = 0
-        for calendar in sign_info.calendar:
-            special_count += 1 if calendar.type_ == "first" else 0
-            done = calendar.done
-            if done is True:
-                count += 1
-        sign_missed = day_of_month - count + special_count
-        return f"今日已签到!本月漏签次数:{sign_missed}"
+    # # 获得签到信息
+    # sign_info = await ark_skd_api.get_sign_info(ark_uid)
+    # # 初步校验数据
+    # if isinstance(sign_info, int):
+    #     logger.warning(f"[ARK签到] {ark_uid} 出错, 请检查森空岛Cred是否过期!")
+    #     return "签到失败...请检查森空岛Cred是否过期!"
+    # # 检测是否已签到
+    # for calendar in sign_info.calendar:
+    #     if calendar.available:
+    #         break
+    # else:
+    #     logger.info(f"[ARK签到] {ark_uid} 该用户今日已签到,跳过...")
+    #     global already
+    #     already += 1
+    #     # 获取今天和月初的日期,计算漏签次数
+    #     day_of_month = datetime.now().day
+    #     special_count = 0
+    #     count = 0
+    #     for calendar in sign_info.calendar:
+    #         special_count += 1 if calendar.type_ == "first" else 0
+    #         done = calendar.done
+    #         if done is True:
+    #             count += 1
+    #     sign_missed = day_of_month - count + special_count
+    #     return f"今日已签到!本月漏签次数:{sign_missed}"
 
     # 进行一次签到
     sign_data = await ark_skd_api.skd_sign(uid=ark_uid)

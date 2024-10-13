@@ -24,17 +24,18 @@ from .api import ARK_PLAYER_INFO, ARK_REFRESH_TOKEN, ARK_SKD_SIGN, ARK_WEB_USER
 proxy_url = core_plugins_config.get_config("proxy").data
 ssl_verify = core_plugins_config.get_config("MhySSLVerify").data
 
+dId = get_d_id()
 
 _HEADER: Dict[str, str] = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+    "User-Agent": "Skland/1.5.1 (com.hypergryph.skland; build:100501001; Android 33; ) Okhttp/4.11.0",
     "Accept-Encoding": "gzip",
     "Connection": "close",
     "Origin": "https://www.skland.com",
     "Referer": "https://www.skland.com/",
-    "Content-Type": "application/json; charset=utf-8",
-    # "manufacturer": "Xiaomi",
-    # "os": "33",
-    "dId": get_d_id(),
+    "Content-Type": "application/json",
+    "manufacturer": "Xiaomi",
+    "os": "33",
+    "dId": dId,  # "de9759a5afaa634f",
 }
 
 

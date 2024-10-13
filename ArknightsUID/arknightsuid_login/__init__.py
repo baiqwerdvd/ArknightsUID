@@ -37,7 +37,7 @@ async def get_resp_msg(bot: Bot, ev: Event):
             return await bot.send("你输入了错误的格式!")
         logger.info(code.text)
         login.token_by_phone_code(code.text)
-        login.post_account_info_hg()
+        # login.post_account_info_hg()
         login.user_oauth2_v2_grant()
         login.generate_cred_by_code()
         uid = login.ark_uid

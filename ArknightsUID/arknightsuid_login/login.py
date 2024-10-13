@@ -64,7 +64,6 @@ class SklandLogin:
         )
         self.geetest_token = geetest_token
         self.token = None
-        self.hg_token = None
         self.ark_uid = None
 
     def send_phone_code(
@@ -136,19 +135,20 @@ class SklandLogin:
         data = transUnset(result.data)
         assert data is not None
         self.token = data.token
-
-    def post_account_info_hg(self):
-        if self.token is None:
-            raise SklandLoginError(ARK_ACCONUT_INFO_HG, "token not set!")
-        response = self.client.post(
-            ARK_ACCONUT_INFO_HG,
-            json={"content": self.token},
-        )
-        set_cookie: str = response.headers.get("set-cookie")
-        matches = re.findall(r"ACCOUNT=([^;]+)", set_cookie)
-        account_cookie: str = matches[0]
-        self.hg_token = account_cookie
         self.get_ark_uid()
+
+    # def post_account_info_hg(self):
+    #     if self.token is None:
+    #         raise SklandLoginError(ARK_ACCONUT_INFO_HG, "token not set!")
+    #     response = self.client.post(
+    #         ARK_ACCONUT_INFO_HG,
+    #         json={"content": self.token},
+    #     )
+    #     set_cookie: str = response.headers.get("set-cookie")
+    #     matches = re.findall(r"ACCOUNT=([^;]+)", set_cookie)
+    #     account_cookie: str = matches[0]
+    #     self.hg_token = account_cookie
+    #     self.get_ark_uid()
 
     def user_oauth2_v2_grant(self):
         # data = Oauth2V2GrantRequest(
@@ -185,7 +185,7 @@ class SklandLogin:
             json={
                 "appId": 1,
                 "channelMasterId": 1,
-                "channelToken": {"token": self.hg_token},
+                "channelToken": {"token": self.token},
             },
         )
         response.raise_for_status()

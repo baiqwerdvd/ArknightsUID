@@ -40,24 +40,26 @@ async def get_resp_msg(bot: Bot, ev: Event):
         login.post_account_info_hg()
         login.user_oauth2_v2_grant()
         (skland_cred, skland_token, skland_userId) = login.generate_cred_by_code()
+        uid = login.uid
+        skd_uid = skland_userId
 
-        check_cred = await ark_skd_api.check_cred_valid(
-            cred=skland_cred,
-            token=skland_token,
-        )
+        # check_cred = await ark_skd_api.check_cred_valid(
+        #     cred=skland_cred,
+        #     token=skland_token,
+        # )
 
-        if isinstance(check_cred, bool):
-            return await bot.send("Cred Check 不通过!")
-        else:
-            skd_uid = check_cred.user.id_
-            uid = check_cred.gameStatus.uid
+        # if isinstance(check_cred, bool):
+        #     return await bot.send("Cred Check 不通过!")
+        # else:
+        #     skd_uid = check_cred.user.id_
+        #     uid = check_cred.gameStatus.uid
         if uid not in uid_list:
             return await bot.send("请先绑定该 Cred 对应的 uid")
 
         skd_data = await ArknightsUser.select_data_by_uid(uid)
         push_data = await ArknightsPush.select_data_by_uid(uid)
         if not skd_data:
-            await ArknightsUser.insert_data(
+            _ = await ArknightsUser.insert_data(
                 ev.user_id,
                 ev.bot_id,
                 cred=skland_cred,
@@ -66,7 +68,7 @@ async def get_resp_msg(bot: Bot, ev: Event):
                 token=skland_token,
             )
         else:
-            await ArknightsUser.update_data(
+            _ = await ArknightsUser.update_data(
                 ev.user_id,
                 ev.bot_id,
                 cred=skland_cred,

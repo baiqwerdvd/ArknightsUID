@@ -52,8 +52,8 @@ class SklandLogin:
     _HEADER: ClassVar[Dict[str, str]] = {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",  # noqa: E501
         "content-type": "application/json;charset=UTF-8",
-        "origin": "https://www.skland.com",
-        "referer": "https://www.skland.com",
+        "origin": "https://ak.hypergryph.com",
+        "referer": "https://ak.hypergryph.com",
     }
 
     def __init__(self, phone: str, geetest_token: Union[str, None] = None):
@@ -63,6 +63,9 @@ class SklandLogin:
             verify=False,
         )
         self.geetest_token = geetest_token
+        self.token = None
+        self.hg_token = None
+        self.ark_uid = None
 
     def send_phone_code(
         self,
@@ -105,7 +108,7 @@ class SklandLogin:
                     "_pass_API",
                     geetest_pass_data.info,
                 )
-            self.send_phone_code(
+            _ = self.send_phone_code(
                 override_geetest=GeneralGeetestData(
                     geetest_challenge=geetest_pass_data.data.challenge,
                     geetest_validate=geetest_pass_data.data.validate,
@@ -137,42 +140,14 @@ class SklandLogin:
     def post_account_info_hg(self):
         if self.token is None:
             raise SklandLoginError(ARK_ACCONUT_INFO_HG, "token not set!")
-        data = AccountInfoHGRequest(
-            content=self.token,
-        )
         response = self.client.post(
             ARK_ACCONUT_INFO_HG,
-            json=mscjson.decode(mscjson.encode(data)),
+            json={"content": self.token},
         )
-        set_cookie = response.headers.get("set-cookie")
+        set_cookie: str = response.headers.get("set-cookie")
         matches = re.findall(r"ACCOUNT=([^;]+)", set_cookie)
-        account_cookie = matches[0]
-        self.client = httpx.Client(
-            headers=self._HEADER,
-            verify=False,
-            cookies={"ACCOUNT": account_cookie},
-        )
-        response.raise_for_status()
-        result = convert(response.json(), AccountInfoHGResponse)
-        if result.code != 0:
-            raise SklandLoginError(ARK_ACCONUT_INFO_HG, result.msg)
-        self.get_account_info_hg()
-
-    def get_account_info_hg(self):
-        if self.token is None:
-            raise SklandLoginError(ARK_ACCONUT_INFO_HG, "token not set!")
-        data = AccountInfoHGRequest(
-            content=self.token,
-        )
-        response = self.client.post(
-            ARK_ACCONUT_INFO_HG,
-            json=mscjson.decode(mscjson.encode(data)),
-        )
-        response.raise_for_status()
-        result = convert(response.json(), AccountInfoHGResponse)
-        if result.code != 0:
-            raise SklandLoginError(ARK_ACCONUT_INFO_HG, result.msg)
-        self.hg_token = result.data["content"]
+        account_cookie: str = matches[0]
+        self.hg_token = account_cookie
         self.get_ark_uid()
 
     def user_oauth2_v2_grant(self):
@@ -215,11 +190,13 @@ class SklandLogin:
         )
         response.raise_for_status()
         result_data = response.json()
-        self.ark_uid = result_data["data"]["uid"]
+        self.ark_uid: str = result_data["data"]["uid"]
 
     def generate_cred_by_code(self):
         self.client.headers["platform"] = "3"
         self.client.headers["vName"] = "1.0.0"
+        self.client.headers["origin"] = "https://zonai.skland.com/"
+        self.client.headers["referer"] = "https://zonai.skland.com/"
         self.client.headers["timestamp"] = str(int(datetime.now().timestamp()))
         self.client.headers["dId"] = get_d_id()
         response = self.client.post(
@@ -237,4 +214,3 @@ class SklandLogin:
         self.skland_cred = result.data.cred
         self.skland_token = result.data.token
         self.skland_userId = result.data.userId
-        return (self.skland_cred, self.skland_token, self.skland_userId)

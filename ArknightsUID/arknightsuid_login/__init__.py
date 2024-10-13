@@ -27,11 +27,11 @@ async def get_resp_msg(bot: Bot, ev: Event):
     if not phone_number.isdigit():
         return await bot.send("你输入了错误的格式!")
     resp = await bot.receive_resp(
-        f"请确认你的手机号码: {phone_number}." "如果正确请回复'确认', 其他任何回复将取消本次操作."
+        f"请确认你的手机号码: {phone_number}. 如果正确请回复'确认', 其他任何回复将取消本次操作."
     )
     if resp is not None and resp.text == "确认":
         login = SklandLogin(phone_number)
-        login.send_phone_code()
+        _ = login.send_phone_code()
         code = await bot.receive_resp("请输入验证码:")
         if code is None or not code.text.isdigit():
             return await bot.send("你输入了错误的格式!")
@@ -39,7 +39,7 @@ async def get_resp_msg(bot: Bot, ev: Event):
         login.token_by_phone_code(code.text)
         login.post_account_info_hg()
         login.user_oauth2_v2_grant()
-        (skland_cred, skland_token, skland_userId) = login.generate_cred_by_code()
+        login.generate_cred_by_code()
         uid = login.ark_uid
         skd_uid = login.skland_userId
 
@@ -62,19 +62,19 @@ async def get_resp_msg(bot: Bot, ev: Event):
             _ = await ArknightsUser.insert_data(
                 ev.user_id,
                 ev.bot_id,
-                cred=skland_cred,
+                cred=login.skland_cred,
                 uid=uid,
                 skd_uid=skd_uid,
-                token=skland_token,
+                token=login.skland_token,
             )
         else:
             _ = await ArknightsUser.update_data(
                 ev.user_id,
                 ev.bot_id,
-                cred=skland_cred,
+                cred=login.skland_cred,
                 uid=uid,
                 skd_uid=skd_uid,
-                token=skland_token,
+                token=login.skland_token,
             )
         if not push_data:
             await ArknightsPush.insert_push_data(ev.bot_id, uid=uid, skd_uid=skd_uid)

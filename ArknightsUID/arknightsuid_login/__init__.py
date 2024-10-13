@@ -40,8 +40,8 @@ async def get_resp_msg(bot: Bot, ev: Event):
         login.post_account_info_hg()
         login.user_oauth2_v2_grant()
         (skland_cred, skland_token, skland_userId) = login.generate_cred_by_code()
-        uid = login.uid
-        skd_uid = skland_userId
+        uid = login.ark_uid
+        skd_uid = login.skland_userId
 
         # check_cred = await ark_skd_api.check_cred_valid(
         #     cred=skland_cred,

@@ -172,6 +172,8 @@ class SklandLogin:
         result = convert(response.json(), AccountInfoHGResponse)
         if result.code != 0:
             raise SklandLoginError(ARK_ACCONUT_INFO_HG, result.msg)
+        self.hg_token = result.data["content"]
+        self.get_ark_uid()
 
     def user_oauth2_v2_grant(self):
         # data = Oauth2V2GrantRequest(
@@ -198,8 +200,22 @@ class SklandLogin:
         code = transUnset(result_data.code)
         if not code:
             raise SklandLoginError(ARK_USER_OAUTH2_V2_GRANT, "result.data.code is None")
-        self.uid = uid
+        # self.uid = uid
         self.code = code
+
+    def get_ark_uid(self):
+        url = "https://as.hypergryph.com/u8/user/info/v1/basic"
+        response = self.client.post(
+            url,
+            json={
+                "appId": 1,
+                "channelMasterId": 1,
+                "channelToken": {"token": self.hg_token},
+            },
+        )
+        response.raise_for_status()
+        result_data = response.json()
+        self.ark_uid = result_data["data"]["uid"]
 
     def generate_cred_by_code(self):
         self.client.headers["platform"] = "3"

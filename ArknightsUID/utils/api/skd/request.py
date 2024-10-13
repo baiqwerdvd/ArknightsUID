@@ -19,25 +19,21 @@ from ...models.skland.models import (
     ArknightsPlayerInfoModel,
     ArknightsUserMeModel,
 )
-from .api import ARK_PLAYER_INFO, ARK_REFRESH_TOKEN, ARK_SKD_SIGN, ARK_USER_ME
+from .api import ARK_PLAYER_INFO, ARK_REFRESH_TOKEN, ARK_SKD_SIGN, ARK_WEB_USER
 
 proxy_url = core_plugins_config.get_config("proxy").data
 ssl_verify = core_plugins_config.get_config("MhySSLVerify").data
 
 
 _HEADER: Dict[str, str] = {
-    "Host": "zonai.skland.com",
-    "platform": "1",
+    "User-Agent": "Skland/1.5.1 (com.hypergryph.skland; build:100501001; Android 33; ) Okhttp/4.11.0",
+    "Accept-Encoding": "gzip",
+    "Connection": "close",
     "Origin": "https://www.skland.com",
     "Referer": "https://www.skland.com/",
     "Content-Type": "application/json",
-    "User-Agent": "Skland/1.5.1 (com.hypergryph.skland; build:100501001; Android 33; ) Okhttp/4.11.0",
-    "vName": "1.5.1",
-    "vCode": "100501001",
-    "nId": "1",
-    "os": "33",
     "manufacturer": "Xiaomi",
-    "Connection": "close",
+    "os": "33",
 }
 
 
@@ -204,8 +200,8 @@ class BaseArkApi:
         if cred is None:
             return False
         header["cred"] = cred
-        header = await self.set_sign(ARK_USER_ME, header=header, token=token)
-        raw_data = await self.ark_request(ARK_USER_ME, header=header)
+        header = await self.set_sign(ARK_WEB_USER, header=header, token=token)
+        raw_data = await self.ark_request(ARK_WEB_USER, header=header)
         if isinstance(raw_data, int) or not raw_data:
             return False
         if "code" in raw_data and raw_data["code"] == 10001:
@@ -256,7 +252,7 @@ class BaseArkApi:
                 "platform": header.get("platform", "1"),
                 "timestamp": timestamp,
                 "dId": dId,
-                "vName": header.get("vName", ""),
+                "vName": "1.5.1",
             },
             separators=(",", ":"),
         )

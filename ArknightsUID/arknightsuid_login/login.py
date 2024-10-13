@@ -50,7 +50,7 @@ def transUnset(v: Union[T1, UnsetType], d: T2 = None) -> Union[T1, T2]:
 
 class SklandLogin:
     _HEADER: ClassVar[Dict[str, str]] = {
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",  # noqa: E501
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",  # noqa: E501
         "content-type": "application/json;charset=UTF-8",
         "origin": "https://www.skland.com",
         "referer": "https://www.skland.com",
@@ -77,7 +77,7 @@ class SklandLogin:
         else:
             data = GeneralV1SendPhoneCodeRequest(
                 phone=self.phone,
-                type=1,
+                type=2,
             )
         response = self.client.post(
             ARK_LOGIN_SEND_PHONE_CODE,
@@ -116,16 +116,6 @@ class SklandLogin:
             return result.msg
 
     def token_by_phone_code(self, code: str):
-        # data = UserAuthV2TokenByPhoneCodeRequest(
-        #     phone=self.phone,
-        #     code=code,
-        # )
-        # data = {
-        #     "phone": self.phone,
-        #     "code": code,
-        # }
-        # data = mscjson.decode(mscjson.encode(data))
-        # print(data)
         response = self.client.post(
             ARK_TOKEN_BY_PHONE_CODE,
             json={
@@ -133,8 +123,8 @@ class SklandLogin:
                 "code": code,
             },
         )
-        response.raise_for_status()
         result = convert(response.json(), UserAuthV2TokenByPhoneCodeResponse)
+        print(result)
         status = result.status
         if status == 101:
             msg = transUnset(result.msg)

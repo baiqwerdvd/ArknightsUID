@@ -116,19 +116,22 @@ class SklandLogin:
             return result.msg
 
     def token_by_phone_code(self, code: str):
-        data = UserAuthV2TokenByPhoneCodeRequest(
-            phone=self.phone,
-            code=code,
-        )
-        data = {
-            "phone": self.phone,
-            "code": code,
-        }
-        data = mscjson.decode(mscjson.encode(data))
-        print(data)
+        # data = UserAuthV2TokenByPhoneCodeRequest(
+        #     phone=self.phone,
+        #     code=code,
+        # )
+        # data = {
+        #     "phone": self.phone,
+        #     "code": code,
+        # }
+        # data = mscjson.decode(mscjson.encode(data))
+        # print(data)
         response = self.client.post(
             ARK_TOKEN_BY_PHONE_CODE,
-            json=data,
+            json={
+                "phone": self.phone,
+                "code": code,
+            },
         )
         response.raise_for_status()
         result = convert(response.json(), UserAuthV2TokenByPhoneCodeResponse)
@@ -181,15 +184,15 @@ class SklandLogin:
             raise SklandLoginError(ARK_ACCONUT_INFO_HG, result.msg)
 
     def user_oauth2_v2_grant(self):
-        data = Oauth2V2GrantRequest(
-            token=self.token,
-            appCode="4ca99fa6b56cc2ba",
-            type=0,
-        )
-        self.client.headers["dId"] = get_d_id()
+        # data = Oauth2V2GrantRequest(
+        #     token=self.token,
+        #     appCode="4ca99fa6b56cc2ba",
+        #     type=0,
+        # )
+        # self.client.headers["dId"] = get_d_id()
         response = self.client.post(
             ARK_USER_OAUTH2_V2_GRANT,
-            json=mscjson.decode(mscjson.encode(data)),
+            json={"appCode": "4ca99fa6b56cc2ba", "token": self.token, "type": 0},
         )
         response.raise_for_status()
         result = convert(response.json(), Oauth2V2GrantResponse)
@@ -209,17 +212,13 @@ class SklandLogin:
         self.code = code
 
     def generate_cred_by_code(self):
-        data = ZonaiSklandWebUserGenerateCredByCodeRequest(
-            kind=1,
-            code=self.code,
-        )
         self.client.headers["platform"] = "3"
         self.client.headers["vName"] = "1.0.0"
         self.client.headers["timestamp"] = str(int(datetime.now().timestamp()))
         self.client.headers["dId"] = get_d_id()
         response = self.client.post(
             GENERATE_CRED_BY_CODE,
-            json=json.dumps(mscjson.decode(mscjson.encode(data))),
+            json={"code": self.code, "kind": 1},
         )
         response.raise_for_status()
         print(response.json())

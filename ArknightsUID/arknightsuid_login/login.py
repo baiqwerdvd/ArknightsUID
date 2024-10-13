@@ -137,26 +137,7 @@ class SklandLogin:
         self.token = data.token
         self.get_ark_uid()
 
-    # def post_account_info_hg(self):
-    #     if self.token is None:
-    #         raise SklandLoginError(ARK_ACCONUT_INFO_HG, "token not set!")
-    #     response = self.client.post(
-    #         ARK_ACCONUT_INFO_HG,
-    #         json={"content": self.token},
-    #     )
-    #     set_cookie: str = response.headers.get("set-cookie")
-    #     matches = re.findall(r"ACCOUNT=([^;]+)", set_cookie)
-    #     account_cookie: str = matches[0]
-    #     self.hg_token = account_cookie
-    #     self.get_ark_uid()
-
     def user_oauth2_v2_grant(self):
-        # data = Oauth2V2GrantRequest(
-        #     token=self.token,
-        #     appCode="4ca99fa6b56cc2ba",
-        #     type=0,
-        # )
-        # self.client.headers["dId"] = get_d_id()
         response = self.client.post(
             ARK_USER_OAUTH2_V2_GRANT,
             json={"appCode": "4ca99fa6b56cc2ba", "token": self.token, "type": 0},

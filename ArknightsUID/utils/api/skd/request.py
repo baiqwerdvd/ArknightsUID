@@ -11,6 +11,7 @@ from aiohttp import ClientSession, ContentTypeError, TCPConnector
 from gsuid_core.logger import logger
 from gsuid_core.utils.plugins_config.gs_config import core_plugins_config
 
+from ...crypto import get_d_id
 from ...database.models import ArknightsUser
 from ...models.skland.models import (
     ArknightsAttendanceCalendarModel,
@@ -231,7 +232,7 @@ class BaseArkApi:
             token = cast(str, self.unpack(raw_data)["token"])
             uid = await ArknightsUser.get_uid_by_cred(cred)
             if uid is not None:
-                await ArknightsUser.update_user_attr_by_uid(
+                _ = await ArknightsUser.update_user_attr_by_uid(
                     uid=uid,
                     attr="token",
                     value=token,
@@ -249,7 +250,7 @@ class BaseArkApi:
         parsed_url = urlparse(url)
         path = parsed_url.path
         timestamp = str(int(time.time()) - 2)
-        dId = hashlib.sha256(header["cred"].encode("utf-8")).hexdigest()[0:16]
+        dId = get_d_id()
         str1 = json.dumps(
             {
                 "platform": header.get("platform", "1"),

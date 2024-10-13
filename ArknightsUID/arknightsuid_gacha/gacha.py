@@ -49,7 +49,7 @@ async def gacha(uid: str):
             )
             json.dump({"uid": uid, "data": msgjson.decode(msgjson.encode(data))}, f, indent=4)
 
-    with open(cur_path / Path(f"{uid}.json"), "r") as f:
+    with open(cur_path / Path(f"{uid}.json")) as f:
         data = json.load(f)
     data = convert(data["data"], PlayerDataDetail)
     char_get = await testTenAdvancedGacha("CLASSIC_48_0_2", data, 0)

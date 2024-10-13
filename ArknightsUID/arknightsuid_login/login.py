@@ -1,3 +1,4 @@
+import json
 import re
 from datetime import datetime
 from typing import ClassVar, Dict, TypeVar, Union
@@ -7,6 +8,7 @@ from gsuid_core.utils.plugins_config.gs_config import core_plugins_config
 from msgspec import UnsetType, convert
 from msgspec import json as mscjson
 
+from ..utils.crypto import get_d_id
 from .constant import (
     ARK_ACCONUT_INFO_HG,
     ARK_LOGIN_SEND_PHONE_CODE,
@@ -48,7 +50,7 @@ def transUnset(v: Union[T1, UnsetType], d: T2 = None) -> Union[T1, T2]:
 
 class SklandLogin:
     _HEADER: ClassVar[Dict[str, str]] = {
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",  # noqa: E501
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",  # noqa: E501
         "content-type": "application/json;charset=UTF-8",
         "origin": "https://www.skland.com",
         "referer": "https://www.skland.com",
@@ -118,9 +120,15 @@ class SklandLogin:
             phone=self.phone,
             code=code,
         )
+        data = {
+            "phone": self.phone,
+            "code": code,
+        }
+        data = mscjson.decode(mscjson.encode(data))
+        print(data)
         response = self.client.post(
             ARK_TOKEN_BY_PHONE_CODE,
-            json=mscjson.decode(mscjson.encode(data)),
+            json=data,
         )
         response.raise_for_status()
         result = convert(response.json(), UserAuthV2TokenByPhoneCodeResponse)
@@ -178,6 +186,7 @@ class SklandLogin:
             appCode="4ca99fa6b56cc2ba",
             type=0,
         )
+        self.client.headers["dId"] = get_d_id()
         response = self.client.post(
             ARK_USER_OAUTH2_V2_GRANT,
             json=mscjson.decode(mscjson.encode(data)),
@@ -205,16 +214,15 @@ class SklandLogin:
             code=self.code,
         )
         self.client.headers["platform"] = "3"
-        self.client.headers["vname"] = "1.0.0"
+        self.client.headers["vName"] = "1.0.0"
         self.client.headers["timestamp"] = str(int(datetime.now().timestamp()))
-        self.client.headers["did"] = (
-            "BFv9p5AJUOqJbpXDqjezZOf7TxJqppEd7iXxqqq7e0Z+Y0FUX/8kpnXqYe1UByxrjWKh43Webhic8ZEoJvquOgg=="
-        )
+        self.client.headers["dId"] = get_d_id()
         response = self.client.post(
             GENERATE_CRED_BY_CODE,
-            json=mscjson.decode(mscjson.encode(data)),
+            json=json.dumps(mscjson.decode(mscjson.encode(data))),
         )
         response.raise_for_status()
+        print(response.json())
         result = convert(response.json(), ZonaiSklandWebUserGenerateCredByCodeResponse)
         if result.code != 0:
             raise SklandLoginError(

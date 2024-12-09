@@ -125,14 +125,17 @@ class BaseArkApi:
             attr="cred",
         )
         if cred is None:
+            logger.info(f"cred is None {uid}")
             return -60
         token: Union[str, None] = await ArknightsUser.get_user_attr_by_uid(
             uid=uid,
             attr="token",
         )
         if token is None:
+            logger.info(f"token is None {uid}")
             return -60
         is_vaild = await self.check_cred_valid(cred)
+        logger.info(f"is_vaild {is_vaild}")
         if isinstance(is_vaild, bool):
             # await ArknightsUser.delete_user_data_by_uid(uid)
             return -61

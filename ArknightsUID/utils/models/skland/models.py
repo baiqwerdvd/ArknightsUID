@@ -198,12 +198,14 @@ class PlayerCampaignInfo(Struct):
     id_: str = field(name="id")
     name: str
     campaignZoneId: str
+    picUrl: str
 
 
 class PlayerRogueInfo(Struct):
     id_: str = field(name="id")
     name: str
     sort: int
+    picUrl: str
 
 
 class PlayerTowerInfo(Struct):

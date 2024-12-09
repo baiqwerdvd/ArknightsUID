@@ -240,7 +240,8 @@ class PlayerSkinInfo(Struct):
     brandId: str
     sortId: int
     displayTagId: str
-    name: Union[str, None] = None
+    name: str
+    charId: str
     brandName: Union[str, None] = None
     brandCapitalName: Union[str, None] = None
     illustId: Union[str, None] = None

@@ -140,10 +140,16 @@ class BaseArkApi:
         if isinstance(is_vaild, bool):
             # await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
+        skd_uid = await ArknightsUser.get_user_attr_by_uid(
+            uid=uid,
+            attr="skd_uid",
+        )
+        if skd_uid is None:
+            return -60
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
         headers["dId"] = await get_d_id()
-        url = ARK_PLAYER_INFO + f"?uid={uid}"
+        url = ARK_PLAYER_INFO + f"?uid={uid}&userId={skd_uid}"
         header = get_sign_header(token, url, "get", None, headers)
         raw_data = await self.ark_request(
             url=url,

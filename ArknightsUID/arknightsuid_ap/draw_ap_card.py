@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw
 
 from ..arknightsuid_resource.constants import CHARACTER_TABLE
 from ..utils.ark_api import ark_skd_api
-from ..utils.database.models import ArknightsBind
+from ..utils.database.models import ArknightsBind, ArknightsUser
 from ..utils.fonts.source_han_sans import (
     sans_font_18,
     sans_font_26,
@@ -47,6 +47,10 @@ async def get_ap_img(bot_id: str, user_id: str):
         for uid in uid_list:
             # status = await ark_skd_api.check_cred_valid(uid=uid)
             # if status is not bool:
+            # skd_uid = await ArknightsUser.get_user_attr_by_uid(
+            #     uid=uid,
+            #     attr="skd_uid",
+            # )
             useable_uid_list.append(uid)
         logger.info(f"[每日信息]可用UID: {useable_uid_list}")
         if len(useable_uid_list) == 0:

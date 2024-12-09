@@ -608,6 +608,12 @@ class PlayerStatusSecretary(Struct):
 class PlayerStatusAvatar(Struct):
     type_: str = field(name="type")
     id_: str = field(name="id")
+    url: str
+
+
+class PlayerStatusExp(Struct):
+    current: int
+    max: int
 
 
 class PlayerStatus(Struct):
@@ -626,6 +632,7 @@ class PlayerStatus(Struct):
     furnitureCnt: int
     skinCnt: int
     avatar: Union[PlayerStatusAvatar, None] = None
+    exp: PlayerStatusExp
 
 
 class DisplayShowConfig(Struct):

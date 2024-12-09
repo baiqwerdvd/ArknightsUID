@@ -11,6 +11,11 @@ class ArknightsAttendanceAwardResource(Struct):
     type_: str = field(name="type")
     name: str
     rarity: int
+    sortId: int
+    otherSource: List[str]
+    classifyType: str
+    stageDropList: List[ArknightsAttendanceStageDropListItem]
+    buildingProductList: List[ArknightsAttendanceBuildingProductListItem]
 
 
 class ArknightsAttendanceRecord(Struct):
@@ -35,6 +40,16 @@ class ArknightsAttendanceCalendarModel(Struct):
     resourceInfoMap: Dict[str, ArknightsAttendanceAwardResource]
 
 
+class ArknightsAttendanceStageDropListItem(Struct):
+    stageId: str
+    occPer: int
+
+
+class ArknightsAttendanceBuildingProductListItem(Struct):
+    formulaId: str
+    roomType: str
+
+
 ################
 # ArknightsAttendance Start
 ################
@@ -47,6 +62,7 @@ class ArknightsAttendanceAward(Struct):
 class ArknightsAttendanceModel(Struct):
     ts: str
     awards: List[ArknightsAttendanceAward]
+    resourceInfoMap: dict
 
 
 ################

@@ -182,6 +182,7 @@ class SklandLogin:
     async def generate_cred_by_code(self):
         headers = {
             "User-Agent": "Skland/1.28.0 (com.hypergryph.skland; build:102800063; Android 35; ) Okhttp/4.11.0",
+            "content-type": "application/json;charset=UTF-8",
             "platform": "1",
             "vName": "1.28.0",
             "origin": "https://zonai.skland.com/",
@@ -190,11 +191,12 @@ class SklandLogin:
             "dId": await get_d_id(),
             "timestamp": str(int(datetime.now().timestamp())),
         }
-        self.client.headers = headers
-        response = self.client.post(
-            GENERATE_CRED_BY_CODE,
-            json={"code": self.code, "kind": 1},
-        )
+        # self.client.headers = headers
+        async with httpx.AsyncClient(headers=headers, verify=False) as client:
+            response = await client.post(
+                GENERATE_CRED_BY_CODE,
+                json={"code": self.code, "kind": 1},
+            )
         response.raise_for_status()
         print(response.json())
         result = convert(response.json(), ZonaiSklandWebUserGenerateCredByCodeResponse)

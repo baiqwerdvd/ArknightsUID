@@ -187,7 +187,7 @@ class SklandLogin:
             "vName": "1.28.0",
             "origin": "https://zonai.skland.com/",
             "referer": "https://zonai.skland.com/",
-            "sign_enable": False,
+            "sign_enable": "false",
             "dId": await get_d_id(),
             "timestamp": str(int(datetime.now().timestamp())),
         }

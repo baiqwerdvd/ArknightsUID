@@ -180,8 +180,8 @@ class SklandLogin:
         self.ark_uid: str = result_data["data"]["uid"]
 
     async def generate_cred_by_code(self):
-        self.client.headers["platform"] = "3"
-        self.client.headers["vName"] = "1.0.0"
+        self.client.headers["platform"] = "1"
+        self.client.headers["vName"] = "1.28.0"
         self.client.headers["origin"] = "https://zonai.skland.com/"
         self.client.headers["referer"] = "https://zonai.skland.com/"
         self.client.headers["dId"] = await get_d_id()

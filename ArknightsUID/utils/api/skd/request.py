@@ -258,11 +258,13 @@ class BaseArkApi:
             return False
         if token is None:
             return False
+        logger.info(f"check_cred_valid {cred} {token}")
         header = deepcopy(_HEADER)
         header["cred"] = cred
         header["dId"] = await get_d_id()
         header = get_sign_header(token, ARK_API_USER, "get", None, header)
         raw_data = await self.ark_request(ARK_API_USER, header=header)
+        logger.info(f"check_cred_valid {raw_data}")
         if isinstance(raw_data, int) or not raw_data:
             return False
         if "code" in raw_data and raw_data["code"] == 10001:

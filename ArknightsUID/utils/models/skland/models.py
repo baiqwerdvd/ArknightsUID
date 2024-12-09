@@ -571,6 +571,7 @@ class PlayerInfoChar(Struct):
 class PlayerAssistCharEquip(Struct):
     id_: str = field(name="id")
     level: int
+    locked: bool
 
 
 class PlayerAssistChar(Struct):

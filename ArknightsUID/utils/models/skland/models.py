@@ -166,6 +166,11 @@ class ArknightsUserMeModel(Struct, omit_defaults=True):
 # ArknightsPlayerInfoModel Start
 ################
 
+class PlayerManufactureFormulaCostsInfo(Struct):
+    id_: str = field(name="id")
+    count: int
+    type_: str = field(name="type")
+
 
 class PlayerManufactureFormulaInfo(Struct):
     id_: str = field(name="id")
@@ -173,7 +178,7 @@ class PlayerManufactureFormulaInfo(Struct):
     count: int
     weight: int
     costPoint: int
-    costs: Union[List[str], None] = None
+    costs: Union[List[PlayerManufactureFormulaCostsInfo], None] = None
 
 
 class PlayerEquipmentInfo(Struct):

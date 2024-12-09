@@ -180,13 +180,17 @@ class SklandLogin:
         self.ark_uid: str = result_data["data"]["uid"]
 
     async def generate_cred_by_code(self):
-        self.client.headers["platform"] = "1"
-        self.client.headers["vName"] = "1.28.0"
-        self.client.headers["origin"] = "https://zonai.skland.com/"
-        self.client.headers["referer"] = "https://zonai.skland.com/"
-        self.client.headers["sign_enable"] = False
-        self.client.headers["dId"] = await get_d_id()
-        self.client.headers["timestamp"] = str(int(datetime.now().timestamp()))
+        headers = {
+            "User-Agent": "Skland/1.28.0 (com.hypergryph.skland; build:102800063; Android 35; ) Okhttp/4.11.0",
+            "platform": "1",
+            "vName": "1.28.0",
+            "origin": "https://zonai.skland.com/",
+            "referer": "https://zonai.skland.com/",
+            "sign_enable": False,
+            "dId": await get_d_id(),
+            "timestamp": str(int(datetime.now().timestamp())),
+        }
+        self.client.headers = headers
         response = self.client.post(
             GENERATE_CRED_BY_CODE,
             json={"code": self.code, "kind": 1},

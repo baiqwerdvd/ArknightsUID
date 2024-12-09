@@ -19,7 +19,7 @@ from ...models.skland.models import (
     ArknightsPlayerInfoModel,
     ArknightsUserMeModel,
 )
-from .api import ARK_PLAYER_INFO, ARK_REFRESH_TOKEN, ARK_SKD_SIGN, ARK_WEB_USER
+from .api import ARK_API_USER, ARK_PLAYER_INFO, ARK_REFRESH_TOKEN, ARK_SKD_SIGN
 
 proxy_url = core_plugins_config.get_config("proxy").data
 ssl_verify = core_plugins_config.get_config("MhySSLVerify").data
@@ -132,10 +132,10 @@ class BaseArkApi:
         )
         if token is None:
             return -60
-        # is_vaild = await self.check_cred_valid(cred)
-        # if isinstance(is_vaild, bool):
-        #     await ArknightsUser.delete_user_data_by_uid(uid)
-        #     return -61
+        is_vaild = await self.check_cred_valid(cred)
+        if isinstance(is_vaild, bool):
+            await ArknightsUser.delete_user_data_by_uid(uid)
+            return -61
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
         # headers["dId"] = await get_d_id()
@@ -245,12 +245,23 @@ class BaseArkApi:
                     attr="cred",
                 )
             )
-        header = deepcopy(_HEADER)
+            token = (
+                token
+                if token
+                else await ArknightsUser.get_user_attr_by_uid(
+                    uid=uid,
+                    attr="token",
+                )
+            )
         if cred is None:
             return False
+        if token is None:
+            return False
+        header = deepcopy(_HEADER)
         header["cred"] = cred
-        header = await self.set_sign(ARK_WEB_USER, header=header, token=token)
-        raw_data = await self.ark_request(ARK_WEB_USER, header=header)
+        header["dId"] = await get_d_id()
+        header = get_sign_header(token, ARK_API_USER, "get", None, header)
+        raw_data = await self.ark_request(ARK_API_USER, header=header)
         if isinstance(raw_data, int) or not raw_data:
             return False
         if "code" in raw_data and raw_data["code"] == 10001:

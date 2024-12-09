@@ -1,4 +1,4 @@
-ARK_WEB_USER = "https://zonai.skland.com/web/v1/user"
+ARK_API_USER = "https://zonai.skland.com/api/v1/user"
 
 ARK_REFRESH_TOKEN = "https://zonai.skland.com/api/v1/auth/refresh"
 

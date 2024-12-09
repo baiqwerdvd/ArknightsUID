@@ -183,6 +183,7 @@ class PlayerEquipmentInfo(Struct):
     shiningColor: str
     desc: Union[str, None] = None
     typeName1: Union[str, None] = None
+    typeName2: Union[str, None] = None
 
 
 class PlayerCampaignZoneInfo(Struct):
@@ -198,18 +199,21 @@ class PlayerCampaignInfo(Struct):
     id_: str = field(name="id")
     name: str
     campaignZoneId: str
+    picUrl: str
 
 
 class PlayerRogueInfo(Struct):
     id_: str = field(name="id")
     name: str
     sort: int
+    picUrl: str
 
 
 class PlayerTowerInfo(Struct):
     id_: str = field(name="id")
     name: str
     subName: str
+    picUrl: str
     hasHard: Union[bool, None] = None
     stageNum: Union[int, None] = None
 
@@ -227,6 +231,10 @@ class PlayerActivityInfo(Struct):
     rewardEndTime: int
     isReplicate: bool
     type_: str = field(name="type")
+    dropItemIds: List[str]
+    shopGoodItemIds: List[str]
+    favorUpList: List[str]
+    picUrl: str
 
 
 class PlayerStageInfo(Struct):
@@ -240,7 +248,8 @@ class PlayerSkinInfo(Struct):
     brandId: str
     sortId: int
     displayTagId: str
-    name: Union[str, None] = None
+    name: str
+    charId: str
     brandName: Union[str, None] = None
     brandCapitalName: Union[str, None] = None
     illustId: Union[str, None] = None
@@ -550,6 +559,7 @@ class PlayerInfoCharSkill(Struct):
 class PlayerInfoCharEquip(Struct):
     id_: str = field(name="id")
     level: int
+    locked: bool
 
 
 class PlayerInfoChar(Struct):
@@ -565,12 +575,12 @@ class PlayerInfoChar(Struct):
     defaultSkillId: str
     gainTime: int
     defaultEquipId: str
-    specializeLevelCount: Union[int, None] = 0
 
 
 class PlayerAssistCharEquip(Struct):
     id_: str = field(name="id")
     level: int
+    locked: bool
 
 
 class PlayerAssistChar(Struct):
@@ -608,6 +618,12 @@ class PlayerStatusSecretary(Struct):
 class PlayerStatusAvatar(Struct):
     type_: str = field(name="type")
     id_: str = field(name="id")
+    url: str
+
+
+class PlayerStatusExp(Struct):
+    current: int
+    max: int
 
 
 class PlayerStatus(Struct):
@@ -626,6 +642,7 @@ class PlayerStatus(Struct):
     furnitureCnt: int
     skinCnt: int
     avatar: Union[PlayerStatusAvatar, None] = None
+    exp: PlayerStatusExp
 
 
 class DisplayShowConfig(Struct):

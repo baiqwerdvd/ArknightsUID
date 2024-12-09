@@ -662,6 +662,8 @@ class PlayerActivityBannerList(Struct):
     url: str
     startTs: int
     endTs: int
+    offlineTs: int
+    preStartTs: int
 
 
 class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):

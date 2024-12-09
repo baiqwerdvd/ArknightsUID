@@ -212,14 +212,11 @@ class BaseArkApi:
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
         headers["dId"] = await get_d_id()
-        header = get_sign_header(token, ARK_SKD_SIGN, "get", None, headers)
+        url = ARK_SKD_SIGN + f"?uid={uid}&gameId=1"
+        header = get_sign_header(token, url, "get", None, headers)
         raw_data = await self.ark_request(
-            url=ARK_SKD_SIGN,
+            url=url,
             method="GET",
-            params={
-                "uid": uid,
-                "gameId": 1,
-            },
             header=header,
         )
         if isinstance(raw_data, int):
@@ -233,34 +230,34 @@ class BaseArkApi:
             logger.info(unpack_data)
             return msgspec.convert(unpack_data, ArknightsAttendanceCalendarModel)
 
-    # async def check_cred_valid(
-    #     self,
-    #     cred: Union[str, None] = None,
-    #     token: Union[str, None] = None,
-    #     uid: Union[str, None] = None,
-    # ) -> Union[bool, ArknightsUserMeModel]:
-    #     if uid is not None:
-    #         cred = (
-    #             cred
-    #             if cred
-    #             else await ArknightsUser.get_user_attr_by_uid(
-    #                 uid=uid,
-    #                 attr="cred",
-    #             )
-    #         )
-    #     header = deepcopy(_HEADER)
-    #     if cred is None:
-    #         return False
-    #     header["cred"] = cred
-    #     header = await self.set_sign(ARK_WEB_USER, header=header, token=token)
-    #     raw_data = await self.ark_request(ARK_WEB_USER, header=header)
-    #     if isinstance(raw_data, int) or not raw_data:
-    #         return False
-    #     if "code" in raw_data and raw_data["code"] == 10001:
-    #         logger.info(f"cred is invalid {raw_data}")
-    #         return False
-    #     unpack_data = self.unpack(raw_data)
-    #     return msgspec.convert(unpack_data, type=ArknightsUserMeModel)
+    async def check_cred_valid(
+        self,
+        cred: Union[str, None] = None,
+        token: Union[str, None] = None,
+        uid: Union[str, None] = None,
+    ) -> Union[bool, ArknightsUserMeModel]:
+        if uid is not None:
+            cred = (
+                cred
+                if cred
+                else await ArknightsUser.get_user_attr_by_uid(
+                    uid=uid,
+                    attr="cred",
+                )
+            )
+        header = deepcopy(_HEADER)
+        if cred is None:
+            return False
+        header["cred"] = cred
+        header = await self.set_sign(ARK_WEB_USER, header=header, token=token)
+        raw_data = await self.ark_request(ARK_WEB_USER, header=header)
+        if isinstance(raw_data, int) or not raw_data:
+            return False
+        if "code" in raw_data and raw_data["code"] == 10001:
+            logger.info(f"cred is invalid {raw_data}")
+            return False
+        unpack_data = self.unpack(raw_data)
+        return msgspec.convert(unpack_data, type=ArknightsUserMeModel)
 
     def unpack(self, raw_data: Dict) -> Dict:
         try:

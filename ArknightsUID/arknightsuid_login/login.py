@@ -137,7 +137,13 @@ class SklandLogin:
         self.token = data.token
         self.get_ark_uid()
 
-    def user_oauth2_v2_grant(self):
+    async def user_oauth2_v2_grant(self):
+        self.client.headers["platform"] = "3"
+        self.client.headers["vName"] = "1.0.0"
+        self.client.headers["origin"] = "https://zonai.skland.com/"
+        self.client.headers["referer"] = "https://zonai.skland.com/"
+        self.client.headers["dId"] = await get_d_id()
+        self.client.headers["timestamp"] = str(int(datetime.now().timestamp()))
         response = self.client.post(
             ARK_USER_OAUTH2_V2_GRANT,
             json={"appCode": "4ca99fa6b56cc2ba", "token": self.token, "type": 0},
@@ -173,13 +179,13 @@ class SklandLogin:
         result_data = response.json()
         self.ark_uid: str = result_data["data"]["uid"]
 
-    def generate_cred_by_code(self):
+    async def generate_cred_by_code(self):
         self.client.headers["platform"] = "3"
         self.client.headers["vName"] = "1.0.0"
         self.client.headers["origin"] = "https://zonai.skland.com/"
         self.client.headers["referer"] = "https://zonai.skland.com/"
+        self.client.headers["dId"] = await get_d_id()
         self.client.headers["timestamp"] = str(int(datetime.now().timestamp()))
-        self.client.headers["dId"] = get_d_id()
         response = self.client.post(
             GENERATE_CRED_BY_CODE,
             json={"code": self.code, "kind": 1},

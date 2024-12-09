@@ -38,8 +38,8 @@ async def get_resp_msg(bot: Bot, ev: Event):
         logger.info(code.text)
         login.token_by_phone_code(code.text)
         # login.post_account_info_hg()
-        login.user_oauth2_v2_grant()
-        login.generate_cred_by_code()
+        await login.user_oauth2_v2_grant()
+        await login.generate_cred_by_code()
         uid = login.ark_uid
         skd_uid = login.skland_userId
 

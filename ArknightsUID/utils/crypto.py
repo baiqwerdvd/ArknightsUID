@@ -1,4 +1,6 @@
-# https://gitee.com/FancyCabbage/skyland-auto-sign/blob/master/SecuritySm.py
+# ID: 1
+# 来自https://gitee.com/FancyCabbage/skyland-auto-sign/blob/master/SecuritySm.py
+# 协议：MIT（https://gitee.com/FancyCabbage/skyland-auto-sign/blob/master/LICENSE）
 import base64
 import gzip
 import hashlib
@@ -8,13 +10,13 @@ import json
 import time
 import uuid
 
-import httpx
 from cryptography.hazmat.decrepit.ciphers.algorithms import TripleDES
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.ciphers.algorithms import AES
 from cryptography.hazmat.primitives.ciphers.base import Cipher
 from cryptography.hazmat.primitives.ciphers.modes import CBC, ECB
+from httpx import AsyncClient
 
 # 查询dId请求头
 devices_info_url = "https://fp-it.portal101.cn/deviceprofile/v4"
@@ -130,7 +132,7 @@ def get_tn(o: dict):
 
     for i in sorted_keys:
         v = o[i]
-        if isinstance(v, (int, float)):
+        if isinstance(v, int | float):
             v = str(v * 10000)
         elif isinstance(v, dict):
             v = get_tn(v)
@@ -147,7 +149,7 @@ def get_smid():
     return v + smsk_web + "0"
 
 
-def get_d_id() -> str:
+async def get_d_id() -> str:
     # storageName = '.thumbcache_' + md5(SM_CONFIG['organization']) // 用于从本地存储获得值
     # uid = uuid()
     # priId=md5(uid)[0:16]
@@ -190,21 +192,22 @@ def get_d_id() -> str:
 
     des_result = _AES(GZIP(_DES(des_target)), priId.encode("utf-8"))
 
-    response = httpx.post(
-        devices_info_url,
-        json={
-            "appId": "default",
-            "compress": 2,
-            "data": des_result,
-            "encode": 5,
-            "ep": ep,
-            "organization": SM_CONFIG["organization"],
-            "os": "web",  # 固定值
-        },
-    )
-
-    resp = response.json()
+    async with AsyncClient() as client:
+        response = await client.post(
+            devices_info_url,
+            json={
+                "appId": "default",
+                "compress": 2,
+                "data": des_result,
+                "encode": 5,
+                "ep": ep,
+                "organization": SM_CONFIG["organization"],
+                "os": "web",  # 固定值
+            },
+        )
+        response.raise_for_status()
+        resp = response.json()
     if resp["code"] != 1100:
-        raise Exception("did计算失败，请联系作者")
+        raise Exception("通过本地计算 did 失败，请联系机器人所有者调整 did 获取方式！")
     # 开头必须是B
     return "B" + resp["detail"]["deviceId"]

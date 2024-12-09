@@ -311,7 +311,7 @@ class BaseArkApi:
             await self.refresh_token(header["cred"])
             headers = deepcopy(header)
             headers["cred"] = header["cred"]
-            # headers["dId"] = await get_d_id()
+            headers["dId"] = await get_d_id()
             headers = get_sign_header(headers["cred"], url, method, data, headers)
             raw_data = await self._ark_request(
                 url=url,

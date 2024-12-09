@@ -145,6 +145,7 @@ class BaseArkApi:
             url=url,
             header=header,
         )
+        logger.info(raw_data)
         if isinstance(raw_data, int):
             return raw_data
         if raw_data is None:

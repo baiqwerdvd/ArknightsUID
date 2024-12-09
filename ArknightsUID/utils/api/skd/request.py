@@ -262,7 +262,7 @@ class BaseArkApi:
             return False
         if token is None:
             return False
-        logger.info(f"check_cred_valid {cred} {token}")
+        logger.info(f"check_cred_valid cred {cred} token {token}")
         header = deepcopy(_HEADER)
         header["cred"] = cred
         header["dId"] = await get_d_id()

@@ -210,6 +210,7 @@ class PlayerTowerInfo(Struct):
     id_: str = field(name="id")
     name: str
     subName: str
+    picUrl: str
     hasHard: Union[bool, None] = None
     stageNum: Union[int, None] = None
 

@@ -227,6 +227,10 @@ class PlayerActivityInfo(Struct):
     rewardEndTime: int
     isReplicate: bool
     type_: str = field(name="type")
+    dropItemIds: List[str]
+    shopGoodItemIds: List[str]
+    favorUpList: List[str]
+    picUrl: str
 
 
 class PlayerStageInfo(Struct):

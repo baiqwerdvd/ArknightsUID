@@ -139,10 +139,10 @@ class BaseArkApi:
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
         headers["dId"] = await get_d_id()
-        header = get_sign_header(token, ARK_PLAYER_INFO, "get", None, headers)
+        url = ARK_PLAYER_INFO + f"?uid={uid}"
+        header = get_sign_header(token, url, "get", None, headers)
         raw_data = await self.ark_request(
-            url=ARK_PLAYER_INFO,
-            params={"uid": uid},
+            url=url,
             header=header,
         )
         if isinstance(raw_data, int):

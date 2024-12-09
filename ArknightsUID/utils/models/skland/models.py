@@ -12,7 +12,7 @@ class ArknightsAttendanceAwardResource(Struct):
     name: str
     rarity: int
     sortId: int
-    othersource: List[str]
+    otherSource: List[str]
     classifyType: str
     stageDropList: List[ArknightsAttendanceStageDropListItem]
     buildingProductList: List[ArknightsAttendanceBuildingProductListItem]

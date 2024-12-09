@@ -641,8 +641,8 @@ class PlayerStatus(Struct):
     charCnt: int
     furnitureCnt: int
     skinCnt: int
-    avatar: Union[PlayerStatusAvatar, None] = None
     exp: PlayerStatusExp
+    avatar: Union[PlayerStatusAvatar, None] = None
 
 
 class DisplayShowConfig(Struct):

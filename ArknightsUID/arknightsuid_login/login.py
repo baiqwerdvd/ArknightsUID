@@ -184,6 +184,7 @@ class SklandLogin:
         self.client.headers["vName"] = "1.28.0"
         self.client.headers["origin"] = "https://zonai.skland.com/"
         self.client.headers["referer"] = "https://zonai.skland.com/"
+        self.client.headers["sign_enable"] = False
         self.client.headers["dId"] = await get_d_id()
         self.client.headers["timestamp"] = str(int(datetime.now().timestamp()))
         response = self.client.post(

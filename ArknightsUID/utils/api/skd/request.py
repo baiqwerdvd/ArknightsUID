@@ -32,14 +32,14 @@ ssl_verify = core_plugins_config.get_config("MhySSLVerify").data
 #     return header
 
 _HEADER: Dict[str, str] = {
-    "User-Agent": "Skland/1.5.1 (com.hypergryph.skland; build:100501001; Android 33; ) Okhttp/4.11.0",
+    "User-Agent": "Skland/1.28.0 (com.hypergryph.skland; build:102800063; Android 35; ) Okhttp/4.11.0",
     "Accept-Encoding": "gzip",
     "Connection": "close",
     "Origin": "https://www.skland.com",
     "Referer": "https://www.skland.com/",
     "Content-Type": "application/json",
     "manufacturer": "Xiaomi",
-    "os": "33",
+    "os": "35",
     "dId": "",  # "de9759a5afaa634f",
 }
 
@@ -48,15 +48,18 @@ header_for_sign = {
     "platform": "1",
     "timestamp": "",
     "dId": "",
-    "vName": "1.5.1",
+    "vName": "1.28.0",
 }
 
 
-def generate_signature(token: str, path: str, body_or_query: str):
+def generate_signature(
+    token: str, path: str, body_or_query: str, dId: str = ""
+) -> Tuple[str, Dict[str, str]]:
     t = str(int(time.time()) - 2)
     _token = token.encode("utf-8")
     header_ca = header_for_sign.copy()
     header_ca["timestamp"] = t
+    header_ca["dId"] = dId
     header_ca_str = json.dumps(header_ca, separators=(",", ":"))
     s = path + body_or_query + t + header_ca_str
     hex_s = hmac.new(_token, s.encode("utf-8"), hashlib.sha256).hexdigest()
@@ -64,7 +67,13 @@ def generate_signature(token: str, path: str, body_or_query: str):
     return md5, header_ca
 
 
-def get_sign_header(token: str, url: str, method: str, body: Union[dict, None], old_header: dict):
+def get_sign_header(
+    token: str,
+    url: str,
+    method: str,
+    body: Union[dict[Any, Any], None],
+    old_header: dict[str, str],
+):
     h = old_header.copy()
     p = urlparse(url)
     if method.lower() == "get":
@@ -181,7 +190,6 @@ class BaseArkApi:
         if isinstance(unpack_data, int):
             return unpack_data
         else:
-
             logger.info(unpack_data)
             return msgspec.convert(unpack_data, ArknightsAttendanceModel)
 

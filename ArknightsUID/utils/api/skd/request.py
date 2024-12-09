@@ -222,6 +222,7 @@ class BaseArkApi:
         if isinstance(unpack_data, int):
             return unpack_data
         else:
+            logger.info(unpack_data)
             return msgspec.convert(unpack_data, ArknightsAttendanceCalendarModel)
 
     # async def check_cred_valid(

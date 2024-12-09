@@ -134,7 +134,7 @@ class BaseArkApi:
             return -60
         is_vaild = await self.check_cred_valid(cred)
         if isinstance(is_vaild, bool):
-            await ArknightsUser.delete_user_data_by_uid(uid)
+            # await ArknightsUser.delete_user_data_by_uid(uid)
             return -61
         headers = deepcopy(_HEADER)
         headers["cred"] = cred

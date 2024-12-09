@@ -135,7 +135,7 @@ class BaseArkApi:
         if token is None:
             logger.info(f"token is None {uid}")
             return -60
-        is_vaild = await self.check_cred_valid(cred=cred, token=Token)
+        is_vaild = await self.check_cred_valid(cred=cred, token=token)
         logger.info(f"is_vaild {is_vaild}")
         if isinstance(is_vaild, bool):
             # await ArknightsUser.delete_user_data_by_uid(uid)

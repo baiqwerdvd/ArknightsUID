@@ -137,9 +137,9 @@ class BaseArkApi:
             return -60
         is_vaild = await self.check_cred_valid(cred=cred, token=token)
         logger.info(f"is_vaild {is_vaild}")
-        if isinstance(is_vaild, bool):
-            # await ArknightsUser.delete_user_data_by_uid(uid)
-            return -61
+        # if isinstance(is_vaild, bool):
+        #     # await ArknightsUser.delete_user_data_by_uid(uid)
+        #     return -61
         skd_uid = await ArknightsUser.get_user_attr_by_uid(
             uid=uid,
             attr="skd_uid",

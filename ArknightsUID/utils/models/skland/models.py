@@ -6,18 +6,6 @@ from msgspec import Struct, field
 ################
 # ArknightsAttendanceCalendar Start
 ################
-class ArknightsAttendanceAwardResource(Struct):
-    id_: str = field(name="id")
-    type_: str = field(name="type")
-    name: str
-    rarity: int
-    sortId: int
-    otherSource: List[str]
-    classifyType: str
-    stageDropList: List[ArknightsAttendanceStageDropListItem]
-    buildingProductList: List[ArknightsAttendanceBuildingProductListItem]
-
-
 class ArknightsAttendanceRecord(Struct):
     ts: str
     resourceId: str
@@ -33,13 +21,6 @@ class ArknightsAttendanceCalendar(Struct):
     done: bool
 
 
-class ArknightsAttendanceCalendarModel(Struct):
-    currentTs: str
-    calendar: List[ArknightsAttendanceCalendar]
-    records: List[Union[ArknightsAttendanceRecord, None]]
-    resourceInfoMap: Dict[str, ArknightsAttendanceAwardResource]
-
-
 class ArknightsAttendanceStageDropListItem(Struct):
     stageId: str
     occPer: int
@@ -48,6 +29,24 @@ class ArknightsAttendanceStageDropListItem(Struct):
 class ArknightsAttendanceBuildingProductListItem(Struct):
     formulaId: str
     roomType: str
+
+
+class ArknightsAttendanceAwardResource(Struct):
+    id_: str = field(name="id")
+    type_: str = field(name="type")
+    name: str
+    rarity: int
+    sortId: int
+    otherSource: List[str]
+    classifyType: str
+    stageDropList: List[ArknightsAttendanceStageDropListItem]
+    buildingProductList: List[ArknightsAttendanceBuildingProductListItem]
+
+class ArknightsAttendanceCalendarModel(Struct):
+    currentTs: str
+    calendar: List[ArknightsAttendanceCalendar]
+    records: List[Union[ArknightsAttendanceRecord, None]]
+    resourceInfoMap: Dict[str, ArknightsAttendanceAwardResource]
 
 
 ################

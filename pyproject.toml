@@ -46,10 +46,6 @@ extra_standard_library = ["typing_extensions"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 
-[tool.pyright]
-pythonVersion = "3.8"
-pythonPlatform = "All"
-
 [tool.ruff]
 line-length = 98
 target-version = "py38"

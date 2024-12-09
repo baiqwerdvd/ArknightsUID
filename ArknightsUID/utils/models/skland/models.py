@@ -183,6 +183,7 @@ class PlayerEquipmentInfo(Struct):
     shiningColor: str
     desc: Union[str, None] = None
     typeName1: Union[str, None] = None
+    typeName2: Union[str, None] = None
 
 
 class PlayerCampaignZoneInfo(Struct):

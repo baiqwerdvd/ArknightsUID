@@ -40,7 +40,7 @@ _HEADER: Dict[str, str] = {
     "Content-Type": "application/json",
     "manufacturer": "Xiaomi",
     "os": "33",
-    # "dId": dId,  # "de9759a5afaa634f",
+    "dId": "",  # "de9759a5afaa634f",
 }
 
 
@@ -129,7 +129,7 @@ class BaseArkApi:
         #     return -61
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
-        headers["dId"] = await get_d_id()
+        # headers["dId"] = await get_d_id()
         header = get_sign_header(token, ARK_PLAYER_INFO, "get", None, headers)
         raw_data = await self.ark_request(
             url=ARK_PLAYER_INFO,
@@ -165,7 +165,7 @@ class BaseArkApi:
         #     return -61
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
-        headers["dId"] = await get_d_id()
+        # headers["dId"] = await get_d_id()
         data = {"uid": uid, "gameId": 1}
         # header = get_sign_header(token, ARK_SKD_SIGN, "post", data, headers)
         async with ClientSession(
@@ -201,7 +201,7 @@ class BaseArkApi:
             return -60
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
-        headers["dId"] = await get_d_id()
+        # headers["dId"] = await get_d_id()
         header = get_sign_header(token, ARK_SKD_SIGN, "get", None, headers)
         raw_data = await self.ark_request(
             url=ARK_SKD_SIGN,
@@ -262,7 +262,7 @@ class BaseArkApi:
         header = deepcopy(_HEADER)
         header["cred"] = cred
         header["sign_enable"] = "false"
-        header["dId"] = await get_d_id()
+        # header["dId"] = await get_d_id()
         raw_data = await self.ark_request(url=ARK_REFRESH_TOKEN, header=header)
         if isinstance(raw_data, int) or not raw_data:
             raise TokenRefreshFailed
@@ -300,7 +300,7 @@ class BaseArkApi:
             await self.refresh_token(header["cred"])
             headers = deepcopy(header)
             headers["cred"] = header["cred"]
-            headers["dId"] = await get_d_id()
+            # headers["dId"] = await get_d_id()
             headers = get_sign_header(headers["cred"], url, method, data, headers)
             raw_data = await self._ark_request(
                 url=url,

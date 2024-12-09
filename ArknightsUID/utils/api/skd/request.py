@@ -203,7 +203,7 @@ class BaseArkApi:
             return -60
         headers = deepcopy(_HEADER)
         headers["cred"] = cred
-        # headers["dId"] = await get_d_id()
+        headers["dId"] = await get_d_id()
         header = get_sign_header(token, ARK_SKD_SIGN, "get", None, headers)
         raw_data = await self.ark_request(
             url=ARK_SKD_SIGN,

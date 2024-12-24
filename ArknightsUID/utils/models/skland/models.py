@@ -666,6 +666,49 @@ class PlayerActivityBannerList(Struct):
     preStartTs: int
 
 
+class PlayerBossRustRecord(Struct):
+    played: bool
+    stageId: str
+    difficulty: str
+
+
+class PlayerBossRustList(Struct):
+    id_: str = field(name="id")
+    record: PlayerBossRustRecord
+    picUrl: str
+
+
+class PlayerBannerList(Struct):
+    id_: str = field(name="id")
+    sortId: int
+    imgUrl: str
+    link: str
+    startAtTs: str
+    endAtTs: str
+    status: int
+
+
+class PlayerSandboxSubQuest(Struct):
+    id_: str = field(name="id")
+    name: str
+    done: bool
+
+
+class PlayerSandboxList(Struct):
+    id_: str = field(name="id")
+    name: str
+    maxDay: int
+    maxDayChallenge: int
+    mainQuest: int
+    subQuest: List[Union[PlayerSandboxSubQuest, None]]
+    baseLv: int
+    unlockNode: int
+    enemyKill: int
+    createRift: int
+    fixRift: List[int]
+    picUrl: str
+
+
 class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     currentTs: int
     showConfig: DisplayShowConfig
@@ -693,6 +736,9 @@ class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     charAssets: List[Union[str, None]]
     skinAssets: List[Union[str, None]]
     activityBannerList: Dict[str, List[PlayerActivityBannerList]]
+    bossRush: List[Union[PlayerBossRustList, None]]
+    bannerList: List[Union[PlayerBannerList, None]]
+    sandbox: List[Union[PlayerSandboxList, None]]
     medal: Union[PlayerMedal, None] = None
     zoneInfoMap: Union[Dict[str, PlayerZoneInfo], None] = None
     medalInfoMap: Union[Dict[str, PlayerMedalInfo], None] = None

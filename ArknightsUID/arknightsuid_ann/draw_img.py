@@ -15,12 +15,12 @@ from .model import BulletinData
 async def get_ann_img(data: BulletinData) -> str | bytes:
     match data.displayType:
         case 1:
-            img = await download_pic_to_image(data.bannerImageUrl)
-            return await convert_img(img)
-        case 2:
             soup = BeautifulSoup(data.content, "lxml")
             img = await soup_to_img(data.header, soup)
             return img
+        case 2:
+            img = await download_pic_to_image(data.bannerImageUrl)
+            return await convert_img(img)
         case _:
             return "暂不支持的公告类型"
 

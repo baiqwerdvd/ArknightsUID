@@ -13,7 +13,7 @@ from msgspec import json as msgjson
 from ..arknightsuid_config import PREFIX, ArkConfig
 from .draw_img import get_ann_img
 from .get_data import check_bulletin_update, get_announcement, write_json
-from .model import BulletinData, BulletinMeta, BulletinTargetData, BulletinTargetDataItem
+from .model import BulletinMeta
 
 sv_ann = SV("明日方舟公告")
 sv_ann_sub = SV("订阅明日方舟公告", pm=3)
@@ -31,7 +31,8 @@ async def ann_(bot: Bot, ev: Event):
 
     data = await get_announcement(cid)
     img = await get_ann_img(data)
-    await bot.send(img)
+    msg = f"[明日方舟公告] {data.title}\n{img}"
+    await bot.send(msg)
 
 
 @sv_ann_sub.on_fullmatch(f"{PREFIX}订阅公告")
@@ -101,10 +102,12 @@ async def check_ark_ann_state():
     for data in updates.values():
         try:
             img = await get_ann_img(data)
+            msg = f"[明日方舟公告] {data.title}\n{img}"
+
             if isinstance(img, str):
                 continue
             for subscribe in datas:
-                await subscribe.send(img)
+                await subscribe.send(msg)
                 await asyncio.sleep(random.uniform(1, 3))
         except Exception as e:
             logger.exception(e)

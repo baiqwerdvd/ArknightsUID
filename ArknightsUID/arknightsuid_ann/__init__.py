@@ -6,6 +6,7 @@ from gsuid_core.bot import Bot
 from gsuid_core.data_store import get_res_path
 from gsuid_core.logger import logger
 from gsuid_core.models import Event
+from gsuid_core.segment import MessageSegment
 from gsuid_core.subscribe import gs_subscribe
 from gsuid_core.sv import SV
 from msgspec import json as msgjson
@@ -31,7 +32,7 @@ async def ann_(bot: Bot, ev: Event):
 
     data = await get_announcement(cid)
     img = await get_ann_img(data)
-    msg = f"[明日方舟公告] {data.title}\n{img}"
+    msg = MessageSegment.text(f"[明日方舟公告] {data.title}\n") + MessageSegment.image(img)
     await bot.send(msg)
 
 
@@ -102,7 +103,9 @@ async def check_ark_ann_state():
     for data in updates.values():
         try:
             img = await get_ann_img(data)
-            msg = f"[明日方舟公告] {data.title}\n{img}"
+            msg = MessageSegment.text(f"[明日方舟公告] {data.title}\n") + MessageSegment.image(
+                img
+            )
 
             if isinstance(img, str):
                 continue

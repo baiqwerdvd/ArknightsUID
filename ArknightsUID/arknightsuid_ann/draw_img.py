@@ -28,6 +28,7 @@ async def get_ann_img(data: BulletinData) -> str | bytes:
 async def process_tag(
     elements: list[dict[str, Any]],
     point: int,
+    init_point: int,
     tag: element.Tag,
 ):
     space = 10
@@ -80,7 +81,7 @@ async def process_tag(
         if elements:
             pre_pos = elements[-1]["next_pos"]
         else:
-            pre_pos = 105
+            pre_pos = init_point
         elements.append(
             {
                 "type": _type,

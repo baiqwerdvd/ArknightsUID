@@ -7,7 +7,7 @@ from typing import Sequence
 from gsuid_core.gss import gss
 from gsuid_core.logger import logger
 
-from ..arknightsuid_config.ark_config import arkconfig
+from ..arknightsuid_config.ark_config import ArkConfig
 from ..utils.ark_api import ark_skd_api
 from ..utils.database.models import ArknightsUser
 
@@ -93,7 +93,7 @@ async def single_daily_sign(bot_id: str, ark_uid: str, gid: str, qid: str):
                 "push_message": "",
             }
         # 检查是否开启简洁签到
-        if arkconfig.get_config("SignReportSimple").data:
+        if ArkConfig.get_config("SignReportSimple").data:
             # 如果失败, 则添加到推送列表
             if im.startswith(("ark签到失败", "网络有点忙", "OK", "ok")):
                 message = f"[CQ:at,qq={qid}] {im}"

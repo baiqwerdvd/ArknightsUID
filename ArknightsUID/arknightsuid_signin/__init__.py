@@ -9,12 +9,12 @@ from gsuid_core.models import Event
 from gsuid_core.sv import SV
 from gsuid_core.utils.database.api import get_uid
 
-from ..arknightsuid_config.ark_config import arkconfig
+from ..arknightsuid_config.ark_config import ArkConfig
 from ..utils.ark_prefix import PREFIX
 from ..utils.database.models import ArknightsBind
 from .sign import daily_sign, sign_in
 
-SIGN_TIME = arkconfig.get_config("SignTime").data
+SIGN_TIME = ArkConfig.get_config("SignTime").data
 
 sv_sign = SV("森空岛签到")
 sv_sign_config = SV("森空岛管理", pm=2)
@@ -23,7 +23,7 @@ sv_sign_config = SV("森空岛管理", pm=2)
 # 每日零点半执行森空岛签到
 @scheduler.scheduled_job("cron", hour=SIGN_TIME[0], minute=SIGN_TIME[1])
 async def ark_sign_at_night():
-    if arkconfig.get_config("SchedSignin").data:
+    if ArkConfig.get_config("SchedSignin").data:
         await send_daily_sign()
 
 

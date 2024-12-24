@@ -7,16 +7,13 @@ from gsuid_core.sv import SV
 from gsuid_core.utils.error_reply import UID_HINT
 
 from ..utils.database.models import ArknightsBind
+from .ark_config import ArkConfig
 from .set_config import set_config_func, set_push_value
 
 sv_self_config = SV("ark配置")
 
 
-# @sv_self_config.on_fullmatch(("ark配置", "方舟配置"))
-# async def send_config_card(bot: Bot, ev: Event):
-#     logger.info("开始执行[ark配置]")
-#     im = await draw_config_img(ev.bot_id)
-#     await bot.send(im)
+PREFIX = ArkConfig.get_config("ArkPrefix").data
 
 
 @sv_self_config.on_prefix(("ark设置"))  # noqa: UP034

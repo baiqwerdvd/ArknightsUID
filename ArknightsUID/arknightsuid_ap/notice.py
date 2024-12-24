@@ -3,7 +3,7 @@ from typing import Dict
 from gsuid_core.gss import gss
 from gsuid_core.logger import logger
 
-from ..arknightsuid_config.ark_config import arkconfig
+from ..arknightsuid_config.ark_config import ArkConfig
 from ..utils.ark_api import ark_skd_api
 from ..utils.database.models import ArknightsPush, ArknightsUser
 from ..utils.models.skland.models import ArknightsPlayerInfoModel
@@ -50,7 +50,7 @@ async def all_check(
     for mode in NOTICE.keys():
         # 检查条件
         if push_data[f"{mode}_is_push"] is True:
-            if arkconfig.get_config("CrazyNotice").data:
+            if ArkConfig.get_config("CrazyNotice").data:
                 if not await check(mode, raw_data, push_data[f"{mode}_value"]):
                     await ArknightsPush.update_push_data(
                         uid,

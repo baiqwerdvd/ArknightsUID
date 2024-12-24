@@ -3,7 +3,7 @@ from typing import Optional
 from gsuid_core.logger import logger
 
 from ..utils.database.models import ArknightsPush, ArknightsUser
-from .ark_config import arkconfig
+from .ark_config import ArkConfig
 from .config_default import CONIFG_DEFAULT
 
 PUSH_MAP = {
@@ -78,7 +78,7 @@ async def set_config_func(
         logger.info(f"config_name:{config_name},query:{query}")
         # 执行设置
         if query is not None:
-            arkconfig.set_config(name, query)
+            ArkConfig.set_config(name, query)
             im = "成功设置{}为{}。".format(config_name, "开" if query else "关")
         else:
             im = "未传入参数query!"

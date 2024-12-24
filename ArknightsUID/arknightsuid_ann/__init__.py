@@ -32,8 +32,9 @@ async def ann_(bot: Bot, ev: Event):
 
     data = await get_announcement(cid)
     img = await get_ann_img(data)
+    title = data.title.replace("\\n", "")
     msg = [
-        MessageSegment.text(f"[明日方舟公告]\n{data.title.replace('\\n', ' ')}\n"),
+        MessageSegment.text(f"[明日方舟公告]\n{title}\n"),
         MessageSegment.image(img),
     ]
     await bot.send(msg)
@@ -106,8 +107,9 @@ async def check_ark_ann_state():
     for data in updates.values():
         try:
             img = await get_ann_img(data)
+            title = data.title.replace("\\n", "")
             msg = [
-                MessageSegment.text(f"[明日方舟公告]\n{data.title.replace('\\n', ' ')}\n"),
+                MessageSegment.text(f"[明日方舟公告]\n{title}\n"),
                 MessageSegment.image(img),
             ]
 

@@ -16,7 +16,7 @@ async def get_ann_img(data: BulletinData) -> str | bytes:
     match data.displayType:
         case 1:
             soup = BeautifulSoup(data.content, "lxml")
-            img = await soup_to_img(data.header, soup)
+            img = await soup_to_img(data.header, soup, data.bannerImageUrl)
             return img
         case 2:
             img = await download_pic_to_image(data.bannerImageUrl)
@@ -94,33 +94,54 @@ async def process_tag(
     return point, elements
 
 
-async def soup_to_img(header: str, soup: BeautifulSoup) -> str | bytes:
-    elements = []
-    point = 105
-    div = get_div()
+async def soup_to_img(header: str, soup: BeautifulSoup, bannerImageUrl: str) -> str | bytes:
+    banner_img = None
+    banner_img_new_h = 0
+    header_img = None
+    header_img_new_h = 0
 
-    logger.info("[GsCore] 开始解析帖子内容...")
-    for tag in soup.descendants:
-        point, elements = await process_tag(
-            elements,
-            point,
-            tag,  # type: ignore
-        )
-    logger.info("[GsCore] 帖子解析完成!进入图片处理流程...")
-
-    img = Image.new("RGB", (1000, point), (255, 255, 255))
-
-    draw = ImageDraw.Draw(img)
+    if bannerImageUrl != "":
+        banner_img = await download_pic_to_image(bannerImageUrl)
+        banner_img_new_h = int((930 / banner_img.size[0]) * banner_img.size[1])
+        banner_img = banner_img.resize((930, banner_img_new_h))
 
     if header != "":
         header_img = "https://ak.hycdn.cn/announce/assets/images/announcement/header.jpg"
         header_img = await download_pic_to_image(header_img)
-        new_h = int((930 / header_img.size[0]) * header_img.size[1])
-        header_img = header_img.resize((930, new_h))
+        header_img_new_h = int((930 / header_img.size[0]) * header_img.size[1])
+        header_img = header_img.resize((930, header_img_new_h))
 
-        img.paste(header_img, (35, 35))
+    elements = []
+    if banner_img:
+        point = 105 + banner_img_new_h + 15
+        init_point = 105 + banner_img_new_h + 15
+    else:
+        point = 105
+        init_point = 105
+    div = get_div()
+
+    print("[GsCore] 开始解析帖子内容...")
+    for tag in soup.descendants:
+        point, elements = await process_tag(
+            elements,
+            point,
+            init_point,
+            tag,  # type: ignore
+        )
+    print("[GsCore] 帖子解析完成!进入图片处理流程...")
+
+    img = Image.new("RGB", (1000, point), (255, 255, 255))
+    draw = ImageDraw.Draw(img)
+
+    if banner_img:
+        img.paste(banner_img, (35, 35))
+
+    if header_img:
+        pad = 50 + banner_img_new_h if banner_img else 35
+
+        img.paste(header_img, (35, pad))
         draw.text(
-            (45, 42),
+            (45, 7 + pad),
             header,
             font=cf(30),
             fill=(255, 255, 255),

@@ -37,6 +37,12 @@ async def ann_(bot: Bot, ev: Event):
     await bot.send(msg)
 
 
+@sv_ann.on_command(f"{PREFIX}强制刷新全部公告")
+async def force_ann_(bot: Bot, ev: Event):
+    data = await check_bulletin_update()
+    await bot.send(f"成功刷新{len(data)}条公告!")
+
+
 @sv_ann_sub.on_fullmatch(f"{PREFIX}订阅公告")
 async def sub_ann_(bot: Bot, ev: Event):
     if ev.group_id is None:
@@ -58,7 +64,9 @@ async def sub_ann_(bot: Bot, ev: Event):
     await bot.send("成功订阅明日方舟公告!")
 
 
-@sv_ann_sub.on_fullmatch((f"{PREFIX}取消订阅公告", f"{PREFIX}取消公告", f"{PREFIX}退订公告"))
+@sv_ann_sub.on_fullmatch(
+    (f"{PREFIX}取消订阅公告", f"{PREFIX}取消公告", f"{PREFIX}退订公告")
+)
 async def unsub_ann_(bot: Bot, ev: Event):
     if ev.group_id is None:
         return await bot.send("请在群聊中取消订阅")

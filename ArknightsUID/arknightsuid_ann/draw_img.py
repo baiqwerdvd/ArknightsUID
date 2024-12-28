@@ -2,12 +2,13 @@ import textwrap
 from typing import Any
 
 from bs4 import BeautifulSoup, element
+from PIL import Image, ImageDraw
+
 from gsuid_core.logger import logger
 from gsuid_core.utils.fonts.fonts import core_font as cf
 from gsuid_core.utils.image.convert import convert_img
 from gsuid_core.utils.image.image_tools import get_div
 from gsuid_core.utils.image.utils import download_pic_to_image
-from PIL import Image, ImageDraw
 
 from .model import BulletinData
 
@@ -39,7 +40,7 @@ async def process_tag(
     if tag.name == "img":
         img_url = tag.get("src")
         if isinstance(img_url, str):
-            if img_url.startswith("https://web.hycdn.cn/announce/images"):
+            if img_url.startswith("https://web.hycdn.cn/"):
                 img = await download_pic_to_image(img_url)
                 new_h = int((930 / img.size[0]) * img.size[1])
                 img = img.resize((930, new_h))

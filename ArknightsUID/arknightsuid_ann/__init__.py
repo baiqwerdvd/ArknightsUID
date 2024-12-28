@@ -1,6 +1,9 @@
 import asyncio
 import random
 
+import aiohttp
+from msgspec import convert
+
 from gsuid_core.aps import scheduler
 from gsuid_core.bot import Bot
 from gsuid_core.logger import logger
@@ -12,6 +15,7 @@ from gsuid_core.sv import SV
 from ..arknightsuid_config import PREFIX, ArkConfig
 from .draw_img import get_ann_img
 from .get_data import check_bulletin_update, get_announcement
+from .model import BulletinTargetData
 
 sv_ann = SV("明日方舟公告")
 sv_ann_sub = SV("订阅明日方舟公告", pm=3)
@@ -41,6 +45,23 @@ async def ann_(bot: Bot, ev: Event):
 async def force_ann_(bot: Bot, ev: Event):
     data = await check_bulletin_update()
     await bot.send(f"成功刷新{len(data)}条公告!")
+
+
+@sv_ann.on_command(f"{PREFIX}获取当前Android公告列表")
+async def get_ann_list_(bot: Bot, ev: Event):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            "https://ak-webview.hypergryph.com/api/game/bulletinList?target=Android"
+        ) as response:
+            data = await response.json()
+
+    data = convert(data.get("data", {}), BulletinTargetData)
+    msg = ""
+    for i in data.list_:
+        title = i.title.replace("\\n", "")
+        msg += f"CID: {i.cid} - {title}\n"
+
+    await bot.send(msg)
 
 
 @sv_ann_sub.on_fullmatch(f"{PREFIX}订阅公告")

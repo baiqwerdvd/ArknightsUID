@@ -9,7 +9,9 @@ from gsuid_core.utils.plugins_config.models import (
 )
 
 CONIFG_DEFAULT: Dict[str, GSC] = {
-    "SignTime": GsListStrConfig("每晚签到时间设置", "每晚森空岛签到时间设置(时,分)", ["0", "38"]),
+    "SignTime": GsListStrConfig(
+        "每晚签到时间设置", "每晚森空岛签到时间设置(时,分)", ["0", "38"]
+    ),
     "SignReportSimple": GsBoolConfig(
         "简洁签到报告",
         "开启后可以大大减少每日签到报告字数",
@@ -36,6 +38,6 @@ CONIFG_DEFAULT: Dict[str, GSC] = {
         "ark",
     ),
     "AnnMinuteCheck": GsIntConfig(
-        "公告推送时间检测（单位min）", "公告推送时间检测（单位min）", 10, 60
+        "公告推送时间检测（单位min）", "公告推送时间检测（单位min）", 1, 60
     ),
 }

@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
-from typing import cast
 
 import aiohttp
+import msgspec
 from msgspec import convert
 from msgspec import json as msgjson
 
@@ -15,30 +15,6 @@ from .model import (
     BulletinTargetData,
     BulletinTargetDataItem,
 )
-
-
-def read_json(file_path: Path) -> dict[str, object]:
-    try:
-        with Path.open(file_path, encoding="UTF-8") as file:
-            return cast(dict[str, object], json.load(file))
-    except FileNotFoundError as _:
-        raise FileNotFoundError(f"Error reading JSON file: {file_path}")
-    except json.JSONDecodeError as e:
-        raise e
-
-
-def write_json(data: object, file_path: Path) -> None:
-    try:
-        with Path.open(file_path, mode="w", encoding="UTF-8") as file:
-            json.dump(data, file, sort_keys=False, indent=4, ensure_ascii=False)
-    except FileNotFoundError as e:
-        raise e
-
-
-async def get_image(url: str) -> bytes:
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            return await response.read()
 
 
 async def get_announcement(cid: str) -> BulletinData:
@@ -59,7 +35,14 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
     if is_first:
         bulletin_meta = BulletinMeta()
     else:
-        bulletin_meta = convert(read_json(bulletin_path), BulletinMeta)
+        try:
+            with Path.open(bulletin_path, encoding="UTF-8") as file:
+                data = json.load(file)
+            bulletin_meta = convert(data, BulletinMeta)
+        except json.JSONDecodeError as _:
+            bulletin_meta = BulletinMeta()
+        except msgspec.DecodeError as _:
+            bulletin_meta = BulletinMeta()
 
     android_data = None
     bilibili_data = None
@@ -137,7 +120,8 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
     )
 
     data = msgjson.decode(msgjson.encode(bulletin_meta))
-    write_json(data, bulletin_path)
+    with Path.open(bulletin_path, mode="w", encoding="UTF-8") as file:
+        json.dump(data, file, sort_keys=False, indent=4, ensure_ascii=False)
     logger.info("The file 'bulletin.meta.json' has been successfully updated.")
 
     if is_first:

@@ -85,9 +85,7 @@ async def sub_ann_(bot: Bot, ev: Event):
     await bot.send("成功订阅明日方舟公告!")
 
 
-@sv_ann_sub.on_fullmatch(
-    (f"{PREFIX}取消订阅公告", f"{PREFIX}取消公告", f"{PREFIX}退订公告")
-)
+@sv_ann_sub.on_fullmatch((f"{PREFIX}取消订阅公告", f"{PREFIX}取消公告", f"{PREFIX}退订公告"))
 async def unsub_ann_(bot: Bot, ev: Event):
     if ev.group_id is None:
         return await bot.send("请在群聊中取消订阅")

@@ -1,7 +1,10 @@
+import asyncio
 import json
-from typing import cast
+import random
 
 import aiohttp
+from msgspec import Struct, convert
+
 from gsuid_core.aps import scheduler
 from gsuid_core.bot import Bot
 from gsuid_core.data_store import get_res_path
@@ -9,7 +12,6 @@ from gsuid_core.logger import logger
 from gsuid_core.models import Event
 from gsuid_core.subscribe import gs_subscribe
 from gsuid_core.sv import SV
-from msgspec import Struct, convert
 
 from ..arknightsuid_config import PREFIX
 
@@ -24,7 +26,14 @@ class VersionModel(Struct):
     resVersion: str
 
 
-async def check_update() -> tuple[VersionModel, bool, bool]:
+class UpdateCheckResult(Struct):
+    version: VersionModel
+    old_version: VersionModel | None
+    client_updated: bool
+    res_updated: bool
+
+
+async def check_update() -> UpdateCheckResult:
     """
     check if there is an update
 
@@ -41,17 +50,17 @@ async def check_update() -> tuple[VersionModel, bool, bool]:
             data = json.loads(await response.text())
             version = convert(data, VersionModel)
 
-    return_data = [version, False, False]
     version_path = get_res_path("ArknightsUID") / "version.json"
 
     is_first = False if version_path.exists() else True
-
     if is_first:
         with open(version_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
         logger.info("First time checking version")
-        return cast(tuple[VersionModel, bool, bool], tuple(return_data))
+        return UpdateCheckResult(
+            version=version, old_version=None, client_updated=False, res_updated=False
+        )
     else:
         with open(version_path, encoding="utf-8") as f:
             base_version_json = json.load(f)
@@ -65,18 +74,27 @@ async def check_update() -> tuple[VersionModel, bool, bool]:
         with open(version_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
-    if version.clientVersion != base_version.clientVersion:
-        return_data[1] = True
-    if version.resVersion != base_version.resVersion:
-        return_data[2] = True
+    result = UpdateCheckResult(
+        version=version,
+        old_version=base_version,
+        client_updated=False,
+        res_updated=False,
+    )
 
-    return cast(tuple[VersionModel, bool, bool], tuple(return_data))
+    if version.clientVersion != base_version.clientVersion:
+        result.client_updated = True
+    if version.resVersion != base_version.resVersion:
+        result.res_updated = True
+
+    return result
 
 
 @sv_server_check.on_command("取明日方舟最新版本")
 async def get_latest_version(bot: Bot, ev: Event):
-    version = await check_update()
-    await bot.send(f"当前版本: {version[0].clientVersion}\n资源版本: {version[0].resVersion}")
+    result = await check_update()
+    await bot.send(
+        f"clientVersion: {result.version.clientVersion}\nresVersion: {result.version.resVersion}"
+    )
 
 
 @sv_server_check_sub.on_fullmatch(f"{PREFIX}订阅版本更新")
@@ -104,7 +122,10 @@ async def sub_ann_(bot: Bot, ev: Event):
 async def match_checker():
     logger.info("Checking for Arknights client update")
 
-    version = await check_update()
+    result = await check_update()
+    if not result.res_updated and not result.client_updated:
+        logger.info("No update found")
+        return
 
     datas = await gs_subscribe.get_subscribe(task_name_server_check)
     if not datas:
@@ -112,13 +133,25 @@ async def match_checker():
         return
 
     for subscribe in datas:
-        if version[1]:
+        if result.client_updated:
             logger.warning("检测到明日方舟客户端版本更新")
-            await subscribe.send(
-                f"检测到明日方舟客户端版本更新\n当前版本: {version[0].clientVersion}\n资源版本: {version[0].resVersion}",
-            )
-        elif version[2]:
+            if result.old_version is None:
+                await subscribe.send(
+                    f"检测到明日方舟客户端版本更新\nclientVersion: {result.version.clientVersion}\nresVersion: {result.version.resVersion}",
+                )
+            else:
+                await subscribe.send(
+                    f"检测到明日方舟客户端版本更新\nclientVersion: {result.old_version.clientVersion} -> {result.version.clientVersion}\nresVersion: {result.old_version.resVersion} -> {result.version.resVersion}",
+                )
+            await asyncio.sleep(random.uniform(1, 3))
+        elif result.res_updated:
             logger.warning("检测到明日方舟资源版本更新")
-            await subscribe.send(
-                f"检测到明日方舟资源版本更新\n当前版本: {version[0].clientVersion}\n资源版本: {version[0].resVersion}",
-            )
+            if result.old_version is None:
+                await subscribe.send(
+                    f"检测到明日方舟资源版本更新\nclientVersion: {result.version.clientVersion}\nresVersion: {result.version.resVersion}",
+                )
+            else:
+                await subscribe.send(
+                    f"检测到明日方舟资源版本更新\nclientVersion: {result.version.clientVersion}\nresVersion: {result.old_version.resVersion} -> {result.version.resVersion}",
+                )
+            await asyncio.sleep(random.uniform(1, 3))

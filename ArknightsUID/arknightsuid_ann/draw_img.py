@@ -96,9 +96,7 @@ async def process_tag(
     return point, elements
 
 
-async def soup_to_img(
-    header: str, soup: BeautifulSoup, bannerImageUrl: str
-) -> str | bytes:
+async def soup_to_img(header: str, soup: BeautifulSoup, bannerImageUrl: str) -> str | bytes:
     banner_img = None
     banner_img_new_h = 0
     header_img = None
@@ -110,9 +108,7 @@ async def soup_to_img(
         banner_img = banner_img.resize((930, banner_img_new_h))
 
     if header != "":
-        header_img = (
-            "https://ak.hycdn.cn/announce/assets/images/announcement/header.jpg"
-        )
+        header_img = "https://ak.hycdn.cn/announce/assets/images/announcement/header.jpg"
         header_img = await download_pic_to_image(header_img)
         header_img_new_h = int((930 / header_img.size[0]) * header_img.size[1])
         header_img = header_img.resize((930, header_img_new_h))

@@ -8,7 +8,12 @@ from gsuid_core.logger import logger
 from msgspec import convert
 from msgspec import json as msgjson
 
-from .model import BulletinData, BulletinMeta, BulletinTargetData, BulletinTargetDataItem
+from .model import (
+    BulletinData,
+    BulletinMeta,
+    BulletinTargetData,
+    BulletinTargetDataItem,
+)
 
 
 def read_json(file_path: Path) -> dict[str, object]:
@@ -48,7 +53,12 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
     bulletin_path = get_res_path(["ArknightsUID", "announce"]) / "bulletin.meta.json"
     logger.info("Checking for game bulletin...")
 
-    bulletin_meta = convert(read_json(bulletin_path), BulletinMeta)
+    is_first = False if bulletin_path.exists() else True
+
+    if is_first:
+        bulletin_meta = BulletinMeta()
+    else:
+        bulletin_meta = convert(read_json(bulletin_path), BulletinMeta)
 
     android_data = None
     bilibili_data = None
@@ -121,4 +131,8 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
     data = msgjson.decode(msgjson.encode(bulletin_meta))
     write_json(data, bulletin_path)
 
-    return new_ann
+    if is_first:
+        logger.info("Initial success, will be updated in the next polling.")
+        return {}
+    else:
+        return new_ann

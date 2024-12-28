@@ -42,6 +42,7 @@ class ArknightsAttendanceAwardResource(Struct):
     stageDropList: List[ArknightsAttendanceStageDropListItem]
     buildingProductList: List[ArknightsAttendanceBuildingProductListItem]
 
+
 class ArknightsAttendanceCalendarModel(Struct):
     currentTs: str
     calendar: List[ArknightsAttendanceCalendar]
@@ -165,6 +166,7 @@ class ArknightsUserMeModel(Struct, omit_defaults=True):
 ################
 # ArknightsPlayerInfoModel Start
 ################
+
 
 class PlayerManufactureFormulaCostsInfo(Struct):
     id_: str = field(name="id")

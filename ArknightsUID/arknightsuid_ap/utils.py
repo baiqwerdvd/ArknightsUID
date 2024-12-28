@@ -7,7 +7,7 @@ from ..utils.models.skland.models import PlayerStatusAp
 def seconds2hours_zhcn(seconds: int) -> str:
     m, s = divmod(int(seconds), 60)
     h, m = divmod(m, 60)
-    return "%02d小时%02d分钟" % (h, m)
+    return f"{h}小时{m}分钟"
 
 
 def now_ap(ap: PlayerStatusAp) -> int:

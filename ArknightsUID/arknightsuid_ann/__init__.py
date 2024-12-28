@@ -3,18 +3,15 @@ import random
 
 from gsuid_core.aps import scheduler
 from gsuid_core.bot import Bot
-from gsuid_core.data_store import get_res_path
 from gsuid_core.logger import logger
 from gsuid_core.models import Event
 from gsuid_core.segment import MessageSegment
 from gsuid_core.subscribe import gs_subscribe
 from gsuid_core.sv import SV
-from msgspec import json as msgjson
 
 from ..arknightsuid_config import PREFIX, ArkConfig
 from .draw_img import get_ann_img
-from .get_data import check_bulletin_update, get_announcement, write_json
-from .model import BulletinMeta
+from .get_data import check_bulletin_update, get_announcement
 
 sv_ann = SV("明日方舟公告")
 sv_ann_sub = SV("订阅明日方舟公告", pm=3)
@@ -83,15 +80,6 @@ async def check_ark_ann():
 
 async def check_ark_ann_state():
     logger.info("[明日方舟公告] 定时任务: 明日方舟公告查询..")
-
-    bulletin_path = get_res_path(["ArknightsUID", "announce"]) / "bulletin.meta.json"
-    logger.info("Checking for game bulletin...")
-
-    if not bulletin_path.exists():
-        data = msgjson.encode(BulletinMeta())
-        write_json(data, bulletin_path)
-        logger.info("[明日方舟公告] 初始成功, 将在下个轮询中更新.")
-        return
 
     updates = await check_bulletin_update()
 

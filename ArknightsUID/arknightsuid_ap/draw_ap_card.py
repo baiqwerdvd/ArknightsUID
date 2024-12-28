@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw
 
 from ..arknightsuid_resource.constants import CHARACTER_TABLE
 from ..utils.ark_api import ark_skd_api
-from ..utils.database.models import ArknightsBind, ArknightsUser
+from ..utils.database.models import ArknightsBind
 from ..utils.fonts.source_han_sans import (
     sans_font_18,
     sans_font_26,

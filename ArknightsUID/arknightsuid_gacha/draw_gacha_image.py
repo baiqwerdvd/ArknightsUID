@@ -8,9 +8,7 @@ from ..utils.resource.RESOURCE_PATH import CHARPORTRAITS_PATH
 IMG_DIR = Path(__file__).parent / "texture2D"
 
 GACHA_BG = Image.open(IMG_DIR / "bg.png")
-print(GACHA_BG.size)
 back_four = Image.open(IMG_DIR / "back_four.png").convert("RGBA").resize((115, 350))
-print(back_four.size)
 # (140 388)
 
 
@@ -18,7 +16,6 @@ async def draw_gacha_image(char_get: List[Tuple[str, int]]):
     if len(char_get) != 10:
         return
     img = GACHA_BG.copy().resize((1170, 580))
-    print(img.size)
     for i, char in enumerate(char_get):
         char_name, star = char
         char_img = Image.open(CHARPORTRAITS_PATH / f"{char_name}_1.png").convert("RGBA")

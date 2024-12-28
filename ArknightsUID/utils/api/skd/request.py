@@ -3,7 +3,6 @@ import hmac
 import json
 import time
 from copy import deepcopy
-from tokenize import Token
 from typing import Any, Dict, Literal, Tuple, Union, cast
 from urllib.parse import urlparse
 

@@ -122,7 +122,7 @@ async def check_ark_ann():
             img = await get_ann_img(data)
             title = data.title.replace("\\n", "")
             msg = [
-                MessageSegment.text(f"[明日方舟公告] {title}\n"),
+                MessageSegment.text(f"[明日方舟公告更新] {title}\n"),
                 MessageSegment.image(img),
             ]
 

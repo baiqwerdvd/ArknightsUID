@@ -3,10 +3,11 @@ from pathlib import Path
 from typing import cast
 
 import aiohttp
-from gsuid_core.data_store import get_res_path
-from gsuid_core.logger import logger
 from msgspec import convert
 from msgspec import json as msgjson
+
+from gsuid_core.data_store import get_res_path
+from gsuid_core.logger import logger
 
 from .model import (
     BulletinData,
@@ -73,15 +74,20 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
                 if cur_meta.get("code") == 0:
                     match target:
                         case "Android":
-                            android_data = convert(cur_meta.get("data", {}), BulletinTargetData)
+                            android_data = convert(
+                                cur_meta.get("data", {}), BulletinTargetData
+                            )
                             bulletin_meta.target.Android = android_data
                         case "Bilibili":
-                            bilibili_data = convert(cur_meta.get("data", {}), BulletinTargetData)
+                            bilibili_data = convert(
+                                cur_meta.get("data", {}), BulletinTargetData
+                            )
                             bulletin_meta.target.Bilibili = bilibili_data
                         case "IOS":
-                            ios_data = convert(cur_meta.get("data", {}), BulletinTargetData)
+                            ios_data = convert(
+                                cur_meta.get("data", {}), BulletinTargetData
+                            )
                             bulletin_meta.target.IOS = ios_data
-        logger.info("The file 'bulletin.meta.json' has been successfully updated.")
 
     assert android_data is not None
     assert bilibili_data is not None
@@ -123,13 +129,16 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
             new_ann[item.cid] = ann
             logger.info(f"New bulletin found: {item.cid}:{item.title}")
 
-    bulletin_meta.data = dict(sorted(bulletin_meta.data.items(), key=lambda x: int(x[0])))
+    bulletin_meta.data = dict(
+        sorted(bulletin_meta.data.items(), key=lambda x: int(x[0]))
+    )
     bulletin_meta.update = dict(
         sorted(bulletin_meta.update.items(), key=lambda x: x[1].cid, reverse=False)
     )
 
     data = msgjson.decode(msgjson.encode(bulletin_meta))
     write_json(data, bulletin_path)
+    logger.info("The file 'bulletin.meta.json' has been successfully updated.")
 
     if is_first:
         logger.info("Initial success, will be updated in the next polling.")

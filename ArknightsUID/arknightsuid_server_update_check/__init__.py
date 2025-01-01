@@ -118,13 +118,13 @@ async def sub_ann_(bot: Bot, ev: Event):
     await bot.send("成功订阅明日方舟版本更新!")
 
 
-@scheduler.scheduled_job("interval", seconds=2, id="check update")
+@scheduler.scheduled_job("interval", minutes=10, id="check update")
 async def match_checker():
-    logger.info("Checking for Arknights client update")
+    logger.trace("Checking for Arknights client update")
 
     result = await check_update()
     if not result.res_updated and not result.client_updated:
-        logger.info("No update found")
+        logger.trace("No update found")
         return
 
     datas = await gs_subscribe.get_subscribe(task_name_server_check)

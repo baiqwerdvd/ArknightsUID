@@ -6,10 +6,10 @@ from gsuid_core.plugins.ArknightsUID.ArknightsUID.utils.resource.download_all_re
 )
 from gsuid_core.sv import SV
 
-sv_download_config = SV("下载资源", pm=2)
+sv_download_config = SV("ark下载资源", pm=2)
 
 
-@sv_download_config.on_fullmatch(("ark下载全部资源"))  # noqa: UP034
+@sv_download_config.on_fullmatch(("下载全部资源"))  # noqa: UP034
 async def send_download_resource_msg(bot: Bot, ev: Event):
     await bot.send("正在开始下载~可能需要较久的时间!")
     im = await download_all_resource()

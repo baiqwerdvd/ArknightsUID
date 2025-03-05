@@ -1,5 +1,3 @@
-from typing import Dict, Union
-
 from msgspec import UNSET, Struct, UnsetType, field
 
 
@@ -12,7 +10,7 @@ class GeneralGeetestData(Struct):
 class GeneralV1SendPhoneCodeRequest(Struct):
     phone: str
     type: int
-    captcha: Union[GeneralGeetestData, UnsetType] = field(default=UNSET)
+    captcha: GeneralGeetestData | UnsetType = field(default=UNSET)
 
 
 class CaptchaItemModel(Struct):
@@ -28,9 +26,9 @@ class GeneralV1SendPhoneCodeData(Struct):
 
 class GeneralV1SendPhoneCodeResponse(Struct):
     status: int
-    msg: Union[str, UnsetType] = field(default=UNSET)
-    type: Union[str, UnsetType] = field(default=UNSET)
-    data: Union[GeneralV1SendPhoneCodeData, UnsetType] = field(default=UNSET)
+    msg: str | UnsetType = field(default=UNSET)
+    type: str | UnsetType = field(default=UNSET)
+    data: GeneralV1SendPhoneCodeData | UnsetType = field(default=UNSET)
 
 
 class TokenData(Struct):
@@ -44,9 +42,9 @@ class UserAuthV2TokenByPhoneCodeRequest(Struct):
 
 class UserAuthV2TokenByPhoneCodeResponse(Struct):
     status: int
-    msg: Union[str, UnsetType] = field(default=UNSET)
-    data: Union[TokenData, UnsetType] = field(default=UNSET)
-    type: Union[str, UnsetType] = field(default=UNSET)
+    msg: str | UnsetType = field(default=UNSET)
+    data: TokenData | UnsetType = field(default=UNSET)
+    type: str | UnsetType = field(default=UNSET)
 
 
 class AccountInfoHGRequest(Struct):
@@ -56,7 +54,7 @@ class AccountInfoHGRequest(Struct):
 class AccountInfoHGResponse(Struct):
     code: int
     msg: str
-    data: Dict
+    data: dict
 
 
 class GeetestData(Struct):
@@ -80,19 +78,19 @@ class Oauth2V2GrantRequest(Struct):
 
 
 class Oauth2V2CodeDataItemResponse(Struct):
-    hgId: Union[str, UnsetType] = field(default=UNSET)
-    token: Union[str, UnsetType] = field(default=UNSET)
-    code: Union[str, UnsetType] = field(default=UNSET)
-    uid: Union[str, UnsetType] = field(default=UNSET)
-    delete_commit_ts: Union[int, UnsetType] = field(default=UNSET)
-    delete_request_ts: Union[int, UnsetType] = field(default=UNSET)
+    hgId: str | UnsetType = field(default=UNSET)
+    token: str | UnsetType = field(default=UNSET)
+    code: str | UnsetType = field(default=UNSET)
+    uid: str | UnsetType = field(default=UNSET)
+    delete_commit_ts: int | UnsetType = field(default=UNSET)
+    delete_request_ts: int | UnsetType = field(default=UNSET)
 
 
 class Oauth2V2GrantResponse(Struct):
     status: int
     msg: str
-    data: Union[Oauth2V2CodeDataItemResponse, UnsetType] = field(default=UNSET)
-    type: Union[str, UnsetType] = field(default=UNSET)
+    data: Oauth2V2CodeDataItemResponse | UnsetType = field(default=UNSET)
+    type: str | UnsetType = field(default=UNSET)
 
 
 class ZonaiSklandWebUserGenerateCredByCodeRequest(Struct):

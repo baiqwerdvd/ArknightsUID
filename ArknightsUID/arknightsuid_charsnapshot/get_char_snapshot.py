@@ -1,10 +1,9 @@
 from pathlib import Path
-from typing import Dict
 
 from gsuid_core.utils.image.convert import convert_img
 from PIL import Image, ImageDraw
 
-from ..arknightsuid_resource.constants import SKILL_TABLE
+from ..arknightsuid_resource.constants import EXCEL
 from ..utils.ark_api import ark_skd_api
 from ..utils.fonts.source_han_sans import (
     sans_font_26,
@@ -97,9 +96,7 @@ async def get_char_snapshot(uid: str, cur_page: int):
         avatar_id = status.avatar.id_
     try:
         try:
-            avatar_img = Image.open(UI_PLAYER_AVATAR_LIST_PATH / f"{avatar_id}.png").resize(
-                (235, 235)
-            )
+            avatar_img = Image.open(UI_PLAYER_AVATAR_LIST_PATH / f"{avatar_id}.png").resize((235, 235))
         except FileNotFoundError:
             avatar_img = Image.open(UI_CHAR_AVATAR_PATH / f"{avatar_id}.png").resize((235, 235))
     except FileNotFoundError:
@@ -170,8 +167,8 @@ async def get_char_snapshot(uid: str, cur_page: int):
 
 def draw_char(
     test_char: PlayerInfoChar,
-    charInfoMap: Dict[str, PlayerCharInfo],
-    equipmentInfoMap: Dict[str, PlayerEquipmentInfo],
+    charInfoMap: dict[str, PlayerCharInfo],
+    equipmentInfoMap: dict[str, PlayerEquipmentInfo],
 ):
     avatar_bg = Image.open(TEXT_PATH / "avatar_bg.png").resize((118, 118))
     bar_img: Image.Image = Image.open(TEXT_PATH / "bar.png").convert("RGBA")
@@ -179,16 +176,12 @@ def draw_char(
     charid = test_char.charId
     if charid == "char_1037_amiya3":
         charid = "char_1037_amiya3_2"
-    ui_char_avatar = (
-        Image.open(UI_CHAR_AVATAR_PATH / f"{charid}.png").resize((90, 90)).convert("RGBA")
-    )
+    ui_char_avatar = Image.open(UI_CHAR_AVATAR_PATH / f"{charid}.png").resize((90, 90)).convert("RGBA")
     bar_img.paste(avatar_bg, (24, 5), mask=avatar_bg)
     bar_img.paste(ui_char_avatar, (38, 21), mask=ui_char_avatar)
 
     potential_rank = test_char.potentialRank
-    potential_img = Image.open(POTENTIAL_HUB_PATH / f"potential_{potential_rank}.png").resize(
-        (45, 45)
-    )
+    potential_img = Image.open(POTENTIAL_HUB_PATH / f"potential_{potential_rank}.png").resize((45, 45))
     bar_img.paste(potential_img, (135, 67), mask=potential_img)
 
     elite_level = test_char.evolvePhase
@@ -226,7 +219,7 @@ def draw_char(
     if char_skills is not None:
         for i, skill in enumerate(char_skills):
             skill_id = skill.id_
-            skill_icon_id = SKILL_TABLE.skills[skill_id].iconId
+            skill_icon_id = EXCEL.SKILL_TABLE.skills[skill_id].iconId
             skill_specialize_level = skill.specializeLevel
             if skill_icon_id is None:
                 skill_icon_id = skill_id
@@ -234,9 +227,7 @@ def draw_char(
             skill_img = skill_img.resize((70, 70))
             if test_char.defaultSkillId == skill_id:
                 skill_img.paste(skill_selected, (38, -1), mask=skill_selected)
-            skill_specialize_img = Image.open(
-                CHAR_COMMON_PATH / f"evolve_small_icon_{skill_specialize_level}.png"
-            )
+            skill_specialize_img = Image.open(CHAR_COMMON_PATH / f"evolve_small_icon_{skill_specialize_level}.png")
             skill_img.paste(skill_specialize_img, (0, 0), mask=skill_specialize_img)
             skill_img = skill_img.resize((60, 60))
             bar_img.paste(skill_img, box=(355 + 70 * i, 37), mask=skill_img)
@@ -256,9 +247,7 @@ def draw_char(
             equip_type_icon = equipmentInfoMap[equip_id.id_].typeIcon
             if equip_type_icon == "original":
                 continue
-            equip_img = Image.open(
-                UI_EQUIP_TYPE_DIRECTION_HUB_PATH / f"{equip_type_icon.lower()}.png"
-            ).resize((92, 68))
+            equip_img = Image.open(UI_EQUIP_TYPE_DIRECTION_HUB_PATH / f"{equip_type_icon.lower()}.png").resize((92, 68))
             if test_char.defaultEquipId == equip_id.id_:
                 bar_img.paste(equip_selected, (626 + 67 * i, 31), mask=equip_selected)
             bar_img.paste(equip_img, (616 + 68 * i, 32), mask=equip_img)

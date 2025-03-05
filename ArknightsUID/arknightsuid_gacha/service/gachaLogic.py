@@ -2,7 +2,7 @@ import json
 import random
 import time
 from pathlib import Path
-from typing import ClassVar, List, Tuple
+from typing import ClassVar
 
 from loguru import logger
 from msgspec import convert
@@ -33,12 +33,10 @@ class GachaService:
     RIT5_UP_CNT_2: ClassVar[int] = 20
     RIT6_UP_CNT: ClassVar[int] = 50
 
-    forbiddenGachaPool: ClassVar[List[str]] = []
+    forbiddenGachaPool: ClassVar[list[str]] = []
 
     @classmethod
-    async def doAdvancedGacha(
-        cls, poolId: str, ruleType: str, player_data: PlayerDataDetail
-    ) -> PoolWeightItem:
+    async def doAdvancedGacha(cls, poolId: str, ruleType: str, player_data: PlayerDataDetail) -> PoolWeightItem:
         pool = Server.details[poolId]
         state = GachaService._tryGetTrackState(poolId, player_data)
 
@@ -85,9 +83,7 @@ class GachaService:
         return charHit
 
     @staticmethod
-    async def handleNormalGacha(
-        poolId: str, useTkt: int, player_data: PlayerDataDetail
-    ) -> PoolWeightItem:
+    async def handleNormalGacha(poolId: str, useTkt: int, player_data: PlayerDataDetail) -> PoolWeightItem:
         now = time.time()
         poolClient = next(p for p in Excel.gachaPoolClient if p.gachaPoolId == poolId)
         state = GachaService._tryGetTrackState(poolId, player_data)
@@ -115,7 +111,7 @@ class GachaService:
     @staticmethod
     async def handleTenNormalGacha(
         poolId: str, itemId: str, useTkt: int, player_data: PlayerDataDetail
-    ) -> List[PoolWeightItem]:
+    ) -> list[PoolWeightItem]:
         now = time.time()
         poolClient = next(p for p in Excel.gachaPoolClient if p.gachaPoolId == poolId)
         state = GachaService._tryGetTrackState(poolId, player_data)
@@ -167,14 +163,10 @@ class GachaService:
         # 调试状态下模拟客户端请求时需强制完成`obt/guide/l0-0/1_recruit_adv`
         curPool.cnt -= 1
 
-        return await GachaService.doAdvancedGacha(
-            poolId=poolId, ruleType=RuleType.NEWBEE, player_data=player_data
-        )
+        return await GachaService.doAdvancedGacha(poolId=poolId, ruleType=RuleType.NEWBEE, player_data=player_data)
 
     @staticmethod
-    async def handleTenNewbieGacha(
-        poolId: str, player_data: PlayerDataDetail
-    ) -> List[PoolWeightItem]:
+    async def handleTenNewbieGacha(poolId: str, player_data: PlayerDataDetail) -> list[PoolWeightItem]:
         now = time.time()
         poolClient = next(p for p in Excel.newbeeGachaPoolClient if p.gachaPoolId == poolId)
         carousel = next(g for g in Excel.carousel if g.poolId == poolId)
@@ -195,7 +187,7 @@ class GachaService:
 
         curPool.cnt -= 10
 
-        result: List[PoolWeightItem] = []
+        result: list[PoolWeightItem] = []
         for _ in range(10):
             obj = await GachaService.doAdvancedGacha(
                 poolId=poolId,
@@ -210,7 +202,7 @@ class GachaService:
         poolId: str,
         useTkt: int,
         player_data: PlayerDataDetail,
-    ) -> Tuple[PoolWeightItem, List]:
+    ) -> tuple[PoolWeightItem, list]:
         now = time.time()
         poolClient = next(p for p in Excel.gachaPoolClient if p.gachaPoolId == poolId)
         state = GachaService._tryGetTrackState(poolId, player_data)
@@ -241,7 +233,7 @@ class GachaService:
     @staticmethod
     async def handleTenLimitedGacha(
         poolId: str, itemId: str, useTkt: int, player_data: PlayerDataDetail
-    ) -> Tuple[List[PoolWeightItem], List[List]]:
+    ) -> tuple[list[PoolWeightItem], list[list]]:
         now = time.time()
         poolClient = next(p for p in Excel.gachaPoolClient if p.gachaPoolId == poolId)
         state = GachaService._tryGetTrackState(poolId, player_data)
@@ -260,7 +252,7 @@ class GachaService:
         ## === ↑ ***基础数据校验*** ↑ ===
 
         # 处理 lmtgs -> itemGet
-        result: List[PoolWeightItem] = []
+        result: list[PoolWeightItem] = []
 
         for _ in range(10):
             obj = await GachaService.doAdvancedGacha(
@@ -304,7 +296,7 @@ class GachaService:
         poolId: str,
         useTkt: int,
         player_data: PlayerDataDetail,
-    ) -> List[PoolWeightItem]:
+    ) -> list[PoolWeightItem]:
         now = time.time()
         poolClient = next(p for p in Excel.gachaPoolClient if p.gachaPoolId == poolId)
         state = GachaService._tryGetTrackState(poolId, player_data)
@@ -321,7 +313,7 @@ class GachaService:
         # useTkt:7|CLASSIC_TKT_GACHA_10 -> useTkt:8|CLASSIC_TKT_GACHA -> useTkt:2|TKT_GACHA_10 -> useTkt:5|TKT_GACHA -> useTkt:0|DIAMOND_SHD -> gacha tkt state error
         ## === ↑ ***基础数据校验*** ↑ ===
 
-        result: List[PoolWeightItem] = []
+        result: list[PoolWeightItem] = []
         for _ in range(10):
             obj = await GachaService.doAdvancedGacha(
                 poolId=poolId,
@@ -332,9 +324,7 @@ class GachaService:
         return result
 
     @classmethod
-    async def tryInitGachaRule(
-        cls, poolClient: GachaPoolClientData, player_data: PlayerDataDetail
-    ) -> None:
+    async def tryInitGachaRule(cls, poolClient: GachaPoolClientData, player_data: PlayerDataDetail) -> None:
         poolId = poolClient.gachaPoolId
         if poolClient.gachaRuleType in [RuleType.ATTAIN, RuleType.CLASSIC_ATTAIN]:
             await cls._initAttainPoolState(poolId, poolClient, player_data)
@@ -351,9 +341,7 @@ class GachaService:
         return player_data.track.gacha.pool[poolId]
 
     @staticmethod
-    async def _initAttainPoolState(
-        poolId: str, poolClient: GachaPoolClientData, player_data: PlayerDataDetail
-    ) -> None:
+    async def _initAttainPoolState(poolId: str, poolClient: GachaPoolClientData, player_data: PlayerDataDetail) -> None:
         if poolId not in player_data.user.gacha.attain:
             attain6Count = (poolClient.dynMeta or {}).get("attainRare6Num", 0)
             poolObj = player_data.user.gacha.PlayerAttainGacha(attain6Count=attain6Count)

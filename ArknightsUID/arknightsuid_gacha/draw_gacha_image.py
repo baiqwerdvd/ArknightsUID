@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import List, Tuple
 
 from PIL import Image
 
@@ -12,7 +11,7 @@ back_four = Image.open(IMG_DIR / "back_four.png").convert("RGBA").resize((115, 3
 # (140 388)
 
 
-async def draw_gacha_image(char_get: List[Tuple[str, int]]):
+async def draw_gacha_image(char_get: list[tuple[str, int]]):
     if len(char_get) != 10:
         return
     img = GACHA_BG.copy().resize((1170, 580))
@@ -43,7 +42,7 @@ async def draw_gacha_image(char_get: List[Tuple[str, int]]):
 
 import asyncio
 
-test: List[Tuple[str, int]] = [
+test: list[tuple[str, int]] = [
     ("char_328_cammou", 4),
     ("char_473_mberry", 4),
     ("char_103_angel", 5),

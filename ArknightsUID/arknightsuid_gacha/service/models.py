@@ -1,7 +1,7 @@
 from enum import Enum
 
 # from typing_extensions import TypeAlias
-from typing import Any, Dict, List, Union
+from typing import Any
 
 from msgspec import Struct, field
 
@@ -29,23 +29,23 @@ class LinkageRuleType(StrEnum):
 
 class GachaPerAvail(Struct):
     rarityRank: int
-    charIdList: List[str]
+    charIdList: list[str]
     totalPercent: float
 
 
 class GachaAvailChar(Struct):
-    perAvailList: List[GachaPerAvail]
+    perAvailList: list[GachaPerAvail]
 
 
 class GachaPerChar(Struct):
     rarityRank: int
-    charIdList: List[str]
+    charIdList: list[str]
     percent: float
     count: int
 
 
 class GachaUpChar(Struct):
-    perCharList: List[GachaPerChar]
+    perCharList: list[GachaPerChar]
 
 
 class GachaWeightUpChar(Struct):
@@ -58,7 +58,7 @@ class GachaObject(Struct):
     gachaObject: str
     type_: int = field(name="type")
     imageType: int
-    param: Union[str, None]
+    param: str | None
 
 
 class GachaGroupObject(Struct):
@@ -69,15 +69,15 @@ class GachaGroupObject(Struct):
 
 class GachaDetailInfo(Struct):
     availCharInfo: GachaAvailChar
-    upCharInfo: Union[GachaUpChar, None]
-    weightUpCharInfoList: Union[List[GachaWeightUpChar], None]
-    limitedChar: Union[List[str], None]
-    gachaObjList: List[GachaObject]
-    gachaObjGroups: Union[List[GachaGroupObject], None]
+    upCharInfo: GachaUpChar | None
+    weightUpCharInfoList: list[GachaWeightUpChar] | None
+    limitedChar: list[str] | None
+    gachaObjList: list[GachaObject]
+    gachaObjGroups: list[GachaGroupObject] | None
 
 
 class GachaDetailTable(Struct):
-    details: Dict[str, GachaDetailInfo]
+    details: dict[str, GachaDetailInfo]
 
 
 class GachaDataLinkageTenGachaTkt(Struct):
@@ -118,24 +118,24 @@ class GachaDataRecruitRange(Struct):
 
 
 class PotentialMaterialConverterConfig(Struct):
-    items: Dict[str, ItemBundle]
+    items: dict[str, ItemBundle]
 
 
 class RecruitPoolRecruitTime(Struct):
     timeLength: int
     recruitPrice: int
-    accumRate: Union[float, None] = None
+    accumRate: float | None = None
 
 
 class RecruitConstantsData(Struct):
-    tagPriceList: Dict[str, int]
+    tagPriceList: dict[str, int]
     maxRecruitTime: int
     rarityWeights: None = None
     recruitTimeFactorList: None = None
 
 
 class RecruitPool(Struct):
-    recruitTimeTable: List[RecruitPoolRecruitTime]
+    recruitTimeTable: list[RecruitPoolRecruitTime]
     recruitConstants: RecruitConstantsData
     recruitCharacterList: None = None
     maskTypeWeightTable: None = None
@@ -148,30 +148,30 @@ class NewbeeGachaPoolClientData(Struct):
     gachaPoolDetail: str
     gachaPrice: int
     gachaTimes: int
-    gachaOffset: Union[str, None] = None
-    firstOpenDay: Union[int, None] = None
-    reOpenDay: Union[int, None] = None
+    gachaOffset: str | None = None
+    firstOpenDay: int | None = None
+    reOpenDay: int | None = None
     gachaPoolItems: None = None
-    signUpEarliestTime: Union[int, None] = None
+    signUpEarliestTime: int | None = None
 
 
 class GachaPoolClientData(Struct):
-    CDPrimColor: Union[str, None]
-    CDSecColor: Union[str, None]
+    CDPrimColor: str | None
+    CDSecColor: str | None
     endTime: int
     gachaIndex: int
-    gachaPoolDetail: Union[str, None]
+    gachaPoolDetail: str | None
     gachaPoolId: str
     gachaPoolName: str
     gachaPoolSummary: str
     gachaRuleType: str
     guarantee5Avail: int
     guarantee5Count: int
-    LMTGSID: Union[str, None]
+    LMTGSID: str | None
     openTime: int
-    dynMeta: Union[Dict[str, Any], None] = None
-    linkageParam: Union[Dict[str, Any], None] = None
-    linkageRuleId: Union[str, None] = None
+    dynMeta: dict[str, Any] | None = None
+    linkageParam: dict[str, Any] | None = None
+    linkageRuleId: str | None = None
 
 
 class GachaTag(Struct):
@@ -190,13 +190,13 @@ class SpecialRecruitPool(Struct):
     endDateTime: int
     order: int
     recruitId: str
-    recruitTimeTable: List[SpecialRecruitPoolSpecialRecruitCostData]
+    recruitTimeTable: list[SpecialRecruitPoolSpecialRecruitCostData]
     startDateTime: int
     tagId: int
     tagName: str
-    CDPrimColor: Union[str, None]
-    CDSecColor: Union[str, None]
-    LMTGSID: Union[str, None]
+    CDPrimColor: str | None
+    CDSecColor: str | None
+    LMTGSID: str | None
     gachaRuleType: str
 
 
@@ -208,35 +208,35 @@ class GachaDataFesGachaPoolRelateItem(Struct):
 class GachaTable(Struct):
     __version__ = "24-03-29-14-33-44-5002d2"
 
-    gachaTags: List[GachaTag]
-    carousel: List[GachaDataCarouselData]
+    gachaTags: list[GachaTag]
+    carousel: list[GachaDataCarouselData]
     classicPotentialMaterialConverter: PotentialMaterialConverterConfig
-    dicRecruit6StarHint: Union[Dict[str, str], None]
-    fesGachaPoolRelateItem: Union[Dict[str, GachaDataFesGachaPoolRelateItem], None]
-    freeGacha: List[GachaDataFreeLimitGachaData]
-    gachaPoolClient: List[GachaPoolClientData]
-    limitTenGachaItem: List[GachaDataLimitTenGachaTkt]
-    linkageTenGachaItem: List[GachaDataLinkageTenGachaTkt]
-    newbeeGachaPoolClient: List[NewbeeGachaPoolClientData]
+    dicRecruit6StarHint: dict[str, str] | None
+    fesGachaPoolRelateItem: dict[str, GachaDataFesGachaPoolRelateItem] | None
+    freeGacha: list[GachaDataFreeLimitGachaData]
+    gachaPoolClient: list[GachaPoolClientData]
+    limitTenGachaItem: list[GachaDataLimitTenGachaTkt]
+    linkageTenGachaItem: list[GachaDataLinkageTenGachaTkt]
+    newbeeGachaPoolClient: list[NewbeeGachaPoolClientData]
     potentialMaterialConverter: PotentialMaterialConverterConfig
     recruitDetail: str
     recruitPool: RecruitPool
-    recruitRarityTable: Dict[str, GachaDataRecruitRange]
-    specialRecruitPool: List[SpecialRecruitPool]
-    specialTagRarityTable: Dict[str, List[int]]
-    gachaTagMaxValid: Union[int, None] = None
-    potentialMats: Union[Dict, None] = None
-    classicPotentialMats: Union[Dict, None] = None
+    recruitRarityTable: dict[str, GachaDataRecruitRange]
+    specialRecruitPool: list[SpecialRecruitPool]
+    specialTagRarityTable: dict[str, list[int]]
+    gachaTagMaxValid: int | None = None
+    potentialMats: dict | None = None
+    classicPotentialMats: dict | None = None
 
 
 class GachaDetailDataPerAvail(Struct):
     rarityRank: int
-    charIdList: List[str]
+    charIdList: list[str]
     totalPercent: float
 
 
 class GachaDetailDataGachaAvailChar(Struct):
-    perAvailList: List[GachaDetailDataPerAvail]
+    perAvailList: list[GachaDetailDataPerAvail]
 
 
 class PoolWeightItem(Struct):
@@ -245,12 +245,12 @@ class PoolWeightItem(Struct):
     type_: str = field(name="type")
     rarity: int
     isClassic: bool = field(default=False)
-    beforeNonHitCnt: Union[int, None] = field(default=None)
-    singleEnsureCnt: Union[int, None] = field(default=None)
-    isSingleEnsure: Union[bool, None] = field(default=None)
+    beforeNonHitCnt: int | None = field(default=None)
+    singleEnsureCnt: int | None = field(default=None)
+    isSingleEnsure: bool | None = field(default=None)
 
-    def bulidLog(self) -> Dict:
-        m_log: Dict[str, Union[bool, int]] = {}
+    def bulidLog(self) -> dict:
+        m_log: dict[str, bool | int] = {}
         if self.beforeNonHitCnt is not None:
             m_log["beforeNonHitCnt"] = self.beforeNonHitCnt
         if self.singleEnsureCnt is not None:
@@ -262,10 +262,10 @@ class PoolWeightItem(Struct):
 
 class gachaGroupConfig(Struct):
     normalCharCnt: int
-    weights: List[float] = field(default_factory=list)
-    pool: List[PoolWeightItem] = field(default_factory=list)
-    upChars_1: List[str] = field(default_factory=list)
-    upChars_2: List[str] = field(default_factory=list)
+    weights: list[float] = field(default_factory=list)
+    pool: list[PoolWeightItem] = field(default_factory=list)
+    upChars_1: list[str] = field(default_factory=list)
+    upChars_2: list[str] = field(default_factory=list)
     perUpWeight_1: float = field(default=0.0)
     perUpWeight_2: float = field(default=0.0)
     totalWeights: float = field(default=1.0)
@@ -276,13 +276,13 @@ class GachaPoolInfo(Struct, omit_defaults=False):
     totalCnt: int = field(default=0)
     non6StarCnt: int = field(default=0)
     non5StarCnt: int = field(default=0)
-    gain5Star: List[str] = field(default_factory=list)
-    gain6Star: List[str] = field(default_factory=list)
-    history: List[str] = field(default_factory=list)
+    gain5Star: list[str] = field(default_factory=list)
+    gain6Star: list[str] = field(default_factory=list)
+    history: list[str] = field(default_factory=list)
 
 
 class GachaTrackModel(Struct, omit_defaults=False):
-    pool: Dict[str, GachaPoolInfo] = field(default_factory=dict)
+    pool: dict[str, GachaPoolInfo] = field(default_factory=dict)
     nonNormal6StarCnt: int = field(default=0)
     nonClassic6StarCnt: int = field(default=0)
 
@@ -317,20 +317,20 @@ class PlayerGacha(Struct):
         singleEnsureCnt: int
         singleEnsureUse: bool
         singleEnsureChar: str
-        cnt: Union[int, None] = field(default=None)
-        maxCnt: Union[int, None] = field(default=None)
-        avail: Union[bool, None] = field(default=None)
+        cnt: int | None = field(default=None)
+        maxCnt: int | None = field(default=None)
+        avail: bool | None = field(default=None)
 
     class PlayerFesClassicGacha(Struct):
-        upChar: Dict[str, List[str]]
+        upChar: dict[str, list[str]]
 
     newbee: PlayerNewbeeGachaPool
-    normal: Dict[str, PlayerGachaPool]
-    attain: Dict[str, PlayerAttainGacha]
-    single: Dict[str, PlayerSingleGacha]
-    fesClassic: Dict[str, PlayerFesClassicGacha]
-    limit: Dict[str, PlayerFreeLimitGacha]
-    linkage: Dict[str, Dict[str, PlayerLinkageGacha]]
+    normal: dict[str, PlayerGachaPool]
+    attain: dict[str, PlayerAttainGacha]
+    single: dict[str, PlayerSingleGacha]
+    fesClassic: dict[str, PlayerFesClassicGacha]
+    limit: dict[str, PlayerFreeLimitGacha]
+    linkage: dict[str, dict[str, PlayerLinkageGacha]]
 
 
 class PlayerTrack(Struct):

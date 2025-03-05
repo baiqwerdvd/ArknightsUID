@@ -1,5 +1,3 @@
-from typing import Dict, List, Union
-
 from msgspec import Struct, field
 
 
@@ -37,17 +35,17 @@ class ArknightsAttendanceAwardResource(Struct):
     name: str
     rarity: int
     sortId: int
-    otherSource: List[str]
+    otherSource: list[str]
     classifyType: str
-    stageDropList: List[ArknightsAttendanceStageDropListItem]
-    buildingProductList: List[ArknightsAttendanceBuildingProductListItem]
+    stageDropList: list[ArknightsAttendanceStageDropListItem]
+    buildingProductList: list[ArknightsAttendanceBuildingProductListItem]
 
 
 class ArknightsAttendanceCalendarModel(Struct):
     currentTs: str
-    calendar: List[ArknightsAttendanceCalendar]
-    records: List[Union[ArknightsAttendanceRecord, None]]
-    resourceInfoMap: Dict[str, ArknightsAttendanceAwardResource]
+    calendar: list[ArknightsAttendanceCalendar]
+    records: list[ArknightsAttendanceRecord | None]
+    resourceInfoMap: dict[str, ArknightsAttendanceAwardResource]
 
 
 ################
@@ -61,7 +59,7 @@ class ArknightsAttendanceAward(Struct):
 
 class ArknightsAttendanceModel(Struct):
     ts: str
-    awards: List[ArknightsAttendanceAward]
+    awards: list[ArknightsAttendanceAward]
     resourceInfoMap: dict
 
 
@@ -116,7 +114,7 @@ class UserGameStatus(Struct):
     charCnt: int
     furnitureCnt: int
     skinCnt: int
-    avatar: Union[UserGameStatusAvatar, None] = None
+    avatar: UserGameStatusAvatar | None = None
 
 
 class UserMeInfoRts(Struct):
@@ -137,7 +135,7 @@ class UserMeInfo(Struct):
     avatar: str
     backgroundCode: int
     isCreator: bool
-    creatorIdentifiers: List[str]
+    creatorIdentifiers: list[str]
     status: int
     operationStatus: int
     identity: int
@@ -152,7 +150,7 @@ class UserMeInfo(Struct):
 class ArknightsUserMeModel(Struct, omit_defaults=True):
     user: UserMeInfo
     userRts: UserMeInfoRts
-    userSanctionList: List[str]
+    userSanctionList: list[str]
     gameStatus: UserGameStatus
     moderator: UserMeModerator
     userInfoApply: UserMeInfoApply
@@ -180,7 +178,7 @@ class PlayerManufactureFormulaInfo(Struct):
     count: int
     weight: int
     costPoint: int
-    costs: Union[List[PlayerManufactureFormulaCostsInfo], None] = None
+    costs: list[PlayerManufactureFormulaCostsInfo] | None = None
 
 
 class PlayerEquipmentInfo(Struct):
@@ -188,9 +186,9 @@ class PlayerEquipmentInfo(Struct):
     name: str
     typeIcon: str
     shiningColor: str
-    desc: Union[str, None] = None
-    typeName1: Union[str, None] = None
-    typeName2: Union[str, None] = None
+    desc: str | None = None
+    typeName1: str | None = None
+    typeName2: str | None = None
 
 
 class PlayerCampaignZoneInfo(Struct):
@@ -221,8 +219,8 @@ class PlayerTowerInfo(Struct):
     name: str
     subName: str
     picUrl: str
-    hasHard: Union[bool, None] = None
-    stageNum: Union[int, None] = None
+    hasHard: bool | None = None
+    stageNum: int | None = None
 
 
 class PlayerZoneInfo(Struct):
@@ -238,9 +236,9 @@ class PlayerActivityInfo(Struct):
     rewardEndTime: int
     isReplicate: bool
     type_: str = field(name="type")
-    dropItemIds: List[str]
-    shopGoodItemIds: List[str]
-    favorUpList: List[str]
+    dropItemIds: list[str]
+    shopGoodItemIds: list[str]
+    favorUpList: list[str]
     picUrl: str
 
 
@@ -257,13 +255,13 @@ class PlayerSkinInfo(Struct):
     displayTagId: str
     name: str
     charId: str
-    brandName: Union[str, None] = None
-    brandCapitalName: Union[str, None] = None
-    illustId: Union[str, None] = None
-    dynIllustId: Union[str, None] = None
-    avatarId: Union[str, None] = None
-    portraitId: Union[str, None] = None
-    skinGroupId: Union[str, None] = None
+    brandName: str | None = None
+    brandCapitalName: str | None = None
+    illustId: str | None = None
+    dynIllustId: str | None = None
+    avatarId: str | None = None
+    portraitId: str | None = None
+    skinGroupId: str | None = None
 
 
 class PlayerCharInfo(Struct):
@@ -287,14 +285,14 @@ class ActivityZone(Struct):
     zoneReplicaId: str
     clearedStage: int
     totalStage: int
-    stageStatus: Union[List[ActivityZoneStageStatus], None] = None
+    stageStatus: list[ActivityZoneStageStatus] | None = None
 
 
 class PlayerActivity(Struct):
     actId: str
     actReplicaId: str
-    zones: List[ActivityZone]
-    type_: Union[str, None] = field(name="type", default=None)
+    zones: list[ActivityZone]
+    type_: str | None = field(name="type", default=None)
 
 
 class RewoardItem(Struct):
@@ -316,12 +314,12 @@ class RogueRecord(Struct):
     rogueId: str
     relicCnt: int
     bank: BankItem
-    mission: Union[RewoardItem, None] = None
-    clearTime: Union[int, None] = None
+    mission: RewoardItem | None = None
+    clearTime: int | None = None
 
 
 class PlayerRogue(Struct):
-    records: List[RogueRecord]
+    records: list[RogueRecord]
 
 
 class TowerReward(Struct):
@@ -333,14 +331,14 @@ class TowerReward(Struct):
 class TowerRecord(Struct):
     towerId: str
     best: int
-    hasHard: Union[bool, None] = None
-    stageNum: Union[int, None] = None
-    unlockHard: Union[bool, None] = None
-    hardBest: Union[int, None] = None
+    hasHard: bool | None = None
+    stageNum: int | None = None
+    unlockHard: bool | None = None
+    hardBest: int | None = None
 
 
 class PlayerTower(Struct):
-    records: List[TowerRecord]
+    records: list[TowerRecord]
     reward: TowerReward
 
 
@@ -355,7 +353,7 @@ class CampaignRecord(Struct):
 
 
 class PlayerCampaign(Struct):
-    records: List[CampaignRecord]
+    records: list[CampaignRecord]
     reward: CampaignReward
 
 
@@ -368,8 +366,8 @@ class PlayerRecruit(Struct):
     startTs: int
     finishTs: int
     state: int
-    duration: Union[int, None] = None
-    selectTags: Union[List[RecruitTag], None] = None
+    duration: int | None = None
+    selectTags: list[RecruitTag] | None = None
 
 
 class BuildingTrainingTrainee(Struct):
@@ -390,7 +388,7 @@ class BuildingClue(Struct):
     received: int
     dailyReward: bool
     needReceive: int
-    board: List[str]
+    board: list[str]
     sharing: bool
     shareCompleteTime: int
 
@@ -418,7 +416,7 @@ class BuildingControl(Struct):
     slotId: str
     slotState: int
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
 
 
 class BuildingCorridor(Struct):
@@ -452,14 +450,14 @@ class BuildingTraining(Struct):
     lastUpdateTime: int
     remainSecs: int
     slotState: int
-    trainee: Union[BuildingTrainingTrainee, None]
-    trainer: Union[BuildingTrainingTrainer, None]
+    trainee: BuildingTrainingTrainee | None
+    trainer: BuildingTrainingTrainer | None
 
 
 class BuildingHire(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     state: int
     refreshCount: int
     completeWorkTime: int
@@ -469,7 +467,7 @@ class BuildingHire(Struct):
 class BuildingMeeting(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     clue: BuildingClue
     lastUpdateTime: int
     completeWorkTime: int
@@ -478,7 +476,7 @@ class BuildingMeeting(Struct):
 class BuildingDormitories(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     comfort: int
 
 
@@ -491,7 +489,7 @@ class BuildingStockDelivery(Struct):
 class BuildingStock(Struct):
     instId: int
     type_: str = field(name="type")
-    delivery: List[BuildingStockDelivery]
+    delivery: list[BuildingStockDelivery]
     gain: BuildingStockDelivery
     isViolated: bool
 
@@ -499,18 +497,18 @@ class BuildingStock(Struct):
 class BuildingTradings(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     completeWorkTime: int
     lastUpdateTime: int
     strategy: str
-    stock: List[BuildingStock]
+    stock: list[BuildingStock]
     stockLimit: int
 
 
 class BuildingManufactures(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
     completeWorkTime: int
     lastUpdateTime: int
     formulaId: str
@@ -524,7 +522,7 @@ class BuildingManufactures(Struct):
 class BuildingPower(Struct):
     slotId: str
     level: int
-    chars: List[BuildingChar]
+    chars: list[BuildingChar]
 
 
 class BuildingTiredChar(Struct):
@@ -538,19 +536,19 @@ class BuildingTiredChar(Struct):
 
 
 class PlayerBuilding(Struct):
-    tiredChars: Union[List[BuildingTiredChar], None]
-    powers: Union[List[BuildingPower], None]
-    manufactures: Union[List[BuildingManufactures], None]
-    tradings: Union[List[BuildingTradings], None]
-    dormitories: Union[List[BuildingDormitories], None]
-    meeting: Union[BuildingMeeting, None]
-    hire: Union[BuildingHire, None]
+    tiredChars: list[BuildingTiredChar] | None
+    powers: list[BuildingPower] | None
+    manufactures: list[BuildingManufactures] | None
+    tradings: list[BuildingTradings] | None
+    dormitories: list[BuildingDormitories] | None
+    meeting: BuildingMeeting | None
+    hire: BuildingHire | None
     labor: BuildingLabor
     furniture: BuildingFurniture
-    elevators: List[BuildingElevator]
-    corridors: Union[List[BuildingCorridor], None]
+    elevators: list[BuildingElevator]
+    corridors: list[BuildingCorridor] | None
     control: BuildingControl
-    training: Union[BuildingTraining, None] = None
+    training: BuildingTraining | None = None
 
 
 class PlayerInfoSkin(Struct):
@@ -576,8 +574,8 @@ class PlayerInfoChar(Struct):
     evolvePhase: int
     potentialRank: int
     mainSkillLvl: int
-    skills: Union[List[PlayerInfoCharSkill], None]
-    equip: Union[List[PlayerInfoCharEquip], None]
+    skills: list[PlayerInfoCharSkill] | None
+    equip: list[PlayerInfoCharEquip] | None
     favorPercent: int
     defaultSkillId: str
     gainTime: int
@@ -599,14 +597,14 @@ class PlayerAssistChar(Struct):
     skillId: str
     mainSkillLvl: int
     specializeLevel: int
-    equip: Union[PlayerAssistCharEquip, None]
+    equip: PlayerAssistCharEquip | None
 
 
 class PlayerMedal(Struct):
     type_: str = field(name="type")
     template: str
-    templateMedalList: List[str]
-    customMedalLayout: List[Union[str, None]]
+    templateMedalList: list[str]
+    customMedalLayout: list[str | None]
     total: int
 
 
@@ -649,7 +647,7 @@ class PlayerStatus(Struct):
     furnitureCnt: int
     skinCnt: int
     exp: PlayerStatusExp
-    avatar: Union[PlayerStatusAvatar, None] = None
+    avatar: PlayerStatusAvatar | None = None
 
 
 class DisplayShowConfig(Struct):
@@ -702,12 +700,12 @@ class PlayerSandboxList(Struct):
     maxDay: int
     maxDayChallenge: int
     mainQuest: int
-    subQuest: List[Union[PlayerSandboxSubQuest, None]]
+    subQuest: list[PlayerSandboxSubQuest | None]
     baseLv: int
     unlockNode: int
     enemyKill: int
     createRift: int
-    fixRift: List[int]
+    fixRift: list[int]
     picUrl: str
 
 
@@ -715,35 +713,35 @@ class ArknightsPlayerInfoModel(Struct, omit_defaults=True, gc=False):
     currentTs: int
     showConfig: DisplayShowConfig
     status: PlayerStatus
-    assistChars: List[PlayerAssistChar]
-    chars: List[PlayerInfoChar]
-    skins: List[PlayerInfoSkin]
+    assistChars: list[PlayerAssistChar]
+    chars: list[PlayerInfoChar]
+    skins: list[PlayerInfoSkin]
     building: PlayerBuilding
-    recruit: List[PlayerRecruit]
+    recruit: list[PlayerRecruit]
     campaign: PlayerCampaign
     tower: PlayerTower
     rogue: PlayerRogue
     routine: PlayerRoutine
-    activity: List[PlayerActivity]
-    charInfoMap: Dict[str, PlayerCharInfo]
-    skinInfoMap: Dict[str, PlayerSkinInfo]
-    stageInfoMap: Dict[str, PlayerStageInfo]
-    activityInfoMap: Dict[str, PlayerActivityInfo]
-    towerInfoMap: Dict[str, PlayerTowerInfo]
-    rogueInfoMap: Dict[str, PlayerRogueInfo]
-    campaignInfoMap: Dict[str, PlayerCampaignInfo]
-    campaignZoneInfoMap: Dict[str, PlayerCampaignZoneInfo]
-    equipmentInfoMap: Dict[str, PlayerEquipmentInfo]
-    manufactureFormulaInfoMap: Dict[str, PlayerManufactureFormulaInfo]
-    charAssets: List[Union[str, None]]
-    skinAssets: List[Union[str, None]]
-    activityBannerList: Dict[str, List[PlayerActivityBannerList]]
-    bossRush: List[Union[PlayerBossRustList, None]]
-    bannerList: List[Union[PlayerBannerList, None]]
-    sandbox: List[Union[PlayerSandboxList, None]]
-    medal: Union[PlayerMedal, None] = None
-    zoneInfoMap: Union[Dict[str, PlayerZoneInfo], None] = None
-    medalInfoMap: Union[Dict[str, PlayerMedalInfo], None] = None
+    activity: list[PlayerActivity]
+    charInfoMap: dict[str, PlayerCharInfo]
+    skinInfoMap: dict[str, PlayerSkinInfo]
+    stageInfoMap: dict[str, PlayerStageInfo]
+    activityInfoMap: dict[str, PlayerActivityInfo]
+    towerInfoMap: dict[str, PlayerTowerInfo]
+    rogueInfoMap: dict[str, PlayerRogueInfo]
+    campaignInfoMap: dict[str, PlayerCampaignInfo]
+    campaignZoneInfoMap: dict[str, PlayerCampaignZoneInfo]
+    equipmentInfoMap: dict[str, PlayerEquipmentInfo]
+    manufactureFormulaInfoMap: dict[str, PlayerManufactureFormulaInfo]
+    charAssets: list[str | None]
+    skinAssets: list[str | None]
+    activityBannerList: dict[str, list[PlayerActivityBannerList]]
+    bossRush: list[PlayerBossRustList | None]
+    bannerList: list[PlayerBannerList | None]
+    sandbox: list[PlayerSandboxList | None]
+    medal: PlayerMedal | None = None
+    zoneInfoMap: dict[str, PlayerZoneInfo] | None = None
+    medalInfoMap: dict[str, PlayerMedalInfo] | None = None
 
 
 ################

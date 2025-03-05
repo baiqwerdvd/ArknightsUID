@@ -1,8 +1,8 @@
 import asyncio
 import random
+from collections.abc import Sequence
 from copy import deepcopy
 from datetime import datetime
-from typing import Sequence
 
 from gsuid_core.gss import gss
 from gsuid_core.logger import logger

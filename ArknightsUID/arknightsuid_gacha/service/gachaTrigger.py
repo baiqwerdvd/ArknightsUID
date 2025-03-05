@@ -24,9 +24,7 @@ with cur_path.joinpath("gacha_detail_table.json").open(encoding="UTF-8") as f:
 
 class GachaTrigger:
     @classmethod
-    async def postAdvancedGacha(
-        cls, poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail
-    ) -> None:
+    async def postAdvancedGacha(cls, poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail) -> None:
         if poolId not in [p.gachaPoolId for p in Excel.newbeeGachaPoolClient]:
             poolClient = next(p for p in Excel.gachaPoolClient if p.gachaPoolId == poolId)
             if poolClient.gachaRuleType == RuleType.LINKAGE:
@@ -54,9 +52,7 @@ class GachaTrigger:
     #     return self.track.pool[poolId]
 
     @staticmethod
-    async def _trigLinkageType(
-        poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail
-    ) -> None:
+    async def _trigLinkageType(poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail) -> None:
         pool = Server.details[poolId]
         poolClient = next(p for p in Excel.gachaPoolClient if p.gachaPoolId == poolId)
         track = player_data.track.gacha.pool[poolId]
@@ -108,9 +104,7 @@ class GachaTrigger:
         player_data.track.gacha.nonNormal6StarCnt = track.non6StarCnt
 
     @staticmethod
-    async def _trigAttainType(
-        poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail
-    ) -> None:
+    async def _trigAttainType(poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail) -> None:
         pool = Server.details[poolId]
         weightPool = await PoolGenerator.build(pool)
         attain = player_data.user.gacha.attain[poolId]
@@ -127,17 +121,13 @@ class GachaTrigger:
         attain.attain6Count -= 1
 
     @staticmethod
-    async def _trigClassicType(
-        poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail
-    ) -> None:
+    async def _trigClassicType(poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail) -> None:
         track = player_data.track.gacha.pool[poolId]
         player_data.track.gacha.nonClassic6StarCnt = track.non6StarCnt
         charHit.isClassic = True
 
     @staticmethod
-    async def _trigSingleType(
-        poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail
-    ) -> None:
+    async def _trigSingleType(poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail) -> None:
         pool = Server.details[poolId]
         single = player_data.user.gacha.single[poolId]
         charHit.singleEnsureCnt = 150 if single.singleEnsureCnt < 0 else single.singleEnsureCnt
@@ -162,17 +152,13 @@ class GachaTrigger:
             charHit.isSingleEnsure = True
 
     @staticmethod
-    async def _trigFesClassicType(
-        poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail
-    ) -> None:
+    async def _trigFesClassicType(poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail) -> None:
         track = player_data.track.gacha.pool[poolId]
         player_data.track.gacha.nonClassic6StarCnt = track.non6StarCnt
         charHit.isClassic = True
 
     @staticmethod
-    async def _trigClassicAttainType(
-        poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail
-    ) -> None:
+    async def _trigClassicAttainType(poolId: str, charHit: PoolWeightItem, player_data: PlayerDataDetail) -> None:
         pool = Server.details[poolId]
         weightPool = await PoolGenerator.build(pool)
         attain = player_data.user.gacha.attain[poolId]

@@ -1,7 +1,6 @@
 import json
 import time
 from pathlib import Path
-from typing import List
 
 from msgspec import convert
 from msgspec import json as msgjson
@@ -32,9 +31,7 @@ async def gacha(uid: str):
             data = PlayerDataDetail(
                 user=PlayerData(
                     gacha=PlayerGacha(
-                        newbee=PlayerGacha.PlayerNewbeeGachaPool(
-                            openFlag=1, cnt=21, poolId="BOOT_0_1_2"
-                        ),
+                        newbee=PlayerGacha.PlayerNewbeeGachaPool(openFlag=1, cnt=21, poolId="BOOT_0_1_2"),
                         normal={},
                         attain={},
                         single={},
@@ -64,7 +61,7 @@ async def testTenAdvancedGacha(
     player_data: PlayerDataDetail,
     useTkt: int = 0,
     itemId: str = "4003",
-) -> List[str]:
+) -> list[str]:
     now = int(time.time())
     newbeeGachaPoolClient = Excel.newbeeGachaPoolClient
     gachaPoolClient = Excel.gachaPoolClient

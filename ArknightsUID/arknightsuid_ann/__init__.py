@@ -2,8 +2,6 @@ import asyncio
 import random
 
 import aiohttp
-from msgspec import convert
-
 from gsuid_core.aps import scheduler
 from gsuid_core.bot import Bot
 from gsuid_core.logger import logger
@@ -11,6 +9,7 @@ from gsuid_core.models import Event
 from gsuid_core.segment import MessageSegment
 from gsuid_core.subscribe import gs_subscribe
 from gsuid_core.sv import SV
+from msgspec import convert
 
 from ..arknightsuid_config import PREFIX, ArkConfig
 from .draw_img import get_ann_img
@@ -50,9 +49,7 @@ async def force_ann_(bot: Bot, ev: Event):
 @sv_ann.on_command(f"{PREFIX}获取当前Android公告列表")
 async def get_ann_list_(bot: Bot, ev: Event):
     async with aiohttp.ClientSession() as session:
-        async with session.get(
-            "https://ak-webview.hypergryph.com/api/game/bulletinList?target=Android"
-        ) as response:
+        async with session.get("https://ak-webview.hypergryph.com/api/game/bulletinList?target=Android") as response:
             data = await response.json()
 
     data = convert(data.get("data", {}), BulletinTargetData)
@@ -85,9 +82,7 @@ async def sub_ann_(bot: Bot, ev: Event):
     await bot.send("成功订阅明日方舟公告!")
 
 
-@sv_ann_sub.on_fullmatch(
-    (f"{PREFIX}取消订阅公告", f"{PREFIX}取消公告", f"{PREFIX}退订公告")
-)
+@sv_ann_sub.on_fullmatch((f"{PREFIX}取消订阅公告", f"{PREFIX}取消公告", f"{PREFIX}退订公告"))
 async def unsub_ann_(bot: Bot, ev: Event):
     if ev.group_id is None:
         return await bot.send("请在群聊中取消订阅")

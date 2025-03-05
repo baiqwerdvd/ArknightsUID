@@ -1,6 +1,4 @@
-from typing import List, Tuple, overload
-
-from typing_extensions import TypeAlias
+from typing import TypeAlias, overload
 
 from .models import (
     GachaDetailDataGachaAvailChar,
@@ -10,8 +8,8 @@ from .models import (
     gachaGroupConfig,
 )
 
-PoolResultA: TypeAlias = Tuple[List[float], List[PoolWeightItem]]
-PoolResultB: TypeAlias = List[List[Tuple[List[float], List[PoolWeightItem]]]]
+PoolResultA: TypeAlias = tuple[list[float], list[PoolWeightItem]]
+PoolResultB: TypeAlias = list[list[tuple[list[float], list[PoolWeightItem]]]]
 
 
 class PoolGenerator:
@@ -22,9 +20,7 @@ class PoolGenerator:
             if not group.charIdList:
                 continue
             for charId in group.charIdList:
-                weightObj = PoolWeightItem(
-                    id_=charId, count=1, type_="CHAR", rarity=group.rarityRank
-                )
+                weightObj = PoolWeightItem(id_=charId, count=1, type_="CHAR", rarity=group.rarityRank)
                 pool.append(weightObj)
             length = len(group.charIdList)
             weights.extend([group.totalPercent / length] * length)
@@ -36,9 +32,7 @@ class PoolGenerator:
 
     @overload
     @classmethod
-    async def build(
-        cls, detail: GachaDetailInfo, poolId: str, player_data: PlayerDataDetail
-    ) -> PoolResultB: ...
+    async def build(cls, detail: GachaDetailInfo, poolId: str, player_data: PlayerDataDetail) -> PoolResultB: ...
 
     @classmethod
     async def build(cls, *args) -> PoolResultB:  # type: ignore[overload-overlap]
@@ -54,9 +48,7 @@ class PoolGenerator:
         for group in detail.availCharInfo.perAvailList:
             conf = gachaGroupConfig(normalCharCnt=len(group.charIdList))
             if info := detail.upCharInfo:
-                upGroup = next(
-                    (x for x in info.perCharList if x.rarityRank == group.rarityRank), None
-                )
+                upGroup = next((x for x in info.perCharList if x.rarityRank == group.rarityRank), None)
                 if upGroup is not None:
                     conf.upChars_1 = upGroup.charIdList
                     conf.perUpWeight_1 = upGroup.percent
@@ -68,11 +60,7 @@ class PoolGenerator:
                     conf.perUpWeight_2 = info[0].weight
                     conf.normalCharCnt -= len(conf.upChars_2)
                     rate = conf.perUpWeight_2 // 100
-                    conf.perUpWeight_2 = (
-                        conf.totalWeights
-                        / (conf.normalCharCnt + len(conf.upChars_2) * rate)
-                        * rate
-                    )
+                    conf.perUpWeight_2 = conf.totalWeights / (conf.normalCharCnt + len(conf.upChars_2) * rate) * rate
                     conf.totalWeights -= conf.perUpWeight_2 * len(conf.upChars_2)
             for charId in group.charIdList:
                 weightObj = PoolWeightItem(
@@ -92,9 +80,7 @@ class PoolGenerator:
         return result
 
     @staticmethod
-    async def _buildFesCustomPool(
-        detail: GachaDetailInfo, poolId: str, player_data: PlayerDataDetail
-    ) -> PoolResultB:
+    async def _buildFesCustomPool(detail: GachaDetailInfo, poolId: str, player_data: PlayerDataDetail) -> PoolResultB:
         result = [[] for _ in range(6)]
         for group in detail.availCharInfo.perAvailList:
             conf = gachaGroupConfig(normalCharCnt=len(group.charIdList))

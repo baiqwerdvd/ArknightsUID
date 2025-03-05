@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Dict, Union
 
 import aiofiles
 from gsuid_core.help.draw_plugin_help import get_help
@@ -18,16 +17,16 @@ TEXT_PATH = Path(__file__).parent / "texture2d"
 HELP_DATA = Path(__file__).parent / "Help.json"
 
 
-async def get_help_data() -> Union[Dict[str, PluginHelp], None]:
+async def get_help_data() -> dict[str, PluginHelp] | None:
     if HELP_DATA.exists():
         async with aiofiles.open(HELP_DATA, "rb") as file:
             return msgjson.decode(
                 await file.read(),
-                type=Dict[str, PluginHelp],
+                type=dict[str, PluginHelp],
             )
 
 
-async def get_core_help() -> Union[bytes, str]:
+async def get_core_help() -> bytes | str:
     help_data = await get_help_data()
     if help_data is None:
         return "暂未找到帮助数据..."
@@ -42,8 +41,6 @@ async def get_core_help() -> Union[bytes, str]:
         Image.open(TEXT_PATH / "banner.png"),
         Image.open(TEXT_PATH / "button.png"),
         source_han_sans_cn_origin,
-        extra_message=[
-            f"Client Version:{Arknights_Client_version} " f" Res version: {Arknights_Res_version}"
-        ],
+        extra_message=[f"Client Version:{Arknights_Client_version}  Res version: {Arknights_Res_version}"],
     )
     return img

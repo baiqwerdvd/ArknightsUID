@@ -33,9 +33,7 @@ async def get_role_img(uid: str):
     # secretary_charId = secretary.charId
     secretary_skinId = secretary.skinId.replace("@", "_")
 
-    secretary_char_img = (
-        Image.open(SKINPACK_PATH / f"{secretary_skinId}b.png").resize((768, 768)).convert("RGBA")
-    )
+    secretary_char_img = Image.open(SKINPACK_PATH / f"{secretary_skinId}b.png").resize((768, 768)).convert("RGBA")
     char_info.paste(secretary_char_img, (0, -20), secretary_char_img)
 
     # 放基础信息

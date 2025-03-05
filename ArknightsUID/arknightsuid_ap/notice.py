@@ -1,5 +1,3 @@
-from typing import Dict
-
 from gsuid_core.gss import gss
 from gsuid_core.logger import logger
 
@@ -17,8 +15,8 @@ NOTICE = {
 }
 
 
-async def get_notice_list() -> Dict[str, Dict[str, Dict]]:
-    msg_dict: Dict[str, Dict[str, Dict]] = {}
+async def get_notice_list() -> dict[str, dict[str, dict]]:
+    msg_dict: dict[str, dict[str, dict]] = {}
     for _bot_id in gss.active_bot:
         user_list = await ArknightsUser.get_all_push_user_list()
         for user in user_list:
@@ -42,11 +40,11 @@ async def get_notice_list() -> Dict[str, Dict[str, Dict]]:
 async def all_check(
     bot_id: str,
     raw_data: ArknightsPlayerInfoModel,
-    push_data: Dict,
-    msg_dict: Dict[str, Dict[str, Dict]],
+    push_data: dict,
+    msg_dict: dict[str, dict[str, dict]],
     user_id: str,
     uid: str,
-) -> Dict[str, Dict[str, Dict]]:
+) -> dict[str, dict[str, dict]]:
     for mode in NOTICE.keys():
         # 检查条件
         if push_data[f"{mode}_is_push"] is True:

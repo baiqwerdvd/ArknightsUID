@@ -2,20 +2,13 @@ import asyncio
 import re
 from pathlib import Path
 from pprint import pformat
-from typing import Dict, Union
 
 from gsuid_core.utils.colortext.ColorText import ColorTextGroup, split_ctg
 from gsuid_core.utils.image.image_tools import draw_text_by_line
 from jinja2 import Template
 from PIL import Image, ImageDraw
 
-from ..arknightsuid_resource.constants import (
-    BATTLE_EQUIP_TABLE,
-    CHARACTER_TABLE,
-    RANGE_TABLE,
-    SKILL_TABLE,
-    UNIEQUIP_TABLE,
-)
+from ..arknightsuid_resource.constants import EXCEL
 from ..utils.fonts.source_han_sans import (
     sans_font_24,
     sans_font_34,
@@ -92,7 +85,7 @@ def test_ctg(length: int, *params):
     f_ = pformat(split_ctg(groups_, length)).split("\n")
 
 
-def render_template(template_str: str, data: Dict[str, Union[float, Union[int, None]]]):
+def render_template(template_str: str, data: dict[str, float | int | None]):
     matches = re.finditer(r"\{([^}:]+)\}", template_str)
     matches_1 = re.finditer(r"\{([^{}]+):([^{}]+)\}", template_str)
 
@@ -132,15 +125,15 @@ async def get_equip_info(char_id: str):
     im = ""
 
     try:
-        char_equip_id_list = UNIEQUIP_TABLE.charEquip[char_id]
+        char_equip_id_list = EXCEL.UNIEQUIP_TABLE.charEquip[char_id]
     except KeyError:
         return "该干员没有模组"
     for char_equip_id in char_equip_id_list:
-        equip_dict = UNIEQUIP_TABLE.equipDict[char_equip_id]
+        equip_dict = EXCEL.UNIEQUIP_TABLE.equipDict[char_equip_id]
         uniequip_name = equip_dict.uniEquipName
 
         try:
-            char_equip_phases = BATTLE_EQUIP_TABLE.equips[char_equip_id].phases
+            char_equip_phases = EXCEL.BATTLE_EQUIP_TABLE.equips[char_equip_id].phases
         except KeyError:
             continue
 
@@ -173,9 +166,7 @@ async def get_equip_info(char_id: str):
                             blackboard_dict[blackboard_.key] = blackboard_.value
                         if additionalDescription:
                             additionalDescription = re.sub(r"<[^>]+>", "", additionalDescription)
-                            additionalDescription = render_template(
-                                additionalDescription, blackboard_dict
-                            )
+                            additionalDescription = render_template(additionalDescription, blackboard_dict)
                             additionalDescription = re.sub(r".000000", "", additionalDescription)
                             im += f"{additionalDescription}\n"
 
@@ -202,9 +193,7 @@ async def get_equip_info(char_id: str):
                             blackboard_dict[blackboard_.key] = blackboard_.value
                         if additionalDescription and blackboard:
                             additionalDescription = re.sub(r"<[^>]+>", "", additionalDescription)
-                            additionalDescription = render_template(
-                                additionalDescription, blackboard_dict
-                            )
+                            additionalDescription = render_template(additionalDescription, blackboard_dict)
                             additionalDescription = re.sub(r".000000", "", additionalDescription)
                             im += f"{additionalDescription}\n"
 
@@ -230,9 +219,7 @@ async def get_equip_info(char_id: str):
                             blackboard_dict[blackboard_.key] = blackboard_.value
                         if overrideDescripton and blackboard:
                             overrideDescripton = re.sub(r"<[^>]+>", "", overrideDescripton)
-                            overrideDescripton = render_template(
-                                overrideDescripton, blackboard_dict
-                            )
+                            overrideDescripton = render_template(overrideDescripton, blackboard_dict)
                             im += f"{overrideDescripton}\n"
                 else:
                     raise NotImplementedError
@@ -247,20 +234,20 @@ async def get_equip_info(char_id: str):
 async def get_wiki_info(char_id: str):
     im = ""
 
-    character_data = CHARACTER_TABLE[char_id]
+    character_data = EXCEL.CHARATER_TABLE.chars[char_id]
 
     char_name = character_data.name
     im += f"干员名: {char_name}\n"
     im += "-----------------\n"
-    char_rarity = character_data.rarity
+    char_rarity = character_data.rarity.value
     im += f"星级: {char_rarity + 1!s}\n"
     im += "-----------------\n"
-    profession = character_data.profession
+    profession = character_data.profession.name
     im += f"职业: {profession_en_to_cn[profession]}\n"
     char_position = character_data.position
     im += f"攻击方式: {char_position_en_to_cn[char_position]}\n"
     sub_profession_id = character_data.subProfessionId
-    sub_profession = UNIEQUIP_TABLE.subProfDict[sub_profession_id].subProfessionName
+    sub_profession = EXCEL.UNIEQUIP_TABLE.subProfDict[sub_profession_id].subProfessionName
     im += f"子职业: {sub_profession}\n"
     im += "-----------------\n"
     nation_id = character_data.nationId
@@ -301,7 +288,7 @@ async def get_wiki_info(char_id: str):
         if potential.buff:
             potential_add_attribute = potential.buff.attributes.attributeModifiers
             if len(potential.buff.attributes.attributeModifiers) == 1:
-                potential_add_attribute_type = potential_add_attribute[0].attributeType
+                potential_add_attribute_type = potential_add_attribute[0].attributeType.value
                 potential_add_attribute_value = potential_add_attribute[0].value
                 potential_add_dict[potential_id] = (
                     potential_add_attribute_type,
@@ -328,7 +315,7 @@ async def get_wiki_info(char_id: str):
     im += "技能:\n"
 
     for skill in skill_id_list:
-        skill_data = SKILL_TABLE.skills[skill]
+        skill_data = EXCEL.SKILL_TABLE.skills[skill]
         skill_level_data = skill_data.levels[-1]
         skill_name = skill_level_data.name
         im += f"技能名: {skill_name}\n"
@@ -362,15 +349,13 @@ async def get_wiki_info(char_id: str):
         im += f"初始: {skill_sp_data.initSp} "
         im += f"持续: {skill_duration!s}\n"
         skill_blackboard_data = skill_level_data.blackboard
-        black_board_dict: dict[str, Union[Union[int, float], None]] = {}
+        black_board_dict: dict[str, int | float | None] = {}
         for black_board in skill_blackboard_data:
             black_board_dict[black_board.key] = black_board.value
         if skill_description:
             skill_description = skill_description.replace(":0.0", "")
             skill_description = re.sub(r"<[^>]+>", "", skill_description)
-            skill_description = render_template(skill_description, black_board_dict).replace(
-                "--", "-"
-            )
+            skill_description = render_template(skill_description, black_board_dict).replace("--", "-")
             last_skill_description = re.sub(r".000000", "", skill_description)
             if "{" in last_skill_description:
                 raise NotImplementedError
@@ -392,7 +377,7 @@ async def draw_wiki(char_id: str):
     img.paste(vvan_img, (-700, -100), vvan_img)
     img.paste(title_img, (0, -50), title_img)
 
-    character_data = CHARACTER_TABLE[char_id]
+    character_data = EXCEL.CHARATER_TABLE.chars[char_id]
 
     char_name = character_data.name
     draw.text(
@@ -407,7 +392,7 @@ async def draw_wiki(char_id: str):
     rarity_img = Image.open(TEXTURE2D_PATH / f"rarity_yellow_{char_rarity}.png")
     img.paste(rarity_img, (960, 120), rarity_img)
 
-    profession = character_data.profession
+    profession = character_data.profession.name
     profession_img = Image.open(TEXTURE2D_PATH / f"icon_{profession.lower()}.png")
     img.paste(profession_img, (1100, 7050), profession_img)
 
@@ -427,7 +412,7 @@ async def draw_wiki(char_id: str):
     )
 
     sub_profession_id = character_data.subProfessionId
-    sub_profession = UNIEQUIP_TABLE.subProfDict[sub_profession_id].subProfessionName
+    sub_profession = EXCEL.UNIEQUIP_TABLE.subProfDict[sub_profession_id].subProfessionName
     bar_img_draw.text(
         (360, 100),
         sub_profession,
@@ -589,7 +574,7 @@ async def draw_wiki(char_id: str):
     range_id = char_phases_data.rangeId
     attack_area_img = Image.open(TEXTURE2D_PATH / "attack_area.png")
     if range_id:
-        range_data = RANGE_TABLE.range_[range_id]
+        range_data = EXCEL.RANGE_TABLE.range_[range_id]
         grids = range_data.grids
         area_0 = Image.open(TEXTURE2D_PATH / "area_0.png").resize((58, 58))
         area_1 = Image.open(TEXTURE2D_PATH / "area_1.png")
@@ -608,7 +593,7 @@ async def draw_wiki(char_id: str):
         if potential.buff:
             potential_add_attribute = potential.buff.attributes.attributeModifiers
             if len(potential.buff.attributes.attributeModifiers) == 1:
-                potential_add_attribute_type = potential_add_attribute[0].attributeType
+                potential_add_attribute_type = potential_add_attribute[0].attributeType.value
                 potential_add_attribute_value = potential_add_attribute[0].value
                 potential_add_dict[potential_id] = (
                     potential_add_attribute_type,
@@ -640,21 +625,19 @@ async def draw_wiki(char_id: str):
         skill_bg = Image.open(TEXTURE2D_PATH / "skill_bg.png")
         skill3_bar_bg = Image.open(TEXTURE2D_PATH / "skill3_bar.png")
 
-        skill_data = SKILL_TABLE.skills[skill]
+        skill_data = EXCEL.SKILL_TABLE.skills[skill]
         skill_level_data = skill_data.levels[-1]
         skill_name = skill_level_data.name
         skill_description = skill_level_data.description
         skill_sp_data = skill_level_data.spData
         skill_duration = skill_level_data.duration
         skill_blackboard_data = skill_level_data.blackboard
-        black_board_dict: dict[str, Union[Union[int, float], None]] = {}
+        black_board_dict: dict[str, int | float | None] = {}
         for black_board in skill_blackboard_data:
             black_board_dict[black_board.key] = black_board.value
         if skill_description:
             skill_description = re.sub(r"<[^>]+>", "", skill_description)
-            skill_description = render_template(skill_description, black_board_dict).replace(
-                "--", "-"
-            )
+            skill_description = render_template(skill_description, black_board_dict).replace("--", "-")
             last_skill_description = re.sub(r".000000", "", skill_description)
             if "{" in last_skill_description:
                 raise NotImplementedError

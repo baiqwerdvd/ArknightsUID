@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import ClassVar, Dict, TypeVar, Union
+from typing import ClassVar, TypeVar
 
 import httpx
 from gsuid_core.utils.plugins_config.gs_config import core_plugins_config
@@ -36,19 +36,19 @@ class SklandLoginError(Exception):
         return self.url + " " + self.message
 
 
-def transUnset(v: Union[T1, UnsetType], d: T2 = None) -> Union[T1, T2]:
+def transUnset(v: T1 | UnsetType, d: T2 = None) -> T1 | T2:
     return v if not isinstance(v, UnsetType) else d
 
 
 class SklandLogin:
-    _HEADER: ClassVar[Dict[str, str]] = {
+    _HEADER: ClassVar[dict[str, str]] = {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",  # noqa: E501
         "content-type": "application/json;charset=UTF-8",
         "origin": "https://ak.hypergryph.com",
         "referer": "https://ak.hypergryph.com",
     }
 
-    def __init__(self, phone: str, geetest_token: Union[str, None] = None):
+    def __init__(self, phone: str, geetest_token: str | None = None):
         self.phone = phone
         self.client = httpx.Client(
             headers=self._HEADER,
@@ -60,7 +60,7 @@ class SklandLogin:
 
     def send_phone_code(
         self,
-        override_geetest: Union[GeneralGeetestData, None] = None,
+        override_geetest: GeneralGeetestData | None = None,
     ):
         if override_geetest:
             data = GeneralV1SendPhoneCodeRequest(

@@ -3,8 +3,6 @@ import json
 import random
 
 import aiohttp
-from msgspec import Struct, convert
-
 from gsuid_core.aps import scheduler
 from gsuid_core.bot import Bot
 from gsuid_core.data_store import get_res_path
@@ -12,6 +10,7 @@ from gsuid_core.logger import logger
 from gsuid_core.models import Event
 from gsuid_core.subscribe import gs_subscribe
 from gsuid_core.sv import SV
+from msgspec import Struct, convert
 
 from ..arknightsuid_config import PREFIX
 
@@ -44,9 +43,7 @@ async def check_update() -> UpdateCheckResult:
             bool: if the resource version is updated
     """
     async with aiohttp.ClientSession() as session:
-        async with session.get(
-            "https://ak-conf.hypergryph.com/config/prod/official/Android/version"
-        ) as response:
+        async with session.get("https://ak-conf.hypergryph.com/config/prod/official/Android/version") as response:
             data = json.loads(await response.text())
             version = convert(data, VersionModel)
 
@@ -58,19 +55,14 @@ async def check_update() -> UpdateCheckResult:
             json.dump(data, f, indent=2)
 
         logger.info("First time checking version")
-        return UpdateCheckResult(
-            version=version, old_version=None, client_updated=False, res_updated=False
-        )
+        return UpdateCheckResult(version=version, old_version=None, client_updated=False, res_updated=False)
     else:
         with open(version_path, encoding="utf-8") as f:
             base_version_json = json.load(f)
 
     base_version = convert(base_version_json, VersionModel)
 
-    if (
-        version.clientVersion != base_version.clientVersion
-        or version.resVersion != base_version.resVersion
-    ):
+    if version.clientVersion != base_version.clientVersion or version.resVersion != base_version.resVersion:
         with open(version_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
@@ -92,9 +84,7 @@ async def check_update() -> UpdateCheckResult:
 @sv_server_check.on_command("取明日方舟最新版本")
 async def get_latest_version(bot: Bot, ev: Event):
     result = await check_update()
-    await bot.send(
-        f"clientVersion: {result.version.clientVersion}\nresVersion: {result.version.resVersion}"
-    )
+    await bot.send(f"clientVersion: {result.version.clientVersion}\nresVersion: {result.version.resVersion}")
 
 
 @sv_server_check_sub.on_fullmatch(f"{PREFIX}订阅版本更新")

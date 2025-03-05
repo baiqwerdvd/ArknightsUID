@@ -3,11 +3,10 @@ from pathlib import Path
 
 import aiohttp
 import msgspec
-from msgspec import convert
-from msgspec import json as msgjson
-
 from gsuid_core.data_store import get_res_path
 from gsuid_core.logger import logger
+from msgspec import convert
+from msgspec import json as msgjson
 
 from .model import (
     BulletinData,
@@ -57,19 +56,13 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
                 if cur_meta.get("code") == 0:
                     match target:
                         case "Android":
-                            android_data = convert(
-                                cur_meta.get("data", {}), BulletinTargetData
-                            )
+                            android_data = convert(cur_meta.get("data", {}), BulletinTargetData)
                             bulletin_meta.target.Android = android_data
                         case "Bilibili":
-                            bilibili_data = convert(
-                                cur_meta.get("data", {}), BulletinTargetData
-                            )
+                            bilibili_data = convert(cur_meta.get("data", {}), BulletinTargetData)
                             bulletin_meta.target.Bilibili = bilibili_data
                         case "IOS":
-                            ios_data = convert(
-                                cur_meta.get("data", {}), BulletinTargetData
-                            )
+                            ios_data = convert(cur_meta.get("data", {}), BulletinTargetData)
                             bulletin_meta.target.IOS = ios_data
 
     assert android_data is not None
@@ -80,9 +73,7 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
 
     update_set: set[int] = set()
     update_list: list[BulletinTargetDataItem] = [
-        x
-        for x in update_list
-        if x.updatedAt not in update_set and not update_set.add(x.updatedAt)
+        x for x in update_list if x.updatedAt not in update_set and not update_set.add(x.updatedAt)
     ]
     update_list.sort(key=lambda x: x.updatedAt, reverse=True)
 
@@ -112,12 +103,8 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
             new_ann[item.cid] = ann
             logger.info(f"New bulletin found: {item.cid}:{item.title}")
 
-    bulletin_meta.data = dict(
-        sorted(bulletin_meta.data.items(), key=lambda x: int(x[0]))
-    )
-    bulletin_meta.update = dict(
-        sorted(bulletin_meta.update.items(), key=lambda x: x[1].cid, reverse=False)
-    )
+    bulletin_meta.data = dict(sorted(bulletin_meta.data.items(), key=lambda x: int(x[0])))
+    bulletin_meta.update = dict(sorted(bulletin_meta.update.items(), key=lambda x: x[1].cid, reverse=False))
 
     data = msgjson.decode(msgjson.encode(bulletin_meta))
     with Path.open(bulletin_path, mode="w", encoding="UTF-8") as file:

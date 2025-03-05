@@ -1,5 +1,3 @@
-from typing import Optional
-
 from gsuid_core.logger import logger
 
 from ..utils.database.models import ArknightsPush, ArknightsUser
@@ -35,7 +33,7 @@ async def set_config_func(
     uid: str = "0",
     user_id: str = "",
     option: str = "0",
-    query: Optional[bool] = None,
+    query: bool | None = None,
     is_admin: bool = False,
 ):
     # 这里将传入的中文config_name转换为英文status
@@ -60,7 +58,7 @@ async def set_config_func(
             await ArknightsPush.update_push_data(
                 uid,
                 {
-                    f'{PUSH_MAP[config_name.replace("推送", "")]}_push': option,
+                    f"{PUSH_MAP[config_name.replace('推送', '')]}_push": option,
                 },
             )
         else:

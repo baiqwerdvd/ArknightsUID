@@ -26,9 +26,7 @@ ark_skd_cred_add = SV("森空岛cred绑定")
 #     await bot.send(uid_list)
 
 
-@sv_user_info.on_command(
-    (f"{PREFIX}绑定uid", f"{PREFIX}切换uid", f"{PREFIX}删除uid", f"{PREFIX}解绑uid")
-)
+@sv_user_info.on_command((f"{PREFIX}绑定uid", f"{PREFIX}切换uid", f"{PREFIX}删除uid", f"{PREFIX}解绑uid"))
 async def send_link_uid_msg(bot: Bot, ev: Event):
     await bot.logger.info("开始执行[绑定/解绑用户信息]")
     qid = ev.user_id
@@ -52,7 +50,7 @@ async def send_link_uid_msg(bot: Bot, ev: Event):
         )
     elif "切换" in ev.command:
         data = await ArknightsBind.switch_uid_by_game(qid, ev.bot_id, ark_uid)
-        if isinstance(data, List):
+        if isinstance(data, list):
             return await bot.send(f"切换ARK_UID{ark_uid}成功!")
         else:
             return await bot.send(f"尚未绑定该ARK_UID{ark_uid}")

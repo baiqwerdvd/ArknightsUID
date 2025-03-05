@@ -60,9 +60,7 @@ async def send_daily_sign():
         try:
             for bot_id in gss.active_bot:
                 for single in private_msg_list[qid]:
-                    await gss.active_bot[bot_id].target_send(
-                        single["msg"], "direct", qid, single["bot_id"], "", ""
-                    )
+                    await gss.active_bot[bot_id].target_send(single["msg"], "direct", qid, single["bot_id"], "", "")
         except Exception as e:
             logger.warning(f"[ARK每日全部签到] QQ {qid} 私聊推送失败!错误信息:{e}")
         await asyncio.sleep(0.5)

@@ -6,7 +6,7 @@ from gsuid_core.logger import logger
 from gsuid_core.utils.image.convert import convert_img
 from PIL import Image, ImageDraw
 
-from ..arknightsuid_resource.constants import CHARACTER_TABLE
+from ..arknightsuid_resource.constants import EXCEL
 from ..utils.ark_api import ark_skd_api
 from ..utils.database.models import ArknightsBind
 from ..utils.fonts.source_han_sans import (
@@ -102,9 +102,7 @@ def get_error(img: Image.Image, uid: str, daily_data: int):
 
 async def draw_ap_img(uid: str) -> Image.Image:
     # char
-    char_pic = (
-        Image.open(TEXT_PATH / "char_1028_texas2_1b.png").resize((1700, 1700)).convert("RGBA")
-    )
+    char_pic = Image.open(TEXT_PATH / "char_1028_texas2_1b.png").resize((1700, 1700)).convert("RGBA")
 
     tmp_img = Image.new("RGBA", (based_w, based_h))
     tmp_img.paste(char_pic, (-250, 50), char_pic)
@@ -291,7 +289,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
             # 将remainSecs(剩余秒数) , 转换为几小时几分钟
             remain_time = seconds2hours_zhcn(remain_secs)
 
-        char_cn_name = CHARACTER_TABLE[training_char].name
+        char_cn_name = EXCEL.CHARATER_TABLE.chars[training_char].name
         blue_bar_bg1_img = blue_bar_bg1.copy()
         blue_bar_bg1_draw = ImageDraw.Draw(blue_bar_bg1_img)
         blue_bar_bg1_draw.text(

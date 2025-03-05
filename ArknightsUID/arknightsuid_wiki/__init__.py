@@ -44,7 +44,7 @@ async def send_role_wiki_pic(bot: Bot, ev: Event):
     logger.info(char_name)
 
     char_id = None
-    for char_id_, char_info in EXCEL.CHARATER_TABLE.chars.items():
+    for char_id_, char_info in EXCEL.CHARACTER_TABLE.chars.items():
         if char_info.name == char_name:
             char_id = char_id_
             break
@@ -62,7 +62,7 @@ async def send_equip_wiki_pic(bot: Bot, ev: Event):
     char_name = " ".join(re.findall("[\u4e00-\u9fa5]+", ev.text))
 
     char_id = None
-    for char_id_, char_info in EXCEL.CHARATER_TABLE.chars.items():
+    for char_id_, char_info in EXCEL.CHARACTER_TABLE.chars.items():
         if char_info.name == char_name:
             char_id = char_id_
             break

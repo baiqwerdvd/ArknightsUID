@@ -234,7 +234,7 @@ async def get_equip_info(char_id: str):
 async def get_wiki_info(char_id: str):
     im = ""
 
-    character_data = EXCEL.CHARATER_TABLE.chars[char_id]
+    character_data = EXCEL.CHARACTER_TABLE.chars[char_id]
 
     char_name = character_data.name
     im += f"干员名: {char_name}\n"
@@ -377,7 +377,7 @@ async def draw_wiki(char_id: str):
     img.paste(vvan_img, (-700, -100), vvan_img)
     img.paste(title_img, (0, -50), title_img)
 
-    character_data = EXCEL.CHARATER_TABLE.chars[char_id]
+    character_data = EXCEL.CHARACTER_TABLE.chars[char_id]
 
     char_name = character_data.name
     draw.text(

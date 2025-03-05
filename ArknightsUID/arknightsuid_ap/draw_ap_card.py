@@ -289,7 +289,7 @@ async def draw_ap_img(uid: str) -> Image.Image:
             # 将remainSecs(剩余秒数) , 转换为几小时几分钟
             remain_time = seconds2hours_zhcn(remain_secs)
 
-        char_cn_name = EXCEL.CHARATER_TABLE.chars[training_char].name
+        char_cn_name = EXCEL.CHARACTER_TABLE.chars[training_char].name
         blue_bar_bg1_img = blue_bar_bg1.copy()
         blue_bar_bg1_draw = ImageDraw.Draw(blue_bar_bg1_img)
         blue_bar_bg1_draw.text(

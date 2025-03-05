@@ -15,7 +15,6 @@ dependencies = [
 requires-python = ">=3.11,<4.0"
 readme = "README.md"
 license = {text = "GPL-3.0-or-later"}
-gscore_auto_update_dep = ["torappu-excel>=0.1.1"]
 
 [tool.pdm.dev-dependencies]
 dev = [

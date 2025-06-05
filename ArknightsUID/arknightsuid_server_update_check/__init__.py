@@ -224,8 +224,8 @@ async def game_server_status_checker():
     for subscribe in datas:
         if server_status:
             logger.info("Game server is active")
-            await subscribe.send("明日方舟服务器状态: Active")
+            await subscribe.send("Arknights game server status changed: Under Maintenance -> Active")
         else:
             logger.warning("Game server is under maintenance")
-            await subscribe.send("明日方舟服务器状态: Under Maintenance")
+            await subscribe.send("Arknights game server status changed: Active -> Under Maintenance")
         await asyncio.sleep(random.uniform(1, 3))

@@ -16,11 +16,11 @@ from ..arknightsuid_config import PREFIX
 
 sv_server_check = SV("明日方舟版本更新")
 sv_server_check_sub = SV("订阅明日方舟版本更新", pm=3)
-sv_game_server_check = SV("明日方舟服务器状态")
-sv_game_server_check_sub = SV("订阅明日方舟服务器状态", pm=3)
+sv_game_server_check = SV("明日方舟服务器状态更新")
+sv_game_server_check_sub = SV("订阅明日方舟服务器状态更新", pm=3)
 
 task_name_server_check = "订阅明日方舟版本更新"
-task_name_game_server_check = "订阅明日方舟服务器状态"
+task_name_game_server_check = "订阅明日方舟服务器状态更新"
 
 
 class VersionModel(Struct):
@@ -165,7 +165,7 @@ async def get_game_server_status(bot: Bot, ev: Event):
 
     await bot.send(f"明日方舟服务器状态: {server_status}")
 
-@sv_game_server_check_sub.on_fullmatch(f"{PREFIX}订阅服务器状态")
+@sv_game_server_check_sub.on_fullmatch(f"{PREFIX}订阅服务器状态更新")
 async def sub_game_server_status(bot: Bot, ev: Event):
     if ev.group_id is None:
         return await bot.send("请在群聊中订阅")
@@ -173,7 +173,7 @@ async def sub_game_server_status(bot: Bot, ev: Event):
     if data:
         for subscribe in data:
             if subscribe.group_id == ev.group_id:
-                return await bot.send("已经订阅了明日方舟服务器状态！")
+                return await bot.send("已经订阅了明日方舟服务器状态更新！")
 
     await gs_subscribe.add_subscribe(
         "session",
@@ -183,7 +183,7 @@ async def sub_game_server_status(bot: Bot, ev: Event):
     )
 
     logger.info(data)
-    await bot.send("成功订阅明日方舟服务器状态!")
+    await bot.send("成功订阅明日方舟服务器状态更新!")
 
 @scheduler.scheduled_job("interval", seconds=2, id="check game server status")
 async def game_server_status_checker():

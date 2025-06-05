@@ -28,7 +28,7 @@ async def ark_sign_at_night():
 
 
 # 群聊内 签到 功能
-@sv_sign.on_fullmatch(f"{PREFIX}签到")
+@sv_sign.on_fullmatch(f"签到")
 async def get_sign_func(bot: Bot, ev: Event):
     await bot.logger.info(f"[ARK签到]QQ号: {ev.user_id}")
     ark_uid = await get_uid(bot, ev, bind_model=ArknightsBind)
@@ -39,7 +39,7 @@ async def get_sign_func(bot: Bot, ev: Event):
     return None
 
 
-@sv_sign_config.on_fullmatch(f"{PREFIX}全部重签")
+@sv_sign_config.on_fullmatch(f"全部重签")
 async def recheck(bot: Bot, ev: Event):
     await bot.logger.info("开始执行[ARK全部重签]")
     await bot.send("已开始执行")

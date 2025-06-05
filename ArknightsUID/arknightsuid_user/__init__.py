@@ -18,7 +18,7 @@ ark_skd_cred_add = SV("森空岛cred绑定")
 # sv_user_help = SV('ark绑定帮助')
 
 
-# @sv_user_info.on_fullmatch((f'{PREFIX}绑定信息'))
+# @sv_user_info.on_fullmatch((f'绑定信息'))
 # async def send_bind_card(bot: Bot, ev: Event):
 #     await bot.logger.info('ark开始执行[查询用户绑定状态]')
 #     uid_list = await get_user_card(ev.bot_id, ev.user_id)
@@ -26,7 +26,7 @@ ark_skd_cred_add = SV("森空岛cred绑定")
 #     await bot.send(uid_list)
 
 
-@sv_user_info.on_command((f"{PREFIX}绑定uid", f"{PREFIX}切换uid", f"{PREFIX}删除uid", f"{PREFIX}解绑uid"))
+@sv_user_info.on_command((f"绑定uid", f"切换uid", f"删除uid", f"解绑uid"))
 async def send_link_uid_msg(bot: Bot, ev: Event):
     await bot.logger.info("开始执行[绑定/解绑用户信息]")
     qid = ev.user_id

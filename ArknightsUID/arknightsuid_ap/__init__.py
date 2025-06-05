@@ -16,7 +16,7 @@ sv_get_ap = SV("ark查询体力")
 sv_get_ap_admin = SV("ark强制推送", pm=1)
 
 
-@sv_get_ap_admin.on_fullmatch((f"{PREFIX}强制推送体力提醒"))  # noqa: UP034
+@sv_get_ap_admin.on_fullmatch((f"强制推送体力提醒"))  # noqa: UP034
 async def force_notice_job(bot: Bot, ev: Event):
     await bot.logger.info("开始执行[ark强制推送体力信息]")
     await ark_notice_job()
@@ -50,11 +50,11 @@ async def ark_notice_job():
 
 @sv_get_ap.on_fullmatch(
     (
-        f"{PREFIX}每日",
-        f"{PREFIX}mr",
-        f"{PREFIX}实时便笺",
-        f"{PREFIX}便笺",
-        f"{PREFIX}便签",
+        f"每日",
+        f"mr",
+        f"实时便笺",
+        f"便笺",
+        f"便签",
     )
 )
 async def send_daily_info_pic(bot: Bot, ev: Event):

@@ -23,7 +23,7 @@
 # sv_get_version_admin = SV('ark推送版本更新', pm=1)
 
 
-# @sv_get_version_admin.on_fullmatch((f'{PREFIX}开启推送版本更新'))
+# @sv_get_version_admin.on_fullmatch((f'开启推送版本更新'))
 # async def force_version_job(bot: Bot, ev: Event):
 #     await bot.logger.info('开始执行[ark推送版本更新]')
 #     await ark_version_job()

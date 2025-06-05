@@ -90,7 +90,7 @@ async def get_latest_version(bot: Bot, ev: Event):
     await bot.send(f"clientVersion: {result.version.clientVersion}\nresVersion: {result.version.resVersion}")
 
 
-@sv_server_check_sub.on_fullmatch(f"{PREFIX}订阅版本更新")
+@sv_server_check_sub.on_fullmatch(f"订阅版本更新")
 async def sub_ann_(bot: Bot, ev: Event):
     if ev.group_id is None:
         return await bot.send("请在群聊中订阅")
@@ -167,7 +167,7 @@ async def get_game_server_status(bot: Bot, ev: Event):
 
     await bot.send(f"明日方舟服务器状态: {server_status}")
 
-@sv_game_server_check_sub.on_fullmatch(f"{PREFIX}订阅服务器状态更新")
+@sv_game_server_check_sub.on_fullmatch(f"订阅服务器状态更新")
 async def sub_game_server_status(bot: Bot, ev: Event):
     if ev.group_id is None:
         return await bot.send("请在群聊中订阅")

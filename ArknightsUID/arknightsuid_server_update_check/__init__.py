@@ -16,8 +16,11 @@ from ..arknightsuid_config import PREFIX
 
 sv_server_check = SV("明日方舟版本更新")
 sv_server_check_sub = SV("订阅明日方舟版本更新", pm=3)
+sv_game_server_check = SV("明日方舟服务器状态")
+sv_game_server_check_sub = SV("订阅明日方舟服务器状态", pm=3)
 
 task_name_server_check = "订阅明日方舟版本更新"
+task_name_game_server_check = "订阅明日方舟服务器状态"
 
 
 class VersionModel(Struct):
@@ -108,7 +111,7 @@ async def sub_ann_(bot: Bot, ev: Event):
     await bot.send("成功订阅明日方舟版本更新!")
 
 
-@scheduler.scheduled_job("interval", minutes=10, id="check update")
+@scheduler.scheduled_job("interval", seconds=2, id="check update")
 async def match_checker():
     logger.trace("Checking for Arknights client update")
 
@@ -145,3 +148,84 @@ async def match_checker():
                     f"检测到明日方舟资源版本更新\nclientVersion: {result.version.clientVersion}\nresVersion: {result.old_version.resVersion} -> {result.version.resVersion}",
                 )
             await asyncio.sleep(random.uniform(1, 3))
+
+@sv_game_server_check.on_command("取明日方舟服务器状态")
+async def get_game_server_status(bot: Bot, ev: Event):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            "https://ak-conf.hypergryph.com/config/prod/announce_meta/Android/preannouncement.meta.json"
+        ) as response:
+            data = json.loads(await response.text())
+            server_status = data.get("actived", True)
+
+    if server_status:
+        server_status = "Active"
+    else:
+        server_status = "Under Maintenance"
+
+    await bot.send(f"明日方舟服务器状态: {server_status}")
+
+@sv_game_server_check_sub.on_fullmatch(f"{PREFIX}订阅服务器状态")
+async def sub_game_server_status(bot: Bot, ev: Event):
+    if ev.group_id is None:
+        return await bot.send("请在群聊中订阅")
+    data = await gs_subscribe.get_subscribe(task_name_game_server_check)
+    if data:
+        for subscribe in data:
+            if subscribe.group_id == ev.group_id:
+                return await bot.send("已经订阅了明日方舟服务器状态！")
+
+    await gs_subscribe.add_subscribe(
+        "session",
+        task_name=task_name_game_server_check,
+        event=ev,
+        extra_message="",
+    )
+
+    logger.info(data)
+    await bot.send("成功订阅明日方舟服务器状态!")
+
+@scheduler.scheduled_job("interval", seconds=2, id="check game server status")
+async def game_server_status_checker():
+    logger.trace("Checking for Arknights game server status")
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            "https://ak-conf.hypergryph.com/config/prod/announce_meta/Android/preannouncement.meta.json"
+        ) as response:
+            data = json.loads(await response.text())
+            server_status = data.get("actived", True)
+
+    status_path = get_res_path("ArknightsUID") / "server_status.json"
+    is_first = False if status_path.exists() else True
+    if is_first:
+        with open(status_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        logger.info("First time checking game server status")
+        return
+
+    with open(status_path, encoding="utf-8") as f:
+        base_status_json = json.load(f)
+
+    base_status = base_status_json.get("actived", True)
+    if server_status != base_status:
+        with open(status_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        logger.warning("Game server status changed")
+    else:
+        logger.trace("No change in game server status")
+        return
+
+    datas = await gs_subscribe.get_subscribe(task_name_game_server_check)
+    if not datas:
+        logger.info("[明日方舟服务器状态] 暂无群订阅")
+        return
+
+    for subscribe in datas:
+        if server_status:
+            logger.info("Game server is active")
+            await subscribe.send("明日方舟服务器状态: Active")
+        else:
+            logger.warning("Game server is under maintenance")
+            await subscribe.send("明日方舟服务器状态: Under Maintenance")
+        await asyncio.sleep(random.uniform(1, 3))

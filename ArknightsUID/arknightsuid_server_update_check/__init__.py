@@ -153,15 +153,17 @@ async def match_checker():
 async def get_game_server_status(bot: Bot, ev: Event):
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            "https://ak-conf.hypergryph.com/config/prod/announce_meta/Android/preannouncement.meta.json"
+            "https://ak-webview.hypergryph.com/api/gate/meta/Android"
         ) as response:
             data = json.loads(await response.text())
-            server_status = data.get("actived", True)
+            preAnnounceType = data.get("preAnnounceType", 2)
 
-    if server_status:
+    if preAnnounceType == 2:
         server_status = "Active"
-    else:
+    elif preAnnounceType == 1:
         server_status = "Under Maintenance"
+    else:
+        server_status = f"Unknown(preAnnounceType: {preAnnounceType})"
 
     await bot.send(f"明日方舟服务器状态: {server_status}")
 
@@ -191,10 +193,10 @@ async def game_server_status_checker():
 
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            "https://ak-conf.hypergryph.com/config/prod/announce_meta/Android/preannouncement.meta.json"
+            "https://ak-webview.hypergryph.com/api/gate/meta/Android"
         ) as response:
             data = json.loads(await response.text())
-            server_status = data.get("actived", True)
+            preAnnounceType = data.get("preAnnounceType", 2)
 
     status_path = get_res_path("ArknightsUID") / "server_status.json"
     is_first = False if status_path.exists() else True
@@ -207,8 +209,8 @@ async def game_server_status_checker():
     with open(status_path, encoding="utf-8") as f:
         base_status_json = json.load(f)
 
-    base_status = base_status_json.get("actived", True)
-    if server_status != base_status:
+    base_status = base_status_json.get("preAnnounceType", 2)
+    if preAnnounceType != base_status:
         with open(status_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
         logger.warning("Game server status changed")
@@ -222,10 +224,13 @@ async def game_server_status_checker():
         return
 
     for subscribe in datas:
-        if server_status:
+        if preAnnounceType == 2:
             logger.info("Game server is active")
             await subscribe.send("Arknights game server status changed: Under Maintenance -> Active")
-        else:
+        elif preAnnounceType == 1:
             logger.warning("Game server is under maintenance")
             await subscribe.send("Arknights game server status changed: Active -> Under Maintenance")
+        else:
+            logger.warning(f"Game server status changed to unknown: {preAnnounceType}")
+            await subscribe.send(f"Arknights game server status changed to unknown: {preAnnounceType}")
         await asyncio.sleep(random.uniform(1, 3))

@@ -541,7 +541,18 @@ class ApkMonitor:
 
             async with aiofiles.open(self.cache_file, encoding="utf-8") as f:
                 data = json.loads(await f.read())
-                return [ApkUpdateInfo(**item) for item in data]
+                result = []
+                for item in data:
+                    version_info_dict = item.get("version_info", {})
+                    version_info = VersionInfo(**version_info_dict)
+                    result.append(
+                        ApkUpdateInfo(
+                            apk_url=item.get("apk_url", ""),
+                            version_info=version_info,
+                            update_time=item.get("update_time", 0),
+                        )
+                    )
+                return result
         except Exception as e:
             logger.error(f"加载缓存失败: {e}")
             return None

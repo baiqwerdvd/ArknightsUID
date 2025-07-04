@@ -172,7 +172,6 @@ class ApkExtractor:
                             location = response.headers.get("Location")
                             if not location:
                                 raise ApkExtractorError(f"未获取到第一次Location，状态码: {response.status}")
-                            logger.info(f"第一次重定向: {location}")
                         else:
                             raise ApkExtractorError(f"无法获取第一次重定向链接，状态码: {response.status}")
 
@@ -180,7 +179,6 @@ class ApkExtractor:
                         if response2.status in (301, 302, 303, 307, 308):
                             final_location = response2.headers.get("Location")
                             if final_location:
-                                logger.info(f"获取到APK下载链接: {final_location}")
                                 return final_location
                             else:
                                 raise ApkExtractorError(f"未获取到第二次Location，状态码: {response2.status}")

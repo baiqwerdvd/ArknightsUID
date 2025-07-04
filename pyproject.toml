@@ -9,8 +9,9 @@ dependencies = [
     "msgspec>=0.19.0",
     "pydantic>=2.10.6",
     "fastapi>=0.115.11",
-    "cryptography>=44.0.2",
-    "torappu-excel>=0.1.2"
+    "cryptography>=45.0.5",
+    "torappu-excel>=2.4.62",
+    "pyaxmlparser>=0.3.31",
 ]
 requires-python = ">=3.11,<4.0"
 readme = "README.md"

@@ -416,9 +416,11 @@ class ApkMonitor:
             apk_url = await self.extractor.get_latest_apk_url()
 
             cached_info = await self._load_cache()
-            if cached_info and [info for info in cached_info if info.apk_url == apk_url]:
+            if cached_info and [info for info in cached_info if getattr(info, "apk_url", None) == apk_url]:
                 logger.info("APK URL未变化，跳过检查")
-                return max(cached_info, key=lambda info: info.version_info.version_code), False
+                return max(
+                    cached_info, key=lambda info: getattr(getattr(info, "version_info", None), "version_code", 0)
+                ), False
 
             logger.info(f"检测到新的APK: {apk_url}")
 

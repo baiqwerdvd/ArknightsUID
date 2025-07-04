@@ -294,8 +294,6 @@ async def apk_update_checker():
             message += f"globalMetadataSize: {human_readable_size(update_info.version_info.global_metadata_size)}\n"
 
             await _notify_subscribers(TASK_NAME_APK_CHECK, message)
-        else:
-            logger.info("没有新的APK更新")
     except Exception as e:
         logger.error(f"APK更新检查失败: {e}")
         await _notify_subscribers(TASK_NAME_APK_CHECK, "明日方舟APK更新检查失败，请查看日志")

@@ -225,7 +225,7 @@ async def check_apk_update(bot: Bot, ev: Event):
         update_info, _ = await apk_monitor.check_and_extract_apk()
 
         if update_info:
-            message = "📱 APK信息更新完成\n"
+            message = "最新APK信息：\n"
             message += f"url: {update_info.apk_url}\n"
             message += f"updateTime: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(update_info.update_time))}\n"
             message += f"versionName: {update_info.version_info.version_name}\n"
@@ -281,7 +281,7 @@ async def apk_update_checker():
         update_info, is_updated = await apk_monitor.check_and_extract_apk()
 
         if update_info and is_updated:
-            message = "📱 检测到明日方舟APK更新\n"
+            message = "检测到明日方舟APK更新\n"
             message += f"url: {update_info.apk_url}\n"
             message += f"updateTime: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(update_info.update_time))}\n"
 

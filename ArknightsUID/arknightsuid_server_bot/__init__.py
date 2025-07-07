@@ -3,6 +3,8 @@ import json
 import random
 from pathlib import Path
 
+from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.interval import IntervalTrigger
 from gsuid_core.aps import scheduler
 from gsuid_core.bot import Bot
 from gsuid_core.data_store import get_res_path
@@ -128,7 +130,6 @@ async def _notify_subscribers(task_name: str, message: str):
         logger.error(f"获取订阅列表失败: {e}")
 
 
-@scheduler.scheduled_job("interval", seconds=60, id="check_game_server_status")
 async def check_game_server_status():
     session_files = get_client_session_files()
     if not session_files:
@@ -198,3 +199,26 @@ async def check_game_server_status():
         return await _notify_subscribers(
             TASK_NAME_GAME_SERVER_MONITOR, "❌ 所有会话文件均失效，无法获取游戏服务器状态！"
         )
+
+
+scheduler.add_job(check_game_server_status, IntervalTrigger(seconds=60), id="check_game_server_status")
+scheduler.add_job(
+    check_game_server_status,
+    CronTrigger(second="*/10", hour=9, minute="55-59"),
+    id="check_game_server_status_high_freq_10_am_1",
+)
+scheduler.add_job(
+    check_game_server_status,
+    CronTrigger(second="*/10", hour=10, minute="0-5"),
+    id="check_game_server_status_high_freq_10_am_2",
+)
+scheduler.add_job(
+    check_game_server_status,
+    CronTrigger(second="*/10", hour=15, minute="55-59"),
+    id="check_game_server_status_high_freq_4_pm_1",
+)
+scheduler.add_job(
+    check_game_server_status,
+    CronTrigger(second="*/10", hour=16, minute="0-5"),
+    id="check_game_server_status_high_freq_4_pm_2",
+)

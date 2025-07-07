@@ -204,21 +204,27 @@ async def check_game_server_status():
 scheduler.add_job(check_game_server_status, IntervalTrigger(seconds=60), id="check_game_server_status")
 scheduler.add_job(
     check_game_server_status,
-    CronTrigger(second="*/10", hour=9, minute="55-59"),
+    CronTrigger(second="*/10", hour=9, minute="58-59"),
     id="check_game_server_status_high_freq_10_am_1",
 )
 scheduler.add_job(
     check_game_server_status,
-    CronTrigger(second="*/10", hour=10, minute="0-5"),
+    CronTrigger(second="*/10", hour=10, minute="0-2"),
     id="check_game_server_status_high_freq_10_am_2",
 )
+
 scheduler.add_job(
     check_game_server_status,
-    CronTrigger(second="*/10", hour=15, minute="55-59"),
+    CronTrigger(second="*/20", hour=15, minute="30-39"),
     id="check_game_server_status_high_freq_4_pm_1",
 )
 scheduler.add_job(
     check_game_server_status,
-    CronTrigger(second="*/10", hour=16, minute="0-5"),
+    CronTrigger(second="*/10", hour=15, minute="40-59"),
     id="check_game_server_status_high_freq_4_pm_2",
+)
+scheduler.add_job(
+    check_game_server_status,
+    CronTrigger(second="*/10", hour=16, minute="0-10"),
+    id="check_game_server_status_high_freq_4_pm_3",
 )

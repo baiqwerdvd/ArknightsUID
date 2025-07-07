@@ -140,11 +140,13 @@ async def check_game_server_status():
             with Path.open(game_server_status_storage, encoding="utf-8") as f:
                 last_status_json = json.load(f)
         except json.JSONDecodeError:
-            last_status_json = {"status": "unknown"}
+            last_status_json = {"status": "unknown", "push_message": {}}
     else:
-        last_status_json = {"status": "unknown"}
+        last_status_json = {"status": "unknown", "push_message": {}}
 
     last_status = last_status_json.get("status", "unknown")
+    last_push_message = last_status_json.get("push_message", {})
+    last_push_message_keys = last_push_message.keys()
 
     for session_file in session_files:
         try:
@@ -152,25 +154,38 @@ async def check_game_server_status():
             await client.login()
 
             push_message = await client.get_push_message()
-            logger.info(f"获取游戏服务器状态: {session_file}, 推送消息: {push_message}")
+            push_message_keys = push_message.keys()
+            logger.info(f"获取游戏服务器状态: {session_file}")
+
+            need_send_notification = False
 
             # if the login is successful, we can assume the game server is active
-            current_status = "Active"
-            if last_status != current_status:
-                if current_status == "Active":
-                    await _notify_subscribers(
-                        TASK_NAME_GAME_SERVER_MONITOR, "✅ Arknights game server status is now active"
-                    )
-                elif current_status == "Under Maintenance":
-                    await _notify_subscribers(
-                        TASK_NAME_GAME_SERVER_MONITOR, "⚠️ Arknights game server is under maintenance"
-                    )
-                with Path.open(game_server_status_storage, "w", encoding="utf-8") as f:
-                    json.dump({"status": current_status}, f, ensure_ascii=False)
-            elif last_status == "unknown":
-                with Path.open(game_server_status_storage, "w", encoding="utf-8") as f:
-                    json.dump({"status": current_status}, f, ensure_ascii=False)
-            return
+            message = []
+            if last_status == "Under Maintenance":
+                message.append("✅ Arknights game server status is now active.")
+                need_send_notification = True
+
+            if last_push_message_keys != push_message_keys and last_push_message_keys is not None:
+                message.append(f"⚠️ Push Message Updated:\n{json.dumps(push_message, ensure_ascii=False)}")
+                need_send_notification = True
+
+            with Path.open(game_server_status_storage, "w", encoding="utf-8") as f:
+                json.dump(
+                    {
+                        "status": "Active",
+                        "push_message": push_message,
+                    },
+                    f,
+                    ensure_ascii=False,
+                    indent=4,
+                )
+
+            if need_send_notification:
+                logger.info(f"Sending notification for game server status change: {message}")
+                await _notify_subscribers(TASK_NAME_GAME_SERVER_MONITOR, "\n".join(message))
+            else:
+                logger.info("No significant changes in game server status, no notification sent.")
+                return
         except ServerMaintenanceError as e:
             logger.warning(f"⚠️ 游戏服务器正在维护: {e}")
             return await _notify_subscribers(

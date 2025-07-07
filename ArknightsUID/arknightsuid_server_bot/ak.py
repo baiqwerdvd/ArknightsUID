@@ -123,6 +123,7 @@ class ArknightsClient:
                 res_version,
                 client_version,
                 network_version,
+                major_version,
             ) = session_data
         client = ArknightsClient(
             username=username,

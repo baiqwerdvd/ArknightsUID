@@ -27,7 +27,7 @@ async def get_announcement(cid: str) -> BulletinData:
 
 async def check_bulletin_update() -> dict[str, BulletinData]:
     bulletin_path = get_res_path(["ArknightsUID", "announce"]) / "bulletin.meta.json"
-    logger.info("Checking for game bulletin...")
+    logger.debug("Checking for game bulletin...")
 
     is_first = False if bulletin_path.exists() else True
 
@@ -109,10 +109,10 @@ async def check_bulletin_update() -> dict[str, BulletinData]:
     data = msgjson.decode(msgjson.encode(bulletin_meta))
     with Path.open(bulletin_path, mode="w", encoding="UTF-8") as file:
         json.dump(data, file, sort_keys=False, indent=4, ensure_ascii=False)
-    logger.info("The file 'bulletin.meta.json' has been successfully updated.")
+    logger.debug("The file 'bulletin.meta.json' has been successfully updated.")
 
     if is_first:
-        logger.info("Initial success, will be updated in the next polling.")
+        logger.debug("Initial success, will be updated in the next polling.")
         return {}
     else:
         return new_ann

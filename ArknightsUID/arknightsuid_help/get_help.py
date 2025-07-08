@@ -54,11 +54,11 @@ async def get_help():
         plugin_help=await get_help_data(),
         plugin_prefix=PREFIX,
         help_mode="dark",
-        banner_bg=Image.open(TEXT_PATH / "banner.jpg"),
+        banner_bg=Image.open(TEXT_PATH / "banner.png"),
         banner_sub_text=f"Client Version:{Arknights_Client_version}  Res version: {Arknights_Res_version}",
         help_bg=Image.open(TEXT_PATH / "bg.jpg"),
         cag_bg=Image.open(TEXT_PATH / "button.png"),
-        item_bg=Image.open(TEXT_PATH / "icon.png"),
+        item_bg=Image.open(TEXT_PATH / "badge.png"),
         footer=get_footer(),
         enable_cache=True,
     )

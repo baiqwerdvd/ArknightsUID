@@ -409,7 +409,8 @@ class ArknightsClient:
             }
 
             login_data["captcha"] = json.dumps(captcha_data)
-            response = await self.post_auth_server(endpoint, json.dumps(login_data))
+            logger.info(f"处理验证码数据: {login_data}")
+            response = await self.post_auth_server(endpoint, login_data)
             logger.info("验证码处理成功")
             return response
 

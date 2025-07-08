@@ -24,6 +24,10 @@ class AuthenticationError(ArknightsException):
     pass
 
 
+class AccountBannedError(ArknightsException):
+    pass
+
+
 class SessionExpiredError(ArknightsException):
     pass
 
@@ -452,8 +456,10 @@ class ArknightsClient:
         sign_data["sign"] = generate_sign(sign_data)
         response = await self.post_auth_server(Config.ENDPOINTS["get_token"], sign_data)
 
-        if response.get("result") == 2:
+        if response.get("result") == 1:
             raise ServerMaintenanceError("服务器正在维护，请稍后再试")
+        elif response.get("result") == 2:
+            raise AccountBannedError("账号已被封禁，请联系官方客服")
         elif response.get("result") != 0:
             raise ArknightsException(f"获取游戏令牌失败: {response}")
 
@@ -548,6 +554,7 @@ class ArknightsClient:
                 await asyncio.sleep(5)
             except ServerMaintenanceError as e:
                 logger.error(f"登录失败，服务器正在维护: {e}")
+                self._save_session()
                 raise ServerMaintenanceError("服务器正在维护，请稍后再试") from e
             except Exception as e:
                 logger.error(f"登录过程中发生未知错误: {e}")

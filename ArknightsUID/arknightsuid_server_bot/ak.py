@@ -239,16 +239,17 @@ class ArknightsClient:
     def verify_secret_info(self, secret: str) -> bool:
         buffer = base64.b64decode(secret)
         if len(buffer) != 24:
-            raise ArknightsException(f"无效的secret长度: {len(buffer)}, 期望24字节")
+            return False
 
         if version_info := self.brute_force_versions(buffer[:16]):
             client_version, major_version = version_info
-            logger.info(f"解析出的版本信息: clientVersion={client_version}, majorVersion={major_version}")
+            logger.info(f"Parsed version information: clientVersion={client_version}, majorVersion={major_version}")
             if client_version != self.client_version:
                 return False
             return True
         else:
-            raise ArknightsException("无法解析版本信息")
+            logger.error("Cannot parse version information")
+            return False
 
     def verify_versions(self, target_hash: bytes, client_version: str, major_version: int) -> bool:
         md5_hash = hashlib.md5()
@@ -539,7 +540,7 @@ class ArknightsClient:
         while retries < max_retries:
             try:
                 if self.access_token and not self.relogin:
-                    logger.info(f"尝试使用 access_token 登录， {self.access_token}")
+                    logger.info("尝试使用 access_token 登录")
                     if not await self._auth_login():
                         logger.info("access_token 验证失败，使用用户名密码登录")
                         await self._user_login()

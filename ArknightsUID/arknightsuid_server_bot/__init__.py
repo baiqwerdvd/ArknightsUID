@@ -45,6 +45,9 @@ async def add_server_bot(bot: Bot, ev: Event):
             return await bot.send(
                 f"✅ Login successful!\nUsername: {client.username}\nUID: {client.uid}\nNickname: {client.nickname}"
             )
+        except ServerMaintenanceError as e:
+            logger.error(f"❌ 登陆失败! 服务器正在维护: {e}")
+            return await bot.send("❌ 登陆失败! 服务器正在维护，请稍后再试")
         except Exception as e:
             logger.error(f"❌ 登陆失败! 错误信息: {e}")
             return await bot.send(f"❌ 登陆失败! 错误信息: {e}")

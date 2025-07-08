@@ -518,8 +518,8 @@ class ArknightsClient:
         while retries < max_retries:
             try:
                 if self.access_token and not self.relogin:
-                    logger.info("尝试使用 access_token 登录")
-                    if not self._auth_login():
+                    logger.info(f"尝试使用 access_token 登录， {self.access_token}")
+                    if not await self._auth_login():
                         logger.info("access_token 验证失败，使用用户名密码登录")
                         await self._user_login()
                         await self._auth_login()

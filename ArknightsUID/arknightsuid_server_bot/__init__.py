@@ -47,7 +47,7 @@ async def add_server_bot(bot: Bot, ev: Event):
             )
         except ServerMaintenanceError as e:
             logger.error(f"❌ 登陆失败! 服务器正在维护: {e}")
-            return await bot.send("❌ 登陆失败! 服务器正在维护，请稍后再试")
+            return await bot.send("❌ 登陆失败! 服务器正在维护，Session文件已经保存，请稍后再试。")
         except Exception as e:
             logger.error(f"❌ 登陆失败! 错误信息: {e}")
             return await bot.send(f"❌ 登陆失败! 错误信息: {e}")
@@ -144,6 +144,8 @@ async def check_game_server_status():
             with Path.open(game_server_status_storage, encoding="utf-8") as f:
                 last_status_json = json.load(f)
         except json.JSONDecodeError:
+            logger.error(f"❌ 无法解析游戏服务器状态文件: {game_server_status_storage}, 文件可能已损坏")
+            game_server_status_storage.unlink(missing_ok=True)
             last_status_json = {"status": "unknown", "push_message": {}}
     else:
         last_status_json = {"status": "unknown", "push_message": {}}
@@ -192,7 +194,8 @@ async def check_game_server_status():
                 return
         except ServerMaintenanceError as e:
             logger.warning(f"⚠️ 游戏服务器正在维护: {e}")
-            if last_status != "Under Maintenance":
+            if last_status == "Active":
+                # If the last status was active, we need to notify subscribers about the maintenance
                 with Path.open(game_server_status_storage, "w", encoding="utf-8") as f:
                     json.dump(
                         {
@@ -205,11 +208,27 @@ async def check_game_server_status():
                     )
                 logger.info("游戏服务器状态更新为维护中，发送通知")
                 return await _notify_subscribers(
-                    TASK_NAME_GAME_SERVER_MONITOR, "⚠️ Arknights game server is under maintenance"
+                    TASK_NAME_GAME_SERVER_MONITOR, "⚠️ Arknights game server status changed: Active -> Under Maintenance"
                 )
-            else:
+            elif last_status == "Under Maintenance":
                 logger.info("游戏服务器状态仍然是维护中，无需发送通知")
                 return
+            else:
+                # If the last status was unknown or something else, we still need to notify about the maintenance
+                with Path.open(game_server_status_storage, "w", encoding="utf-8") as f:
+                    json.dump(
+                        {
+                            "status": "Under Maintenance",
+                            "push_message": {},
+                        },
+                        f,
+                        ensure_ascii=False,
+                        indent=4,
+                    )
+                logger.info("游戏服务器状态更新为维护中，发送通知")
+                return await _notify_subscribers(
+                    TASK_NAME_GAME_SERVER_MONITOR, "⚠️ Arknights game server is currently under maintenance."
+                )
         except Exception as e:
             logger.error(f"❌ 获取游戏服务器状态失败! 文件: {session_file} 错误信息: {e}")
             session_file.unlink(missing_ok=True)

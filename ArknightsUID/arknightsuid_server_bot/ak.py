@@ -429,7 +429,11 @@ class ArknightsClient:
         if response.get("statusCode", 0) != 0:
             return False
 
-        self.code = response["data"]["code"]
+        code = response.get("data", {}).get("code", "")
+        if not code:
+            logger.error("获取code失败，可能是access_token无效或已过期")
+            return False
+        self.code = code
         return True
 
     async def _get_online_status(self) -> None:

@@ -4,7 +4,6 @@ from gsuid_core.models import Event
 from gsuid_core.sv import SV
 
 from ..utils.ark_api import ark_skd_api
-from ..utils.ark_prefix import PREFIX
 from ..utils.database.models import (
     ArknightsBind,
     ArknightsPush,
@@ -16,7 +15,7 @@ from .login import SklandLogin
 sv_skland_login = SV("ark森空岛登录")
 
 
-@sv_skland_login.on_prefix(f"森空岛登录")
+@sv_skland_login.on_prefix("森空岛登录")
 async def get_resp_msg(bot: Bot, ev: Event):
     uid_list = await ArknightsBind.get_uid_list_by_game(ev.user_id, ev.bot_id)
     if uid_list is None:

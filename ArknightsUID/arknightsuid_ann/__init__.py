@@ -11,7 +11,7 @@ from gsuid_core.subscribe import gs_subscribe
 from gsuid_core.sv import SV
 from msgspec import convert
 
-from ..arknightsuid_config import ArkConfig
+from ..arknightsuid_config.ark_config import ArkConfig
 from .draw_img import get_ann_img
 from .get_data import check_bulletin_update, get_announcement
 from .model import BulletinTargetData

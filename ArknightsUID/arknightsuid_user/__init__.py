@@ -1,10 +1,7 @@
-from typing import List
-
 from gsuid_core.bot import Bot
 from gsuid_core.models import Event
 from gsuid_core.sv import SV
 
-from ..utils.ark_prefix import PREFIX
 from ..utils.database.models import ArknightsBind
 from ..utils.message import send_diff_msg
 from .deal_skd_cred import deal_skd_cred
@@ -26,7 +23,7 @@ ark_skd_cred_add = SV("森空岛cred绑定")
 #     await bot.send(uid_list)
 
 
-@sv_user_info.on_command((f"绑定uid", f"切换uid", f"删除uid", f"解绑uid"))
+@sv_user_info.on_command(("绑定uid", "切换uid", "删除uid", "解绑uid"))
 async def send_link_uid_msg(bot: Bot, ev: Event):
     await bot.logger.info("开始执行[绑定/解绑用户信息]")
     qid = ev.user_id

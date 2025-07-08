@@ -2,14 +2,13 @@ from gsuid_core.bot import Bot
 from gsuid_core.models import Event
 from gsuid_core.sv import SV
 
-from ..utils.ark_prefix import PREFIX
 from ..utils.database.models import ArknightsBind
 from .gacha import gacha
 
 sv_ark_gacha = SV("ark十连")
 
 
-@sv_ark_gacha.on_fullmatch(f"十连")
+@sv_ark_gacha.on_fullmatch("十连")
 async def send_gacha_info(bot: Bot, ev: Event):
     user_id = ev.at if ev.at else ev.user_id
     uid = await ArknightsBind.get_uid_by_game(user_id, ev.bot_id)

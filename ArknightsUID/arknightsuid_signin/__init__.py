@@ -10,7 +10,6 @@ from gsuid_core.sv import SV
 from gsuid_core.utils.database.api import get_uid
 
 from ..arknightsuid_config.ark_config import ArkConfig
-from ..utils.ark_prefix import PREFIX
 from ..utils.database.models import ArknightsBind
 from .sign import daily_sign, sign_in
 
@@ -28,7 +27,7 @@ async def ark_sign_at_night():
 
 
 # 群聊内 签到 功能
-@sv_sign.on_fullmatch(f"签到")
+@sv_sign.on_fullmatch("签到")
 async def get_sign_func(bot: Bot, ev: Event):
     await bot.logger.info(f"[ARK签到]QQ号: {ev.user_id}")
     ark_uid = await get_uid(bot, ev, bind_model=ArknightsBind)
@@ -39,7 +38,7 @@ async def get_sign_func(bot: Bot, ev: Event):
     return None
 
 
-@sv_sign_config.on_fullmatch(f"全部重签")
+@sv_sign_config.on_fullmatch("全部重签")
 async def recheck(bot: Bot, ev: Event):
     await bot.logger.info("开始执行[ARK全部重签]")
     await bot.send("已开始执行")

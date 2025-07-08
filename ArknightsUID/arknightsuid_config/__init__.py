@@ -7,13 +7,9 @@ from gsuid_core.sv import SV
 from gsuid_core.utils.error_reply import UID_HINT
 
 from ..utils.database.models import ArknightsBind
-from .ark_config import ArkConfig
 from .set_config import set_config_func, set_push_value
 
 sv_self_config = SV("ark配置")
-
-
-PREFIX = ArkConfig.get_config("ArkPrefix").data
 
 
 @sv_self_config.on_prefix(("ark设置"))  # noqa: UP034

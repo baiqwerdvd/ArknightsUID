@@ -3,25 +3,25 @@
     "desc": "需要先绑定uid",
     "data": [
       {
-        "name": "ark绑定uid",
+        "name": "绑定uid",
         "desc": "绑定你的明日方舟UID",
-        "eg": "ark绑定uid 123456",
+        "eg": "绑定uid 123456",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
       },
       {
-        "name": "ark删除uid",
+        "name": "删除uid",
         "desc": "删除你的明日方舟UID",
-        "eg": "ark删除uid 123456",
+        "eg": "删除uid 123456",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
       },
       {
-        "name": "ark切换uid",
+        "name": "切换uid",
         "desc": "切换你的明日方舟UID",
-        "eg": "ark切换uid 123456",
+        "eg": "切换uid 123456",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
@@ -40,25 +40,25 @@
     "desc": "查询一些基本信息",
     "data": [
       {
-        "name": "arkuid",
+        "name": "uid",
         "desc": "角色信息一览,后可跟UID(WIP)",
-        "eg": "arkuid 100740568",
+        "eg": "uid 100740568",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
       },
       {
-        "name": "arkmr",
+        "name": "mr",
         "desc": "查询自己的体力派遣",
-        "eg": "ark每日",
+        "eg": "每日",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
       },
       {
-        "name": "ark签到",
+        "name": "签到",
         "desc": "森空岛签到",
-        "eg": "ark签到",
+        "eg": "签到",
         "need_ck": true,
         "need_sk": false,
         "need_admin": false
@@ -69,20 +69,116 @@
     "desc": "一些监控相关的服务",
     "data": [
       {
-        "name": "ark监控",
-        "desc": "开启/关闭明日方舟监控",
-        "eg": "ark监控 开启/关闭",
+        "name": "公告",
+        "desc": "获取某个cid的明日方舟公告",
+        "eg": "公告 1007",
         "need_ck": false,
         "need_sk": false,
         "need_admin": false
       },
       {
-        "name": "ark体力提醒",
-        "desc": "开启/关闭体力提醒",
-        "eg": "ark体力提醒 开启/关闭",
-        "need_ck": true,
+        "name": "强制刷新全部公告",
+        "desc": "重新获取全部公告",
+        "eg": "强制刷新全部公告",
+        "need_ck": false,
         "need_sk": false,
         "need_admin": false
+      },
+      {
+        "name": "获取当前Android公告列表",
+        "desc": "下载当前Android平台的公告列表",
+        "eg": "获取当前Android公告列表",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "订阅公告",
+        "desc": "订阅明日方舟公告更新",
+        "eg": "订阅公告",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "取消订阅公告",
+        "desc": "取消订阅明日方舟公告更新",
+        "eg": "取消订阅公告/取消公告/退订公告",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "获取当前Android公告图片",
+        "desc": "下载当前Android平台的公告图片",
+        "eg": "获取当前Android公告图片",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "登陆官服",
+        "desc": "登录明日方舟官服bot",
+        "eg": "登陆官服",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "取明日方舟游戏服务器状态",
+        "desc": "获取明日方舟游戏服务器状态",
+        "eg": "取明日方舟游戏服务器状态",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "取明日方舟最新版本",
+        "desc": "获取明日方舟最新版本",
+        "eg": "取明日方舟最新版本",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "订阅版本更新",
+        "desc": "订阅明日方舟版本更新",
+        "eg": "订阅版本更新",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "取明日方舟服务器状态",
+        "desc": "获取明日方舟服务器状态",
+        "eg": "取明日方舟服务器状态",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "订阅服务器状态更新",
+        "desc": "订阅明日方舟服务器状态更新",
+        "eg": "订阅服务器状态更新",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
+      },
+      {
+        "name": "检查APK更新",
+        "desc": "检查明日方舟官服APK更新",
+        "eg": "检查APK更新",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "订阅APK更新",
+        "desc": "订阅明日方舟官服APK更新",
+        "eg": "订阅APK更新",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": true
       }
     ]
   },
@@ -90,17 +186,17 @@
     "desc": "一些仅供管理员调用的服务",
     "data": [
       {
-        "name": "ark下载全部资源",
+        "name": "下载全部资源",
         "desc": "下载一些机器人必须的资源",
-        "eg": "ark下载全部资源",
+        "eg": "下载全部资源",
         "need_ck": false,
         "need_sk": false,
         "need_admin": true
       },
       {
-        "name": "ark强制推送体力提醒",
+        "name": "强制推送体力提醒",
         "desc": "强制推送一次体力提醒",
-        "eg": "ark强制推送体力提醒",
+        "eg": "强制推送体力提醒",
         "need_ck": false,
         "need_sk": false,
         "need_admin": true

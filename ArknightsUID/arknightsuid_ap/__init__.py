@@ -8,7 +8,6 @@ from gsuid_core.models import Event
 from gsuid_core.segment import MessageSegment
 from gsuid_core.sv import SV
 
-from ..utils.ark_prefix import PREFIX
 from .draw_ap_card import get_ap_img
 from .notice import get_notice_list
 
@@ -16,7 +15,7 @@ sv_get_ap = SV("ark查询体力")
 sv_get_ap_admin = SV("ark强制推送", pm=1)
 
 
-@sv_get_ap_admin.on_fullmatch((f"强制推送体力提醒"))  # noqa: UP034
+@sv_get_ap_admin.on_fullmatch(("强制推送体力提醒"))  # noqa: UP034
 async def force_notice_job(bot: Bot, ev: Event):
     await bot.logger.info("开始执行[ark强制推送体力信息]")
     await ark_notice_job()
@@ -48,15 +47,7 @@ async def ark_notice_job():
             logger.info("[ark推送检查] 群聊推送完成")
 
 
-@sv_get_ap.on_fullmatch(
-    (
-        f"每日",
-        f"mr",
-        f"实时便笺",
-        f"便笺",
-        f"便签",
-    )
-)
+@sv_get_ap.on_fullmatch(("每日", "mr", "实时便笺", "便笺", "便签"))
 async def send_daily_info_pic(bot: Bot, ev: Event):
     await bot.logger.info("开始执行[ark每日信息]")
     user_id = ev.at if ev.at else ev.user_id

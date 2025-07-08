@@ -7,7 +7,6 @@ from gsuid_core.help.model import PluginHelp
 from gsuid_core.sv import get_plugin_available_prefix
 from PIL import Image
 
-from ..utils.image import get_footer
 from ..version import (
     Arknights_Client_version,
     Arknights_Res_version,
@@ -50,15 +49,11 @@ async def get_help():
     return await get_new_help(
         plugin_name="ArknightsUID",
         plugin_info={f"v{ArknightsUID_version}": ""},
-        plugin_icon=Image.open(ICON),
+        plugin_icon=Image.open(TEXT_PATH / "icon.png"),
         plugin_help=await get_help_data(),
         plugin_prefix=PREFIX,
         help_mode="dark",
-        banner_bg=Image.open(TEXT_PATH / "banner.png"),
         banner_sub_text=f"Client Version:{Arknights_Client_version}  Res version: {Arknights_Res_version}",
         help_bg=Image.open(TEXT_PATH / "bg.jpg"),
-        # cag_bg=Image.open(TEXT_PATH / "button.png"),
-        # item_bg=Image.open(TEXT_PATH / "badge.png"),
-        # footer=get_footer(),
         enable_cache=True,
     )

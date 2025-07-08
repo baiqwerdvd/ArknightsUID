@@ -2,14 +2,13 @@ from gsuid_core.bot import Bot
 from gsuid_core.models import Event
 from gsuid_core.sv import SV
 
-from ..utils.ark_prefix import PREFIX
 from ..utils.database.models import ArknightsBind
 from .get_char_snapshot import get_char_snapshot
 
 sv_get_char_snapshot = SV("ark角色快照")
 
 
-@sv_get_char_snapshot.on_command(f"角色快照")
+@sv_get_char_snapshot.on_command("角色快照")
 async def send_char_snapshot(bot: Bot, ev: Event):
     user_id = ev.at if ev.at else ev.user_id
     uid = await ArknightsBind.get_uid_by_game(user_id, ev.bot_id)

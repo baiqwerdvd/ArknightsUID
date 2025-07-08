@@ -3,14 +3,13 @@ from gsuid_core.models import Event
 from gsuid_core.sv import SV
 from gsuid_core.utils.database.api import get_uid
 
-from ..utils.ark_prefix import PREFIX
 from ..utils.database.models import ArknightsBind
 from .draw_roleinfo_card import get_role_img
 
 sv_get_info = SV("ark查询信息")
 
 
-@sv_get_info.on_command((f"uid"))  # noqa: UP034
+@sv_get_info.on_command(("uid"))  # noqa: UP034
 async def send_role_info(bot: Bot, ev: Event):
     uid = await get_uid(bot, ev, bind_model=ArknightsBind)
     if uid is None:

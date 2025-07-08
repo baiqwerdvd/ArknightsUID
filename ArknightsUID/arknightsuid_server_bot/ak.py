@@ -264,7 +264,7 @@ class ArknightsClient:
             for i in range(1, 5):
                 for j in range(0, 10):
                     for k in range(0, 100):
-                        client_version = f"{i}.{j}.{k}"
+                        client_version = f"{i}.{j}.{k:02d}"
                         if self.verify_versions(target_hash, client_version, major_version):
                             return client_version, major_version
         return None

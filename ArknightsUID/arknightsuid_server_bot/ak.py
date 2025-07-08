@@ -432,6 +432,7 @@ class ArknightsClient:
         code = response.get("data", {}).get("code", "")
         if not code:
             logger.error("获取code失败，可能是access_token无效或已过期")
+            logger.error(f"响应内容: {response}")
             return False
         self.code = code
         return True

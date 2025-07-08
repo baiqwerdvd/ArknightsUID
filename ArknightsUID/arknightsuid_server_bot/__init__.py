@@ -183,15 +183,30 @@ async def check_game_server_status():
 
             if need_send_notification:
                 logger.info(f"Sending notification for game server status change: {message}")
-                await _notify_subscribers(TASK_NAME_GAME_SERVER_MONITOR, "\n".join(message))
+                return await _notify_subscribers(TASK_NAME_GAME_SERVER_MONITOR, "\n".join(message))
             else:
                 logger.info("No significant changes in game server status, no notification sent.")
                 return
         except ServerMaintenanceError as e:
             logger.warning(f"⚠️ 游戏服务器正在维护: {e}")
-            return await _notify_subscribers(
-                TASK_NAME_GAME_SERVER_MONITOR, "⚠️ Arknights game server is under maintenance"
-            )
+            if last_status != "Under Maintenance":
+                with Path.open(game_server_status_storage, "w", encoding="utf-8") as f:
+                    json.dump(
+                        {
+                            "status": "Under Maintenance",
+                            "push_message": {},
+                        },
+                        f,
+                        ensure_ascii=False,
+                        indent=4,
+                    )
+                logger.info("游戏服务器状态更新为维护中，发送通知")
+                return await _notify_subscribers(
+                    TASK_NAME_GAME_SERVER_MONITOR, "⚠️ Arknights game server is under maintenance"
+                )
+            else:
+                logger.info("游戏服务器状态仍然是维护中，无需发送通知")
+                return
         except Exception as e:
             logger.error(f"❌ 获取游戏服务器状态失败! 文件: {session_file} 错误信息: {e}")
             session_file.unlink(missing_ok=True)

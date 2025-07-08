@@ -78,8 +78,7 @@ async def get_game_server_status(bot: Bot, ev: Event):
             push_message = await client.get_push_message()
             message = f"✅ 游戏服务器状态正常\nPush Message:\n{push_message}"
             return await bot.send(message)
-        except ServerMaintenanceError as e:
-            logger.warning(f"⚠️ 游戏服务器正在维护: {e}")
+        except ServerMaintenanceError as _:
             return await bot.send("⚠️ 游戏服务器正在维护")
         except Exception as e:
             logger.error(f"❌ 获取游戏服务器状态失败! 文件: {session_file} 错误信息: {e}")
@@ -192,8 +191,7 @@ async def check_game_server_status():
             else:
                 logger.info("No significant changes in game server status, no notification sent.")
                 return
-        except ServerMaintenanceError as e:
-            logger.warning(f"⚠️ 游戏服务器正在维护: {e}")
+        except ServerMaintenanceError as _:
             if last_status == "Active":
                 # If the last status was active, we need to notify subscribers about the maintenance
                 with Path.open(game_server_status_storage, "w", encoding="utf-8") as f:

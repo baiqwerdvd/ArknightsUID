@@ -573,10 +573,10 @@ class ArknightsClient:
                     logger.critical("达到最大重试次数，登录失败。")
                     raise
                 await asyncio.sleep(5)
-            except ServerMaintenanceError as e:
-                logger.error(f"登录失败，服务器正在维护: {e}")
+            except ServerMaintenanceError as _:
+                logger.warning("登录失败，服务器正在维护")
                 self._save_session()
-                raise ServerMaintenanceError("服务器正在维护，请稍后再试") from e
+                raise ServerMaintenanceError from _
             except Exception as e:
                 logger.error(f"登录过程中发生未知错误: {e}")
                 raise

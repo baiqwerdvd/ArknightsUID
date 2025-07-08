@@ -418,13 +418,49 @@ class ArknightsClient:
             raise AuthenticationError(f"验证码处理失败: {e}") from e
 
     async def _auth_login(self) -> bool:
-        data = {
+        login_data = {
             "token": self.access_token,
             "appCode": "7318def77669979d",
             "type": 0,
         }
 
-        response = await self.post_auth_server(Config.ENDPOINTS["oauth2_grant"], data)
+        response = await self.post_auth_server(Config.ENDPOINTS["oauth2_grant"], login_data)
+
+        #  {'data': {'captcha': {'challenge': '9cdcd211c023dcae34ed0c91e9258676', 'success': 1, 'gt': '0bb913d19ed86b8e64a46ecd57cce147', 'new_captcha': True}}, 'msg': '需要人机验证', 'status': 1, 'type': 'A'}
+        if response.get("status") == 1:
+            _pass_api = core_plugins_config.get_config("_pass_API").data
+            if not _pass_api:
+                raise AuthenticationError("请配置 _pass_API 以处理验证码")
+
+            try:
+                geetest_url = f"{_pass_api}&gt={self.gt}&challenge={self.challenge}"
+                response = await self.http.get(geetest_url)
+                response.raise_for_status()
+
+                data = response.json()
+                geetest_validate = data["data"]["validate"]
+                geetest_challenge = data["data"]["challenge"]
+                geetest_seccode = f"{geetest_validate}|jordan"
+
+                captcha_data = {
+                    "geetest_challenge": geetest_challenge,
+                    "geetest_seccode": geetest_seccode,
+                    "geetest_validate": geetest_validate,
+                }
+
+                login_data["captcha"] = json.dumps(captcha_data)
+                response = await self.post_auth_server(Config.ENDPOINTS["oauth2_grant"], json.dumps(login_data))
+
+                self.code = response.get("data", {}).get("code", "")
+                if not self.code:
+                    logger.error("获取code失败，可能是access_token无效或已过期")
+                    logger.error(f"响应内容: {response}")
+                    return False
+                logger.info("验证码处理成功")
+
+            except Exception as e:
+                logger.error(f"验证码处理失败: {e}")
+                raise AuthenticationError(f"验证码处理失败: {e}") from e
 
         if response.get("statusCode", 0) != 0:
             return False

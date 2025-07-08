@@ -65,6 +65,27 @@
       }
     ]
   },
+  "监控服务": {
+    "desc": "一些监控相关的服务",
+    "data": [
+      {
+        "name": "ark监控",
+        "desc": "开启/关闭明日方舟监控",
+        "eg": "ark监控 开启/关闭",
+        "need_ck": false,
+        "need_sk": false,
+        "need_admin": false
+      },
+      {
+        "name": "ark体力提醒",
+        "desc": "开启/关闭体力提醒",
+        "eg": "ark体力提醒 开启/关闭",
+        "need_ck": true,
+        "need_sk": false,
+        "need_admin": false
+      }
+    ]
+  },
   "管理员服务": {
     "desc": "一些仅供管理员调用的服务",
     "data": [

@@ -427,7 +427,6 @@ class ArknightsClient:
 
         response = await self.post_auth_server(Config.ENDPOINTS["oauth2_grant"], login_data)
 
-        #  {'data': {'captcha': {'challenge': '9cdcd211c023dcae34ed0c91e9258676', 'success': 1, 'gt': '0bb913d19ed86b8e64a46ecd57cce147', 'new_captcha': True}}, 'msg': '需要人机验证', 'status': 1, 'type': 'A'}
         if response.get("status") == 1:
             logger.info("需要人机验证，尝试处理...")
             self.challenge = response["data"]["captcha"]["challenge"]

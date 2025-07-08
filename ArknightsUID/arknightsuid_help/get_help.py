@@ -57,8 +57,8 @@ async def get_help():
         banner_bg=Image.open(TEXT_PATH / "banner.png"),
         banner_sub_text=f"Client Version:{Arknights_Client_version}  Res version: {Arknights_Res_version}",
         help_bg=Image.open(TEXT_PATH / "bg.jpg"),
-        cag_bg=Image.open(TEXT_PATH / "button.png"),
-        item_bg=Image.open(TEXT_PATH / "badge.png"),
-        footer=get_footer(),
+        # cag_bg=Image.open(TEXT_PATH / "button.png"),
+        # item_bg=Image.open(TEXT_PATH / "badge.png"),
+        # footer=get_footer(),
         enable_cache=True,
     )

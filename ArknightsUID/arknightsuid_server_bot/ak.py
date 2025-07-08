@@ -166,6 +166,9 @@ class ArknightsClient:
             logger.debug(f"Response: {result}")
             return result
         except httpx.HTTPStatusError as e:
+            if e.response.status_code == 400:
+                logger.error(f"游戏服务器返回400错误，可能正在维护: {e}")
+                raise ServerMaintenanceError(f"游戏服务器正在维护: {e.response.text}") from e
             logger.error(f"HTTP请求失败 (状态码: {e.response.status_code}): {e}")
             raise ArknightsException(f"请求失败: {e}") from e
         except httpx.RequestError as e:

@@ -236,7 +236,7 @@ class ArknightsClient:
         )
         return headers
 
-    def verify_secret_info(self, secret: str) -> bool:
+    async def verify_secret_info(self, secret: str) -> bool:
         buffer = base64.b64decode(secret)
         if len(buffer) != 24:
             return False
@@ -244,6 +244,7 @@ class ArknightsClient:
         if version_info := self.brute_force_versions(buffer[:16]):
             client_version, major_version = version_info
             logger.info(f"Parsed version information: clientVersion={client_version}, majorVersion={major_version}")
+            await self._get_version_info()
             if client_version != self.client_version:
                 return False
             return True
@@ -293,7 +294,7 @@ class ArknightsClient:
                 self.major_version,
             ) = session_data
 
-            if not self.verify_secret_info(self.secret):
+            if not await self.verify_secret_info(self.secret):
                 logger.warning("缓存的secret信息无效，重新登录")
                 self.session_file.unlink()
                 return False
@@ -509,7 +510,7 @@ class ArknightsClient:
         self.secret = response["secret"]
         self.major_version = response.get("majorVersion", 0)
 
-        if not self.verify_secret_info(self.secret):
+        if not await self.verify_secret_info(self.secret):
             raise ArknightsException("无效的secret信息，可能是版本不匹配或数据损坏")
 
         sync_response = await self.post_game_server(Config.ENDPOINTS["sync_data"], {"platform": 1}, False)

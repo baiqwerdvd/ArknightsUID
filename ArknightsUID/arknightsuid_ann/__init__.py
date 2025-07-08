@@ -99,19 +99,20 @@ async def unsub_ann_(bot: Bot, ev: Event):
 
 @scheduler.scheduled_job("interval", minutes=ann_minute_check)
 async def check_ark_ann():
-    logger.info("[明日方舟公告] 定时任务: 明日方舟公告查询..")
+    logger.debug("[明日方舟公告] 定时任务: 明日方舟公告查询..")
 
     updates = await check_bulletin_update()
 
     datas = await gs_subscribe.get_subscribe(task_name_ann)
     if not datas:
-        logger.info("[明日方舟公告] 暂无群订阅")
+        logger.debug("[明日方舟公告] 暂无群订阅")
         return
 
     if len(updates) == 0:
-        logger.info("[明日方舟公告] 没有最新公告")
+        logger.debug("[明日方舟公告] 没有最新公告")
         return
 
+    logger.info(f"[明日方舟公告] 共查询到{len(updates)}条最新公告")
     for data in updates.values():
         try:
             img = await get_ann_img(data)

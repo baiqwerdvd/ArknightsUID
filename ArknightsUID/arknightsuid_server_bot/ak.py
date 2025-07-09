@@ -348,25 +348,29 @@ class ArknightsClient:
             logger.error(f"保存会话失败: {e}")
 
     async def _get_version_info(self) -> None:
-        try:
-            version_url = Config.CONFIG_SERVER + Config.ENDPOINTS["version"]
-            response = await self.http.get(version_url)
-            response.raise_for_status()
-            version_data = response.json()
+        max_retries = 3
+        for attempt in range(1, max_retries + 1):
+            try:
+                version_url = Config.CONFIG_SERVER + Config.ENDPOINTS["version"]
+                response = await self.http.get(version_url)
+                response.raise_for_status()
+                version_data = response.json()
 
-            self.res_version = version_data["resVersion"]
-            self.client_version = version_data["clientVersion"]
+                self.res_version = version_data["resVersion"]
+                self.client_version = version_data["clientVersion"]
 
-            network_url = Config.CONFIG_SERVER + Config.ENDPOINTS["network_config"]
-            response = await self.http.get(network_url)
-            response.raise_for_status()
-            network_data = response.json()
+                network_url = Config.CONFIG_SERVER + Config.ENDPOINTS["network_config"]
+                response = await self.http.get(network_url)
+                response.raise_for_status()
+                network_data = response.json()
 
-            self.network_version = json.loads(network_data["content"])["configVer"]
-
-        except Exception as e:
-            logger.error(f"获取版本信息失败: {e}")
-            raise ArknightsException(f"获取版本信息失败: {e}") from e
+                self.network_version = json.loads(network_data["content"])["configVer"]
+                return
+            except Exception as e:
+                logger.error(f"获取版本信息失败 (第{attempt}次): {e}")
+                if attempt == max_retries:
+                    raise ArknightsException(f"获取版本信息失败: {e}") from e
+                await asyncio.sleep(2)
 
     async def _user_login(self) -> None:
         data = {

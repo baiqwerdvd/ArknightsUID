@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from loguru import logger
+from gsuid_core.logger import logger
 
 
 def read_json(file_path: Path, **kwargs) -> dict:

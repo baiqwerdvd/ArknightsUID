@@ -19,7 +19,7 @@ license = {text = "GPL-3.0-or-later"}
 
 [tool.pdm.dev-dependencies]
 dev = [
-    "ruff>=0.9.9",
+    "ruff>=0.12.3",
 ]
 
 [build-system]

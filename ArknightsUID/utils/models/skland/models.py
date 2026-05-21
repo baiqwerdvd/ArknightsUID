@@ -144,7 +144,7 @@ class UserMeInfo(Struct):
     moderatorStatus: int
     moderatorChangeTime: int
     gender: int
-    birthday: str
+    birthday: str | None = None
 
 
 class ArknightsUserMeModel(Struct, omit_defaults=True):
